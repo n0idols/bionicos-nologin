@@ -1,7 +1,16 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import Head from "next/head";
+import Page from "../components/Page";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+export default function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <Head>
+        <title>Bionicos Juices & Rios</title>
+      </Head>
+      <Page>
+        <Component {...pageProps} />
+      </Page>
+    </>
+  );
 }
-
-export default MyApp
