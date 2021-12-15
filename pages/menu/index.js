@@ -1,17 +1,18 @@
 import CheckoutForm from "@/components/CheckoutForm";
 import ProductItem from "@/components/ProductItem";
+import Section from "@/components/Section";
 import { MAIN_KEY, MAIN_URL, MERCH_ID } from "@/config/index";
+import { useCart } from "@/lib/cartState";
 
 export default function MenuIndex({ data: { elements } }) {
   return (
-    <div>
-      <div className="grid grid-cols-3 gap-4">
+    <Section>
+      <div className="grid md:grid-cols-2 gap-4">
         {elements.map((item) => {
           return <ProductItem key={item.id} item={item} />;
         })}
-        <CheckoutForm />
       </div>
-    </div>
+    </Section>
   );
 }
 

@@ -1,9 +1,23 @@
 import Layout from "@/components/Layout";
+import Section from "@/components/Section";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <Layout>
-      <h1>Home</h1>
+      <div className="">
+        <div className="max-w-7xl mx-auto py-36 prose-sm flex flex-col justify-center items-center text-center">
+          <h1 className="text-5xl font-bold">Hello there</h1>
+          <p className="">
+            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
+            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
+            a id nisi.
+          </p>
+          <Link href="menu">
+            <a className="btn btn-primary">View Menu</a>
+          </Link>
+        </div>
+      </div>
     </Layout>
   );
 }

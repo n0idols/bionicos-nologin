@@ -7,6 +7,14 @@
   h2,
   h3,
   h4 {
-    @apply font-bold text-gray-600;
+    @apply font-bold;
   }
+}
+
+h1 {
+  @apply prose-2xl text-gray-600;
+}
+
+.cart-open {
+  @apply w-screen h-screen bg-black;
 }

@@ -1,7 +1,9 @@
+import Section from "@/components/Section";
+
 export default function SpecialsMenu() {
   return (
-    <div>
-      <h1>Weekly Specials</h1>
-    </div>
+    <Section>
+      <h1 className="text-center">Weekly Specials</h1>
+    </Section>
   );
 }

@@ -7,9 +7,7 @@ export default function Page({ children }) {
   return (
     <div>
       <Header />
-      <div className="min-h-screen max-w-7xl mx-auto border border-blue-400 px-4">
-        {children}
-      </div>
+      <div>{children}</div>
       <Footer />
       <MobileNav />
     </div>
