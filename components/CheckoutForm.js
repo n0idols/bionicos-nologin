@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { CardElement, Elements, useStripe } from "@stripe/react-stripe-js";
 const stripeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 
-function Checkout() {
+function Checkout = () =>  {
   function handleSubmit(e) {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
