@@ -5,7 +5,7 @@ import MobileNav from "./MobileNav";
 
 export default function Page({ children }) {
   return (
-    <div>
+    <div className="bg-base-100">
       <Header />
       <div>{children}</div>
       <Footer />
