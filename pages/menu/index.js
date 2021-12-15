@@ -1,24 +1,31 @@
 import CheckoutForm from "@/components/CheckoutForm";
 import ProductItem from "@/components/ProductItem";
-import { API_URL } from "@/config/index";
+import { MAIN_KEY, MAIN_URL, MERCH_ID } from "@/config/index";
 
-export default function MenuIndex({ products }) {
+export default function MenuIndex({ data: { elements } }) {
   return (
     <div>
-      {products.map((product) => (
-        <ProductItem key={product.id} product={product} />
-      ))}
-      <CheckoutForm />
+      <div className="grid grid-cols-3 gap-4">
+        {elements.map((item) => {
+          return <ProductItem key={item.id} item={item} />;
+        })}
+        <CheckoutForm />
+      </div>
     </div>
   );
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`${API_URL}/products`);
+  const url = `${MAIN_URL}/v3/merchants/${MERCH_ID}/items?expand=categories%2CmodifierGroups.modifiers`;
 
-  const products = await res.json();
+  const productRes = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${MAIN_KEY}`,
+    },
+  });
+  const data = await productRes.json();
 
   return {
-    props: { products },
+    props: { data },
   };
 }

@@ -19,7 +19,7 @@ function Checkout() {
       card: Elements.getElement(CardElement),
     });
     // 4. Handle any errors from stripe
-    // 5. Send the token froms tep 3 to our keystone server, via a custom mutation
+    // 5. Send the token from step 3 to supabase
     // 6. Change the page to view the order
     // 7. Close the cart
     // 8. Turn the loader off
