@@ -1,4 +1,5 @@
-import Router from "next/router";
+import { useState, useEffect } from "react";
+import Router, { useRouter } from "next/router";
 import Page from "@/components/Page";
 import NProgress from "nprogress";
 import "@/styles/globals.css";
@@ -6,6 +7,7 @@ import "@/styles/nprogress.css";
 import Modal from "react-modal";
 import { CartStateProvider } from "@/lib/cartState";
 import { CookiesProvider } from "react-cookie";
+import { AuthStateProvider } from "@/lib/authState";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -16,13 +18,15 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <script src="https://checkout.sandbox.dev.clover.com/sdk.js"></script>
-      <CookiesProvider>
-        <CartStateProvider>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
-        </CartStateProvider>
-      </CookiesProvider>
+      <AuthStateProvider>
+        <CookiesProvider>
+          <CartStateProvider>
+            <Page>
+              <Component {...pageProps} />
+            </Page>
+          </CartStateProvider>
+        </CookiesProvider>
+      </AuthStateProvider>
     </>
   );
 }

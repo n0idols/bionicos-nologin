@@ -5,11 +5,9 @@ import MobileNav from "./MobileNav";
 
 export default function Page({ children }) {
   return (
-    <div>
+    <div className="bg-base-100">
       <Header />
-      <div className="min-h-screen max-w-7xl mx-auto border border-blue-400 px-4">
-        {children}
-      </div>
+      <div>{children}</div>
       <Footer />
       <MobileNav />
     </div>
