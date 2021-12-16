@@ -2,7 +2,7 @@
 
 const sdk = require("api")("@clover-platform/v3#650cgkrfewdyn");
 export default async function handler(req, res) {
-  const amount = req.body.amount;
+  const orderId = req.body.orderId;
   const token = req.body.token;
   const email = req.body.email;
 
@@ -30,15 +30,26 @@ export default async function handler(req, res) {
   // });
   // if (!response.ok) res.status(response.status).json({ result: await response.text() });
   // else res.status(response.status).json({ result: await response.json() });
+  // const data = await sdk.CreateCharge({
+  //   ecomind: "ecom",
+  //   amount,
+  //   currency: "usd",
+  //   source: token,
+  //   email,
+  // });
+  // res.status(200).json({
+  //   body: data,
+  // });
   try {
     sdk.auth("5c0d1520-d0b3-2f81-0740-1ec258b458fc");
-    const data = await sdk.CreateCharge({
-      ecomind: "ecom",
-      amount,
-      currency: "usd",
-      source: token,
-      email,
-    });
+    const data = await sdk.PostOrdersIdPay(
+      {
+        ecomind: "ecom",
+        email,
+        source: token,
+      },
+      { orderId }
+    );
     res.status(200).json({
       body: data,
     });

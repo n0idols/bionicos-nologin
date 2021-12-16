@@ -99,13 +99,13 @@ export default function Checkout() {
     return res.json();
   }
 
-  async function payForOrder(amount, email) {
+  async function payForOrder(orderId, email) {
     const res = await fetch("/api/payment", {
       method: "post",
       body: JSON.stringify({
         email,
         token,
-        amount,
+        orderId,
       }),
       headers: {
         "content-type": "application/json",
@@ -123,7 +123,7 @@ export default function Checkout() {
     try {
       [orderId, orderAmount] = await makeOrder();
       console.log("before pay");
-      await payForOrder(orderAmount, email);
+      await payForOrder(orderId, email);
       console.log("after pay");
       await makeOrderPayRecord(orderId, orderAmount, tenderId);
       router.push("/");
@@ -227,7 +227,7 @@ export default function Checkout() {
                   <h4>{formatMoney(orderSummary.total)}</h4>
                 </div>
                 <hr />
-                {/* <Modal
+                <Modal
                   isOpen={isModalOpen}
                   onRequestClose={() => setIsModalOpen(false)}
                   style={{
@@ -242,18 +242,18 @@ export default function Checkout() {
                       overflowY: "scroll",
                     },
                   }}
-                > */}
-                <CloverIframe
-                  setIsModalOpen={setIsModalOpen}
-                  setToken={setToken}
-                />
-                {/* </Modal> */}
-                {/* <button
+                >
+                  <CloverIframe
+                    setIsModalOpen={setIsModalOpen}
+                    setToken={setToken}
+                  />
+                </Modal>
+                <button
                   className="m-4 bg-gray-600 rounded p-2 text-white"
                   onClick={() => setIsModalOpen(true)}
                 >
                   Click to enter card info
-                </button> */}
+                </button>
               </div>
             )}
             {cart.length !== 0 && (
