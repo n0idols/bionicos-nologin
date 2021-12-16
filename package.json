@@ -12,14 +12,18 @@
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.22.0",
     "@tailwindcss/typography": "^0.5.0",
+    "api": "^4.1.1",
     "apollo-upload-client": "^17.0.0",
+    "cookie": "^0.4.1",
     "daisyui": "^1.16.5",
     "graphql": "^16.1.0",
     "graphql-tag": "^2.12.6",
     "next": "12.0.7",
     "nprogress": "^0.2.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-cookie": "^4.1.1",
+    "react-dom": "17.0.2",
+    "react-modal": "^3.14.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",
