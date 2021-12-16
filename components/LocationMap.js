@@ -32,7 +32,7 @@ export default function LocationMap({ address }) {
         console.error(error);
       }
     );
-  }, []);
+  }, [viewport]);
 
   Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY);
 
@@ -53,7 +53,7 @@ export default function LocationMap({ address }) {
         <Marker latitude={lat} longitude={lng}>
           Pin
           {/* <Image src="/pin.svg" width={30} height={30} /> */}
-          <div class="text-black font-bold">
+          <div className="text-black font-bold">
             <div>2211 E Palmdale Blvd Suite e</div>
             {/* <div>{new Date(evt.date).toLocaleDateString("en-US")}</div> */}
             {/* <div>@ {evt.time}</div> */}
