@@ -19,8 +19,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      map
-      <LocationMap />
     </Layout>
   );
 }
