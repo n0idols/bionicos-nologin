@@ -5,7 +5,7 @@ export default function Logo() {
   return (
     <>
       <Link href="/">
-        <div className="h-22 w-36">
+        <div className="h-20 w-32">
           <Image
             src={brandImage}
             alt="Our Logo"

@@ -2,12 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Graphik";
+  src: url("/fonts/Graphik/GraphikMedium.otf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+html {
+  font-family: "Graphik";
+}
+
 @layer base {
   h1,
   h2,
   h3,
   h4 {
-    @apply font-bold;
+    font-family: "Graphik";
+    @apply font-bold text-gray-600;
   }
 }
 

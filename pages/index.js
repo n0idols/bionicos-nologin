@@ -1,7 +1,8 @@
 import Layout from "@/components/Layout";
-import Section from "@/components/Section";
-import Link from "next/link";
+import LocationMap from "@/components/LocationMap";
 
+import Link from "next/link";
+import heroImage from "../public/hero.jpg";
 export default function Home() {
   return (
     <Layout>
@@ -18,6 +19,8 @@ export default function Home() {
           </Link>
         </div>
       </div>
+      map
+      <LocationMap />
     </Layout>
   );
 }
