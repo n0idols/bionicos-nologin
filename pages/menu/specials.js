@@ -7,7 +7,7 @@ export default function SpecialsMenu() {
     return (
       <>
         <div>
-          <h1>Monday's special</h1>
+          <h1>Monday{"'"}s special</h1>
           <p>$5 off any meal</p>
         </div>
       </>
@@ -17,7 +17,7 @@ export default function SpecialsMenu() {
   const RegularSpecials = () => {
     return (
       <div>
-        <h1>Monday's Special</h1>
+        <h1>Monday{"'"}s Special</h1>
         <p>$3 off any meal</p>
       </div>
     );

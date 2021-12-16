@@ -31,7 +31,7 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
     if (cardNumberRef.current) cardNumber.mount("#card-number", styles);
     if (cardDateRef.current) cardDate.mount("#card-date", styles);
     if (cardCvvRef.current) cardCvv.mount("#card-cvv", styles);
-  }, [cardNumberRef.current, cardDateRef.current, cardCvvRef.current]);
+  }, [cardNumberRef.current, cardDateRef.current, cardCvvRef.current, styles]);
 
   function handleSubmit(event) {
     event.preventDefault();

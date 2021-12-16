@@ -98,7 +98,7 @@ export default function CollectInfo({
     <div>
       <h1>Provide your contact info</h1>
       <p className="mb-4">
-        Let's make sure that you and your order can find each other. Provide
+        Let{"'"}s make sure that you and your order can find each other. Provide
         your name, phone number, and email for a flawless pickup.
       </p>
       <form onSubmit={collectInfo}>
