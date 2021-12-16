@@ -1,27 +1,35 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-export default function Auth() {
-  const [loading, setLoading] = useState(false);
+export default function SignIn() {
   const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(null);
 
-  const handleLogin = async (email) => {
-    try {
-      setLoading(true);
-      const { error } = await supabase.auth.signIn({ email });
-      if (error) throw error;
-      alert("Check your email for the login link!");
-    } catch (error) {
-      alert(error.error_description || error.message);
-    } finally {
+  async function signIn() {
+    setLoading(true);
+    const { error, data } = await supabase.auth.signIn({
+      email,
+    });
+    if (error) {
+      console.log({ error });
+    } else {
+      setSubmitted(true);
       setLoading(false);
     }
-  };
+  }
+  if (submitted) {
+    return (
+      <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl">
+        <h1>Please check your email to sign in</h1>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-md mx-auto mt-16 border border-primary p-4 rounded-xl ">
+    <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl ">
       <div className="form-control">
-        <h1 className="text-center mt-2">Login</h1>
+        <h1 className="text-center mt-2">Sign In</h1>
         <p className="description text-center mt-2">
           Sign in via magic link with your email below
         </p>
@@ -38,12 +46,12 @@ export default function Auth() {
           <button
             onClick={(e) => {
               e.preventDefault();
-              handleLogin(email);
+              signIn();
             }}
             className="btn btn-block"
             disabled={loading}
           >
-            <span>{loading ? "Loading" : "Send magic link"}</span>
+            Sign In
           </button>
         </div>
       </div>
