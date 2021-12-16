@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import "./CloverIframe.module.css";
 
 export default function CloverIframe({ setToken, setIsModalOpen }) {
@@ -8,7 +8,6 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
   const cardNumber = elements.create("CARD_NUMBER");
   const cardDate = elements.create("CARD_DATE");
   const cardCvv = elements.create("CARD_CVV");
-  const cardPostalCode = elements.create("CARD_POSTAL_CODE");
 
   let cardNumberRef = useRef(null);
   let cardDateRef = useRef(null);
@@ -28,10 +27,11 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
     "input:focus": { border: "1px solid red" },
   };
 
-  if (cardNumberRef) cardNumber.mount("#card-number", styles);
-  if (cardDateRef) cardDate.mount("#card-date", styles);
-  if (cardCvvRef) cardCvv.mount("#card-cvv", styles);
-  if (cardPostalCodeDom) cardPostalCode.mount("#card-postal-code", styles);
+  useEffect(() => {
+    if (cardNumberRef.current) cardNumber.mount("#card-number", styles);
+    if (cardDateRef.current) cardDate.mount("#card-date", styles);
+    if (cardCvvRef.current) cardCvv.mount("#card-cvv", styles);
+  }, [cardNumberRef.current, cardDateRef.current, cardCvvRef.current]);
 
   function handleSubmit(event) {
     event.preventDefault();

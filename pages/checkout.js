@@ -8,10 +8,10 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useCart } from "@/lib/cartState";
 import { useCookies } from "react-cookie";
+import Script from "next/script";
+import Modal from "react-modal";
 
 export default function Checkout() {
-  //   import { cartOpen } from "$lib/stores/cartOpen";
-  //   import Modal from "$lib/components/Modal.svelte";
   const [cookie, setCookie] = useCookies(["user"]);
   const router = useRouter();
   const { cart, setCart } = useCart();
@@ -135,6 +135,10 @@ export default function Checkout() {
 
   return (
     <div className="p-8 mt-48">
+      <Script
+        src="https://checkout.sandbox.dev.clover.com/sdk.js"
+        strategy="beforeInteractive"
+      />
       <a href="/menu/order" className="mb-4">
         <h1 className="text-red-600 mb-4">Back to Menu</h1>
       </a>
@@ -203,35 +207,53 @@ export default function Checkout() {
               <div>
                 <div className="flex justify-between mt-4">
                   <h4>Subtotal</h4>
-                  <h4>${formatMoney(orderSummary.subtotal)}</h4>
+                  <h4>{formatMoney(orderSummary.subtotal)}</h4>
                 </div>
                 <div className="flex justify-between mt-4">
                   <h4>Total</h4>
-                  <h4>${formatMoney(orderSummary.total)}</h4>
+                  <h4>{formatMoney(orderSummary.total)}</h4>
                 </div>
                 <div className="flex justify-between mt-4">
                   <h4>Fee &amp; Estimated Tax</h4>
-                  <h4>${formatMoney(orderSummary.totalTaxAmount)}</h4>
+                  <h4>{formatMoney(orderSummary.totalTaxAmount)}</h4>
                 </div>
                 <hr />
                 <div className="flex justify-between mt-4">
                   <h4>Total</h4>
-                  <h4>${formatMoney(orderSummary.total)}</h4>
+                  <h4>{formatMoney(orderSummary.total)}</h4>
                 </div>
                 <div className="flex justify-between mt-4 mb-8">
                   <h4>Amount Due</h4>
-                  <h4>${formatMoney(orderSummary.total)}</h4>
+                  <h4>{formatMoney(orderSummary.total)}</h4>
                 </div>
                 <hr />
-                {/* <Modal bind:isModalOpen let:isModalOpen={modalOpen}> */}
-                <CloverIframe isModalOpen={isModalOpen} setToken={setToken} />
+                {/* <Modal
+                  isOpen={isModalOpen}
+                  onRequestClose={() => setIsModalOpen(false)}
+                  style={{
+                    content: {
+                      top: "50%",
+                      left: "50%",
+                      right: "auto",
+                      height: "90%",
+                      bottom: "auto",
+                      marginRight: "-50%",
+                      transform: "translate(-50%, -50%)",
+                      overflowY: "scroll",
+                    },
+                  }}
+                > */}
+                <CloverIframe
+                  setIsModalOpen={setIsModalOpen}
+                  setToken={setToken}
+                />
                 {/* </Modal> */}
-                <button
+                {/* <button
                   className="m-4 bg-gray-600 rounded p-2 text-white"
                   onClick={() => setIsModalOpen(true)}
                 >
                   Click to enter card info
-                </button>
+                </button> */}
               </div>
             )}
             {cart.length !== 0 && (

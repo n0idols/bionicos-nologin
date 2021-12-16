@@ -102,58 +102,66 @@ export default function CollectInfo({
         your name, phone number, and email for a flawless pickup.
       </p>
       <form onSubmit={collectInfo}>
-        <label htmlFor="firstName">First Name</label>
-        <input
-          className="mb-4"
-          type="text"
-          id="firstName"
-          name="firstName"
-          required
-          value={firstName}
-          onChange={(e) => {
-            setFirstName(e.target.value);
-            setDisableOrderBtn(isDirty || isEmpty);
-          }}
-        />
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          className="mb-4"
-          type="text"
-          id="lastName"
-          name="lastName"
-          required
-          value={lastName}
-          onChange={(e) => {
-            setLastName(e.target.value);
-            setDisableOrderBtn(isDirty || isEmpty);
-          }}
-        />
-        <label htmlFor="phone">Phone Number</label>
-        <input
-          className="mb-4"
-          type="tel"
-          id="phone"
-          name="phone"
-          required
-          value={phone}
-          onChange={(e) => {
-            setPhone(e.target.value);
-            setDisableOrderBtn(isDirty || isEmpty);
-          }}
-        />
-        <label htmlFor="email">Email</label>
-        <input
-          className="mb-4"
-          type="email"
-          id="email"
-          name="email"
-          required
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setDisableOrderBtn(isDirty || isEmpty);
-          }}
-        />
+        <div>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            className="mb-4"
+            type="text"
+            id="firstName"
+            name="firstName"
+            required
+            value={firstName}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+              setDisableOrderBtn(isDirty || isEmpty);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            className="mb-4"
+            type="text"
+            id="lastName"
+            name="lastName"
+            required
+            value={lastName}
+            onChange={(e) => {
+              setLastName(e.target.value);
+              setDisableOrderBtn(isDirty || isEmpty);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            className="mb-4"
+            type="tel"
+            id="phone"
+            name="phone"
+            required
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value);
+              setDisableOrderBtn(isDirty || isEmpty);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            className="mb-4"
+            type="email"
+            id="email"
+            name="email"
+            required
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setDisableOrderBtn(isDirty || isEmpty);
+            }}
+          />
+        </div>
         {(isDirty || isEmpty) && <button>Submit</button>}
       </form>
     </div>

@@ -17,7 +17,6 @@ export default function MyApp({ Component, pageProps }) {
   Modal.setAppElement("#__next");
   return (
     <>
-      <script src="https://checkout.sandbox.dev.clover.com/sdk.js"></script>
       <AuthStateProvider>
         <CookiesProvider>
           <CartStateProvider>
