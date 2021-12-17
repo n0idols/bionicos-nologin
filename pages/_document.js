@@ -10,6 +10,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en-US" data-theme="cupcake">
         <Head />
+
         <body>
           <Main />
           <NextScript />

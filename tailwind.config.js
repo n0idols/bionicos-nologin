@@ -5,7 +5,14 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        brand: ["Work Sans"],
+      },
+      screens: {
+        standalone: { raw: "(display-mode: standalone)" },
+      },
+    },
   },
   plugins: [require("daisyui"), require("@tailwindcss/typography")],
 };
