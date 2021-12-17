@@ -42,7 +42,9 @@ export default function ProductItem({ item }) {
         title={item.name}
       >
         <div>
-          <div>{item.desc && <p>{item.desc}</p>}</div>
+          <div className="my-4">
+            {item.alternateName && <p>{item.alternateName}</p>}
+          </div>
           <form onSubmit={addItemToCart} className="py-2">
             {item?.modifierGroups?.elements.map((group, index) => (
               <div key={index} className="mb-2">
