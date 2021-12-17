@@ -1,5 +1,5 @@
-import formatMoney from "../lib/formatMoney";
-import DeleteIcon from "./icons/DeleteIcon";
+import formatMoney from "@/lib/formatMoney";
+import DeleteIcon from "@/components/icons/DeleteIcon";
 import { useCart } from "@/lib/cartState";
 
 export default function CartItem({ item, index }) {
@@ -27,7 +27,7 @@ export default function CartItem({ item, index }) {
                 {modification.name}
               </h6>
             ))}
-            <h4 className="mt-1">${calcItemNetPrice()}</h4>
+            <h4 className="mt-1">{calcItemNetPrice()}</h4>
           </div>
         </div>
         <button onClick={() => remFromCart(index)}>

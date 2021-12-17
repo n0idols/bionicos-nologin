@@ -17,17 +17,19 @@
     "apollo-upload-client": "^17.0.0",
     "cookie": "^0.4.1",
     "daisyui": "^1.16.5",
+    "framer-motion": "^5.5.4",
     "graphql": "^16.1.0",
     "graphql-tag": "^2.12.6",
     "next": "12.0.7",
     "nprogress": "^0.2.0",
+    "rc-drawer": "^4.4.3",
     "react": "17.0.2",
     "react-cookie": "^4.1.1",
     "react-dom": "17.0.2",
-    "react-modal": "^3.14.4",
     "react-geocode": "^0.2.3",
     "react-icons": "^4.3.1",
-    "react-map-gl": "^6.1.18"
+    "react-map-gl": "^6.1.18",
+    "react-modal": "^3.14.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",

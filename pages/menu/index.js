@@ -9,7 +9,11 @@ export default function MenuIndex({ data: { elements } }) {
     <Section>
       <div className="grid md:grid-cols-2 gap-4">
         {elements.map((item) => {
-          return <ProductItem key={item.id} item={item} />;
+          return (
+            <div key={item.id}>
+              <ProductItem item={item} />
+            </div>
+          );
         })}
       </div>
     </Section>

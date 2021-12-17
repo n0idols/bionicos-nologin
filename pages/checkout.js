@@ -1,7 +1,7 @@
 import CloverIframe from "@/components/CloverIframe/CloverIframe";
 import CollectInfo from "@/components/CollectInfo";
-import { MAIN_KEY } from "../config";
-import CartItem from "@/components//CartItem";
+import { MAIN_KEY, MERCH_ID } from "../config";
+import CartItem from "@/components/Cart/CartItem";
 import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
 import { useRouter } from "next/router";
@@ -32,9 +32,7 @@ export default function Checkout() {
   //     cvv.length > 0;
 
   async function getOrderSummary() {
-    const url = `https://apisandbox.dev.clover.com/v3/merchants/${
-      import.meta.env.VITE_CLOVER_MERCH
-    }/atomic_order/checkouts`;
+    const url = `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/atomic_order/checkouts`;
     const res = await fetch(url, {
       method: "POST",
       headers: {
@@ -50,15 +48,19 @@ export default function Checkout() {
         },
       }),
     });
-    return await res.json();
+    if (res.ok) return await res.json();
+    else throw Error(await res.text());
   }
 
   useEffect(() => {
     getOrderSummary()
-      .then((data) => setOrderSummary(data))
-      .catch(() => {
+      .then((data) => {
+        console.log(data);
+        setOrderSummary(data);
+      })
+      .catch((e) => {
         setOrderSummary({ subtotal: 0, total: 0, totalTaxAmount: 0 });
-        alert("Error fetching order");
+        alert("Error fetching order" + e);
       });
   }, []);
 
