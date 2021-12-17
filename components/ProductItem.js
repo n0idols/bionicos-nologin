@@ -84,7 +84,10 @@ export default function ProductItem({ item }) {
                   {group.modifiers.elements.map((mod, i) => (
                     <div key={i}>
                       <div className="p-2 flex items-center">
-                        <label for={mod.id} className="cursor-pointer label">
+                        <label
+                          htmlFor={mod.id}
+                          className="cursor-pointer label"
+                        >
                           <input
                             type="radio"
                             className="radio radio-primary radio-sm mr-2"
