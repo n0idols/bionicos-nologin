@@ -5,7 +5,7 @@ import Link from "next/link";
 import heroImage from "../public/hero.jpg";
 export default function Home() {
   return (
-    <Layout>
+    <Layout title="Home">
       <div className="">
         <div className="max-w-7xl mx-auto py-36 prose-sm flex flex-col justify-center items-center text-center">
           <h1 className="text-5xl font-bold">Hello there</h1>

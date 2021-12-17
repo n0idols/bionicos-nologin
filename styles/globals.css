@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+:root {
+  --toastify-font-family: @apply font-brand;
+  --toastify-color-success: #009485;
+}
+html,
+body {
   @apply font-brand;
 }
 @layer base {

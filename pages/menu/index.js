@@ -1,4 +1,5 @@
 import CheckoutForm from "@/components/CheckoutForm";
+import Layout from "@/components/Layout";
 import ProductItem from "@/components/ProductItem";
 import Section from "@/components/Section";
 import { MAIN_KEY, MAIN_URL, MERCH_ID } from "@/config/index";
@@ -6,17 +7,19 @@ import { useCart } from "@/lib/cartState";
 
 export default function MenuIndex({ data: { elements } }) {
   return (
-    <Section>
-      <div className="grid md:grid-cols-2 gap-4">
-        {elements.map((item) => {
-          return (
-            <div key={item.id}>
-              <ProductItem item={item} />
-            </div>
-          );
-        })}
-      </div>
-    </Section>
+    <Layout title="Menu">
+      <Section>
+        <div className="grid md:grid-cols-2 gap-4">
+          {elements.map((item) => {
+            return (
+              <div key={item.id}>
+                <ProductItem item={item} />
+              </div>
+            );
+          })}
+        </div>
+      </Section>
+    </Layout>
   );
 }
 

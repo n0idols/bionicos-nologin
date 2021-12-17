@@ -5,12 +5,14 @@ import { useState } from "react";
 import Drawer from "@/components/Drawer";
 import Cart from "@/components/Cart/Cart";
 import { AnimatePresence } from "framer-motion";
-
+import { useCart } from "@/lib/cartState";
+import { GrShop } from "react-icons/gr";
 export default function Header() {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn hover:btn-primary`;
   const activeClasses = `btn btn-primary btn-sm rounded-btn `;
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+  const { cart } = useCart();
 
   return (
     <>
@@ -74,11 +76,20 @@ export default function Header() {
             <Link href="/account">
               <a className="btn btn-ghost text-gray-600">Account</a>
             </Link>
-            <button
-              onClick={() => setIsCartDrawerOpen(true)}
-              className="btn btn-ghost text-gray-600"
-            >
-              Cart
+            <button onClick={() => setIsCartDrawerOpen(true)} className="px-4">
+              <span className="relative inline-block ml-2">
+                <div className="indicator">
+                  {cart.length > 0 && (
+                    <div className="indicator-item badge badge-primary rounded-full">
+                      {cart.length}
+                    </div>
+                  )}
+
+                  <span className="text-2xl text-gray-600">
+                    <GrShop />
+                  </span>
+                </div>
+              </span>
             </button>
           </div>
         </div>
