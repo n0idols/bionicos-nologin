@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         brand: ["Work Sans"],
       },
+      screens: {
+        standalone: { raw: "(display-mode: standalone)" },
+      },
     },
   },
   plugins: [require("daisyui"), require("@tailwindcss/typography")],

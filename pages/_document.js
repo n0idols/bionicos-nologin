@@ -9,12 +9,8 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="en-US" data-theme="cupcake">
-        <Head>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;700&display=swap"
-            rel="stylesheet"
-          />
-        </Head>
+        <Head />
+
         <body>
           <Main />
           <NextScript />

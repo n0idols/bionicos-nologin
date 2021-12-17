@@ -9,8 +9,8 @@ export default function Header() {
   const activeClasses = `btn btn-primary btn-sm rounded-btn `;
 
   return (
-    <header>
-      <div className="navbar mb-2 shadow-lg bg-gray-200 text-neutral-content rounded-box">
+    <header className="fixed top-0 z-50 w-full">
+      <div className="navbar mb-2 shadow-lg bg-gray-200 text-neutral-content rounded-box standalone:pt-10">
         <div className="px-2 mx-2 navbar-start">
           <Logo />
         </div>
