@@ -136,7 +136,7 @@ export default function Checkout() {
   }
 
   return (
-    <div className="p-8 mt-48">
+    <div>
       <Script
         src="https://checkout.sandbox.dev.clover.com/sdk.js"
         strategy="beforeInteractive"
