@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import { toast } from "react-toastify";
 class CloverApp extends Component {
   constructor(props) {
     super(props);
