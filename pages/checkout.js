@@ -1,6 +1,6 @@
 import CloverIframe from "@/components/CloverIframe/CloverIframe";
 import CollectInfo from "@/components/CollectInfo";
-import { MAIN_KEY, MERCH_ID } from "../config";
+import { MAIN_KEY, MERCH_ID } from "@/config/index";
 import CartItem from "@/components/Cart/CartItem";
 import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
