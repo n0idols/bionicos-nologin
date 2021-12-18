@@ -4,16 +4,15 @@ import formatMoney from "@/lib/formatMoney";
 import { useCookies } from "react-cookie";
 import Link from "next/link";
 import { useState } from "react";
-export default function Cart({ setIsCartDrawerOpen }) {
+export default function Cart() {
   const [cookie, setCookie] = useCookies(["user"]);
-  const { cart, totalCartPrice } = useCart();
-  // import { cartOpen } from '$lib/stores/cartOpen';
-  // import { authOpen } from '$lib/stores/authOpen';
+  const { cart, totalCartPrice, closeCart } = useCart();
 
   function openAuthModal() {
     // $authOpen = true;
     // $cartOpen = false;
-    setIsCartDrawerOpen(false);
+    // setIsCartDrawerOpen(false);
+    closeCart();
   }
 
   return (
@@ -25,19 +24,6 @@ export default function Cart({ setIsCartDrawerOpen }) {
         </div>
       ) : (
         <div>
-          <div>
-            <h1 className="text-3xl">Your Order</h1>
-            <h3>Bionicos And Juices Rios</h3>
-          </div>
-          <Link href={"/checkout"}>
-            <a
-              onClick={!cookie.user && openAuthModal}
-              className="bg-primary my-4 rounded-3xl w-full px-4 py-2 flex justify-between"
-            >
-              <h3 className="text-white">Checkout</h3>
-              <h3 className="text-white">{formatMoney(totalCartPrice)}</h3>
-            </a>
-          </Link>
           <hr />
           <div className="overflow-y-scroll h-full z-50">
             {cart.map((cartItem, index) => {

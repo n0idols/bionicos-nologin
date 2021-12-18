@@ -66,9 +66,7 @@ export default function Checkout() {
 
   async function makeOrder() {
     const res = await fetch(
-      `https://apisandbox.dev.clover.com/v3/merchants/${
-        import.meta.env.VITE_CLOVER_MERCH
-      }/atomic_order/orders`,
+      `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/atomic_order/orders`,
       {
         method: "POST",
         headers: {
@@ -85,9 +83,7 @@ export default function Checkout() {
 
   async function makeOrderPayRecord(orderId, orderAmount) {
     const res = await fetch(
-      `https://apisandbox.dev.clover.com/v3/merchants/${
-        import.meta.env.VITE_CLOVER_MERCH
-      }/orders/${orderId}/payments`,
+      `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/orders/${orderId}/payments`,
       {
         method: "POST",
         headers: {
