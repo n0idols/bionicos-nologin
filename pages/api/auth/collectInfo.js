@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   let id = request.body.id;
   let firstName = request.body.firstName;
   let lastName = request.body.lastName;
