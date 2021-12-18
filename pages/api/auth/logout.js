@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { error } = await supabase.auth.signOut();
 
   if (error) {

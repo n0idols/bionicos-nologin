@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   let phone = request.params.phone;
   let otp = request.body.get("otp");
   const { error } = await supabase.auth.verifyOTP({ phone, token: otp });
