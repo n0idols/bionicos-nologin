@@ -1,7 +1,8 @@
 import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import ReactDOM from "react-dom";
 import CartItem from "./Cart/CartItem";
 
@@ -16,11 +17,23 @@ const checkoutbtn = `btn btn-primary btn-lg my-4 rounded-3xl w-full px-4 py-2 fl
 export default function CartDrawer({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
   const { cart, closeCart, totalCartPrice } = useCart();
+  const [cookies, setCookie] = useCookies(["cart"]);
+  const router = useRouter();
   useEffect(() => setIsBrowser(true));
 
   const handleClose = (e) => {
     e.preventDefault();
     onClose();
+  };
+
+  const onCheckout = () => {
+    console.log(cart);
+    setCookie("cart", JSON.stringify(cart), {
+      path: "/",
+    });
+    console.log(cookies);
+    closeCart();
+    router.push("/checkout");
   };
 
   const drawerContent = show ? (
@@ -66,16 +79,14 @@ export default function CartDrawer({ show, onClose, children, title }) {
             </div>
           </div>
           <div className={drawerfooter}>
-            <Link href={"/checkout"}>
-              <button
-                onClick={closeCart}
-                className={checkoutbtn}
-                disabled={cart.length == 0}
-              >
-                <h3 className="text-white">Checkout</h3>
-                <h3 className="text-white">{formatMoney(totalCartPrice)}</h3>
-              </button>
-            </Link>
+            <button
+              onClick={onCheckout}
+              className={checkoutbtn}
+              disabled={cart.length == 0}
+            >
+              <h3 className="text-white">Checkout</h3>
+              <h3 className="text-white">{formatMoney(totalCartPrice)}</h3>
+            </button>
           </div>
         </div>
       </div>

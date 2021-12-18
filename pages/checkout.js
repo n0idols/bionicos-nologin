@@ -5,23 +5,24 @@ import CartItem from "@/components/Cart/CartItem";
 import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCart } from "@/lib/cartState";
 import { useCookies } from "react-cookie";
 import Script from "next/script";
 import Modal from "react-modal";
+import parseCookies from "@/lib/cookie";
 
-export default function Checkout() {
-  const [cookie, setCookie] = useCookies(["user"]);
+export default function Checkout({ orderSummary }) {
+  const [cookie] = useCookies(["user"]);
   const router = useRouter();
-  const { cart, setCart } = useCart();
+  const { cart } = useCart();
   const [changePayment, setChangePayment] = useState(true);
   const [paymentInfo, setPaymentInfo] = useState("");
   const [disableOrderBtn, setDisableOrderBtn] = useState(false);
   const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderInProgress, setOrderInProgress] = useState(false);
-  const [orderSummary, setOrderSummary] = useState(null);
+  // const [orderSummary, setOrderSummary] = useState(null);
   const [token, setToken] = useState("");
   //   cartOpen.set(false);
   //   let cardEntered =
@@ -31,50 +32,47 @@ export default function Checkout() {
   //     expYear.length > 0 &&
   //     cvv.length > 0;
 
-  async function getOrderSummary() {
-    const url = `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/atomic_order/checkouts`;
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${MAIN_KEY}`,
-      },
-      body: JSON.stringify({
-        orderCart: {
-          orderType: {
-            id: "G36Q0HDWCWT1M",
-          },
+  // async function getOrderSummary() {
+  //   const url = `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/atomic_order/checkouts`;
+  //   const res = await fetch(url, {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Bearer ${MAIN_KEY}`,
+  //     },
+  //     body: JSON.stringify({
+  //       orderCart: {
+  //         orderType: {
+  //           id: "G36Q0HDWCWT1M",
+  //         },
 
-          lineItems: cart,
-        },
-      }),
-    });
-    if (res.ok) return await res.json();
-    else throw Error(await res.text());
-  }
+  //         lineItems: cart,
+  //       },
+  //     }),
+  //   });
+  //   if (res.ok) return await res.json();
+  //   else throw Error(await res.text());
+  // }
 
-  useEffect(() => {
-    getOrderSummary()
-      .then((data) => {
-        console.log(data);
-        setOrderSummary(data);
-      })
-      .catch((e) => {
-        setOrderSummary({ subtotal: 0, total: 0, totalTaxAmount: 0 });
-        alert("Error fetching order" + e);
-      });
-  }, []);
+  // useEffect(() => {
+  //   getOrderSummary()
+  //     .then((data) => {
+  //       console.log(data);
+  //       setOrderSummary(data);
+  //     })
+  //     .catch((e) => {
+  //       setOrderSummary({ subtotal: 0, total: 0, totalTaxAmount: 0 });
+  //       alert("Error fetching order" + e);
+  //     });
+  // }, []);
 
   async function makeOrder() {
-    const res = await fetch(
-      `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/atomic_order/orders`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${MAIN_KEY}`,
-        },
-        body: JSON.stringify(orderSummary),
-      }
-    );
+    const res = await fetch(`/api/order/makeOrder`, {
+      method: "POST",
+      body: JSON.stringify({ orderSummary }),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
 
     if (!res.ok) throw Error();
     const orderData = await res.json();
@@ -99,7 +97,7 @@ export default function Checkout() {
 
   async function payForOrder(orderId, email) {
     const res = await fetch("/api/payment", {
-      method: "post",
+      method: "POST",
       body: JSON.stringify({
         email,
         token,
@@ -123,10 +121,10 @@ export default function Checkout() {
       console.log("before pay");
       await payForOrder(orderId, email);
       console.log("after pay");
-      await makeOrderPayRecord(orderId, orderAmount, tenderId);
+      // await makeOrderPayRecord(orderId, orderAmount, tenderId);
       router.push("/");
     } catch (e) {
-      orderInProgress = false;
+      setOrderInProgress(false);
       alert(e);
     }
   }
@@ -271,4 +269,30 @@ export default function Checkout() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const cookies = parseCookies(context.req);
+  const url = `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/atomic_order/checkouts`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${MAIN_KEY}`,
+    },
+    body: JSON.stringify({
+      orderCart: {
+        orderType: {
+          id: "G36Q0HDWCWT1M",
+        },
+
+        lineItems: JSON.parse(cookies.cart),
+      },
+    }),
+  });
+
+  if (res.ok) return { props: { orderSummary: await res.json() } };
+
+  return {
+    props: { orderSummary: { subtotal: 0, total: 0, totalTaxAmount: 0 } },
+  };
 }

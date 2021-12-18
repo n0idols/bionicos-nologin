@@ -35,18 +35,25 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    console.log("object1");
     // Use the iframe's tokenization method with the user-entered card details
-    clover.createToken().then(function (result) {
-      if (result.errors) {
-        console.log("object");
-        Object.values(result.errors).forEach(function (value) {
-          displayError.textContent = value;
-        });
-      } else {
-        setToken(result.token);
-        setIsModalOpen(false);
-      }
-    });
+    clover
+      .createToken()
+      .then(function (result) {
+        if (result.errors) {
+          console.log("object2");
+          Object.values(result.errors).forEach(function (value) {
+            displayError.textContent = value;
+          });
+        } else {
+          console.log("object3");
+          setToken(result.token);
+          setIsModalOpen(false);
+        }
+      })
+      .catch((e) => {
+        console.log("error" + e);
+      });
   }
 
   return (
@@ -71,7 +78,7 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
         <div id="card-errors" role="alert" />
         <div id="card-response" role="alert" />
         <div className="button-container">
-          <button>Submit Payment</button>
+          <button type="submit">Submit Payment</button>
         </div>
       </form>
     </div>

@@ -1,43 +1,43 @@
-{
-  "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#92a6ce",
-    "activityBar.activeBorder": "#b04f6f",
-    "activityBar.background": "#92a6ce",
-    "activityBar.foreground": "#15202b",
-    "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#b04f6f",
-    "activityBarBadge.foreground": "#e7e7e7",
-    "sash.hoverBorder": "#92a6ce",
-    "statusBar.background": "#6f89be",
-    "statusBar.foreground": "#15202b",
-    "statusBarItem.hoverBackground": "#4e6dac",
-    "statusBarItem.remoteBackground": "#6f89be",
-    "statusBarItem.remoteForeground": "#15202b",
-    "titleBar.activeBackground": "#6f89be",
-    "titleBar.activeForeground": "#15202b",
-    "titleBar.inactiveBackground": "#6f89be99",
-    "titleBar.inactiveForeground": "#15202b99"
-  },
-  "peacock.color": "#6f89be"
-} // {
+// {
 //   "workbench.colorCustomizations": {
-//     "activityBar.activeBackground": "#363f92",
-//     "activityBar.activeBorder": "#17090a",
-//     "activityBar.background": "#363f92",
-//     "activityBar.foreground": "#e7e7e7",
-//     "activityBar.inactiveForeground": "#e7e7e799",
-//     "activityBarBadge.background": "#17090a",
+//     "activityBar.activeBackground": "#92a6ce",
+//     "activityBar.activeBorder": "#b04f6f",
+//     "activityBar.background": "#92a6ce",
+//     "activityBar.foreground": "#15202b",
+//     "activityBar.inactiveForeground": "#15202b99",
+//     "activityBarBadge.background": "#b04f6f",
 //     "activityBarBadge.foreground": "#e7e7e7",
-//     "sash.hoverBorder": "#363f92",
-//     "statusBar.background": "#282f6d",
-//     "statusBar.foreground": "#e7e7e7",
-//     "statusBarItem.hoverBackground": "#363f92",
-//     "statusBarItem.remoteBackground": "#282f6d",
-//     "statusBarItem.remoteForeground": "#e7e7e7",
-//     "titleBar.activeBackground": "#282f6d",
-//     "titleBar.activeForeground": "#e7e7e7",
-//     "titleBar.inactiveBackground": "#282f6d99",
-//     "titleBar.inactiveForeground": "#e7e7e799"
+//     "sash.hoverBorder": "#92a6ce",
+//     "statusBar.background": "#6f89be",
+//     "statusBar.foreground": "#15202b",
+//     "statusBarItem.hoverBackground": "#4e6dac",
+//     "statusBarItem.remoteBackground": "#6f89be",
+//     "statusBarItem.remoteForeground": "#15202b",
+//     "titleBar.activeBackground": "#6f89be",
+//     "titleBar.activeForeground": "#15202b",
+//     "titleBar.inactiveBackground": "#6f89be99",
+//     "titleBar.inactiveForeground": "#15202b99"
 //   },
-//   "peacock.color": "#282f6d"
-// }
+//   "peacock.color": "#6f89be"
+// } // {
+// //   "workbench.colorCustomizations": {
+// //     "activityBar.activeBackground": "#363f92",
+// //     "activityBar.activeBorder": "#17090a",
+// //     "activityBar.background": "#363f92",
+// //     "activityBar.foreground": "#e7e7e7",
+// //     "activityBar.inactiveForeground": "#e7e7e799",
+// //     "activityBarBadge.background": "#17090a",
+// //     "activityBarBadge.foreground": "#e7e7e7",
+// //     "sash.hoverBorder": "#363f92",
+// //     "statusBar.background": "#282f6d",
+// //     "statusBar.foreground": "#e7e7e7",
+// //     "statusBarItem.hoverBackground": "#363f92",
+// //     "statusBarItem.remoteBackground": "#282f6d",
+// //     "statusBarItem.remoteForeground": "#e7e7e7",
+// //     "titleBar.activeBackground": "#282f6d",
+// //     "titleBar.activeForeground": "#e7e7e7",
+// //     "titleBar.inactiveBackground": "#282f6d99",
+// //     "titleBar.inactiveForeground": "#e7e7e799"
+// //   },
+// //   "peacock.color": "#282f6d"
+// // }
