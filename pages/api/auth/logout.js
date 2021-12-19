@@ -1,13 +1,15 @@
 import { supabase } from "@/lib/supabaseClient";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { error } = await supabase.auth.signOut();
 
   if (error) {
     res.status(error.status).json({
       body: error.message,
     });
-  }
-
-  res.status(200).setHeader("Set-Cookie", ["user="]).setHeader("Location", "/");
+  } else
+    res
+      .setHeader("Set-Cookie", [`user=;Expires:${new Date(0).toUTCString()};`])
+      .setHeader("Location", "/")
+      .status(200);
 }

@@ -13,7 +13,7 @@ import Modal from "react-modal";
 import parseCookies from "@/lib/cookie";
 
 export default function Checkout({ orderSummary }) {
-  const [cookie] = useCookies(["user"]);
+  const [cookies] = useCookies(["user"]);
   const router = useRouter();
   const { cart } = useCart();
   const [changePayment, setChangePayment] = useState(true);
@@ -75,8 +75,8 @@ export default function Checkout({ orderSummary }) {
     });
 
     if (!res.ok) throw Error();
-    const orderData = await res.json();
-    return [orderData.id, orderData.total];
+    const { orderId } = await res.json();
+    return orderId;
   }
 
   async function makeOrderPayRecord(orderId, orderAmount) {
@@ -113,12 +113,10 @@ export default function Checkout({ orderSummary }) {
   }
 
   async function placeOrder() {
-    let orderId = "";
-    let orderAmount = "";
     setOrderInProgress(true);
     try {
-      [orderId, orderAmount] = await makeOrder();
-      console.log("before pay");
+      const orderId = await makeOrder();
+      console.log("before pay", orderId);
       await payForOrder(orderId, email);
       console.log("after pay");
       // await makeOrderPayRecord(orderId, orderAmount, tenderId);
@@ -142,7 +140,7 @@ export default function Checkout({ orderSummary }) {
         <div className="md:w-1/2">
           <CollectInfo
             email={email}
-            userId={cookie.user}
+            userId={cookies.user}
             setDisableOrderBtn={setDisableOrderBtn}
             setEmail={setEmail}
           />
@@ -255,6 +253,7 @@ export default function Checkout({ orderSummary }) {
             {cart.length !== 0 && (
               <button
                 onClick={placeOrder}
+                disabled={!cookies.user || disableOrderBtn || !token}
                 className="btn btn-block btn bg-brand-red glass text-white hover:bg-brand-redhover"
               >
                 {!orderInProgress ? (

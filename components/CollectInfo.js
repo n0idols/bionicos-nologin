@@ -7,7 +7,7 @@ export default function CollectInfo({
   email,
   setEmail,
 }) {
-  //   const [cookie, setCookie] = useCookies(["user"]);
+  const [cookie, setCookie] = useCookies(["user"]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -58,16 +58,24 @@ export default function CollectInfo({
     if (!userId) {
       response = await fetch(`/api/auth/signup`, {
         method: "post",
-        body: new FormData(e.target),
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          phone,
+          email,
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
       });
     }
     if (userId || response.ok) {
-      const id = userId ? userId : await response.json();
-      console.log(id);
+      userId = userId ? userId : await response.json();
+      console.log(userId);
       response = await fetch(`/api/auth/collectInfo`, {
         method: "post",
         body: JSON.stringify({
-          id,
+          id: userId,
           firstName,
           lastName,
           phone,
@@ -84,12 +92,12 @@ export default function CollectInfo({
         setSubmittedLastName(lastName);
         setSubmittedPhone(phone);
         setSubmittedEmail(email);
-        setCookie("user", JSON.stringify(res.id), {
-          path: "/",
-          maxAge: 7 * 24 * 3600, // Expires after 1hr
-          sameSite: true,
-          httpOnly: true,
-        });
+        // setCookie("user", JSON.stringify(res.id), {
+        //   path: "/",
+        //   maxAge: 7 * 24 * 3600,
+        //   sameSite: true,
+        //   httpOnly: true,
+        // });
       } else alert(await response.text());
     } else alert(await response.text());
   }

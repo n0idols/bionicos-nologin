@@ -5,9 +5,9 @@ export default async function handler(req, res) {
   const orderId = req.body.orderId;
   const token = req.body.token;
   const email = req.body.email;
-
+  console.log({ orderId, token, email });
   try {
-    sdk.auth("5c0d1520-d0b3-2f81-0740-1ec258b458fc");
+    sdk.auth("e2d4b1c7-5871-cf79-0f99-f774d69e1b70");
     const data = await sdk.PostOrdersIdPay(
       {
         ecomind: "ecom",
@@ -16,6 +16,7 @@ export default async function handler(req, res) {
       },
       { orderId }
     );
+    console.log({ data });
     res.status(200).json({
       body: data,
     });

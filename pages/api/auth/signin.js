@@ -1,10 +1,10 @@
 import { supabase } from "@/lib/supabaseClient";
 
-export default function handler(req, res) {
-  let email = request.body.get("email");
-  let password = request.body.get("password");
-  let phone = request.body.get("phone");
-  let authMethod = request.query.get("authMethod");
+export default async function handler(req, res) {
+  let email = req.body.get("email");
+  let password = req.body.get("password");
+  let phone = req.body.get("phone");
+  let authMethod = req.query.get("authMethod");
 
   if (authMethod !== "email" && authMethod !== "phone")
     return {
@@ -17,23 +17,22 @@ export default function handler(req, res) {
     res.status(error.status).json({
       body: error.message,
     });
-  }
-
-  res
-    .status(200)
-    .setHeader(
-      "Set-Cookie",
-      authMethod === "phone"
-        ? []
-        : [
-            `user=${
-              user.id
-            } Path=/; HttpOnly; Secure; SameSite=Strict; Expires=${new Date(
-              session.expires_at * 1000
-            ).toUTCString()};`,
-          ]
-    )
-    .json({
-      body: JSON.stringify(session?.user.id),
-    });
+  } else
+    res
+      .setHeader(
+        "Set-Cookie",
+        authMethod === "phone"
+          ? []
+          : [
+              `user=${
+                user.id
+              } Path=/; Secure; SameSite=Strict; Expires=${new Date(
+                session.expires_at * 1000
+              ).toUTCString()};`,
+            ]
+      )
+      .status(200)
+      .json({
+        userId: session?.user.id,
+      });
 }
