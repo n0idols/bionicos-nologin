@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 export default function CollectInfo({
   userId,
@@ -6,6 +7,7 @@ export default function CollectInfo({
   email,
   setEmail,
 }) {
+  const [cookies, setCookie] = useCookies([]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -108,17 +110,14 @@ export default function CollectInfo({
         },
       });
       if (response.ok) {
-        const res = await response.json();
+        // const res = await response.json();
         setSubmittedFirstName(firstName);
         setSubmittedLastName(lastName);
         setSubmittedPhone(phone);
         setSubmittedEmail(email);
-        // setCookie("user", JSON.stringify(res.id), {
-        //   path: "/",
-        //   maxAge: 7 * 24 * 3600,
-        //   sameSite: true,
-        //   httpOnly: true,
-        // });
+        setCookie("user", JSON.stringify(userId), {
+          path: "/",
+        });
       } else alert(await response.text());
     } else alert(await response.text());
   }

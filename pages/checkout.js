@@ -5,7 +5,7 @@ import CartItem from "@/components/Cart/CartItem";
 import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/lib/cartState";
 import { useCookies } from "react-cookie";
 import Script from "next/script";
@@ -125,6 +125,9 @@ export default function Checkout({ orderSummary }) {
       alert(e);
     }
   }
+  useEffect(() => {
+    console.log(cookies);
+  }, [cookies.user]);
   console.log(cookies, disableOrderBtn, token);
 
   return (
