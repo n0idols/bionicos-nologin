@@ -92,7 +92,8 @@ export default function CollectInfo({
       });
     }
     if (userId || response.ok) {
-      userId = userId ? userId : await response.json();
+      const jsonResponse = await response.json();
+      userId = userId ? userId : jsonResponse.userId;
       response = await fetch(`/api/auth/collectInfo`, {
         method: "post",
         body: JSON.stringify({

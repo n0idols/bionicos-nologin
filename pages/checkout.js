@@ -125,6 +125,7 @@ export default function Checkout({ orderSummary }) {
       alert(e);
     }
   }
+  console.log(cookies, disableOrderBtn, token);
 
   return (
     <div>
