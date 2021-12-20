@@ -9,18 +9,12 @@ const cloverInst = new Clover(ACCESS_TOKEN, {
 
 export default async function handler(req, res) {
   try {
-    cloverInst.tokens
-      .create({
-        card: req.body.card,
-        apiKey: API_KEY,
-      })
-      .then((tokenObj) => {
-        res.send(tokenObj);
-      })
-      .catch((err) => {
-        console.log("Getting error type in Token Test - ", err);
-      });
+    const token = await cloverInst.tokens.create({
+      card: req.body.card,
+      apiKey: API_KEY,
+    });
+    res.status(200).send(token);
   } catch (err) {
-    res.send(err);
+    res.error(500).send(err);
   }
 }
