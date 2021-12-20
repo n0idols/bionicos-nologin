@@ -15,7 +15,7 @@ import parseCookies from "@/lib/cookie";
 export default function Checkout({ orderSummary }) {
   const [cookies] = useCookies(["user"]);
   const router = useRouter();
-  const { cart } = useCart();
+  const { cart, emptyCart } = useCart();
   const [changePayment, setChangePayment] = useState(true);
   const [paymentInfo, setPaymentInfo] = useState("");
   const [disableOrderBtn, setDisableOrderBtn] = useState(false);
@@ -64,7 +64,6 @@ export default function Checkout({ orderSummary }) {
   //       alert("Error fetching order" + e);
   //     });
   // }, []);
-
   async function makeOrder() {
     const res = await fetch(`/api/order/makeOrder`, {
       method: "POST",
@@ -108,7 +107,6 @@ export default function Checkout({ orderSummary }) {
       },
     });
     if (!res.ok) throw Error(await res.text());
-    console.log(res.json());
     return await res.json();
   }
 
@@ -118,6 +116,7 @@ export default function Checkout({ orderSummary }) {
       const orderId = await makeOrder();
       console.log("before pay", orderId);
       await payForOrder(orderId, email);
+      emptyCart();
       console.log("after pay");
       // await makeOrderPayRecord(orderId, orderAmount, tenderId);
       router.push("/");
@@ -221,7 +220,7 @@ export default function Checkout({ orderSummary }) {
                   <h4>{formatMoney(orderSummary.total)}</h4>
                 </div>
                 <hr />
-                <Modal
+                {/* <Modal
                   isOpen={isModalOpen}
                   onRequestClose={() => setIsModalOpen(false)}
                   style={{
@@ -236,18 +235,18 @@ export default function Checkout({ orderSummary }) {
                       overflowY: "scroll",
                     },
                   }}
-                >
-                  <CloverIframe
-                    setIsModalOpen={setIsModalOpen}
-                    setToken={setToken}
-                  />
-                </Modal>
+                > */}
+                <CloverIframe
+                  setIsModalOpen={setIsModalOpen}
+                  setToken={setToken}
+                />
+                {/* </Modal>
                 <button
                   className="m-4 bg-gray-600 rounded p-2 text-white"
                   onClick={() => setIsModalOpen(true)}
                 >
                   Click to enter card info
-                </button>
+                </button> */}
               </div>
             )}
             {cart.length !== 0 && (
@@ -273,25 +272,30 @@ export default function Checkout({ orderSummary }) {
 export async function getServerSideProps(context) {
   const cookies = parseCookies(context.req);
   const url = `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/atomic_order/checkouts`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${MAIN_KEY}`,
-    },
-    body: JSON.stringify({
-      orderCart: {
-        orderType: {
-          id: "G36Q0HDWCWT1M",
-        },
-
-        lineItems: JSON.parse(cookies.cart),
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${MAIN_KEY}`,
       },
-    }),
-  });
+      body: JSON.stringify({
+        orderCart: {
+          orderType: {
+            id: "G36Q0HDWCWT1M",
+          },
 
-  if (res.ok) return { props: { orderSummary: await res.json() } };
+          lineItems: JSON.parse(cookies.cart),
+        },
+      }),
+    });
 
-  return {
-    props: { orderSummary: { subtotal: 0, total: 0, totalTaxAmount: 0 } },
-  };
+    if (res.ok) return { props: { orderSummary: await res.json() } };
+    return {
+      props: { orderSummary: { subtotal: 0, total: 0, totalTaxAmount: 0 } },
+    };
+  } catch (e) {
+    return {
+      props: { orderSummary: { subtotal: 0, total: 0, totalTaxAmount: 0 } },
+    };
+  }
 }

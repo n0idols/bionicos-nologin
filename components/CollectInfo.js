@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
 
 export default function CollectInfo({
   userId,
@@ -7,7 +6,6 @@ export default function CollectInfo({
   email,
   setEmail,
 }) {
-  const [cookie, setCookie] = useCookies(["user"]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -15,33 +13,27 @@ export default function CollectInfo({
   const [submittedLastName, setSubmittedLastName] = useState("");
   const [submittedPhone, setSubmittedPhone] = useState("");
   const [submittedEmail, setSubmittedEmail] = useState("");
-
-  let isDirty =
-    firstName !== submittedFirstName ||
-    lastName !== submittedLastName ||
-    email !== submittedEmail ||
-    phone !== submittedPhone;
-
-  let isEmpty =
-    firstName.length === 0 ||
-    lastName.length === 0 ||
-    email.length === 0 ||
-    phone.length === 0;
+  const [isDirty, setIsDirty] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   async function getUserData() {
     try {
       const response = await fetch(`/api/user/${userId}`, { method: "get" });
       if (response.ok) {
         const res = await response.json();
-        setFirstName(res.firstName ? res.firstName : "");
-        setLastName(res.lastName ? res.lastName : "");
-        setEmail(res.email ? res.email : "");
-        setPhone(res.phone ? res.phone : "");
-        setSubmittedFirstName(firstName);
-        setSubmittedLastName(lastName);
-        setSubmittedEmail(email);
-        setSubmittedPhone(phone);
-      } else alert(response.text());
+        const resFirstName = res.firstName ? res.firstName : "";
+        const resLastName = res.lastName ? res.lastName : "";
+        const resEmail = res.email ? res.email : "";
+        const resPhone = res.phone ? res.phone : "";
+        setFirstName(resFirstName);
+        setLastName(resLastName);
+        setEmail(resEmail);
+        setPhone(resPhone);
+        setSubmittedFirstName(resFirstName);
+        setSubmittedLastName(resLastName);
+        setSubmittedEmail(resEmail);
+        setSubmittedPhone(resPhone);
+      } else alert(await response.text());
     } catch (e) {
       alert(e);
     }
@@ -49,9 +41,39 @@ export default function CollectInfo({
 
   useEffect(() => {
     if (userId) {
-      getUserData;
+      getUserData();
     }
-  }, [userId]);
+  }, []);
+
+  useEffect(() => {
+    setIsDirty(
+      firstName !== submittedFirstName ||
+        lastName !== submittedLastName ||
+        email !== submittedEmail ||
+        phone !== submittedPhone
+    );
+
+    setIsEmpty(
+      firstName.length === 0 ||
+        lastName.length === 0 ||
+        email.length === 0 ||
+        phone.length === 0
+    );
+  }, [
+    firstName,
+    lastName,
+    email,
+    phone,
+    submittedFirstName,
+    submittedLastName,
+    submittedEmail,
+    submittedPhone,
+  ]);
+
+  useEffect(() => {
+    setDisableOrderBtn(isDirty || isEmpty);
+  }, [isDirty, isEmpty]);
+
   async function collectInfo(e) {
     e.preventDefault();
     let response;
@@ -71,7 +93,6 @@ export default function CollectInfo({
     }
     if (userId || response.ok) {
       userId = userId ? userId : await response.json();
-      console.log(userId);
       response = await fetch(`/api/auth/collectInfo`, {
         method: "post",
         body: JSON.stringify({
@@ -87,7 +108,6 @@ export default function CollectInfo({
       });
       if (response.ok) {
         const res = await response.json();
-        console.log(res);
         setSubmittedFirstName(firstName);
         setSubmittedLastName(lastName);
         setSubmittedPhone(phone);
@@ -121,7 +141,6 @@ export default function CollectInfo({
             value={firstName}
             onChange={(e) => {
               setFirstName(e.target.value);
-              setDisableOrderBtn(isDirty || isEmpty);
             }}
           />
         </div>
@@ -136,7 +155,6 @@ export default function CollectInfo({
             value={lastName}
             onChange={(e) => {
               setLastName(e.target.value);
-              setDisableOrderBtn(isDirty || isEmpty);
             }}
           />
         </div>
@@ -151,7 +169,6 @@ export default function CollectInfo({
             value={phone}
             onChange={(e) => {
               setPhone(e.target.value);
-              setDisableOrderBtn(isDirty || isEmpty);
             }}
           />
         </div>
@@ -166,7 +183,6 @@ export default function CollectInfo({
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-              setDisableOrderBtn(isDirty || isEmpty);
             }}
           />
         </div>

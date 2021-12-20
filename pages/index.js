@@ -14,7 +14,7 @@ export default function Home() {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <Link href="menu">
+          <Link href="/menu">
             <a className="btn btn-primary">View Menu</a>
           </Link>
         </div>

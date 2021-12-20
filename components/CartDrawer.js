@@ -2,7 +2,6 @@ import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
 import ReactDOM from "react-dom";
 import CartItem from "./Cart/CartItem";
 
@@ -17,7 +16,6 @@ const checkoutbtn = `btn btn-primary btn-lg my-4 rounded-3xl w-full px-4 py-2 fl
 export default function CartDrawer({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
   const { cart, closeCart, totalCartPrice } = useCart();
-  const [cookies, setCookie] = useCookies(["cart"]);
   const router = useRouter();
   useEffect(() => setIsBrowser(true));
 
@@ -27,11 +25,6 @@ export default function CartDrawer({ show, onClose, children, title }) {
   };
 
   const onCheckout = () => {
-    console.log(cart);
-    setCookie("cart", JSON.stringify(cart), {
-      path: "/",
-    });
-    console.log(cookies);
     closeCart();
     router.push("/checkout");
   };

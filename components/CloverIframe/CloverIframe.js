@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import Loading from "../icons/Loading";
 import "./CloverIframe.module.css";
 
 export default function CloverIframe({ setToken, setIsModalOpen }) {
@@ -12,6 +13,7 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
   const [cardDate, setCardDate] = useState("");
   const [cardCvv, setCardCvv] = useState("");
   const [cardZip, setCardZip] = useState("");
+  const [tokenizing, setTokenizing] = useState(false);
   // const [cardSave, setCardSave] = useState(false);
 
   // let cardNumberRef = useRef(null);
@@ -62,6 +64,7 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
   // }
 
   const createToken = async () => {
+    setTokenizing(true);
     const card = {
       number: cardNumber,
       cvv: cardCvv,
@@ -78,6 +81,7 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
     });
 
     const resp = await response.json();
+    setTokenizing(false);
     if (response.status !== 200) {
       throw Error(resp.message);
     }
@@ -222,7 +226,7 @@ export default function CloverIframe({ setToken, setIsModalOpen }) {
           className="btn bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-auto"
           onClick={createToken}
         >
-          Pay For Order
+          {tokenizing ? <Loading /> : "Pay For Order"}
         </button>
       </div>
     </div>
