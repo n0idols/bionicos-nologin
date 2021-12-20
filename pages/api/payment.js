@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     const data = await sdk.PostOrdersIdPay(
       {
         ecomind: "ecom",
-        email: "a@gmail.com",
+        email: email,
         source: token,
       },
       { orderId }

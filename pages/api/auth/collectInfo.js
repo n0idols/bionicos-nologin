@@ -6,12 +6,12 @@ export default async function handler(req, res) {
   let lastName = req.body.lastName;
   let email = req.body.email;
   let phone = req.body.phone;
-  console.log({ id, firstName });
+
   const { data, status, error } = await supabase
     .from("users")
     .update({ first_name: firstName, last_name: lastName, email, phone })
     .eq("id", id);
-  console.log({ data, status, error });
+
   if (error) {
     res.status(status).json({
       body: error.message,
