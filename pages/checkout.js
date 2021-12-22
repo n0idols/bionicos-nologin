@@ -1,6 +1,3 @@
-import CloverIframe from "@/components/CloverIframe/CloverIframe";
-
-import { MAIN_KEY, MERCH_ID } from "@/config/index";
 import CartItem from "@/components/Cart/CartItem";
 import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
@@ -13,6 +10,7 @@ import { parseCookies, setCookie } from "nookies";
 import StripeCheckout from "@/components/StripeCheckout";
 import Stripe from "stripe";
 import { parse } from "cookie";
+import Link from "next/link";
 
 export default function CheckoutPage({ orderSummary, paymentIntent }) {
   const [cookies] = useCookies(["user"]);
@@ -53,9 +51,11 @@ export default function CheckoutPage({ orderSummary, paymentIntent }) {
             </div>
 
             <div className="flex justify-end mb-4">
-              <a href="/menu" className="bg-gray-200 rounded-2xl px-4 py-1">
-                <h4>+ Add more items</h4>
-              </a>
+              <Link href="/menu">
+                <a className="bg-gray-200 rounded-2xl px-4 py-1 text-xl">
+                  Add more items
+                </a>
+              </Link>
             </div>
             <hr />
             <div>
