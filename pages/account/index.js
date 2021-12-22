@@ -3,44 +3,52 @@ import Profile from "@/components/Profile";
 import SignIn from "@/components/SignIn";
 import { useAuth } from "@/lib/authState";
 import { supabase } from "@/lib/supabaseClient";
-
+import moment from "moment";
 import { useRouter } from "next/router";
 
 export default function AccountIndex({ user }) {
-  // useEffect(() => {
-  //   async function fetchOrders() {
-  //     const { orders, error } = await supabase
-  //       .from("orders")
-  //       .select("*")
-  //       .eq("user_id", user.id);
-
-  //     setUserOrders(orders);
-  //   }
-  //   fetchOrders();
-  // }, []);
+  useEffect(() => {
+    async function fetchOrders() {
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("user_id", user.id);
+      if (error) {
+        setUserOrdersError(error);
+      }
+      setUserOrders(data);
+    }
+    fetchOrders();
+  }, []);
   const { authenticatedState } = useAuth();
   const [userOrders, setUserOrders] = useState(null);
+  const [userOrdersError, setUserOrdersError] = useState(null);
   const router = useRouter();
-  async function signOut() {
-    await supabase.auth.signOut();
-    router.push("/");
-  }
 
   return (
     <div>
       {" "}
       hey {user.email}
-      {authenticatedState === "authenticated" ? (
-        <h1>logged in</h1>
-      ) : (
-        <h1>not logged in</h1>
-      )}
-      <button onClick={signOut} className="btn btn-warning">
-        log out
-      </button>
       Your Order History
-      <pre>{JSON.stringify(userOrders, null, 2)}</pre>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      {userOrders?.map((order) => (
+        <div key={order.id} className="card lg:card-side card-bordered">
+          <div className="card-body">
+            <span className="uppercase">Ordered On:</span>
+            <h2 className="card-title">
+              {moment(order.ordered_at).format("dddd, MMMM Do YYYY, h:mm:ss a")}
+            </h2>
+            <span>
+              Order Status:
+              <div class="badge mx-2 uppercase">{order.type}</div>
+            </span>
+            <div className="card-actions">
+              <button className="btn  btn-primary">Order Details</button>
+            </div>
+          </div>
+        </div>
+      ))}
+      wtf happen?
+      <pre>{JSON.stringify(userOrdersError, null, 2)}</pre>
     </div>
   );
 }

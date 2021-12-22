@@ -3,6 +3,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { useState } from "react";
 import { useAuth } from "@/lib/authState";
+import { supabase } from "@/lib/supabaseClient";
 
 import { useCart } from "@/lib/cartState";
 import { GrShop } from "react-icons/gr";
@@ -11,9 +12,13 @@ export default function Header() {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn hover:btn-primary`;
   const activeClasses = `btn btn-primary btn-sm rounded-btn `;
-  // const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const { cart, show, toggleCart, closeCart } = useCart();
   const { authenticatedState } = useAuth();
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    router.push("/");
+  }
 
   return (
     <>
@@ -78,9 +83,14 @@ export default function Header() {
           </div>
           <div className="navbar-end space-x-4">
             {authenticatedState === "authenticated" ? (
-              <Link href="/account">
-                <a className="btn btn-ghost text-gray-600">Account</a>
-              </Link>
+              <div>
+                <button onClick={signOut} className="btn btn-warning">
+                  log out
+                </button>
+                <Link href="/account">
+                  <a className="btn btn-ghost text-gray-600">Account</a>
+                </Link>
+              </div>
             ) : (
               <Link href="/account/login">
                 <a className="btn btn-ghost text-gray-600">Log In</a>

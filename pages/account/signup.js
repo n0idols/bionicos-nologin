@@ -19,13 +19,6 @@ export default function SignUp() {
       setLoading(false);
     }
   }
-  if (submitted) {
-    return (
-      <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl">
-        <h1>Please check your email to sigddn in</h1>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl ">

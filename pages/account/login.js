@@ -20,18 +20,11 @@ export default function Login() {
       setLoading(false);
     }
   }
-  if (submitted) {
-    return (
-      <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl">
-        <h1>Please check your email to sigddn in</h1>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl ">
       <div className="form-control">
-        <h1 className="text-center mt-2">Login to complete your order</h1>
+        <h1 className="text-center mt-2">Login to manage your orders</h1>
 
         <Link href="/account/signup">
           <a className="description text-center mt-2">
