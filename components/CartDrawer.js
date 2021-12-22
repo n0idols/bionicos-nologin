@@ -1,3 +1,4 @@
+import { useAuth } from "@/lib/authState";
 import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
 import { useRouter } from "next/router";
@@ -15,7 +16,9 @@ const checkoutbtn = `btn btn-primary btn-lg my-4 rounded-3xl w-full px-4 py-2 fl
 
 export default function CartDrawer({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
-  const { cart, closeCart, totalCartPrice } = useCart();
+  const { cart, closeCart, totalCartPrice, emptyCart } = useCart();
+  const { authenticatedState } = useAuth();
+
   const router = useRouter();
   useEffect(() => setIsBrowser(true));
 
@@ -25,8 +28,13 @@ export default function CartDrawer({ show, onClose, children, title }) {
   };
 
   const onCheckout = () => {
-    closeCart();
-    router.push("/checkout");
+    if (authenticatedState === "not-authenticated") {
+      closeCart();
+      router.push("/account/login");
+    } else {
+      closeCart();
+      router.push("/checkout");
+    }
   };
 
   const drawerContent = show ? (
@@ -37,6 +45,7 @@ export default function CartDrawer({ show, onClose, children, title }) {
             <div>
               <h1>Your Order</h1>
             </div>
+            <button onClick={emptyCart}> Clear</button>
             <div>
               <button
                 onClick={handleClose}

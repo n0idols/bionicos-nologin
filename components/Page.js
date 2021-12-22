@@ -9,7 +9,7 @@ export default function Page({ children }) {
   return (
     <div
       style={{ WebkitTapHighlightColor: "transparent" }}
-      className="bg-base-100 standalone:mt-32 mt-24"
+      className="bg-base-100 standalone:mt-32 mt-20"
     >
       <Header />
       <div>{children}</div>

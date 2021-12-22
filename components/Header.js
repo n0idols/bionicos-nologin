@@ -2,9 +2,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Logo from "./Logo";
 import { useState } from "react";
-import Drawer from "@/components/Drawer";
-import Cart from "@/components/Cart/Cart";
-import { AnimatePresence } from "framer-motion";
+import { useAuth } from "@/lib/authState";
+
 import { useCart } from "@/lib/cartState";
 import { GrShop } from "react-icons/gr";
 import CartDrawer from "./CartDrawer";
@@ -14,6 +13,7 @@ export default function Header() {
   const activeClasses = `btn btn-primary btn-sm rounded-btn `;
   // const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const { cart, show, toggleCart, closeCart } = useCart();
+  const { authenticatedState } = useAuth();
 
   return (
     <>
@@ -28,7 +28,7 @@ export default function Header() {
       <CartDrawer show={show} onClose={closeCart} />
 
       <header className="fixed top-0 z-50 w-full">
-        <div className="navbar mb-2 shadow-lg bg-gray-200 text-neutral-content rounded-box standalone:pt-10">
+        <div className="navbar  shadow-lg bg-gray-200 text-neutral-content rounded-box standalone:pt-10">
           <div className="px-2 mx-2 navbar-start">
             <Logo />
           </div>
@@ -77,9 +77,16 @@ export default function Header() {
             </div>
           </div>
           <div className="navbar-end space-x-4">
-            <Link href="/account">
-              <a className="btn btn-ghost text-gray-600">Account</a>
-            </Link>
+            {authenticatedState === "authenticated" ? (
+              <Link href="/account">
+                <a className="btn btn-ghost text-gray-600">Account</a>
+              </Link>
+            ) : (
+              <Link href="/account/login">
+                <a className="btn btn-ghost text-gray-600">Log In</a>
+              </Link>
+            )}
+
             <button onClick={toggleCart} className="px-4">
               <span className="relative inline-block ml-2">
                 <div className="indicator">
