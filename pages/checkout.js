@@ -87,7 +87,7 @@ export const getServerSideProps = async (ctx) => {
 
   const { paymentIntentId, cart } = await parseCookies(ctx);
   let paymentIntent;
-  console.log(typeof cart);
+  console.log(cart);
   const total = 430422;
 
   if (paymentIntentId) {

@@ -1,30 +1,4 @@
-// import { useState, useEffect } from "react";
-// import { supabase } from "@/lib/supabaseClient";
-// import Section from "@/components/Section";
-// import Auth from "@/components/Auth";
-// import Account from "@/components/Account";
-
-// export default function AccountIndex() {
-//   const [session, setSession] = useState(null);
-
-//   useEffect(() => {
-//     setSession(supabase.auth.session());
-
-//     supabase.auth.onAuthStateChange((_event, session) => {
-//       setSession(session);
-//     });
-//   }, []);
-
-//   return (
-//     <Section>
-//       {!session ? (
-//         <Auth />
-//       ) : (
-//         <Account key={session.user.id} session={session} />
-//       )}
-//     </Section>
-//   );
-// }
+import { useState, useEffect } from "react";
 import Profile from "@/components/Profile";
 import SignIn from "@/components/SignIn";
 import { useAuth } from "@/lib/authState";
@@ -33,16 +7,29 @@ import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/router";
 
 export default function AccountIndex({ user }) {
+  // useEffect(() => {
+  //   async function fetchOrders() {
+  //     const { orders, error } = await supabase
+  //       .from("orders")
+  //       .select("*")
+  //       .eq("user_id", user.id);
+
+  //     setUserOrders(orders);
+  //   }
+  //   fetchOrders();
+  // }, []);
   const { authenticatedState } = useAuth();
+  const [userOrders, setUserOrders] = useState(null);
   const router = useRouter();
   async function signOut() {
     await supabase.auth.signOut();
     router.push("/");
   }
+
   return (
     <div>
       {" "}
-      hey
+      hey {user.email}
       {authenticatedState === "authenticated" ? (
         <h1>logged in</h1>
       ) : (
@@ -51,6 +38,8 @@ export default function AccountIndex({ user }) {
       <button onClick={signOut} className="btn btn-warning">
         log out
       </button>
+      Your Order History
+      <pre>{JSON.stringify(userOrders, null, 2)}</pre>
       <pre>{JSON.stringify(user, null, 2)}</pre>
     </div>
   );
@@ -64,7 +53,7 @@ export async function getServerSideProps({ req }) {
       props: {},
     };
   }
-
   /* if user is present, do something with the user data here */
+
   return { props: { user } };
 }

@@ -8,6 +8,7 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
+import { supabase } from "@/lib/supabaseClient";
 
 import formatMoney from "@/lib/formatMoney";
 import nProgress from "nprogress";
@@ -19,12 +20,16 @@ function CheckoutForm({ paymentIntent }) {
   const [loading, setLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState();
   const [checkoutSuccess, setCheckoutSuccess] = useState(null);
+  const [orderCompleted, setOrderCompleted] = useState(null);
+  const [orderCompletedError, setOrderCompletedError] = useState(null);
   const [cardId, setCardId] = useState(null);
   const stripe = useStripe();
   const elements = useElements();
   const { emptyCart } = useCart();
+  const user = supabase.auth.user();
 
   const [token, setToken] = useState(null);
+
   async function handleSubmit(e) {
     // 1. Stop the form from submitting, turn on loader
     e.preventDefault();
@@ -32,7 +37,7 @@ function CheckoutForm({ paymentIntent }) {
     console.log("Working on it...");
     // 2. starter the page transition
     nProgress.start();
-
+    // 3 Complete payment intent with the card element
     try {
       const {
         error,
@@ -47,18 +52,33 @@ function CheckoutForm({ paymentIntent }) {
         }
       );
 
+      // 4. Handle any errors from stripe
       if (error) throw new Error(error.message);
+
+      // 5. On Payment Completion
       if (status === "succeeded") {
+        //Insert into order table with userID, paymen intent, cart
+
+        //Generate orderId
+        //save payment intent
+        console.log("Succeeded...sending order to supabase");
+        saveOrder();
+        // { payment_intent: paymentIntent },
+        // { order_status: "pending" },
+        // { ordered_at: Date.now() },
+
+        // save cart items
+        // set orderstatus to pending
+        // set timestamp for ordered at
+
         destroyCookie(null, "paymentIntentId");
         destroyCookie(null, "cart");
-        setCheckoutSuccess(true);
         emptyCart();
+        setCheckoutSuccess(true);
       }
     } catch (err) {
       setCheckoutError(err.message);
     }
-
-    // 4. Handle any errors from stripe
 
     // 5. Send the token from step 3 to supabase
 
@@ -69,7 +89,25 @@ function CheckoutForm({ paymentIntent }) {
     nProgress.done();
   }
 
-  if (checkoutSuccess) return <p>Payment Successful!</p>;
+  async function saveOrder() {
+    const { data, error } = await supabase
+      .from("orders")
+      .insert([{ user_id: user.id, payment_intent: paymentIntent.id }]);
+    if (error) {
+      setOrderCompletedError(error);
+    } else {
+      setOrderCompleted(data);
+    }
+  }
+
+  if (checkoutSuccess)
+    return (
+      <div>
+        <p>Payment Successful!</p>
+        Your order {JSON.stringify(orderCompleted)}
+        Your order had an error {JSON.stringify(orderCompletedError)}
+      </div>
+    );
   return (
     <form
       onSubmit={handleSubmit}
@@ -79,7 +117,11 @@ function CheckoutForm({ paymentIntent }) {
 
       {loading && <Loading />}
       <CardElement />
-      <button className="btn btn-block btn-glass" disabled={!stripe}>
+      <button
+        type="submit"
+        className="btn btn-block btn-glass"
+        disabled={!stripe}
+      >
         Confirm and Place Order
       </button>
     </form>
