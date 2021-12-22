@@ -42,6 +42,16 @@ export default function OrderPage() {
     return await res.json();
   }
 
+  function calcCartTotalPrice(cartToCalc) {
+    let total = 0;
+    cartToCalc.forEach((value) => {
+      total += value.item.price;
+      value.modifications.forEach((modification) => {
+        total += modification.amount;
+      });
+    });
+    setTotalCartPrice(total);
+  }
   async function getOrderSummary() {
     const url = `https://apisandbox.dev.clover.com/v3/merchants/${MERCH_ID}/atomic_order/checkouts`;
     const res = await fetch(url, {

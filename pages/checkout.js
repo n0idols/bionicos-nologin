@@ -87,8 +87,6 @@ export const getServerSideProps = async (ctx) => {
 
   const { paymentIntentId, cart } = await parseCookies(ctx);
   let paymentIntent;
-  console.log(cart);
-  const total = 430422;
 
   if (paymentIntentId) {
     paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
@@ -100,7 +98,7 @@ export const getServerSideProps = async (ctx) => {
     };
   }
   paymentIntent = await stripe.paymentIntents.create({
-    amount: total,
+    amount: 4444,
     currency: "usd",
   });
 

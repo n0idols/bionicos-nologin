@@ -25,7 +25,7 @@ function CheckoutForm({ paymentIntent }) {
   const [cardId, setCardId] = useState(null);
   const stripe = useStripe();
   const elements = useElements();
-  const { emptyCart } = useCart();
+  const { cart, totalCartPrice } = useCart();
   const user = supabase.auth.user();
 
   const [token, setToken] = useState(null);
@@ -57,20 +57,8 @@ function CheckoutForm({ paymentIntent }) {
 
       // 5. On Payment Completion
       if (status === "succeeded") {
-        //Insert into order table with userID, paymen intent, cart
-
-        //Generate orderId
-        //save payment intent
         console.log("Succeeded...sending order to supabase");
         saveOrder();
-        // { payment_intent: paymentIntent },
-        // { order_status: "pending" },
-        // { ordered_at: Date.now() },
-
-        // save cart items
-        // set orderstatus to pending
-        // set timestamp for ordered at
-
         destroyCookie(null, "paymentIntentId");
         destroyCookie(null, "cart");
         emptyCart();
@@ -80,8 +68,6 @@ function CheckoutForm({ paymentIntent }) {
       setCheckoutError(err.message);
     }
 
-    // 5. Send the token from step 3 to supabase
-
     // 6. Change the page to view the order
     // 7. Close the cart
     // 8. Turn the loader off
@@ -90,13 +76,18 @@ function CheckoutForm({ paymentIntent }) {
   }
 
   async function saveOrder() {
-    const { data, error } = await supabase
-      .from("orders")
-      .insert([{ user_id: user.id, payment_intent: paymentIntent.id }]);
+    const { data, error } = await supabase.from("orders").insert([
+      {
+        user_id: user.id,
+        payment_intent: paymentIntent.id,
+        subtotal: totalCartPrice,
+      },
+    ]);
     if (error) {
       setOrderCompletedError(error);
     } else {
       setOrderCompleted(data);
+      console.log("Order saved");
     }
   }
 
@@ -114,7 +105,7 @@ function CheckoutForm({ paymentIntent }) {
       className="max-w-md mx-auto h-40 form-control justify-between bg-red-100 shadow-xl rounded-8"
     >
       {checkoutError && <p>{checkoutError}</p>}
-
+      {totalCartPrice}
       {loading && <Loading />}
       <CardElement />
       <button
