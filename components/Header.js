@@ -82,20 +82,22 @@ export default function Header() {
             </div>
           </div>
           <div className="navbar-end space-x-4">
-            {authenticatedState === "authenticated" ? (
-              <div>
-                <button onClick={signOut} className="btn btn-warning">
-                  log out
-                </button>
-                <Link href="/account">
-                  <a className="btn btn-ghost text-gray-600">Account</a>
+            <div>
+              {authenticatedState === "authenticated" ? (
+                <div className="lg:flex hidden">
+                  <button onClick={signOut} className="btn btn-warning">
+                    log out
+                  </button>
+                  <Link href="/account">
+                    <a className="btn btn-ghost text-gray-600">Account</a>
+                  </Link>
+                </div>
+              ) : (
+                <Link href="/account/login">
+                  <a className="btn btn-ghost text-gray-600">Log In</a>
                 </Link>
-              </div>
-            ) : (
-              <Link href="/account/login">
-                <a className="btn btn-ghost text-gray-600">Log In</a>
-              </Link>
-            )}
+              )}
+            </div>
 
             <button onClick={toggleCart} className="px-4">
               <span className="relative inline-block ml-2">

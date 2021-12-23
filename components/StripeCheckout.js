@@ -80,7 +80,6 @@ function CheckoutForm({ paymentIntent }) {
       {
         user_id: user.id,
         payment_intent: paymentIntent.id,
-        subtotal: totalCartPrice,
       },
     ]);
     if (error) {

@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 const icon = `text-gray-600 text-2xl`;
 const iconActive = `text-gray-600 text-2xl`;
 
-const navWrap = `fixed bottom-0 inset-x-0 bg-gray-100 flex lg:hidden justify-between max-w-2xl mx-auto rounded-3xl z-50`;
+const navWrap = `fixed bottom-0 inset-x-0 bg-gray-200 flex lg:hidden justify-between max-w-2xl mx-auto rounded-3xl z-50`;
 const iconWrap = `w-full h-full p-4 text-center flex flex-col items-center text-xs`;
 
 export default function MobileNav() {

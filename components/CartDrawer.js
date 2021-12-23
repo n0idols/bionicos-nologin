@@ -57,7 +57,14 @@ export default function CartDrawer({ show, onClose, children, title }) {
           </div>
 
           <div className={drawerbody}>
-            {" "}
+            <button
+              onClick={onCheckout}
+              className={checkoutbtn}
+              disabled={cart.length == 0}
+            >
+              <h3 className="text-white">Checkout</h3>
+              <h3 className="text-white">{formatMoney(totalCartPrice)}</h3>
+            </button>
             <div>
               {cart.length === 0 ? (
                 <div>
@@ -80,16 +87,7 @@ export default function CartDrawer({ show, onClose, children, title }) {
               )}
             </div>
           </div>
-          <div className={drawerfooter}>
-            <button
-              onClick={onCheckout}
-              className={checkoutbtn}
-              disabled={cart.length == 0}
-            >
-              <h3 className="text-white">Checkout</h3>
-              <h3 className="text-white">{formatMoney(totalCartPrice)}</h3>
-            </button>
-          </div>
+          <div className={drawerfooter}></div>
         </div>
       </div>
     </div>
