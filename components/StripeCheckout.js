@@ -1,10 +1,11 @@
 import Stripe from "stripe";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import Loading from "./icons/Loading";
 import {
   CardElement,
   Elements,
+  PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
@@ -14,7 +15,6 @@ import formatMoney from "@/lib/formatMoney";
 import nProgress from "nprogress";
 const stripeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 import { destroyCookie, parseCookies, setCookie } from "nookies";
-import { useCart } from "@/lib/cartState";
 
 function CheckoutForm({ paymentIntent }) {
   const [loading, setLoading] = useState(false);
@@ -22,13 +22,11 @@ function CheckoutForm({ paymentIntent }) {
   const [checkoutSuccess, setCheckoutSuccess] = useState(null);
   const [orderCompleted, setOrderCompleted] = useState(null);
   const [orderCompletedError, setOrderCompletedError] = useState(null);
-  const [cardId, setCardId] = useState(null);
+
   const stripe = useStripe();
   const elements = useElements();
-  const { cart, totalCartPrice } = useCart();
-  const user = supabase.auth.user();
 
-  const [token, setToken] = useState(null);
+  const user = supabase.auth.user();
 
   async function handleSubmit(e) {
     // 1. Stop the form from submitting, turn on loader
@@ -104,7 +102,7 @@ function CheckoutForm({ paymentIntent }) {
       className="max-w-md mx-auto h-40 form-control justify-between bg-red-100 shadow-xl rounded-8"
     >
       {checkoutError && <p>{checkoutError}</p>}
-      {totalCartPrice}
+
       {loading && <Loading />}
       <CardElement />
       <button
@@ -121,7 +119,9 @@ function CheckoutForm({ paymentIntent }) {
 export default function StripeCheckout({ paymentIntent }) {
   return (
     <Elements stripe={stripeLib}>
-      <CheckoutForm paymentIntent={paymentIntent} />
+      hey
+      <PaymentElement id="payment-element" />
+      {/* <CheckoutForm paymentIntent={paymentIntent} /> */}
     </Elements>
   );
 }
