@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import Loading from "./icons/Loading";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({ user }) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -15,6 +15,7 @@ export default function CheckoutForm() {
 
   const [orderCompleted, setOrderCompleted] = useState(null);
   const [orderCompletedError, setOrderCompletedError] = useState(null);
+  // const [email, setEmail] = useState("");
 
   useEffect(() => {
     if (!stripe) {
@@ -29,22 +30,24 @@ export default function CheckoutForm() {
       return;
     }
 
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("Payment succeeded!");
-          break;
-        case "processing":
-          setMessage("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
-          break;
-        default:
-          setMessage("Something went wrong.");
-          break;
-      }
-    });
+    stripe
+      .retrievePaymentIntent(clientSecret)
+      .then(({ paymentIntent, email }) => {
+        switch (paymentIntent.status) {
+          case "succeeded":
+            setMessage("Payment succeeded!");
+            break;
+          case "processing":
+            setMessage("Your payment is processing.");
+            break;
+          case "requires_payment_method":
+            setMessage("Your payment was not successful, please try again.");
+            break;
+          default:
+            setMessage("Something went wrong.");
+            break;
+        }
+      });
   }, [stripe]);
 
   const handleSubmit = async (e) => {
@@ -62,7 +65,8 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "https://bionicosjuicesrios.com/thankyou",
+        receipt_email: user.email,
       },
     });
 
@@ -100,6 +104,19 @@ export default function CheckoutForm() {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
+      <label htmlFor="email" className="label">
+        <span className="label-text">Your email</span>
+      </label>
+      Reciept will be sent to:
+      {user.email}
+      <input
+        id="email"
+        type="text"
+        value={user.email}
+        // onChange={(e) => setEmail(e.target.value)}
+        placeholder={user.email}
+        className="input"
+      />
       <PaymentElement id="payment-element" />
       <button
         className="btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-8"

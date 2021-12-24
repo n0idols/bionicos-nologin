@@ -7,8 +7,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
-
-export default function CheckoutPage({ total, paymentIntent }) {
+import { supabase } from "@/lib/supabaseClient";
+export default function CheckoutPage({ total, paymentIntent, user }) {
   const stripePromise = loadStripe(
     "pk_test_51JxjYrJpULzH3yu6DXMLPw75VXMRoiLLGrs2kYJ1tia0yYOEuxCVcf0z1Gvdxchwls3B3YdtWOgVOFwGQGskvNh800unU5MDnr"
   );
@@ -60,7 +60,7 @@ export default function CheckoutPage({ total, paymentIntent }) {
             <div className="p-6 my-8 rounded-lg shadow-lg">
               {clientSecret && (
                 <Elements options={options} stripe={stripePromise}>
-                  <CheckoutForm />
+                  <CheckoutForm user={user} />
                 </Elements>
               )}
               {/* <StripeCheckout paymentIntent={paymentIntent} /> */}
@@ -70,4 +70,13 @@ export default function CheckoutPage({ total, paymentIntent }) {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
+  if (user) {
+    return {
+      props: { user },
+    };
+  }
 }
