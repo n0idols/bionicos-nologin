@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import Section from "@/components/Section";
 import { supabase } from "@/lib/supabaseClient";
 import { parseCookies, destroyCookie } from "nookies";
+import { useCart } from "@/lib/cartState";
 export default function ThankYouPage({ user }) {
   const [orderReciept, setOrderReciept] = useState(null);
   const { query } = useRouter();
+  const { emptyCart } = useCart;
 
   useEffect(() => {
     saveOrder();
@@ -24,7 +26,7 @@ export default function ThankYouPage({ user }) {
     } else {
       setOrderReciept(data);
     }
-    destroyCookie(null, "cart");
+    emptyCart();
   }
 
   return (
