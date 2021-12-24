@@ -72,7 +72,7 @@ export default function CheckoutPage({ total, paymentIntent, user }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps({ req, ctx }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
   if (user) {
     return {

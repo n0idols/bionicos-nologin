@@ -1,6 +1,7 @@
 import { useAuth } from "@/lib/authState";
 import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
@@ -20,11 +21,18 @@ export default function CartDrawer({ show, onClose, children, title }) {
   const { authenticatedState } = useAuth();
 
   const router = useRouter();
-  useEffect(() => setIsBrowser(true));
+  useEffect(() => {
+    setIsBrowser(true);
+  });
 
   const handleClose = (e) => {
     e.preventDefault();
     onClose();
+  };
+
+  const onMenuChange = () => {
+    closeCart();
+    router.push("/menu");
   };
 
   const onCheckout = () => {
@@ -67,9 +75,12 @@ export default function CartDrawer({ show, onClose, children, title }) {
             </button>
             <div>
               {cart.length === 0 ? (
-                <div>
-                  <h2>Your cart is empty</h2>
-                  <h2>Add items to get started</h2>
+                <div className="space-y-4">
+                  <h2>Your cart is empty!</h2>
+
+                  <button className="btn" onClick={onMenuChange}>
+                    add items
+                  </button>
                 </div>
               ) : (
                 <div>

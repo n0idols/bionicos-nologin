@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,8 @@ export default function Login() {
       password,
     });
     if (error) {
-      console.log({ error });
+      toast.error(`${error.message}`);
+      setLoading(false);
     } else {
       setLoading(false);
     }
@@ -42,8 +44,8 @@ export default function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label htmlFor="email" className="label">
-          <span className="label-text">Email</span>
+        <label htmlFor="password" className="label">
+          <span className="label-text">Password</span>
         </label>
         <input
           className="input input-primary "
@@ -53,7 +55,7 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <div className="mt-12">
+        <div className="mt-6">
           <button
             onClick={(e) => {
               e.preventDefault();

@@ -11,7 +11,7 @@ export default function MenuIndex({ catData, prodData }) {
 
   return (
     <Layout title="Menu">
-      <div className="w-full flex mx-auto bg-gray-200">
+      <div className="w-full flex mx-auto">
         <div className="flex overflow-x-auto p-3 max-w-6xl mx-auto space-x-2 items-center">
           <button className="btn btn-accent" onClick={() => setCurrent("")}>
             all

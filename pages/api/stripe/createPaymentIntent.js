@@ -1,3 +1,5 @@
+import { supabase } from "@/lib/supabaseClient";
+
 const stripe = require("stripe")(
   "sk_test_51JxjYrJpULzH3yu6Vy486PK87ceDaxQa7bfXUwSP0UiCfbpB8XFnAmpXziOx6U1HcRnQPfwQCHPgSTXoUoXxAsTs00LcEiUEeZ"
 );

@@ -77,7 +77,6 @@ function CheckoutForm({ paymentIntent }) {
     const { data, error } = await supabase.from("orders").insert([
       {
         user_id: user.id,
-        payment_intent: paymentIntent.id,
       },
     ]);
     if (error) {
