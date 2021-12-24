@@ -5,10 +5,14 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import Loading from "./icons/Loading";
+import { destroyCookie } from "nookies";
+import { useCart } from "@/lib/cartState";
 
 export default function CheckoutForm({ user }) {
   const stripe = useStripe();
   const elements = useElements();
+
+  const { emptyCart } = useCart;
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +64,7 @@ export default function CheckoutForm({ user }) {
     }
 
     setIsLoading(true);
+    destroyCookie(null, "cart");
 
     const { error } = await stripe.confirmPayment({
       elements,
@@ -80,12 +85,6 @@ export default function CheckoutForm({ user }) {
     } else {
       setMessage("An unexpected error occured.");
     }
-
-    setIsLoading(false);
-    saveOrder();
-    destroyCookie(null, "paymentIntentId");
-    destroyCookie(null, "cart");
-    emptyCart();
   };
   async function saveOrder() {
     const { data, error } = await supabase.from("orders").insert([
