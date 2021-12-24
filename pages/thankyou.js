@@ -1,9 +1,10 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Section from "@/components/Section";
-import { useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { parseCookies } from "nookies";
+import { parseCookies, destroyCookie } from "nookies";
 export default function ThankYouPage({ user }) {
+  const [orderReciept, setOrderReciept] = useState(null);
   const { query } = useRouter();
 
   useEffect(() => {
@@ -21,8 +22,7 @@ export default function ThankYouPage({ user }) {
     if (error) {
       alert(error);
     } else {
-      alert(data);
-      console.log("Order saved");
+      setOrderReciept(data);
     }
     destroyCookie(null, "cart");
   }
@@ -30,7 +30,8 @@ export default function ThankYouPage({ user }) {
   return (
     <Section>
       <h1>Thank you for your order!</h1>
-      <p>Please check your email for receipt</p>
+      <pre>{JSON.stringify(orderReciept, null, 2)}</pre>
+      <p>A copy of your recipet has been sent to your email </p>
       <p>You can also view your orders here</p>
       CONFIRMED: {query.payment_intent}
     </Section>
