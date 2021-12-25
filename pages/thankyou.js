@@ -4,7 +4,7 @@ import Section from "@/components/Section";
 import { supabase } from "@/lib/supabaseClient";
 import { parseCookies } from "nookies";
 import { useCart } from "@/lib/cartState";
-export default function ThankYouPage({ user }) {
+export default function ThankYouPage({ user, cart }) {
   const [orderReciept, setOrderReciept] = useState(null);
   const { query } = useRouter();
   const { emptyCart } = useCart;
@@ -43,11 +43,11 @@ export default function ThankYouPage({ user }) {
 
 export async function getServerSideProps({ req, ctx }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
-  // const { cart } = await parseCookies(ctx);
+  const { cart } = await parseCookies(ctx);
 
   if (user) {
     return {
-      props: { user },
+      props: { user, cart },
     };
   }
 }
