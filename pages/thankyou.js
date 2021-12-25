@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Section from "@/components/Section";
 import { supabase } from "@/lib/supabaseClient";
-import { parseCookies, destroyCookie } from "nookies";
+import { parseCookies } from "nookies";
 import { useCart } from "@/lib/cartState";
 export default function ThankYouPage({ user }) {
   const [orderReciept, setOrderReciept] = useState(null);
@@ -32,8 +32,8 @@ export default function ThankYouPage({ user }) {
   return (
     <Section>
       <h1>Thank you for your order!</h1>
-      {/* <pre>{JSON.stringify(orderReciept, null, 2)}</pre> */}
-      <p>A copy of your recipet has been sent to your email </p>
+      <pre>{JSON.stringify(orderReciept, null, 2)}</pre>
+      <p>A copy of your reciept has been sent to your email </p>
       <p>You can also view your orders here</p>
       CONFIRMED: {query.payment_intent}
     </Section>
