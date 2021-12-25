@@ -32,7 +32,7 @@ export default function ThankYouPage({ user }) {
   return (
     <Section>
       <h1>Thank you for your order!</h1>
-      <pre>{JSON.stringify(orderReciept, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(orderReciept, null, 2)}</pre> */}
       <p>A copy of your reciept has been sent to your email </p>
       <p>You can also view your orders here</p>
       CONFIRMED: {query.payment_intent}
