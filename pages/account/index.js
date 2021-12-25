@@ -7,55 +7,63 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import Section from "@/components/Section";
 import Loading from "@/components/icons/Loading";
+import Modal from "@/components/Modal";
 
 export default function AccountIndex({ user, data }) {
-  const [userOrders, setUserOrders] = useState(null);
-  const [userOrdersError, setUserOrdersError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const { authenticatedState } = useAuth();
-  // async function fetchOrders() {
-  //   const { data, error } = await supabase
-  //     .from("orders")
-  //     .select("*")
-  //     .eq("user_id", user.id);
-  //   if (error) {
-  //     setUserOrdersError(error);
-  //   }
-  //   setUserOrders(data);
-  // }
 
   return (
     <Section>
       <div>
-        {" "}
-        <p>{/* Signed in as <span>{user.email}</span> */}</p>
         <h1 className="text-2xl my-2">Your Order History</h1>
-        <div className="grid md:grid-cols-2 gap-4">
-          {data?.map((order) => (
-            <div
-              key={order.id}
-              className="card md:card-side bordered bordered bg-white cursor-pointer hover:shadow-lg transition ease-linear hover:-translate-y-1"
-            >
-              <div className="card-body">
-                <span className="uppercase">Ordered On:</span>
-                <h2 className="card-title">
-                  {moment(order.ordered_at).format(
-                    "dddd, MMMM Do YYYY, h:mm:ss a"
-                  )}
-                </h2>
-                <span>
-                  Order Status:
-                  <div className="badge mx-2 uppercase  font-bold">
-                    {order.type}
-                  </div>
-                </span>
-                <div className="card-actions">Icons</div>
-              </div>
-            </div>
-          ))}
-          {userOrdersError && (
-            <pre>{JSON.stringify(userOrdersError, null, 2)}</pre>
-          )}
+
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Order Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.map((order) => (
+                <>
+                  <Modal
+                    show={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    title={order.id}
+                  >
+                    <h1>Items</h1>
+                    <h1>Total</h1>
+                  </Modal>
+                  <tr
+                    key={order.id}
+                    className="hover cursor-pointer"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    <th>1</th>
+                    <td>
+                      {" "}
+                      {moment(order.ordered_at).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </td>
+                    <td>$32.33</td>
+                    <td>
+                      {" "}
+                      <div className="badge mx-2 uppercase  font-bold">
+                        {order.type}
+                      </div>
+                    </td>
+                  </tr>
+                </>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </Section>
