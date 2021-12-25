@@ -9,24 +9,24 @@ export default function ThankYouPage({ user }) {
   const { query } = useRouter();
   const { emptyCart } = useCart;
 
-  useEffect(() => {
-    saveOrder();
-  }, []);
+  // useEffect(() => {
+  //   saveOrder();
+  // }, []);
 
-  async function saveOrder() {
-    const { data, error } = await supabase.from("orders").insert([
-      {
-        user_id: user.id,
-        payment_intent: query.payment_intent,
-      },
-    ]);
-    if (error) {
-      console.log(error);
-      alert(error);
-    } else {
-      console.log(data);
-    }
-  }
+  // async function saveOrder() {
+  //   const { data, error } = await supabase.from("orders").insert([
+  //     {
+  //       user_id: user.id,
+  //       payment_intent: query.payment_intent,
+  //     },
+  //   ]);
+  //   if (error) {
+  //     console.log(error);
+  //     alert(error);
+  //   } else {
+  //     console.log(data);
+  //   }
+  // }
 
   return (
     <Section>
