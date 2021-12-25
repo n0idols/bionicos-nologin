@@ -14,7 +14,6 @@ export default function ThankYouPage({ user }) {
   }, []);
 
   async function saveOrder() {
-    console.log(user, query);
     const { data, error } = await supabase.from("orders").insert([
       {
         user_id: user.id,
@@ -22,11 +21,11 @@ export default function ThankYouPage({ user }) {
       },
     ]);
     if (error) {
+      console.log(error);
       alert(error);
     } else {
-      setOrderReciept(data);
+      console.log(data);
     }
-    console.log(orderReciept);
   }
 
   return (

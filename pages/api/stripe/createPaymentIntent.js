@@ -39,7 +39,7 @@ const calculateOrderAmount = (cart) => {
 export default async function handler(req, res) {
   const { cart } = req.body;
   try {
-    const customer = await stripe.customers.create();
+    // const customer = await stripe.customers.create();
     const paymentIntent = await stripe.paymentIntents.create({
       amount: calculateOrderAmount(cart),
       currency: "usd",
