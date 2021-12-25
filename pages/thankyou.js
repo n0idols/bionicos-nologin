@@ -32,6 +32,7 @@ export default function ThankYouPage({ user, cart }) {
 
   return (
     <Section>
+      {JSON.stringify(cart)}
       <h1>Thank you for your order!</h1>
       <pre>{JSON.stringify(orderReciept, null, 2)}</pre>
       <p>A copy of your reciept has been sent to your email </p>
