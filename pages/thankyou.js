@@ -18,6 +18,7 @@ export default function ThankYouPage({ user }) {
       {
         user_id: user.id,
         payment_intent: query.payment_intent,
+        ordered_items: JSON.stringify(cart),
       },
     ]);
     if (error) {
