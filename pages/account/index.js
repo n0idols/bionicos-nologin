@@ -62,6 +62,7 @@ export async function getServerSideProps({ req }) {
   if (!user) {
     return {
       props: {},
+      redirect: { destination: "/account/login" },
     };
   }
   /* if user is present, fetch their orders */
