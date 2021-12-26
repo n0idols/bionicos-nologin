@@ -36,13 +36,8 @@ export default function CartDrawer({ show, onClose, children, title }) {
   };
 
   const onCheckout = () => {
-    if (authenticatedState === "not-authenticated") {
-      closeCart();
-      router.push("/account/login");
-    } else {
-      closeCart();
-      router.push("/checkout");
-    }
+    closeCart();
+    router.push("/checkout");
   };
 
   const drawerContent = show ? (

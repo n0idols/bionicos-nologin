@@ -8,11 +8,10 @@ import { useRouter } from "next/router";
 import Section from "@/components/Section";
 import Loading from "@/components/icons/Loading";
 import Modal from "@/components/Modal";
+import Link from "next/link";
 
 export default function AccountIndex({ user, data }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const router = useRouter();
-  const { authenticatedState } = useAuth();
 
   return (
     <Section>
@@ -31,20 +30,8 @@ export default function AccountIndex({ user, data }) {
             </thead>
             <tbody>
               {data?.map((order) => (
-                <>
-                  <Modal
-                    show={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    title={order.id}
-                  >
-                    <h1>Items</h1>
-                    <h1>Total</h1>
-                  </Modal>
-                  <tr
-                    key={order.id}
-                    className="hover cursor-pointer"
-                    onClick={() => setIsModalOpen(true)}
-                  >
+                <Link href={`/account/orders/${order.id}`} key={order.id}>
+                  <tr className="hover cursor-pointer">
                     <th>1</th>
                     <td>
                       {" "}
@@ -60,7 +47,7 @@ export default function AccountIndex({ user, data }) {
                       </div>
                     </td>
                   </tr>
-                </>
+                </Link>
               ))}
             </tbody>
           </table>

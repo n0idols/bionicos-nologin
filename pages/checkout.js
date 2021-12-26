@@ -45,7 +45,7 @@ export default function CheckoutPage({ total, paymentIntent, user }) {
           <div>
             <div className="my-4">
               <h1>YOUR ORDER SUMMARY</h1>
-              {JSON.stringify(total)}
+
               {cart.map((item, index) => {
                 console.log(item);
 
@@ -72,9 +72,14 @@ export default function CheckoutPage({ total, paymentIntent, user }) {
   );
 }
 
-export async function getServerSideProps({ req, ctx }) {
+export async function getServerSideProps({ req }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
-  if (user) {
+  if (!user) {
+    return {
+      props: {},
+      redirect: { destination: "/account/login" },
+    };
+  } else {
     return {
       props: { user },
     };

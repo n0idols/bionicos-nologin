@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Section from "@/components/Section";
 import { supabase } from "@/lib/supabaseClient";
-import { parseCookies } from "nookies";
+import parseCookies from "@/lib/cookie";
 import { useCart } from "@/lib/cartState";
-export default function ThankYouPage({ user, cart }) {
+export default function ThankYouPage({ user }) {
   const [orderReciept, setOrderReciept] = useState(null);
   const { query } = useRouter();
-  const { emptyCart } = useCart;
+  const { emptyCart, cart } = useCart;
 
   useEffect(() => {
     saveOrder();
@@ -26,13 +26,12 @@ export default function ThankYouPage({ user, cart }) {
       alert(error);
     } else {
       setOrderReciept(data);
-      emptyCart();
     }
   }
 
   return (
     <Section>
-      {JSON.stringify(cart)}
+      {JSON.stringify(cart)}cart
       <h1>Thank you for your order!</h1>
       <pre>{JSON.stringify(orderReciept, null, 2)}</pre>
       <p>A copy of your reciept has been sent to your email </p>
@@ -42,13 +41,12 @@ export default function ThankYouPage({ user, cart }) {
   );
 }
 
-export async function getServerSideProps({ req, ctx }) {
+export async function getServerSideProps({ req, context }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
-  const { cart } = await parseCookies(ctx);
-
+  // const cookies = parseCookies(context.req);
   if (user) {
     return {
-      props: { user, cart },
+      props: { user },
     };
   }
 }
