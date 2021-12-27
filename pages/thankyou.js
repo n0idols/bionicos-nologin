@@ -39,4 +39,4 @@ export default function ThankYouPage() {
       CONFIRMED: {query.payment_intent}
     </Section>
   );
-
+}
