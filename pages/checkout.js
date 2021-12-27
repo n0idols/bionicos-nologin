@@ -9,6 +9,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
+import parseCookies from "@/lib/cookie";
 
 export default function CheckoutPage({}) {
   const stripePromise = loadStripe(
@@ -63,7 +64,7 @@ export default function CheckoutPage({}) {
             <div className="p-6 my-8 rounded-lg shadow-lg">
               {clientSecret && (
                 <Elements options={options} stripe={stripePromise}>
-                  <CheckoutForm user={user} />
+                  <CheckoutForm />
                 </Elements>
               )}
               {/* <StripeCheckout paymentIntent={paymentIntent} /> */}
@@ -73,4 +74,21 @@ export default function CheckoutPage({}) {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+
+  if (!token) {
+    return {
+      props: {},
+      redirect: { destination: "/account/login" },
+    };
+  }
+
+  return {
+    props: {
+      token,
+    },
+  };
 }

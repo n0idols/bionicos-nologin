@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import AuthContext from "@/lib/authState";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -19,9 +20,11 @@ export default function Login() {
     <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl ">
       <form className="form-control" onSubmit={handleSubmit}>
         <h1 className="text-center mt-2">Login</h1>
-        <p className="description text-center mt-2">
-          Need an account? Click here to sign up
-        </p>
+        <Link href="/account/signup">
+          <a className="description text-center mt-2">
+            Need an account? Click here to sign up
+          </a>
+        </Link>
         <label htmlFor="email" className="label">
           <span className="label-text">Email</span>
         </label>

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+
 import {
   PaymentElement,
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import AuthContext from "@/lib/authState";
 import Loading from "./icons/Loading";
 
-export default function CheckoutForm({ user }) {
+export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -14,6 +16,7 @@ export default function CheckoutForm({ user }) {
 
   const [orderCompleted, setOrderCompleted] = useState(null);
   const [orderCompletedError, setOrderCompletedError] = useState(null);
+  const { user } = useContext(AuthContext);
 
   // const [email, setEmail] = useState("");
 

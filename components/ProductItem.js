@@ -27,7 +27,7 @@ export default function ProductItem({ item }) {
   }
 
   return (
-    <>
+    <div key={item.id}>
       <a
         onClick={() => setIsModalOpen(true)}
         className="card lg:card-side bordered bg-white cursor-pointer hover:shadow-lg transition ease-linear hover:-translate-y-1"
@@ -158,6 +158,6 @@ export default function ProductItem({ item }) {
           </form>
         </div>
       </Modal>
-    </>
+    </div>
   );
 }
