@@ -20,7 +20,7 @@ export default function ThankYouPage({ token }) {
   }, []);
 
   const saveOrder = async (e) => {
-    const res = await fetch(`${API_URL}/orders`, {
+    const res = await fetch(`${API_URL}/api/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
