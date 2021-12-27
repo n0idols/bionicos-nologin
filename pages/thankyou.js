@@ -11,10 +11,6 @@ export default function ThankYouPage({ token }) {
   const { query } = useRouter();
   const { emptyCart, cart } = useCart;
 
-  const [values, setValues] = useState({
-    Stripe_transaction: query.payment_intent,
-  });
-
   useEffect(() => {
     saveOrder();
   }, []);
@@ -26,7 +22,10 @@ export default function ThankYouPage({ token }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify({
+        user_permissions_user: user.id,
+        Stripe_transaction: query.payment_intent,
+      }),
     });
 
     if (!res.ok) {
@@ -37,7 +36,8 @@ export default function ThankYouPage({ token }) {
       toast.error("Something Went Wrong");
     } else {
       const order = await res.json();
-      setOrderReciept(order);
+      console.log(order);
+      console.log(cart);
     }
   };
   // async function saveOrder() {
@@ -58,8 +58,6 @@ export default function ThankYouPage({ token }) {
 
   return (
     <Section>
-      <pre>{JSON.stringify(orderReciept, null, 2)}</pre>
-      <pre>{JSON.stringify(cart, null, 2)}</pre>
       {/* {JSON.stringify(cart)}cart
       <h1>Thank you for your order!</h1>
       <pre>{JSON.stringify(orderReciept, null, 2)}</pre> */}
