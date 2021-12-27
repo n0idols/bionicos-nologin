@@ -6,7 +6,7 @@ import parseCookies from "@/lib/cookie";
 import { useCart } from "@/lib/cartState";
 import { toast } from "react-toastify";
 import { API_URL } from "../config";
-export default function ThankYouPage() {
+export default function ThankYouPage({ token }) {
   const [orderReciept, setOrderReciept] = useState(null);
   const { query } = useRouter();
   const { emptyCart, cart } = useCart;
