@@ -1,19 +1,22 @@
 import CartItem from "@/components/Cart/CartItem";
 import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useCart } from "@/lib/cartState";
+import AuthContext from "@/lib/authState";
+
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
-import { supabase } from "@/lib/supabaseClient";
-export default function CheckoutPage({ total, paymentIntent, user }) {
+
+export default function CheckoutPage({}) {
   const stripePromise = loadStripe(
     "pk_test_51JxjYrJpULzH3yu6DXMLPw75VXMRoiLLGrs2kYJ1tia0yYOEuxCVcf0z1Gvdxchwls3B3YdtWOgVOFwGQGskvNh800unU5MDnr"
   );
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -70,18 +73,4 @@ export default function CheckoutPage({ total, paymentIntent, user }) {
       </div>
     </div>
   );
-}
-
-export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
-  if (!user) {
-    return {
-      props: {},
-      redirect: { destination: "/account/login" },
-    };
-  } else {
-    return {
-      props: { user },
-    };
-  }
 }

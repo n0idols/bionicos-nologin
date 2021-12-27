@@ -1,39 +1,27 @@
-import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
-import Link from "next/link";
+import { useState, useEffect, useContext } from "react";
+import AuthContext from "@/lib/authState";
 import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(null);
 
-  async function logIn() {
-    setLoading(true);
-    const { user, session, error } = await supabase.auth.signIn({
-      email,
-      password,
-    });
-    if (error) {
-      toast.error(`${error.message}`);
-      setLoading(false);
-    } else {
-      setLoading(false);
-    }
-  }
+  const { login, error } = useContext(AuthContext);
+
+  useEffect(() => error && toast.error(error));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login({ email, password });
+  };
 
   return (
     <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl ">
-      <div className="form-control">
-        <h1 className="text-center mt-2">Login to manage your orders</h1>
-
-        <Link href="/account/signup">
-          <a className="description text-center mt-2">
-            Need to sign up? Click Here
-          </a>
-        </Link>
-
+      <form className="form-control" onSubmit={handleSubmit}>
+        <h1 className="text-center mt-2">Login</h1>
+        <p className="description text-center mt-2">
+          Need an account? Click here to sign up
+        </p>
         <label htmlFor="email" className="label">
           <span className="label-text">Email</span>
         </label>
@@ -48,7 +36,7 @@ export default function Login() {
           <span className="label-text">Password</span>
         </label>
         <input
-          className="input input-primary "
+          className="input input-primary"
           type="password"
           placeholder="password"
           value={password}
@@ -56,18 +44,9 @@ export default function Login() {
         />
 
         <div className="mt-6">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              logIn();
-            }}
-            className="btn btn-block"
-            disabled={loading}
-          >
-            Login
-          </button>
+          <input type="submit" value="Login" className="btn btn-block" />
         </div>
-      </div>
+      </form>
     </div>
   );
 }

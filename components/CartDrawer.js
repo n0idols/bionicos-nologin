@@ -18,7 +18,6 @@ const checkoutbtn = `btn btn-primary btn-lg my-4 rounded-3xl w-full px-4 py-2 fl
 export default function CartDrawer({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
   const { cart, closeCart, totalCartPrice, emptyCart } = useCart();
-  const { authenticatedState } = useAuth();
 
   const router = useRouter();
   useEffect(() => {

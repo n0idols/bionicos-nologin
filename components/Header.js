@@ -1,35 +1,21 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Logo from "./Logo";
-import { useState } from "react";
-import { useAuth } from "@/lib/authState";
-import { supabase } from "@/lib/supabaseClient";
-
+import { useState, useContext } from "react";
+import AuthContext from "@/lib/authState";
 import { useCart } from "@/lib/cartState";
 import { GrShop } from "react-icons/gr";
 import CartDrawer from "./CartDrawer";
+
 export default function Header() {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn hover:btn-primary`;
   const activeClasses = `btn btn-primary btn-sm rounded-btn `;
   const { cart, show, toggleCart, closeCart } = useCart();
-  const { authenticatedState } = useAuth();
-
-  async function signOut() {
-    await supabase.auth.signOut();
-    router.push("/");
-  }
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <>
-      {/* <AnimatePresence initial={false} exitBeforeEnter={true}>
-        {isCartDrawerOpen && (
-          <Drawer closeDrawer={() => setIsCartDrawerOpen(false)}>
-            <Cart setIsCartDrawerOpen={setIsCartDrawerOpen} />
-          </Drawer>
-        )}
-      </AnimatePresence> */}
-
       <CartDrawer show={show} onClose={closeCart} />
 
       <header className="fixed top-0 z-50 w-full">
@@ -83,9 +69,9 @@ export default function Header() {
           </div>
           <div className="navbar-end space-x-4">
             <div>
-              {authenticatedState === "authenticated" ? (
+              {user ? (
                 <div className="lg:flex hidden">
-                  <button onClick={signOut} className="btn btn-warning">
+                  <button onClick={logout} className="btn btn-warning">
                     log out
                   </button>
                   <Link href="/account">

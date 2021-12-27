@@ -1,15 +1,23 @@
-import { supabase } from "@/lib/supabaseClient";
+import cookie from "cookie";
+import { API_URL } from "@/config/index";
 
-export default async function handler(req, res) {
-  const { error } = await supabase.auth.signOut();
+export default async (req, res) => {
+  if (req.method === "POST") {
+    // Destroy cookie
+    res.setHeader(
+      "Set-Cookie",
+      cookie.serialize("token", "", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        expires: new Date(0),
+        sameSite: "strict",
+        path: "/",
+      })
+    );
 
-  if (error) {
-    res.status(error.status).json({
-      body: error.message,
-    });
-  } else
-    res
-      .setHeader("Set-Cookie", [`user=;Expires:${new Date(0).toUTCString()};`])
-      .setHeader("Location", "/")
-      .status(200);
-}
+    res.status(200).json({ message: "Success" });
+  } else {
+    res.setHeader("Allow", ["POST"]);
+    res.status(405).json({ message: `Method ${req.method} not allowed` });
+  }
+};

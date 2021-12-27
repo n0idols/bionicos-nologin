@@ -2,7 +2,6 @@ import Section from "@/components/Section";
 import { useAuth } from "@/lib/authState";
 
 export default function SpecialsMenu() {
-  const { authenticatedState } = useAuth();
   const SpecialMenu = () => {
     return (
       <>
@@ -25,11 +24,7 @@ export default function SpecialsMenu() {
   return (
     <Section>
       <h1 className="text-center">Weekly Specials</h1>
-      {authenticatedState === "authenticated" ? (
-        <SpecialMenu />
-      ) : (
-        <RegularSpecials />
-      )}
+      <SpecialMenu />
     </Section>
   );
 }

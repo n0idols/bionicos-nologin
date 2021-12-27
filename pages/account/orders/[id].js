@@ -12,13 +12,20 @@ export default function OrderSlug(data) {
     </div>
   );
 }
-export async function getServerSideProps({ query: { id } }) {
+export async function getServerSideProps({ query: { id } }, req) {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
   const { data, error } = await supabase
     .from("orders")
     .select("*")
     .eq("id", id);
-
-  return {
-    props: { data },
-  };
+  if (!user) {
+    return {
+      props: {},
+      redirect: { destination: "/account/login" },
+    };
+  } else {
+    return {
+      props: { data },
+    };
+  }
 }

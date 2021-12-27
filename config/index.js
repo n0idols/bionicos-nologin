@@ -9,3 +9,9 @@ export const ORDER_TYPE = process.env.NEXT_CLOVER_ORDER_TYPE;
 // SUPABASE
 export const SUPABASE_URL = process.env.NEXT_SUPABASE_URL;
 export const SUPABASE_ANON = process.env.NEXT_SUPABASE_ANON_KEY;
+
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
+
+export const NEXT_URL =
+  process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";

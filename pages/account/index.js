@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
-import Profile from "@/components/Profile";
-import SignIn from "@/components/SignIn";
-import { useAuth } from "@/lib/authState";
-import { supabase } from "@/lib/supabaseClient";
-import moment from "moment";
-import { useRouter } from "next/router";
+
 import Section from "@/components/Section";
-import Loading from "@/components/icons/Loading";
-import Modal from "@/components/Modal";
-import Link from "next/link";
 
 export default function AccountIndex({ user, data }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +9,7 @@ export default function AccountIndex({ user, data }) {
     <Section>
       <div>
         <h1 className="text-2xl my-2">Your Order History</h1>
-
+        {/* 
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
@@ -51,24 +43,8 @@ export default function AccountIndex({ user, data }) {
               ))}
             </tbody>
           </table>
-        </div>
+        </div> */}
       </div>
     </Section>
   );
-}
-
-export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
-  if (!user) {
-    return {
-      props: {},
-      redirect: { destination: "/account/login" },
-    };
-  }
-  /* if user is present, fetch their orders */
-  const { data, error } = await supabase
-    .from("orders")
-    .select("*")
-    .eq("user_id", user.id);
-  return { props: { user, data } };
 }

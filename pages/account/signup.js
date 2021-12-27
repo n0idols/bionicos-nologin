@@ -1,45 +1,31 @@
-import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { useState, useEffect, useContext } from "react";
+import AuthContext from "@/lib/authState";
 import { toast } from "react-toastify";
 
 export default function SignUp() {
+  // const [username, setUsername] = useState('')
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [loading, setLoading] = useState(null);
+  const { register, error } = useContext(AuthContext);
 
-  async function handleSubmit() {
-    setLoading(true);
+  useEffect(() => error && toast.error(error));
 
-    try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        body: email,
-        password,
-      });
-      if (res.ok) {
-        console.log("signed up a user");
-      }
-    } catch (err) {
-      toast.error(`${err.message}`);
-      setLoading(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (password !== passwordConfirm) {
+      toast.error("Passwords do not match!");
+      return;
     }
-  }
 
-  async function signUp() {
-    setLoading(true);
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      toast.error(`${error.message}`);
-      setLoading(false);
-    } else {
-      setLoading(false);
-    }
-  }
+    register({ email, password });
+  };
 
   return (
     <div className="max-w-md mx-auto my-16 border border-primary p-4 rounded-xl ">
-      <div className="form-control">
+      <form className="form-control" onSubmit={handleSubmit}>
         <h1 className="text-center mt-2">Sign Up</h1>
         <p className="description text-center mt-2">
           Sign up to have a better experience
@@ -64,13 +50,21 @@ export default function SignUp() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <label htmlFor="confirm-password" className="label">
+          <span className="label-text">Confirm Password</span>
+        </label>
+        <input
+          className="input input-primary"
+          type="password"
+          placeholder="confirm password"
+          value={passwordConfirm}
+          onChange={(e) => setPasswordConfirm(e.target.value)}
+        />
 
         <div className="mt-6">
-          <button onClick={signUp} className="btn btn-block" disabled={loading}>
-            Sign Up
-          </button>
+          <input type="submit" value="Sign Up" className="btn btn-block" />
         </div>
-      </div>
+      </form>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import "@/styles/nprogress.css";
 import Modal from "react-modal";
 import { CartStateProvider } from "@/lib/cartState";
 import { CookiesProvider } from "react-cookie";
-import { AuthStateProvider } from "@/lib/authState";
+import { AuthProvider } from "@/lib/authState";
 import Head from "next/head";
 import * as Fathom from "fathom-client";
 
@@ -195,7 +195,7 @@ export default function MyApp({ Component, pageProps }) {
           media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
         />
       </Head>
-      <AuthStateProvider>
+      <AuthProvider>
         <CookiesProvider>
           <CartStateProvider>
             <Page>
@@ -203,7 +203,7 @@ export default function MyApp({ Component, pageProps }) {
             </Page>
           </CartStateProvider>
         </CookiesProvider>
-      </AuthStateProvider>
+      </AuthProvider>
     </>
   );
 }
