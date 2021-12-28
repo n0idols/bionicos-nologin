@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
 
 export default function SignUp() {
-  const [full_name, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -21,7 +21,7 @@ export default function SignUp() {
       return;
     }
 
-    register({ full_name, email, password });
+    register({ username, email, password });
   };
 
   return (
@@ -42,8 +42,8 @@ export default function SignUp() {
           className="input input-primary"
           type="text"
           placeholder="Your name"
-          value={full_name}
-          onChange={(e) => setFullName(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
 
         <label htmlFor="email" className="label">
