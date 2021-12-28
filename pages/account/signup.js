@@ -21,7 +21,7 @@ export default function SignUp() {
       return;
     }
 
-    register({ email, password });
+    register({ full_name, email, password });
   };
 
   return (

@@ -3,7 +3,7 @@ import { API_URL } from "@/config/index";
 
 export default async (req, res) => {
   if (req.method === "POST") {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
 
     const strapiRes = await fetch(`${API_URL}/auth/local`, {
       method: "POST",
@@ -11,7 +11,6 @@ export default async (req, res) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username,
         email,
         password,
       }),
