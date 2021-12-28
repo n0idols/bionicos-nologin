@@ -35,7 +35,7 @@ export default function SignUp() {
           </a>
         </Link>
 
-        {/* <label htmlFor="email" className="label">
+        <label htmlFor="email" className="label">
           <span className="label-text">Full Name</span>
         </label>
         <input
@@ -44,7 +44,7 @@ export default function SignUp() {
           placeholder="Your name"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-        /> */}
+        />
 
         <label htmlFor="email" className="label">
           <span className="label-text">Email</span>
