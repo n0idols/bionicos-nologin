@@ -1,17 +1,17 @@
 import cookie from "cookie";
 import { API_URL } from "@/config/index";
 
-const regRoute = async (req, res) => {
+export default async (req, res) => {
   if (req.method === "POST") {
-    const { username, email, password } = req.body;
+    const { full_name, email, password } = req.body;
 
-    const strapiRes = await fetch(`${API_URL}/api/auth/local/register`, {
+    const strapiRes = await fetch(`${API_URL}/auth/local/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username,
+        full_name,
         email,
         password,
       }),
@@ -43,5 +43,3 @@ const regRoute = async (req, res) => {
     res.status(405).json({ message: `Method ${req.method} not allowed` });
   }
 };
-
-export default regRoute;

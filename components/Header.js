@@ -74,7 +74,7 @@ export default function Header() {
                   <button onClick={logout} className="btn btn-warning">
                     log out
                   </button>
-                  <Link href="/account">
+                  <Link href="/account/dashboard">
                     <a className="btn btn-ghost text-gray-600">Account</a>
                   </Link>
                 </div>

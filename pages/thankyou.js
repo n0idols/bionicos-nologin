@@ -8,26 +8,28 @@ import { toast } from "react-toastify";
 import { API_URL } from "../config";
 import { useContext } from "react";
 import AuthContext from "@/lib/authState";
-export default function ThankYouPage({ token }) {
+import Link from "next/link";
+export default function ThankYouPage({ token, cart }) {
   const [orderReciept, setOrderReciept] = useState(null);
   const { query } = useRouter();
-  const { emptyCart, cart } = useCart;
+
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     saveOrder();
   }, []);
 
-  const saveOrder = async (e) => {
-    const res = await fetch(`${API_URL}/api/orders`, {
+  async function saveOrder() {
+    const res = await fetch(`${API_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        user_permissions_user: user.id,
-        Stripe_transaction: query.payment_intent,
+        // user_permissions_user: user.id,
+        charge: query.payment_intent,
+        line_items: JSON.stringify(cart),
       }),
     });
 
@@ -42,37 +44,25 @@ export default function ThankYouPage({ token }) {
       console.log(order);
       console.log(cart);
     }
-  };
-  // async function saveOrder() {
-  //   const { data, error } = await supabase.from("orders").insert([
-  //     {
-  //       user_id: user.id,
-  //       payment_intent: query.payment_intent,
-  //       ordered_items: cart,
-  //     },
-  //   ]);
-  //   if (error) {
-  //     console.log(error);
-  //     alert(error);
-  //   } else {
-  //     setOrderReciept(data);
-  //   }
-  // }
+  }
 
   return (
     <Section>
-      {/* {JSON.stringify(cart)}cart
-      <h1>Thank you for your order!</h1>
-      <pre>{JSON.stringify(orderReciept, null, 2)}</pre> */}
+      <h1 className="text-2xl">
+        Thank you {JSON.stringify(user)}for your order! Your order:{" "}
+        {JSON.stringify(cart)}
+      </h1>
       <p>A copy of your reciept has been sent to your email </p>
-      <p>You can also view your orders here</p>
+      <Link href="/account/dashboard">
+        <a className="btn btn ghost">You can also view your orders here</a>
+      </Link>
       CONFIRMED: {query.payment_intent}
     </Section>
   );
 }
 
 export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
+  const { token, cart } = parseCookies(req);
 
   if (!token) {
     return {
@@ -84,6 +74,7 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       token,
+      cart,
     },
   };
 }
