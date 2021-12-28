@@ -13,12 +13,7 @@ export default function Dashboard({ orders }) {
     <Section>
       <div>
         <h1 className="text-2xl my-2">Your Order History</h1>
-        <pre>{JSON.stringify(orders, null, 2)}</pre>
-        {orders?.map((order) => {
-          const { line_items } = order;
-
-          return <>{order.status}</>;
-        })}
+        {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
 
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -26,30 +21,30 @@ export default function Dashboard({ orders }) {
               <tr>
                 <th></th>
                 <th>Date</th>
+                <th>Items</th>
                 <th>Amount</th>
                 <th>Order Status</th>
               </tr>
             </thead>
             <tbody>
-              {orders?.map((order) => (
-                <Link href={`/account/orders/${order.uuid}`} key={order.id}>
-                  <tr className="hover cursor-pointer">
-                    <th>1</th>
-                    <td>
-                      {" "}
-                      {moment(order.created_at).format(
-                        "dddd, MMMM Do YYYY, h:mm:ss a"
-                      )}
-                    </td>
-                    <td>$32.33</td>
-                    <td>
-                      <div className="badge mx-2 uppercase font-bold">
-                        {order.status}
-                      </div>
-                    </td>
-                  </tr>
-                </Link>
-              ))}
+              {orders?.map((order) => {
+                console.log(order.line_items);
+                return (
+                  <Link href={`/account/orders/${order.uuid}`} key={order.id}>
+                    <tr className="hover cursor-pointer">
+                      <th>1</th>
+                      <td> {moment(order.created_at).format("MMM Do YY")}</td>
+                      <td>Item titles go here</td>
+                      <td>$32.33</td>
+                      <td>
+                        <div className="badge mx-2 uppercase font-bold">
+                          {order.status}
+                        </div>
+                      </td>
+                    </tr>
+                  </Link>
+                );
+              })}
             </tbody>
           </table>
         </div>

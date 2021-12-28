@@ -1,13 +1,30 @@
 import Section from "@/components/Section";
 import { API_URL } from "@/config/index";
+import moment from "moment";
 
 export default function OrderSlug({ orderId }) {
+  const order = orderId[0];
+
   return (
     <>
       <Section>
-        <pre>{JSON.stringify(orderId, null, 2)}</pre>
+        <div className="card lg:card-side card-bordered">
+          <div className="card-body">
+            <h2 className="card-title">
+              {moment(order.created_at).format("MMMM Do YYYY, h:mm:ss a")}
+            </h2>
 
-        {orderId[0].status}
+            <div className="card-actions">
+              <div className="badge badge-primary uppercase badge-lg">
+                {order.status}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="card  bordered bg-white cursor-pointer hover:shadow-lg transition ease-linear hover:-translate-y-1">
+          <h1></h1>
+        </div>
+        <pre>{JSON.stringify(orderId, null, 2)}</pre>
       </Section>
     </>
   );
