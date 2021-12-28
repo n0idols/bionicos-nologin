@@ -11,7 +11,12 @@ export default function Dashboard({ orders }) {
     <Section>
       <div>
         <h1 className="text-2xl my-2">Your Order History</h1>
-        {JSON.stringify(orders)}
+        <pre>{JSON.stringify(orders, null, 2)}</pre>
+        {orders?.map((order) => {
+          const { line_items } = order;
+
+          return <>{order.status}</>;
+        })}
         {/* 
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -54,19 +59,25 @@ export default function Dashboard({ orders }) {
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      props: {},
+      redirect: { destination: "/account/login" },
+    };
+  } else {
+    const res = await fetch(`${API_URL}/orders/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  const res = await fetch(`${API_URL}/orders/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const orders = await res.json();
-  return {
-    props: {
-      orders,
-      token,
-    },
-  };
+    const orders = await res.json();
+    return {
+      props: {
+        orders,
+        token,
+      },
+    };
+  }
 }
