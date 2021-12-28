@@ -3,6 +3,8 @@ import AuthContext from "@/lib/authState";
 import Section from "@/components/Section";
 import parseCookies from "@/lib/cookie";
 import { API_URL } from "@/config/index";
+import Link from "next/link";
+import moment from "moment";
 
 export default function Dashboard({ orders }) {
   const { user } = useContext(AuthContext);
@@ -17,7 +19,7 @@ export default function Dashboard({ orders }) {
 
           return <>{order.status}</>;
         })}
-        {/* 
+
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
@@ -29,21 +31,20 @@ export default function Dashboard({ orders }) {
               </tr>
             </thead>
             <tbody>
-              {data?.map((order) => (
-                <Link href={`/account/orders/${order.id}`} key={order.id}>
+              {orders?.map((order) => (
+                <Link href={`/account/orders/${order.uuid}`} key={order.id}>
                   <tr className="hover cursor-pointer">
                     <th>1</th>
                     <td>
                       {" "}
-                      {moment(order.ordered_at).format(
+                      {moment(order.created_at).format(
                         "dddd, MMMM Do YYYY, h:mm:ss a"
                       )}
                     </td>
                     <td>$32.33</td>
-                    <td
-                      {" "}
-                      <div className="badge mx-2 uppercase  font-bold">
-                        {order.type}
+                    <td>
+                      <div className="badge mx-2 uppercase font-bold">
+                        {order.status}
                       </div>
                     </td>
                   </tr>
@@ -51,7 +52,7 @@ export default function Dashboard({ orders }) {
               ))}
             </tbody>
           </table>
-        </div> */}
+        </div>
       </div>
     </Section>
   );

@@ -3,7 +3,7 @@ import { API_URL } from "@/config/index";
 
 const regRoute = async (req, res) => {
   if (req.method === "POST") {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
 
     const strapiRes = await fetch(`${API_URL}/auth/local/register`, {
       method: "POST",
@@ -11,7 +11,6 @@ const regRoute = async (req, res) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username,
         email,
         password,
       }),
