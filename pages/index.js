@@ -19,7 +19,7 @@ export default function Home({ data }) {
           </Link>
         </div>
       </div>
-      <h1 className="text-5xl text-center">What our customers have to say</h1>
+      {/* <h1 className="text-5xl text-center">What our customers have to say</h1>
       <div className="max-w-5xl mx-auto px-4 my-8">
         <div className="grid grid-cols-1 gap-4">
           {data.result.reviews.map((review) => (
@@ -53,7 +53,7 @@ export default function Home({ data }) {
             </>
           ))}
         </div>
-      </div>
+      </div> */}
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     </Layout>
   );
