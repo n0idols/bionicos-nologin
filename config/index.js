@@ -18,3 +18,6 @@ export const NEXT_URL =
 
 export const PLACES_ID = process.env.NEXT_GOOGLE_PLACES_ID;
 export const PLACES_KEY = process.env.NEXT_GOOGLE_KEY;
+
+export const REDIRECT_URL =
+  process.env.NEXT_REDIRECT_URL || "http://localhost:3000/thankyou";

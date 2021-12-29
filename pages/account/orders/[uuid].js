@@ -6,7 +6,9 @@ import moment from "moment";
 export default function OrderSlug({ orderId }) {
   const order = orderId[0];
   const items = order.line_items;
-  // const keys = Object.values(items);
+  const keys = Object.keys(items);
+  const values = Object.values(items);
+  const entries = Object.entries(items);
   const [current, setCurrent] = useState(null);
 
   return (
@@ -24,8 +26,12 @@ export default function OrderSlug({ orderId }) {
             <h2 className="card-title">
               {moment(order.created_at).format("MMMM Do YYYY, h:mm:ss a")}
             </h2>
-            {JSON.stringify(items)}
 
+            <h1>Your order</h1>
+
+            {entries.map((items) => (
+              <pre>hey {JSON.stringify(items, null, 2)}</pre>
+            ))}
             <div className="card-actions">
               <div className="badge badge-primary uppercase badge-lg">
                 {order.status}

@@ -19,7 +19,7 @@ export default function ThankYouPage({ order }) {
 
   useEffect(() => {
     emptyCart();
-    destroyCookie(null, "cart");
+    // destroyCookie(null, "cart");
   }, []);
 
   // async function saveOrder() {
