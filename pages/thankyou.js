@@ -8,11 +8,13 @@ import { toast } from "react-toastify";
 import { API_URL } from "../config";
 import { useContext } from "react";
 import AuthContext from "@/lib/authState";
+import { destroyCookie } from "nookies";
 import Link from "next/link";
 export default function ThankYouPage({ token, cart }) {
   const [orderReciept, setOrderReciept] = useState(null);
   const { query } = useRouter();
 
+  const { emptyCart } = useCart();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -43,14 +45,14 @@ export default function ThankYouPage({ token, cart }) {
       const order = await res.json();
       console.log(order);
       console.log(cart);
+      destroyCookie(null, "cart");
     }
   }
 
   return (
     <Section>
       <h1 className="text-2xl">
-        Thank you {JSON.stringify(user)}for your order! Your order:{" "}
-        {JSON.stringify(cart)}
+        Thank you {JSON.stringify(user.email)}for your order! Your order:{" "}
       </h1>
       <p>A copy of your reciept has been sent to your email </p>
       <Link href="/account/dashboard">

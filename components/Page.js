@@ -12,9 +12,9 @@ export default function Page({ children }) {
       className="bg-base-100 standalone:mt-32 mt-24"
     >
       <Header />
-      <div>{children}</div>
+      <main className="min-h-screen ">{children}</main>
       <Footer />
-      <ToastContainer position="bottom-center" />
+      <ToastContainer position="top-center" />
       <MobileNav />
     </div>
   );
