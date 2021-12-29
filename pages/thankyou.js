@@ -18,6 +18,7 @@ export default function ThankYouPage({ order }) {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
+    emptyCart();
     destroyCookie(null, "cart");
   }, []);
 
