@@ -29,8 +29,8 @@ export default function OrderSlug({ orderId }) {
 
             <h1>Your order</h1>
 
-            {entries.map((items) => (
-              <pre>hey {JSON.stringify(items, null, 2)}</pre>
+            {entries.map((items, i) => (
+              <pre key={i}>hey {JSON.stringify(items, null, 2)}</pre>
             ))}
             <div className="card-actions">
               <div className="badge badge-primary uppercase badge-lg">
