@@ -10,7 +10,7 @@ import { useContext } from "react";
 import AuthContext from "@/lib/authState";
 import { destroyCookie } from "nookies";
 import Link from "next/link";
-export default function ThankYouPage({ token, cart }) {
+export default function ThankYouPage({ order }) {
   const [orderReciept, setOrderReciept] = useState(null);
   const { query } = useRouter();
 
@@ -18,52 +18,52 @@ export default function ThankYouPage({ token, cart }) {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    saveOrder();
+    destroyCookie(null, "cart");
   }, []);
 
-  async function saveOrder() {
-    const res = await fetch(`${API_URL}/orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        // user_permissions_user: user.id,
-        charge: query.payment_intent,
-        line_items: JSON.stringify(cart),
-      }),
-    });
+  // async function saveOrder() {
+  //   const res = await fetch(`${API_URL}/orders`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     body: JSON.stringify({
+  //       // user_permissions_user: user.id,
+  //       charge: query.payment_intent,
+  //       line_items: JSON.stringify(cart),
+  //     }),
+  //   });
 
-    if (!res.ok) {
-      if (res.status === 403 || res.status === 401) {
-        toast.error("No token included");
-        return;
-      }
-      toast.error("Something Went Wrong");
-    } else {
-      const order = await res.json();
-      console.log(order);
-      console.log(cart);
-      destroyCookie(null, "cart");
-    }
-  }
+  //   if (!res.ok) {
+  //     if (res.status === 403 || res.status === 401) {
+  //       toast.error("No token included");
+  //       return;
+  //     }
+  //     toast.error("Something Went Wrong");
+  //   } else {
+  //     const order = await res.json();
+  //     console.log(order);
+  //     console.log(cart);
+  //   }
+  // }
 
   return (
     <Section>
       <h1 className="text-2xl">
-        Thank you {JSON.stringify(user.email)}for your order! Your order:{" "}
+        {/* Thank you {JSON.stringify(user)}for your order! Your order:{" "} */}
+        {JSON.stringify(order)}
       </h1>
       <p>A copy of your reciept has been sent to your email </p>
       <Link href="/account/dashboard">
         <a className="btn btn ghost">You can also view your orders here</a>
       </Link>
-      CONFIRMED: {query.payment_intent}
+      {/* CONFIRMED: {query.payment_intent} */}
     </Section>
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps({ req, query }) {
   const { token, cart } = parseCookies(req);
 
   if (!token) {
@@ -73,10 +73,24 @@ export async function getServerSideProps({ req }) {
     };
   }
 
+  const res = await fetch(`${API_URL}/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      // user_permissions_user: user.id,
+      charge: query.payment_intent,
+      line_items: JSON.stringify(cart),
+    }),
+  });
+
+  const order = await res.json();
+
   return {
     props: {
-      token,
-      cart,
+      order,
     },
   };
 }
