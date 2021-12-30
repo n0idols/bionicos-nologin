@@ -15,33 +15,31 @@ export default function SpecialsMenu({ specials }) {
   const active = `text-transparent bg-clip-text bg-gradient-to-br from-accent to-accent-focus-focus`;
 
   return (
-    <div className="max-w-lg mx-auto px-4 space-y-9">
+    <div className="max-w-7xl mx-auto px-4 space-y-9">
       <h1 className="text-center lg:text-4xl ">Weekly Specials</h1>
       <p className="text-center text-xl my-4">
         Each special comes with a
         <span className="text-primary font-bold"> Large Agua Fresca</span>
       </p>
-      <div className="grid grid-cols-1 gap-4 justify-center mx-auto">
+      <div className="grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-4 justify-center mx-auto">
         {specials.map((special) => (
           <div
             className={
               day === special.id
                 ? "card p-4 bg-primary shadow-xl "
-                : "card p-4 bg-white opacity-30"
+                : "card p-4 bg-white opacity-50"
             }
             key={special.id}
           >
-            <div className="border flex flex-col justify-center items-center rounded-2xl  border-zinc-200">
+            <div className="flex flex-col justify-center items-center rounded-2xl">
               <span
                 className={
-                  day === special.id
-                    ? "px-2 m-2 rounded-2xl uppercase bg-red-100"
-                    : ""
+                  day === special.id ? "px-2 m-2 rounded-2xl uppercase" : ""
                 }
               >
                 {special.day}
               </span>
-              <h1 className="text-2xl">
+              <h1 className="md:text-xl">
                 <span className={day === special.id ? " text-white" : ""}>
                   {special.product.title}
                 </span>
@@ -59,9 +57,9 @@ export default function SpecialsMenu({ specials }) {
                 >
                   ${special.price}
                 </p>
-                <div className="my-4">
+                <div className="mt-8">
                   {day === special.id ? (
-                    <button className="btn  btn-ghost text-white border-zinc-500">
+                    <button className="btn btn-sm bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-auto">
                       Add To Order
                     </button>
                   ) : (

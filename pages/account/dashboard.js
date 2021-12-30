@@ -9,9 +9,19 @@ import moment from "moment";
 export default function Dashboard({ orders }) {
   const { user } = useContext(AuthContext);
 
-  return (
-    <Section>
-      <div>
+  const accountType = user.role.type;
+
+  const AdminDashboard = () => {
+    return (
+      <>
+        <h6>Welcome back</h6>
+        <h1>All Orders</h1>
+      </>
+    );
+  };
+  const CustomerDashboard = () => {
+    return (
+      <>
         <h1 className="text-2xl my-2">Your Order History</h1>
         {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
 
@@ -47,6 +57,21 @@ export default function Dashboard({ orders }) {
               })}
             </tbody>
           </table>
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <Section>
+      <div>
+        {}
+        <div>
+          {accountType === "merchant" ? (
+            <AdminDashboard />
+          ) : (
+            <CustomerDashboard />
+          )}
         </div>
       </div>
     </Section>

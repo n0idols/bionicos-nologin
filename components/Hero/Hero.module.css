@@ -1,0 +1,26 @@
+.hero {
+  background-image: linear-gradient(
+    rgba(32, 34, 36, 0.13),
+    rgba(32, 34, 36, 0.13)
+  );
+  /* url("../../public/hero.jpg"); */
+
+  min-height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-size: cover;
+}
+.title {
+  font-size: 50px;
+  background: var(--secondary-color);
+
+  margin: 0;
+  display: inline;
+  line-height: 1;
+  color: white;
+  box-shadow: 20px 20px var(--primary-color);
+
+  text-transform: uppercase;
+}

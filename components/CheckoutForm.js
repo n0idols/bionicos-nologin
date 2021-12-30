@@ -92,19 +92,10 @@ export default function CheckoutForm() {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <label htmlFor="email" className="label">
-        <span className="label-text">Your email</span>
-      </label>
-      Reciept will be sent to:
-      {user.email}
-      <input
-        id="email"
-        type="text"
-        value={user.email}
-        // onChange={(e) => setEmail(e.target.value)}
-        placeholder={user.email}
-        className="input"
-      />
+      <p className="mb-6">
+        Reciept will be sent to:
+        <span className="font-bold ml-1">{user.email}</span>
+      </p>
       <PaymentElement id="payment-element" />
       <button
         className="btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-8"

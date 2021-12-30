@@ -34,7 +34,7 @@ export default function LocationMap({ address }) {
     );
   }, [viewport]);
 
-  Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY);
+  Geocode.setApiKey(process.env.NEXT_GOOGLE_KEY);
 
   if (loading) return false;
 

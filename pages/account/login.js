@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import AuthContext from "@/lib/authState";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Link from "next/link";
 
 export default function Login() {
