@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import AuthContext from "@/lib/authState";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import parseCookies from "@/lib/cookie";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -53,3 +54,13 @@ export default function Login() {
     </div>
   );
 }
+
+// export async function getServerSideProps({ req }) {
+//   const { token } = parseCookies(req);
+//   if (token) {
+//     return {
+//       props: {},
+//       redirect: { destination: "/account/dashboard" },
+//     };
+//   }
+// }

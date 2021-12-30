@@ -7,6 +7,8 @@ import Link from "next/link";
 import moment from "moment";
 
 export default function Dashboard({ orders }) {
+  const { user, logout } = useContext(AuthContext);
+
   return (
     <Section>
       <div>
@@ -14,7 +16,9 @@ export default function Dashboard({ orders }) {
           <>
             <h1 className="text-2xl my-2">Your Order History</h1>
             {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
-
+            <button className="btn btn-ghost" onClick={logout}>
+              Logout
+            </button>
             <div className="overflow-x-auto">
               <table className="table w-full">
                 <thead>
@@ -72,7 +76,7 @@ export async function getServerSideProps({ req }) {
       redirect: { destination: "/account/login" },
     };
   } else {
-    const res = await fetch(`${API_URL}/orders/me?_sort=dateField:ASC`, {
+    const res = await fetch(`${API_URL}/orders/me?_sort=dateField:A`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
