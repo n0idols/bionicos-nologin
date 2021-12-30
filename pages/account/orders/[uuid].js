@@ -15,6 +15,7 @@ export default function OrderSlug({ orderId }) {
   return (
     <>
       <Section>
+        {/* <pre>{JSON.stringify(orderId, null, 2)}</pre> */}
         <div className="max-w-2xl mx-auto py-8 px-4">
           <h2 className="">
             {moment(order.created_at).format("MMMM Do YYYY, h:mm:ss a")}
@@ -81,7 +82,7 @@ export async function getServerSideProps({ req, query: { uuid } }) {
     };
   }
 
-  const res = await fetch(`${API_URL}/orders/me?uuid=${uuid}`, {
+  const res = await fetch(`${API_URL}/orders?uuid=${uuid}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -99,16 +100,3 @@ export async function getServerSideProps({ req, query: { uuid } }) {
 // export default function OrderSlug() {
 //   return <div>hey</div>;
 // }
-{
-  /* <div className="flex flex-col ml-2">
-<h4>{theItem.item.name}</h4>
-{theItem.modifications?.map((mod, i) => (
-  <div key={i} className="flex">
-    <h6>
-      {mod.name} + {formatMoney(mod.amount)}
-    </h6>
-  </div>
-))}
-<h4 className="mt-1">{calcItemNetPrice()}</h4>
-</div> */
-}
