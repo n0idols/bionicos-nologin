@@ -5,14 +5,17 @@ import parseCookies from "@/lib/cookie";
 import { API_URL } from "@/config/index";
 import Link from "next/link";
 import moment from "moment";
+import { Router } from "next/router";
 
 export default function Dashboard({ orders }) {
+  const { user } = useContext(AuthContext);
+
   return (
     <Section>
       <div>
         <div>
           <>
-            <h1 className="text-2xl my-2">Your Order History</h1>
+            <h1 className="text-2xl my-2">Order History</h1>
             {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
 
             <div className="overflow-x-auto">
@@ -28,8 +31,7 @@ export default function Dashboard({ orders }) {
                 </thead>
                 <tbody>
                   {orders?.map((order) => {
-                    // console.log(order.line_items);
-                    // console.log("hey");
+                    console.log(order.line_items);
                     return (
                       <Link
                         href={`/account/orders/${order.uuid}`}
@@ -70,7 +72,7 @@ export async function getServerSideProps({ req }) {
       redirect: { destination: "/account/login" },
     };
   } else {
-    const res = await fetch(`${API_URL}/orders/me`, {
+    const res = await fetch(`${API_URL}/orders`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

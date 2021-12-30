@@ -3,8 +3,10 @@ import Section from "@/components/Section";
 import { API_URL } from "@/config/index";
 import moment from "moment";
 import formatMoney from "@/lib/formatMoney";
+import parseCookies from "@/lib/cookie";
 
 export default function OrderSlug({ orderId }) {
+  console.log(orderId);
   const order = orderId[0];
   const items = order.line_items;
 
@@ -19,7 +21,7 @@ export default function OrderSlug({ orderId }) {
           </h2>
 
           <h1>
-            Your order{" "}
+            Your order ?
             <span className="badge badge-primary uppercase badge-lg">
               {order.status}
             </span>
@@ -70,8 +72,22 @@ export default function OrderSlug({ orderId }) {
   );
 }
 
-export async function getServerSideProps({ query: { uuid } }) {
-  const res = await fetch(`${API_URL}/orders?uuid=${uuid}`);
+export async function getServerSideProps({ req, query: { uuid } }) {
+  const { token } = parseCookies(req);
+  if (!token) {
+    return {
+      props: {},
+      redirect: { destination: "/account/login" },
+    };
+  }
+
+  const res = await fetch(`${API_URL}/orders/me?uuid=${uuid}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const orderId = await res.json();
 
   return {
