@@ -4,7 +4,7 @@ import Section from "@/components/Section";
 
 import parseCookies from "@/lib/cookie";
 import { useCart } from "@/lib/cartState";
-import { toast } from "react-toastify";
+
 import { API_URL } from "../config";
 import { useContext } from "react";
 import AuthContext from "@/lib/authState";
@@ -19,7 +19,7 @@ export default function ThankYouPage({ order }) {
 
   useEffect(() => {
     emptyCart();
-    // destroyCookie(null, "cart");
+    destroyCookie(null, "cart");
   }, []);
 
   // async function saveOrder() {
