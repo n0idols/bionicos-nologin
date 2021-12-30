@@ -26,6 +26,7 @@ export default function Dashboard({ orders }) {
                     <th>Date</th>
                     <th>Items</th>
                     <th>Amount</th>
+                    <th>User</th>
                     <th>Order Status</th>
                   </tr>
                 </thead>
@@ -34,7 +35,7 @@ export default function Dashboard({ orders }) {
                     console.log(order.line_items);
                     return (
                       <Link
-                        href={`/account/orders/${order.uuid}`}
+                        href={`/account/admin/orders/${order.uuid}`}
                         key={order.id}
                       >
                         <tr className="hover cursor-pointer">
@@ -45,6 +46,7 @@ export default function Dashboard({ orders }) {
                           </td>
                           <td>Item titles go here</td>
                           <td>$32.33</td>
+                          <td>{order.user.username}</td>
                           <td>
                             <div className="badge mx-2 uppercase font-bold">
                               {order.status}

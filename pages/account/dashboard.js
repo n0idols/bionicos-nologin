@@ -39,7 +39,9 @@ export default function Dashboard({ orders }) {
                           <th>1</th>
                           <td>
                             {" "}
-                            {moment(order.created_at).format("MMM Do YY")}
+                            {moment(order.created_at).format(
+                              "MMMM Do YYYY, h:mm:ss a"
+                            )}
                           </td>
                           <td>Item titles go here</td>
                           <td>$32.33</td>
@@ -70,7 +72,7 @@ export async function getServerSideProps({ req }) {
       redirect: { destination: "/account/login" },
     };
   } else {
-    const res = await fetch(`${API_URL}/orders/me`, {
+    const res = await fetch(`${API_URL}/orders/me?_sort=dateField:ASC`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -21,10 +21,8 @@ export default function OrderSlug({ orderId }) {
             {moment(order.created_at).format("MMMM Do YYYY, h:mm:ss a")}
           </h2>
 
-          <h1>Your order</h1>
-          <span className="badge badge-primary uppercase badge-lg">
-            {order.status}
-          </span>
+          <h1>The order</h1>
+          <span className="badge uppercase badge-lg">{order.status}</span>
           <div className="rounded-lg p-4 my-2">
             {entries.map((item) => {
               const theItem = item[1];
