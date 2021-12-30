@@ -6,7 +6,7 @@ export default function CartItem({ item, index }) {
   const { remFromCart } = useCart();
   function calcItemNetPrice() {
     let sum = 0;
-    item.modifications.forEach((modification) => {
+    item.modifications?.forEach((modification) => {
       sum += modification.amount;
     });
     sum += item.item.price;
@@ -22,9 +22,9 @@ export default function CartItem({ item, index }) {
           </div>
           <div className="ml-2">
             <h4>{item.item.name}</h4>
-            {item.modifications.map((modification, i) => (
+            {item.modifications?.map((modification, i) => (
               <h6 key={i} className="text-gray-600 m-0 p-0">
-                {modification.name}
+                {modification.name} + {formatMoney(modification.amount)}
               </h6>
             ))}
             <h4 className="mt-1">{calcItemNetPrice()}</h4>

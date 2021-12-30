@@ -2,47 +2,69 @@ import { useState } from "react";
 import Section from "@/components/Section";
 import { API_URL } from "@/config/index";
 import moment from "moment";
+import formatMoney from "@/lib/formatMoney";
 
 export default function OrderSlug({ orderId }) {
   const order = orderId[0];
   const items = order.line_items;
-  const keys = Object.keys(items);
-  const values = Object.values(items);
+
   const entries = Object.entries(items);
-  const [current, setCurrent] = useState(null);
 
   return (
     <>
       <Section>
-        {/* <ul className="w-full steps">
-          <li className="step step-primary"></li>
-          <li className="step step-primary">Choose plan</li>
-          <li className="step">Purchase</li>
-          <li className="step">Receive Product</li>
-        </ul> */}
+        <div className="max-w-2xl mx-auto py-8 px-4">
+          <h2 className="">
+            {moment(order.created_at).format("MMMM Do YYYY, h:mm:ss a")}
+          </h2>
 
-        <div className="card lg:card-side card-bordered">
-          <div className="card-body">
-            <h2 className="card-title">
-              {moment(order.created_at).format("MMMM Do YYYY, h:mm:ss a")}
-            </h2>
+          <h1>
+            Your order{" "}
+            <span className="badge badge-primary uppercase badge-lg">
+              {order.status}
+            </span>
+          </h1>
+          <div className="rounded-lg p-4 my-2">
+            {entries.map((item) => {
+              const theItem = item[1];
 
-            <h1>Your order</h1>
-
-            {entries.map((items, i) => (
-              <pre key={i}>hey {JSON.stringify(items, null, 2)}</pre>
-            ))}
-            <div className="card-actions">
-              <div className="badge badge-primary uppercase badge-lg">
-                {order.status}
-              </div>
-            </div>
+              function calcItemNetPrice() {
+                let sum = 0;
+                theItem.modifications?.forEach((modification) => {
+                  sum += modification.amount;
+                });
+                sum += theItem.item.price;
+                return formatMoney(sum);
+              }
+              return (
+                <div key={item.id}>
+                  <div className="flex justify-between items-center m-4">
+                    <div className="flex items-center">
+                      <div className="rounded-full bg-black h-8 w-8 flex items-center justify-center text-white">
+                        <h6>1x</h6>
+                      </div>
+                      <div className="ml-2">
+                        <h4>{theItem.item.name}</h4>
+                        {theItem.modifications?.map((modification, i) => (
+                          <h6 key={i} className="text-gray-600 m-0 p-0">
+                            {modification.name} +{" "}
+                            {formatMoney(modification.amount)}
+                          </h6>
+                        ))}
+                        <h4 className="mt-1">{calcItemNetPrice()}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                </div>
+              );
+            })}
+            <div className="card-actions">Total:</div>
           </div>
         </div>
         <div className="card  bordered bg-white cursor-pointer hover:shadow-lg transition ease-linear hover:-translate-y-1">
           <h1></h1>
         </div>
-        <pre>{JSON.stringify(orderId, null, 2)}</pre>
       </Section>
     </>
   );
@@ -61,3 +83,16 @@ export async function getServerSideProps({ query: { uuid } }) {
 // export default function OrderSlug() {
 //   return <div>hey</div>;
 // }
+{
+  /* <div className="flex flex-col ml-2">
+<h4>{theItem.item.name}</h4>
+{theItem.modifications?.map((mod, i) => (
+  <div key={i} className="flex">
+    <h6>
+      {mod.name} + {formatMoney(mod.amount)}
+    </h6>
+  </div>
+))}
+<h4 className="mt-1">{calcItemNetPrice()}</h4>
+</div> */
+}

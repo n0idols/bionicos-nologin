@@ -72,8 +72,8 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: REDIRECT_URL,
-        // return_url: "https://bionicosjuicesrios.com/thankyou",
+        // return_url: REDIRECT_URL,
+        return_url: "https://bionicosjuicesrios.com/thankyou",
         receipt_email: user.email,
       },
     });

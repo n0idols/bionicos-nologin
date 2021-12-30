@@ -1,9 +1,9 @@
+import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/authState";
 import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import CartItem from "./Cart/CartItem";
 
@@ -22,7 +22,7 @@ export default function CartDrawer({ show, onClose, children, title }) {
   const router = useRouter();
   useEffect(() => {
     setIsBrowser(true);
-  });
+  }, []);
 
   const handleClose = (e) => {
     e.preventDefault();
