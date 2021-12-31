@@ -25,46 +25,58 @@ export default function Header() {
           </div>
           <div className="hidden px-2 mx-2 navbar-center lg:flex text-gray-600">
             <div className="flex items-center space-x-4">
-              <Link href="/">
-                <a
-                  className={
-                    router.pathname == "/" ? activeClasses : linkClasses
-                  }
-                >
-                  Home
-                </a>
-              </Link>
-
-              <Link href="/contact">
-                <a
-                  className={
-                    router.pathname == "/contact" ? activeClasses : linkClasses
-                  }
-                >
-                  Contact
-                </a>
-              </Link>
-
-              <Link href="/menu/specials">
-                <a
-                  className={
-                    router.pathname == "/menu/specials"
-                      ? activeClasses
-                      : linkClasses
-                  }
-                >
-                  Specials
-                </a>
-              </Link>
-              <Link href="/menu">
-                <a
-                  className={
-                    router.pathname == "/menu" ? activeClasses : linkClasses
-                  }
-                >
-                  Menu
-                </a>
-              </Link>
+              {user?.role.type === "merchant" ? (
+                <>
+                  {" "}
+                  <Link href="/account/admin">
+                    <a>All Orders</a>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <Link href="/">
+                    <a
+                      className={
+                        router.pathname == "/" ? activeClasses : linkClasses
+                      }
+                    >
+                      Home
+                    </a>
+                  </Link>
+                  <Link href="/contact">
+                    <a
+                      className={
+                        router.pathname == "/contact"
+                          ? activeClasses
+                          : linkClasses
+                      }
+                    >
+                      Contact
+                    </a>
+                  </Link>
+                  <Link href="/menu/specials">
+                    <a
+                      className={
+                        router.pathname == "/menu/specials"
+                          ? activeClasses
+                          : linkClasses
+                      }
+                    >
+                      Specials
+                    </a>
+                  </Link>
+                  <Link href="/menu">
+                    <a
+                      className={
+                        router.pathname == "/menu" ? activeClasses : linkClasses
+                      }
+                    >
+                      Menu
+                    </a>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
           <div className="navbar-end space-x-4">

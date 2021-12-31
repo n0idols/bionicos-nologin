@@ -1,16 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Section from "@/components/Section";
 import { API_URL } from "@/config/index";
 import moment from "moment";
 import formatMoney from "@/lib/formatMoney";
 import parseCookies from "@/lib/cookie";
+import { useRouter } from "next/router";
 
-export default function OrderSlug({ orderId }) {
+export default function OrderSlug({ token, orderId, statuses }) {
+  const { query } = useRouter();
   console.log(orderId);
   const order = orderId[0];
   const items = order.line_items;
-
   const entries = Object.entries(items);
+
+  useEffect(() => {}, []);
+
+  async function markProgress() {
+    await fetch(`${API_URL}/orders/${order.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        estado: {
+          id: 2,
+        },
+      }),
+    });
+    window.location.reload();
+  }
+  async function markCompleted() {
+    await fetch(`${API_URL}/orders/${order.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        estado: {
+          id: 3,
+        },
+      }),
+    });
+    window.location.reload();
+  }
 
   return (
     <>
@@ -22,7 +56,27 @@ export default function OrderSlug({ orderId }) {
           </h2>
 
           <h1>The order</h1>
-          <span className="badge uppercase badge-lg">{order.estado.title}</span>
+
+          <span className="badge uppercase badge-lg mb-8">
+            {order.estado.title}
+          </span>
+
+          <div className="max-w-xs space-y-8">
+            <button
+              className="btn btn-secondary btn-block"
+              onClick={markProgress}
+            >
+              Mark order as in progress
+            </button>
+            <button
+              className="btn btn-primary  btn-block"
+              onClick={markCompleted}
+            >
+              Mark order as completed
+            </button>
+          </div>
+
+          <pre>{JSON.stringify(order.estado, null, 2)}</pre>
           <div className="rounded-lg p-4 my-2">
             {entries.map((item) => {
               const theItem = item[1];
@@ -87,9 +141,21 @@ export async function getServerSideProps({ req, query: { uuid } }) {
   });
   const orderId = await res.json();
 
+  const statusRes = await fetch(`${API_URL}/estados`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const statuses = await statusRes.json();
+
   return {
     props: {
+      token,
       orderId,
+      statuses,
     },
   };
 }

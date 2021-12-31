@@ -80,7 +80,7 @@ export async function getServerSideProps({ req, query: { uuid } }) {
     };
   }
 
-  const res = await fetch(`${API_URL}/orders?uuid=${uuid}`, {
+  const res = await fetch(`${API_URL}/orders/me?uuid=${uuid}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
