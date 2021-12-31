@@ -77,7 +77,7 @@ export async function getServerSideProps({ req }) {
       redirect: { destination: "/account/login" },
     };
   } else {
-    const res = await fetch(`${API_URL}/orders`, {
+    const res = await fetch(`${API_URL}/orders/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
