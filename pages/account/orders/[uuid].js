@@ -23,7 +23,7 @@ export default function OrderSlug({ orderId }) {
 
           <h1>Your order</h1>
           <span className="badge badge-primary uppercase badge-lg">
-            {order.status}
+            {order.estado.title}
           </span>
           <div className="rounded-lg p-4 my-2">
             {entries.map((item) => {

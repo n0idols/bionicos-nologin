@@ -49,7 +49,7 @@ export default function Dashboard({ orders }) {
                           <td>{order.user.username}</td>
                           <td>
                             <div className="badge mx-2 uppercase font-bold">
-                              {order.status}
+                              {order.estado.title}
                             </div>
                           </td>
                         </tr>

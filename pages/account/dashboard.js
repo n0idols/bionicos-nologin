@@ -34,6 +34,7 @@ export default function Dashboard({ orders }) {
                   {orders?.map((order) => {
                     // console.log(order.line_items);
                     // console.log("hey");
+                    console.log(order.estado);
                     return (
                       <Link
                         href={`/account/orders/${order.uuid}`}
@@ -51,7 +52,7 @@ export default function Dashboard({ orders }) {
                           <td>$32.33</td>
                           <td>
                             <div className="badge mx-2 uppercase font-bold">
-                              {order.status}
+                              {order.estado.title}
                             </div>
                           </td>
                         </tr>
@@ -76,7 +77,7 @@ export async function getServerSideProps({ req }) {
       redirect: { destination: "/account/login" },
     };
   } else {
-    const res = await fetch(`${API_URL}/orders/me?_sort=dateField:A`, {
+    const res = await fetch(`${API_URL}/orders`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,12 +1,8 @@
 import { useEffect } from "react";
-
 import Section from "@/components/Section";
-
 import parseCookies from "@/lib/cookie";
 import { useCart } from "@/lib/cartState";
-
 import { API_URL } from "../config";
-
 import { destroyCookie } from "nookies";
 import Link from "next/link";
 export default function ThankYouPage() {
@@ -46,8 +42,9 @@ export async function getServerSideProps({ req, query }) {
     },
     body: JSON.stringify({
       // user_permissions_user: user.id,
-      charge: query.payment_intent,
-      line_items: JSON.stringify(cart),
+      stripe: query.payment_intent,
+      items: JSON.stringify(cart),
+      status: { id: 1 },
     }),
   });
 
