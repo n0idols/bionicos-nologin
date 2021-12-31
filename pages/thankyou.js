@@ -42,9 +42,9 @@ export async function getServerSideProps({ req, query }) {
     },
     body: JSON.stringify({
       // user_permissions_user: user.id,
-      stripe: query.payment_intent,
-      items: JSON.stringify(cart),
-      status: { id: 1 },
+      charge: query.payment_intent,
+      line_items: JSON.stringify(cart),
+      estado: { id: 1 },
     }),
   });
 
