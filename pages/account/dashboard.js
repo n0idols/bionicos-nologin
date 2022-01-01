@@ -5,9 +5,16 @@ import parseCookies from "@/lib/cookie";
 import { API_URL } from "@/config/index";
 import Link from "next/link";
 import moment from "moment";
-
+import { useRouter } from "next/router";
 export default function Dashboard({ orders }) {
   const { user, logout } = useContext(AuthContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user.role.type === "merchant") {
+      router.push("/account/admin/orders");
+    }
+  }, []);
 
   return (
     <Section>

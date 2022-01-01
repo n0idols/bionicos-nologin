@@ -13,7 +13,35 @@ export default function OrderSlug({ token, orderId, statuses }) {
   const items = order.line_items;
   const entries = Object.entries(items);
 
+  function getStatus(i) {
+    if (i === 1) {
+      return "badge badge-accent mx-2 uppercase font-bold badge-lg mb-8";
+    }
+    if (i === 2) {
+      return "badge badge-secondary mx-2 uppercase font-bold badge-lg mb-8";
+    }
+    if (i === 3) {
+      return "badge badge-success mx-2 uppercase font-bold badge-lg mb-8";
+    }
+  }
+
   useEffect(() => {}, []);
+
+  async function markPending() {
+    await fetch(`${API_URL}/orders/${order.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        estado: {
+          id: 1,
+        },
+      }),
+    });
+    window.location.reload();
+  }
 
   async function markProgress() {
     await fetch(`${API_URL}/orders/${order.id}`, {
@@ -57,26 +85,49 @@ export default function OrderSlug({ token, orderId, statuses }) {
 
           <h1>The order</h1>
 
-          <span className="badge uppercase badge-lg mb-8">
-            {order.estado.title}
-          </span>
+          <h4>
+            Currently:{" "}
+            <span className={getStatus(order.estado.id)}>
+              {order.estado.title}
+            </span>
+          </h4>
 
-          <div className="max-w-xs space-y-8">
-            <button
-              className="btn btn-secondary btn-block"
-              onClick={markProgress}
+          <div className="dropdown">
+            <div tabindex="0" className="m-1 btn btn-success">
+              Order Status
+            </div>
+            <ul
+              tabindex="0"
+              className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 space-y-3"
             >
-              Mark order as in progress
-            </button>
-            <button
-              className="btn btn-primary  btn-block"
-              onClick={markCompleted}
-            >
-              Mark order as completed
-            </button>
+              <li>
+                <button
+                  className="btn btn-accent btn-block"
+                  onClick={markPending}
+                >
+                  pending
+                </button>
+              </li>
+              <li>
+                <button
+                  className="btn btn-secondary btn-block"
+                  onClick={markProgress}
+                >
+                  in progress
+                </button>
+              </li>
+              <li>
+                <button
+                  className="btn btn-primary  btn-block"
+                  onClick={markCompleted}
+                >
+                  completed
+                </button>
+              </li>
+            </ul>
           </div>
 
-          <pre>{JSON.stringify(order.estado, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(order.estado, null, 2)}</pre> */}
           <div className="rounded-lg p-4 my-2">
             {entries.map((item) => {
               const theItem = item[1];
@@ -90,21 +141,21 @@ export default function OrderSlug({ token, orderId, statuses }) {
                 return formatMoney(sum);
               }
               return (
-                <div key={item.id}>
+                <div key={item.id} className="border rounded-md my-4">
                   <div className="flex justify-between items-center m-4">
                     <div className="flex items-center">
-                      <div className="rounded-full bg-black h-8 w-8 flex items-center justify-center text-white">
-                        <h6>1x</h6>
+                      <div className="rounded-full bg-base-300 h-8 w-8 flex items-center justify-center text-black">
+                        <h6>1 x</h6>
                       </div>
                       <div className="ml-2">
-                        <h4>{theItem.item.name}</h4>
+                        <h1>{theItem.item.name}</h1>
                         {theItem.modifications?.map((modification, i) => (
                           <h6 key={i} className="text-gray-600 m-0 p-0">
-                            {modification.name} +{" "}
-                            {formatMoney(modification.amount)}
+                            {modification.name}
+                            {/* {formatMoney(modification.amount)} */}
                           </h6>
                         ))}
-                        <h4 className="mt-1">{calcItemNetPrice()}</h4>
+                        {/* <h4 className="mt-1">{calcItemNetPrice()}</h4> */}
                       </div>
                     </div>
                   </div>
@@ -112,7 +163,6 @@ export default function OrderSlug({ token, orderId, statuses }) {
                 </div>
               );
             })}
-            <div className="card-actions">Total:</div>
           </div>
         </div>
         <div className="card  bordered bg-white cursor-pointer hover:shadow-lg transition ease-linear hover:-translate-y-1">

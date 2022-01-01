@@ -9,8 +9,8 @@ import CartDrawer from "./CartDrawer";
 
 export default function Header() {
   const router = useRouter();
-  const linkClasses = `btn btn-ghost btn-sm rounded-btn hover:btn-primary`;
-  const activeClasses = `btn btn-primary btn-sm rounded-btn `;
+  const linkClasses = `btn btn-ghost btn-sm rounded-btn `;
+  const activeClasses = `btn  btn-sm rounded-btn `;
   const { cart, show, toggleCart, closeCart } = useCart();
   const { user, logout } = useContext(AuthContext);
 
@@ -28,8 +28,49 @@ export default function Header() {
               {user?.role.type === "merchant" ? (
                 <>
                   {" "}
-                  <Link href="/account/admin">
-                    <a>All Orders</a>
+                  <Link href="/account/admin/orders">
+                    <a
+                      className={
+                        router.pathname == "/account/admin/orders"
+                          ? activeClasses
+                          : linkClasses
+                      }
+                    >
+                      All Orders
+                    </a>
+                  </Link>
+                  <Link href="/account/admin/orders/pending">
+                    <a
+                      className={
+                        router.pathname == "/account/admin/orders/pending"
+                          ? activeClasses
+                          : linkClasses
+                      }
+                    >
+                      Pending
+                    </a>
+                  </Link>
+                  <Link href="/account/admin/orders/progress">
+                    <a
+                      className={
+                        router.pathname == "/account/admin/orders/progress"
+                          ? activeClasses
+                          : linkClasses
+                      }
+                    >
+                      In Progress
+                    </a>
+                  </Link>
+                  <Link href="/account/admin/orders/completed">
+                    <a
+                      className={
+                        router.pathname == "/account/admin/orders/completed"
+                          ? activeClasses
+                          : linkClasses
+                      }
+                    >
+                      Completed
+                    </a>
                   </Link>
                 </>
               ) : (

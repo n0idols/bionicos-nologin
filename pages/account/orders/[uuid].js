@@ -22,9 +22,8 @@ export default function OrderSlug({ orderId }) {
           </h2>
 
           <h1>Your order</h1>
-          <span className="badge badge-primary uppercase badge-lg">
-            {order.estado.title}
-          </span>
+          {JSON.stringify(order.estado)}
+          <span className="badge badge-primary uppercase badge-lg"></span>
           <div className="rounded-lg p-4 my-2">
             {entries.map((item) => {
               const theItem = item[1];
