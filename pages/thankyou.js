@@ -43,7 +43,7 @@ export async function getServerSideProps({ req, query }) {
     body: JSON.stringify({
       // user_permissions_user: user.id,
       charge: query.payment_intent,
-      line_items: JSON.stringify(cart),
+      line_items: cart,
       estado: { id: 1 },
     }),
   });
