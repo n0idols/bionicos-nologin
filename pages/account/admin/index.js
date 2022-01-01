@@ -9,6 +9,17 @@ import { Router } from "next/router";
 
 export default function Dashboard({ orders }) {
   const { user } = useContext(AuthContext);
+  function getStatus(i) {
+    if (i === 1) {
+      return "badge badge-primary mx-2 uppercase font-bold";
+    }
+    if (i === 2) {
+      return "badge badge-secondary mx-2 uppercase font-bold";
+    }
+    if (i === 3) {
+      return "badge badge-success mx-2 uppercase font-bold";
+    }
+  }
 
   return (
     <Section>
@@ -32,7 +43,7 @@ export default function Dashboard({ orders }) {
                 </thead>
                 <tbody>
                   {orders?.map((order) => {
-                    console.log(order.line_items);
+                    const entries = Object.entries(order.line_items);
                     return (
                       <Link
                         href={`/account/admin/orders/${order.uuid}`}
@@ -42,13 +53,15 @@ export default function Dashboard({ orders }) {
                           <th>1</th>
                           <td>
                             {" "}
-                            {moment(order.created_at).format("MMM Do YY")}
+                            {moment(order.created_at).format(
+                              "MMMM Do YYYY, h:mm:ss a"
+                            )}
                           </td>
-                          <td>Item titles go here</td>
+                          <td>{entries.length}</td>
                           <td>$32.33</td>
                           <td>{order.user.username}</td>
                           <td>
-                            <div className="badge mx-2 uppercase font-bold">
+                            <div className={getStatus(order.estado.id)}>
                               {order.estado.title}
                             </div>
                           </td>
@@ -74,7 +87,7 @@ export async function getServerSideProps({ req }) {
       redirect: { destination: "/account/login" },
     };
   } else {
-    const res = await fetch(`${API_URL}/orders`, {
+    const res = await fetch(`${API_URL}/orders?_sort=created_at:DESC`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
