@@ -93,11 +93,11 @@ export default function OrderSlug({ token, orderId, statuses }) {
           </h4>
 
           <div className="dropdown">
-            <div tabindex="0" className="m-1 btn btn-success">
+            <div tabIndex="0" className="m-1 btn btn-success">
               Order Status
             </div>
             <ul
-              tabindex="0"
+              tabIndex="0"
               className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 space-y-3"
             >
               <li>
