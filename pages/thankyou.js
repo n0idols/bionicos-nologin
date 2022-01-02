@@ -27,6 +27,19 @@ export default function ThankYouPage() {
 export async function getServerSideProps({ req, query }) {
   const { token, cart } = parseCookies(req);
 
+  let subtotal = 212;
+  let total = 322;
+  // const subtotal = entries.map((item) => {
+  //   let sum = 0;
+  //   item.modifications?.forEach((modification) => {
+  //     sum += modification.amount;
+  //   });
+  //   sum += item.price;
+  //   return sum;
+  // });
+
+  // const total = subtotal * 0.105;
+
   if (!token) {
     return {
       props: {},
@@ -45,6 +58,8 @@ export async function getServerSideProps({ req, query }) {
       charge: query.payment_intent,
       line_items: cart,
       estado: { id: 1 },
+      subtotal: subtotal,
+      total: total,
     }),
   });
 

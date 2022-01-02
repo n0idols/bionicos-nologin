@@ -23,3 +23,5 @@ export const PLACES_KEY = process.env.NEXT_GOOGLE_KEY;
 
 export const REDIRECT_URL =
   process.env.NEXT_REDIRECT_URL || "http://localhost:3000/thankyou";
+
+export const SITE_TITLE = "Bionicos Juices & Rios";

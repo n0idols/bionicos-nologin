@@ -4,7 +4,7 @@ export default function Layout({ title, keywords, description, children }) {
   return (
     <div>
       <Head>
-        <title>Bionicos &amp; Juices Rions - {title}</title>
+        <title>Bionicos &amp; Juices Rios - {title}</title>
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
       </Head>

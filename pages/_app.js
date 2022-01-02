@@ -10,6 +10,7 @@ import { CookiesProvider } from "react-cookie";
 import { AuthProvider } from "@/lib/authState";
 import Head from "next/head";
 import * as Fathom from "fathom-client";
+import { SITE_TITLE } from "../config";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -47,7 +48,6 @@ export default function MyApp({ Component, pageProps }) {
           rel="stylesheet"
         />
         <link rel="manifest" href="/site.webmanifest" />
-
         <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"

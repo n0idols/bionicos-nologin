@@ -24,7 +24,7 @@ export default function Header() {
             <Logo />
           </div>
           <div className="hidden px-2 mx-2 navbar-center lg:flex text-gray-600">
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               {user?.role.type === "merchant" ? (
                 <>
                   {" "}
@@ -118,7 +118,7 @@ export default function Header() {
                   </Link>
                 </>
               )}
-            </div>
+            </div> */}
           </div>
           <div className="navbar-end space-x-4">
             <div>

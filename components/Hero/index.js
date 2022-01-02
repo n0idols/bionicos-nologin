@@ -9,7 +9,7 @@ export default function Hero() {
           <h1 className="text-5xl font-bold">Bionicos Juices & Rios</h1>
           {/* <p className="">2211 E Palmdale Blvd Ste E Palmdale, CA 93550</p> */}
           <Link href="/menu">
-            <a className="btn btn-primary mt-12">View Menu</a>
+            <button className="btn btn-primary mt-12">View Menu</button>
           </Link>
         </div>
       </div>

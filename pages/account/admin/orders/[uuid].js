@@ -5,6 +5,7 @@ import moment from "moment";
 import formatMoney from "@/lib/formatMoney";
 import parseCookies from "@/lib/cookie";
 import { useRouter } from "next/router";
+import Layout from "@/components/Layout";
 
 export default function OrderSlug({ token, orderId, statuses }) {
   const { query } = useRouter();
@@ -75,7 +76,7 @@ export default function OrderSlug({ token, orderId, statuses }) {
   }
 
   return (
-    <>
+    <Layout title={order.id}>
       <Section>
         {/* <pre>{JSON.stringify(orderId, null, 2)}</pre> */}
         <div className="max-w-2xl mx-auto py-8 px-4">
@@ -169,7 +170,7 @@ export default function OrderSlug({ token, orderId, statuses }) {
           <h1></h1>
         </div>
       </Section>
-    </>
+    </Layout>
   );
 }
 

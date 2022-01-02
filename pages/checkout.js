@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
 import parseCookies from "@/lib/cookie";
+import Layout from "@/components/Layout";
 
 export default function CheckoutPage({}) {
   const stripePromise = loadStripe(
@@ -40,39 +41,41 @@ export default function CheckoutPage({}) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto py-8 px-4">
-      <Link href="/menu">
-        <a className="btn btn-sm btn-primary">Go Back To Menu</a>
-      </Link>
-      <div>
+    <Layout title="Checkout">
+      <div className="max-w-2xl mx-auto py-8 px-4">
+        <Link href="/menu">
+          <a className="btn btn-sm btn-primary">Go Back To Menu</a>
+        </Link>
         <div>
           <div>
-            <div className="my-4">
-              <h1>YOUR ORDER SUMMARY</h1>
+            <div>
+              <div className="my-4">
+                <h1>YOUR ORDER SUMMARY</h1>
 
-              {cart.map((item, index) => {
-                console.log(item);
+                {cart.map((item, index) => {
+                  console.log(item);
 
-                return (
-                  <div key={index}>
-                    <CartItem item={item} index={index} />
-                  </div>
-                );
-              })}
-            </div>
-            <h1>Subtotal: {formatMoney(totalCartPrice)}</h1>
-            <div className="p-6 my-8 rounded-lg shadow-lg">
-              {clientSecret && (
-                <Elements options={options} stripe={stripePromise}>
-                  <CheckoutForm />
-                </Elements>
-              )}
-              {/* <StripeCheckout paymentIntent={paymentIntent} /> */}
+                  return (
+                    <div key={index}>
+                      <CartItem item={item} index={index} />
+                    </div>
+                  );
+                })}
+              </div>
+              <h1>Subtotal: {formatMoney(totalCartPrice)}</h1>
+              <div className="p-6 my-8 rounded-lg shadow-lg">
+                {clientSecret && (
+                  <Elements options={options} stripe={stripePromise}>
+                    <CheckoutForm />
+                  </Elements>
+                )}
+                {/* <StripeCheckout paymentIntent={paymentIntent} /> */}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
