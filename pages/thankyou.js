@@ -9,8 +9,8 @@ export default function ThankYouPage() {
   const { emptyCart } = useCart();
 
   useEffect(() => {
-    emptyCart();
-    destroyCookie(null, "cart");
+    // emptyCart();
+    // destroyCookie(null, "cart");
   }, []);
 
   return (
@@ -26,19 +26,7 @@ export default function ThankYouPage() {
 
 export async function getServerSideProps({ req, query }) {
   const { token, cart } = parseCookies(req);
-
-  let subtotal = 212;
-  let total = 322;
-  // const subtotal = entries.map((item) => {
-  //   let sum = 0;
-  //   item.modifications?.forEach((modification) => {
-  //     sum += modification.amount;
-  //   });
-  //   sum += item.price;
-  //   return sum;
-  // });
-
-  // const total = subtotal * 0.105;
+  console.log(typeof cart);
 
   if (!token) {
     return {
@@ -58,8 +46,8 @@ export async function getServerSideProps({ req, query }) {
       charge: query.payment_intent,
       line_items: cart,
       estado: { id: 1 },
-      subtotal: subtotal,
-      total: total,
+      subtotal: query.payment_intent.amount,
+      total: query.payment_intent.amount,
     }),
   });
 

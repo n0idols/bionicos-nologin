@@ -17,6 +17,18 @@ export default function Dashboard({ orders }) {
   //   }
   // }, []);
 
+  function getStatus(i) {
+    if (i === 1) {
+      return "badge badge-accent mx-2 uppercase font-bold badge-lg";
+    }
+    if (i === 2) {
+      return "badge badge-secondary mx-2 uppercase font-bold badge-lg";
+    }
+    if (i === 3) {
+      return "badge badge-success mx-2 uppercase font-bold badge-lg";
+    }
+  }
+
   return (
     <Layout title="Dashboard">
       <Section>
@@ -63,7 +75,7 @@ export default function Dashboard({ orders }) {
                             <td>{entries.length}</td>
                             <td>$32.33</td>
                             <td>
-                              <div className="badge mx-2 uppercase font-bold">
+                              <div className={getStatus(order.estado.id)}>
                                 {order.estado.title}
                               </div>
                             </td>

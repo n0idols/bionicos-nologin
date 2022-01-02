@@ -7,7 +7,7 @@ import parseCookies from "@/lib/cookie";
 import Layout from "@/components/Layout";
 
 export default function OrderSlug({ orderId }) {
-  console.log(orderId);
+  // console.log("hello");
   const order = orderId[0];
   const items = order.line_items;
 
@@ -15,24 +15,23 @@ export default function OrderSlug({ orderId }) {
 
   function getStatus(i) {
     if (i === 1) {
-      return "badge badge-accent mx-2 uppercase font-bold badge-lg mb-8";
+      return "badge badge-accent mx-2 uppercase font-bold badge-lg";
     }
     if (i === 2) {
-      return "badge badge-secondary mx-2 uppercase font-bold badge-lg mb-8";
+      return "badge badge-secondary mx-2 uppercase font-bold badge-lg";
     }
     if (i === 3) {
-      return "badge badge-success mx-2 uppercase font-bold badge-lg mb-8";
+      return "badge badge-success mx-2 uppercase font-bold badge-lg";
     }
   }
 
   return (
-    <Layout title={order.id}>
+    <Layout>
       <Section>
         {/* <pre>{JSON.stringify(orderId, null, 2)}</pre> */}
         <div className="max-w-2xl mx-auto py-8 px-4">
-          <h2 className="">
-            {moment(order.created_at).format("MMMM Do YYYY, h:mm:ss a")}
-          </h2>
+          <p className="">{moment(order.created_at).format("MMMM Do YYYY")}</p>
+          <p>Placed at: {moment(order.created_at).format(" h:mm:ss a")}</p>
 
           <h1>Your order</h1>
 
@@ -52,7 +51,7 @@ export default function OrderSlug({ orderId }) {
                 return formatMoney(sum);
               }
               return (
-                <div key={item.id} className="border rounded-md my-4">
+                <div key={item.id} className="border rounded-md mb-4">
                   <div className="flex justify-between items-center m-4">
                     <div className="flex items-center">
                       <div className="rounded-full bg-base-300 h-8 w-8 flex items-center justify-center text-black">
@@ -60,6 +59,7 @@ export default function OrderSlug({ orderId }) {
                       </div>
                       <div className="ml-2">
                         <h1>{theItem.item.name}</h1>
+
                         {theItem.modifications?.map((modification, i) => (
                           <h6 key={i} className="text-gray-600 m-0 p-0">
                             {modification.name} +{" "}
@@ -94,7 +94,7 @@ export async function getServerSideProps({ req, query: { uuid } }) {
     };
   }
 
-  const res = await fetch(`${API_URL}/orders/me?uuid=${uuid}`, {
+  const res = await fetch(`${API_URL}/orders?uuid=${uuid}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
