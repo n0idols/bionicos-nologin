@@ -21,12 +21,12 @@ export default function SpecialsMenu({ specials }) {
         Each special comes with a
         <span className="text-primary font-bold"> Large Agua Fresca</span>
       </p>
-      <div className="grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-4 justify-center mx-auto">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 justify-center mx-auto items-center">
         {specials.map((special) => (
           <div
             className={
               day === special.id
-                ? "card p-4 bg-primary shadow-xl "
+                ? "card p-4 bg-base-300 shadow-xl "
                 : "card p-4 bg-white opacity-50"
             }
             key={special.id}
@@ -40,26 +40,26 @@ export default function SpecialsMenu({ specials }) {
                 {special.day}
               </span>
               <h1 className="md:text-xl">
-                <span className={day === special.id ? " text-white" : ""}>
+                <span className={day === special.id ? " text-gray-500" : ""}>
                   {special.product.title}
                 </span>
               </h1>
-              <div className="my-4 space-y-2">
-                <p className={day === special.id ? " text-white" : ""}>
+              <div className="my-2 space-y-2">
+                <p className={day === special.id ? " text-gray-500" : ""}>
                   with a {special.side}
                 </p>
               </div>
               <div className="text-center">
                 <p
                   className={
-                    day === special.id ? " text-white font-semibold" : ""
+                    day === special.id ? " text-gray-500 font-bold text-xl" : ""
                   }
                 >
                   ${special.price}
                 </p>
-                <div className="mt-8">
+                <div className="mt-4">
                   {day === special.id ? (
-                    <button className="btn btn-sm bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-auto">
+                    <button className="btn bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-auto">
                       Add To Order
                     </button>
                   ) : (
