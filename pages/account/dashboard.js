@@ -11,11 +11,11 @@ export default function Dashboard({ orders }) {
   const { user, logout } = useContext(AuthContext);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (user.role.type === "merchant") {
-  //     router.push("/account/admin/orders");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (user.role.type === "merchant") {
+      router.push("/account/admin/orders");
+    }
+  }, []);
 
   function getStatus(i) {
     if (i === 1) {
@@ -52,12 +52,9 @@ export default function Dashboard({ orders }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {orders?.map((order) => {
-                      // console.log(order.line_items);
-                      // console.log("hey");
+                    {orders?.map((order, i) => {
                       const items = order.line_items;
                       const entries = Object.entries(items);
-                      console.log(order.estado);
 
                       return (
                         <Link
@@ -65,7 +62,7 @@ export default function Dashboard({ orders }) {
                           key={order.id}
                         >
                           <tr className="hover cursor-pointer">
-                            <th>1</th>
+                            <th>{i + 1}</th>
                             <td>
                               {" "}
                               {moment(order.created_at).format(

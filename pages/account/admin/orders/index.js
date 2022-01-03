@@ -12,13 +12,13 @@ export default function Dashboard({ orders }) {
   const { user } = useContext(AuthContext);
   function getStatus(i) {
     if (i === 1) {
-      return "badge badge-primary mx-2 uppercase font-bold";
+      return "badge badge-accent mx-2 uppercase font-bold";
     }
     if (i === 2) {
       return "badge badge-secondary mx-2 uppercase font-bold";
     }
     if (i === 3) {
-      return "badge badge-success mx-2 uppercase font-bold";
+      return "badge badge-primary mx-2 uppercase font-bold";
     }
   }
 
@@ -44,7 +44,7 @@ export default function Dashboard({ orders }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {orders?.map((order) => {
+                    {orders?.map((order, i) => {
                       const entries = Object.entries(order.line_items);
                       return (
                         <Link
@@ -52,7 +52,7 @@ export default function Dashboard({ orders }) {
                           key={order.id}
                         >
                           <tr className="hover cursor-pointer">
-                            <th>1</th>
+                            <th>{i + 1}</th>
                             <td>
                               {" "}
                               {moment(order.created_at).format(

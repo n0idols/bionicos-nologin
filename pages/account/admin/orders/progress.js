@@ -45,7 +45,7 @@ export default function Dashboard({ orders }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {orders.map((order) => {
+                      {orders.map((order, i) => {
                         const entries = Object.entries(order.line_items);
                         return (
                           <Link
@@ -53,7 +53,7 @@ export default function Dashboard({ orders }) {
                             key={order.id}
                           >
                             <tr className="hover cursor-pointer">
-                              <th>1</th>
+                              <th>{i + 1}</th>
                               <td>
                                 {" "}
                                 {moment(order.created_at).format(

@@ -94,8 +94,8 @@ export default function OrderSlug({ token, orderId, statuses }) {
           </h4>
 
           <div className="dropdown">
-            <div tabIndex="0" className="m-1 btn btn-success">
-              Order Status
+            <div tabIndex="0" className="m-1 btn btn-ghost">
+              Change Order Status
             </div>
             <ul
               tabIndex="0"
