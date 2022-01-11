@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { gql } from "@apollo/client";
 import client from "@/lib/apollo-client";
-import Modal from "@/components/Modal";
-import toast from "react-hot-toast";
+
 import ProductItem from "@/components/ProductItem";
 
 export default function Menu({ categories }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const active = `text-transparent bg-clip-text bg-gradient-to-br from-accent to-accent-focus-focus`;
 
   return (
