@@ -85,7 +85,7 @@ export default function Header() {
                       Home
                     </a>
                   </Link>
-                  <Link href="/menu/specials">
+                  {/* <Link href="/menu/specials">
                     <a
                       className={
                         router.pathname == "/menu/specials"
@@ -95,7 +95,7 @@ export default function Header() {
                     >
                       Specials
                     </a>
-                  </Link>
+                  </Link> */}
                   <Link href="/menu">
                     <a
                       className={
