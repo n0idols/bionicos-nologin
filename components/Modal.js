@@ -6,7 +6,7 @@ const overlay = `h-screen w-screen bg-black overflow-x-hidden overflow-y-auto fi
 const container = `m-auto w-[500px] px-2`;
 const modalstyle = `h-auto flex flex-col shadow-2xl`;
 const modalheader = `shadow-lg bg-gray-200 flex justify-between items-center rounded-t p-4`;
-const modalbody = `bg-white h-full rounded-b-md px-4`;
+const modalbody = `bg-white h-full rounded-b-md`;
 
 export default function Modal({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);

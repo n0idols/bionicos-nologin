@@ -20,6 +20,10 @@ module.exports = {
       screens: {
         standalone: { raw: "(display-mode: standalone)" },
       },
+      backgroundImage: {
+        "hero-pattern":
+          "linear-gradient(to right bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1)), url('../public/hero2.jpg')",
+      },
     },
   },
   plugins: [require("daisyui"), require("@tailwindcss/typography")],

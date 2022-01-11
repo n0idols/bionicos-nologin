@@ -10,7 +10,7 @@ export default function CartItem({ item, index }) {
       sum += modification.amount;
     });
     sum += item.item.price;
-    return formatMoney(sum);
+    return sum;
   }
 
   return (

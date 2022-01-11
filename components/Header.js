@@ -85,17 +85,6 @@ export default function Header() {
                       Home
                     </a>
                   </Link>
-                  <Link href="/contact">
-                    <a
-                      className={
-                        router.pathname == "/contact"
-                          ? activeClasses
-                          : linkClasses
-                      }
-                    >
-                      Contact
-                    </a>
-                  </Link>
                   <Link href="/menu/specials">
                     <a
                       className={

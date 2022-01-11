@@ -8,6 +8,9 @@ import Modal from "react-modal";
 import { CartStateProvider } from "@/lib/cartState";
 import { CookiesProvider } from "react-cookie";
 import { AuthProvider } from "@/lib/authState";
+import { ApolloProvider } from "@apollo/client";
+import client from "@/lib/apollo-client";
+
 import Head from "next/head";
 import * as Fathom from "fathom-client";
 import { SITE_TITLE } from "../config";
@@ -195,15 +198,17 @@ export default function MyApp({ Component, pageProps }) {
           media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
         />
       </Head>
-      <AuthProvider>
-        <CookiesProvider>
-          <CartStateProvider>
-            <Page>
-              <Component {...pageProps} />
-            </Page>
-          </CartStateProvider>
-        </CookiesProvider>
-      </AuthProvider>
+      <ApolloProvider client={client}>
+        <AuthProvider>
+          <CookiesProvider>
+            <CartStateProvider>
+              <Page>
+                <Component {...pageProps} />
+              </Page>
+            </CartStateProvider>
+          </CookiesProvider>
+        </AuthProvider>
+      </ApolloProvider>
     </>
   );
 }

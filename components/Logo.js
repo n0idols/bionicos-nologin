@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import brandImage from "../public/169.png";
+import brandImage from "../public/logo.svg";
 export default function Logo() {
   return (
     <>
       <Link href="/">
-        <div className="h-16 w-28">
+        <div className="h-10 w-10">
           <Image
             src={brandImage}
             alt="Our Logo"

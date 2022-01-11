@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { SITE_TITLE } from "../config";
 
 export default function Layout({ title, keywords, description, children }) {
   return (
@@ -14,7 +15,7 @@ export default function Layout({ title, keywords, description, children }) {
 }
 
 Layout.defaultProps = {
-  title: "Bionicos Juices & Rios",
+  title: SITE_TITLE,
   description: "100% Natural juices, smoothies and fruit salads.",
   keywords: "bionicos palmdale, juice bar palmdale, healthy food palmdale",
 };

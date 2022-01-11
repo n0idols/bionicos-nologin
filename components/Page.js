@@ -19,7 +19,7 @@ export default function Page({ children }) {
       />
       <div
         style={{ WebkitTapHighlightColor: "transparent" }}
-        className="bg-base-100 standalone:mt-32 mt-24"
+        className="bg-base-100 mt-16"
       >
         <Header />
         <main className="min-h-screen ">{children}</main>

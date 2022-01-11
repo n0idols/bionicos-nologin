@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import Layout from "@/components/Layout";
 import LocationMap from "@/components/LocationMap";
+import Featured from "@/components/Products/Featured";
 import Reviews from "@/components/Reviews";
 import { PLACES_ID, PLACES_KEY } from "@/config/index";
 
@@ -8,7 +9,7 @@ export default function Home({ data }) {
   return (
     <Layout title="Home">
       <Hero />
-      <Reviews data={data} />
+      <Featured />
     </Layout>
   );
 }

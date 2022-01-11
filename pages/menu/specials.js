@@ -1,11 +1,5 @@
-import { useState } from "react";
-import Section from "@/components/Section";
-import { API_URL } from "@/config/index";
-import { useAuth } from "@/lib/authState";
-
 import { gql } from "@apollo/client";
 import client from "@/lib/apollo-client";
-import { useCart } from "@/lib/cartState";
 
 export default function SpecialsMenu({ specials }) {
   const d = new Date();
