@@ -51,8 +51,8 @@ export default function Dashboard({ orders }) {
                       <th>Order Status</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {orders?.map((order, i) => {
+                  {/* <tbody>
+                    {orders.map((order, i) => {
                       const items = order.line_items;
                       const entries = Object.entries(items);
 
@@ -80,7 +80,7 @@ export default function Dashboard({ orders }) {
                         </Link>
                       );
                     })}
-                  </tbody>
+                  </tbody> */}
                 </table>
               </div>
             </>

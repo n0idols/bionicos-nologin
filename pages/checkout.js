@@ -19,6 +19,9 @@ export default function CheckoutPage({}) {
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
   const { user } = useContext(AuthContext);
+  const [notes, setNotes] = useState("");
+  const tax = totalCartPrice * 0.1025;
+  const total = totalCartPrice + tax;
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -62,8 +65,87 @@ export default function CheckoutPage({}) {
                   );
                 })}
               </div>
-              <h1>Subtotal: {formatMoney(totalCartPrice)}</h1>
-              <div className="p-6 my-8 rounded-lg shadow-lg">
+              <div className="form-control px-2">
+                <label className="label">
+                  <span className="label-text">Any special instructions? </span>
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.currentTarget.value)}
+                  className="textarea h-24 textarea-bordered textarea-primary"
+                  placeholder="Add a note for us here"
+                ></textarea>
+              </div>
+              <div className="my-2 ">
+                <div className="p-2 tracking-wide flex justify-between">
+                  <div>
+                    <h6>Subtotal</h6>
+                  </div>
+                  <div>
+                    <h6>{formatMoney(totalCartPrice)}</h6>
+                  </div>
+                </div>
+                <hr />
+
+                <div className=" p-2 tracking-wide flex justify-between">
+                  <div>
+                    <h6>Tax</h6>
+                  </div>
+                  <div>
+                    <h6>{formatMoney(tax)}</h6>
+                  </div>
+                </div>
+                <hr />
+                {/* 
+                {/* Tip */}
+
+                <div className="px-2">
+                  <h6>Tip the staff</h6>
+                  <div className="">
+                    <div className="btn-group">
+                      <input
+                        type="radio"
+                        name="options"
+                        id="option1"
+                        data-title="10%"
+                        className="btn btn-outline btn-primary"
+                      />
+                      <input
+                        type="radio"
+                        name="options"
+                        id="option2"
+                        data-title="15%"
+                        checked="checked"
+                        className="btn btn-outline btn-primary"
+                      />
+                      <input
+                        type="radio"
+                        name="options"
+                        id="option3"
+                        data-title="20%"
+                        className="btn btn-outline btn-primary"
+                      />
+                      <input
+                        type="radio"
+                        name="options"
+                        id="other"
+                        data-title="other"
+                        className="btn btn-outline btn-primary"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className=" p-2 tracking-wide flex justify-between">
+                  <div>
+                    <h6 className="font-bold">Total</h6>
+                  </div>
+                  <div>
+                    <h6 className="font-bold">{formatMoney(total)}</h6>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-lg">
                 {clientSecret && (
                   <Elements options={options} stripe={stripePromise}>
                     <CheckoutForm />

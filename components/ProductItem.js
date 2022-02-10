@@ -44,10 +44,11 @@ export default function ProductItem({ item }) {
             />
           )}
         </div>
+
         <div className="space-y-2 p-2">
           <h2 className="text-xl">{item.title}</h2>
           <p>{item.description}</p>
-          <p className="font-bold text-primary">${item.price}</p>
+          <p className="font-bold text-primary">{formatMoney(item.price)}</p>
         </div>
       </a>
       <Modal
@@ -68,48 +69,44 @@ export default function ProductItem({ item }) {
             )}
           </div>
           {item.description && <p className="my-2">{item.description}</p>}
-          {/* <pre>{JSON.stringify(item.modifers[0], null, 2)}</pre>} */}
-          {item.modifers.map((mod) => mod.options)}
-          <form onSubmit={addItemToCart} className="py-2">
-            {item?.modifierGroups?.elements.map((group, index) => (
-              <div key={index} className="mb-2">
+          {/* <pre>{JSON.stringify(item.modifiers[0], null, 2)}</pre>} */}
+          {item.modifiers.map((mod) => mod.options)}
+          <form onSubmit={addItemToCart} className="p-2">
+            {item.modifiers?.map((group, i) => (
+              <div key={i} className="mb-2">
                 <div className="">
                   <h2>{group.name}</h2>
-                  {group.minRequired ? (
+                  {group.required ? (
                     <div>
-                      <div className="badge badge-primary rounded-full">
+                      <div className="badge badge-accent rounded-full">
                         Required
                       </div>
-                      {group.modifiers.elements.map((mod, i) => (
+                      {group.mod.map((m, i) => (
                         <div key={i}>
                           <div className="flex items-center">
                             <label
-                              htmlFor={mod.id}
+                              htmlFor={m.id}
                               className="cursor-pointer label text-sm"
                             >
                               <input
                                 required
                                 type="radio"
                                 className="radio radio-primary radio-sm mr-2 "
-                                name={group.id}
-                                id={mod.id}
-                                onClick={() =>
-                                  selectMod(
-                                    group.id,
-                                    mod.id,
-                                    mod.name,
-                                    mod.price
-                                  )
-                                }
+                                name={group.name}
+                                id={m.id}
+                                onChange={() => {
+                                  console.log(group);
+                                  selectMod(group.name, m.id, m.name, m.price);
+                                }}
                               />
 
-                              {mod.name}
+                              {m.name}
 
-                              {mod.price === 0 ? (
+                              {m.price === 0 ? (
                                 <div />
                               ) : (
                                 <span className="ml-1 font-bold ">
-                                  + {formatMoney(mod.price)}
+                                  + {formatMoney(m.price)}
                                 </span>
                               )}
                             </label>
@@ -123,35 +120,30 @@ export default function ProductItem({ item }) {
                       <div className="badge badge-ghost rounded-full">
                         Optional
                       </div>
-                      {group.modifiers.elements.map((mod, i) => (
+                      {group.mod.map((m, i) => (
                         <div key={i}>
                           <div className="flex items-center">
                             <label
-                              htmlFor={mod.id}
+                              htmlFor={m.id}
                               className="cursor-pointer label text-sm"
                             >
                               <input
                                 type="checkbox"
                                 className="checkbox checkbox-primary checkbox-sm mr-2 "
                                 name={group.id}
-                                id={mod.id}
+                                id={m.id}
                                 onClick={() =>
-                                  selectMod(
-                                    group.id,
-                                    mod.id,
-                                    mod.name,
-                                    mod.price
-                                  )
+                                  selectMod(group.id, m.id, m.name, m.price)
                                 }
                               />
 
-                              {mod.name}
+                              {m.name}
 
-                              {mod.price === 0 ? (
+                              {m.price === 0 ? (
                                 <div />
                               ) : (
                                 <span className="ml-1 font-bold ">
-                                  + {formatMoney(mod.price)}
+                                  + {formatMoney(m.price)}
                                 </span>
                               )}
                             </label>
@@ -173,11 +165,8 @@ export default function ProductItem({ item }) {
 
 			 TODO Add price + modifiers 
 			 {item.price}  */}
-            <div className="flex justify-center">
-              <button className="btn bg-accent border-none text-white hover:bg-accent-focus  mt-auto">
-                Add To Order ${item.price}
-              </button>
-            </div>
+
+            <button className="btn  btn-block mt-auto">Add To Order</button>
 
             {/* <button className="bg-primary-red py-2 text-white w-full rounded-lg">Add To Order</button>  */}
           </form>

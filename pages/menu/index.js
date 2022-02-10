@@ -50,14 +50,22 @@ export async function getStaticProps() {
         categories {
           name
           products {
+            id
+            number
             title
+            description
             price
             image {
               url
             }
-            modifers {
-              title
-              options
+            modifiers {
+              name
+              required
+              max
+              mod {
+                name
+                price
+              }
             }
           }
         }

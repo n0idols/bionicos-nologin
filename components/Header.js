@@ -85,7 +85,7 @@ export default function Header() {
                       Home
                     </a>
                   </Link>
-                  {/* <Link href="/menu/specials">
+                  <Link href="/menu/specials">
                     <a
                       className={
                         router.pathname == "/menu/specials"
@@ -95,7 +95,7 @@ export default function Header() {
                     >
                       Specials
                     </a>
-                  </Link> */}
+                  </Link>
                   <Link href="/menu">
                     <a
                       className={
@@ -113,9 +113,6 @@ export default function Header() {
             <div>
               {user ? (
                 <div className="lg:flex hidden">
-                  <button onClick={logout} className="btn btn-warning">
-                    log out
-                  </button>
                   <Link href="/account/dashboard">
                     <a className="btn btn-ghost text-gray-600">Account</a>
                   </Link>

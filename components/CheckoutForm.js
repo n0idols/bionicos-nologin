@@ -98,7 +98,7 @@ export default function CheckoutForm() {
       </p>
       <PaymentElement id="payment-element" />
       <button
-        className="btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-8"
+        className="btn btn-block btn-primary  mt-8"
         disabled={isLoading || !stripe || !elements}
         id="submit"
       >

@@ -13,7 +13,7 @@ const drawerstyle = ` h-screen flex flex-col shadow-2xl `;
 const drawerheader = `shadow-lg bg-gray-200 flex justify-between items-center p-4`;
 const drawerbody = `bg-white h-full px-4 overflow-y-auto`;
 const drawerfooter = `bg-gray-200 shadow-lg p-2`;
-const checkoutbtn = `btn btn-accent btn-lg my-4 rounded-3xl w-full px-4 py-2 flex justify-between`;
+const checkoutbtn = `btn btn-lg my-4 rounded-3xl w-full px-4 py-2 flex justify-between`;
 
 export default function CartDrawer({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
@@ -65,7 +65,7 @@ export default function CartDrawer({ show, onClose, children, title }) {
               disabled={cart.length == 0}
             >
               <h3 className="text-white">Checkout</h3>
-              <h3 className="text-white">{totalCartPrice}</h3>
+              <h3 className="text-white">{formatMoney(totalCartPrice)}</h3>
             </button>
             <div>
               {cart.length === 0 ? (
