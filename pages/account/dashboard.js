@@ -49,7 +49,7 @@ export default function Dashboard({ orders }) {
             Logout
           </button>
         </div>
-
+        {/* {orders.length > 0 ? <></> : <></>} */}
         {cart.length > 0 ? (
           <div className="border border-success p-3 rounded-lg animate-pulse">
             <div>

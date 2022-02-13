@@ -39,10 +39,10 @@ export default function CartDrawer({ show, onClose, children, title }) {
   };
 
   const onCheckout = () => {
-    if (!user) {
-      alert("Please sign up to place an order");
-      router.push("/account/signup");
-    }
+    // if (!user) {
+    //   alert("Please sign up to place an order");
+    //   router.push("/account/signup");
+    // }
     closeCart();
 
     router.push("/checkout");
