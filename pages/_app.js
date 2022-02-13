@@ -13,7 +13,6 @@ import client from "@/lib/apollo-client";
 
 import Head from "next/head";
 import * as Fathom from "fathom-client";
-import { SITE_TITLE } from "../config";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());

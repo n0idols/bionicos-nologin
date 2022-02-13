@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { SITE_TITLE } from "../config";
+import { SITE_TITLE } from "@/config/index";
 
 export default function Layout({ title, keywords, description, children }) {
   return (

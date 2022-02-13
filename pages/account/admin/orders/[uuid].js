@@ -1,15 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Section from "@/components/Section";
-import { API_URL } from "@/config/index";
+
 import moment from "moment";
 import formatMoney from "@/lib/formatMoney";
 import parseCookies from "@/lib/cookie";
-import { useRouter } from "next/router";
+
 import Layout from "@/components/Layout";
 
-export default function OrderSlug({ token, orderId, statuses }) {
-  const { query } = useRouter();
-  console.log(orderId);
+export default function OrderSlug({ token, orderId }) {
   const order = orderId[0];
   const items = order.line_items;
   const entries = Object.entries(items);
@@ -25,11 +23,8 @@ export default function OrderSlug({ token, orderId, statuses }) {
       return "badge badge-success mx-2 uppercase font-bold badge-lg mb-8";
     }
   }
-
-  useEffect(() => {}, []);
-
   async function markPending() {
-    await fetch(`${API_URL}/orders/${order.id}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +40,7 @@ export default function OrderSlug({ token, orderId, statuses }) {
   }
 
   async function markProgress() {
-    await fetch(`${API_URL}/orders/${order.id}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +55,7 @@ export default function OrderSlug({ token, orderId, statuses }) {
     window.location.reload();
   }
   async function markCompleted() {
-    await fetch(`${API_URL}/orders/${order.id}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -183,16 +178,19 @@ export async function getServerSideProps({ req, query: { uuid } }) {
     };
   }
 
-  const res = await fetch(`${API_URL}/orders?uuid=${uuid}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/orders?uuid=${uuid}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   const orderId = await res.json();
 
-  const statusRes = await fetch(`${API_URL}/estados`, {
+  const statusRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/estados`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
