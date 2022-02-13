@@ -63,7 +63,6 @@ export default function SignUp() {
             placeholder="Your name"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            autoComplete="name"
           />
 
           <label htmlFor="email" className="label">
@@ -75,7 +74,6 @@ export default function SignUp() {
             placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
           />
           <label htmlFor="password" className="label">
             <span className="label-text">Password</span>
