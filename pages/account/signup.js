@@ -86,7 +86,6 @@ export default function SignUp() {
             placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
           />
           <label htmlFor="confirm-password" className="label">
             <span className="label-text">Confirm Password</span>
@@ -97,7 +96,6 @@ export default function SignUp() {
             placeholder="confirm password"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
-            autoComplete="passwordConfirm"
           />
 
           <div className="mt-6">
