@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { REDIRECT_URL } from "@/config/index";
 import { useCookies } from "react-cookie";
 import {
   PaymentElement,
@@ -76,8 +75,8 @@ export default function CheckoutForm({ notes }) {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        // return_url: REDIRECT_URL,
-        return_url: "https://bionicosjuicesrios.com/thankyou",
+
+        return_url: `${process.env.NEXT_PUBLIC_RETURN_URL}`,
         receipt_email: user.email,
       },
     });
