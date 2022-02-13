@@ -10,6 +10,7 @@ export default function CartItem({ item, index }) {
       sum += modification.amount;
     });
     sum += item.item.price;
+    sum *= item.quantity;
     return formatMoney(sum);
   }
 
@@ -18,7 +19,7 @@ export default function CartItem({ item, index }) {
       <div className="flex justify-between items-center m-4">
         <div className="flex items-center">
           <div className="rounded-full bg-base-300 h-8 w-8 flex items-center justify-center text-black">
-            <h6 className="text-xs font-bold">1x</h6>
+            <h6 className="text-xs font-bold">{item.quantity}x</h6>
           </div>
           <div className="ml-2">
             <h4>

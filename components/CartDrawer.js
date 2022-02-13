@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "@/lib/authState";
+import { useState, useEffect, useContext } from "react";
+import AuthContext from "@/lib/authState";
+
 import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import ReactDOM from "react-dom";
 import CartItem from "./Cart/CartItem";
+// import useOnClickOutsideRef from "@/lib/onClickOutside";
 
 const overlay = `h-screen w-screen bg-black overflow-x-hidden overflow-y-auto fixed inset-0 z-50 bg-opacity-60 flex`;
 const container = `fixed top-0 right-0 h-screen w-full md:w-5/12 xl:w-4/12`;
@@ -13,11 +15,13 @@ const drawerstyle = ` h-screen flex flex-col shadow-2xl `;
 const drawerheader = `shadow-lg bg-gray-200 flex justify-between items-center p-4`;
 const drawerbody = `bg-white h-full px-4 overflow-y-auto`;
 const drawerfooter = `bg-gray-200 shadow-lg p-2`;
-const checkoutbtn = `btn btn-lg my-4 rounded-3xl w-full px-4 py-2 flex justify-between`;
+const checkoutbtn = `btn btn-primary btn-lg my-4 rounded-3xl w-full px-4 py-2 flex justify-between`;
 
 export default function CartDrawer({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
   const { cart, closeCart, totalCartPrice, emptyCart } = useCart();
+  const { user, logout } = useContext(AuthContext);
+  // const modalRef = useOnClickOutsideRef(() => alert("hey"));
 
   const router = useRouter();
   useEffect(() => {
@@ -35,7 +39,12 @@ export default function CartDrawer({ show, onClose, children, title }) {
   };
 
   const onCheckout = () => {
+    if (!user) {
+      alert("Please sign up to place an order");
+      router.push("/account/signup");
+    }
     closeCart();
+
     router.push("/checkout");
   };
 
@@ -47,7 +56,7 @@ export default function CartDrawer({ show, onClose, children, title }) {
             <div>
               <h1>Your Order</h1>
             </div>
-            <button onClick={emptyCart}> Clear</button>
+            {/* <button onClick={emptyCart}> Clear</button> */}
             <div>
               <button
                 onClick={handleClose}
