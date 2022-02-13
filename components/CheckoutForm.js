@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 
 import { REDIRECT_URL } from "@/config/index";
-
+import { useCookies } from "react-cookie";
 import {
   PaymentElement,
   useStripe,
@@ -10,11 +10,12 @@ import {
 import AuthContext from "@/lib/authState";
 import Loading from "./icons/Loading";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({ notes }) {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["notes"]);
 
   const [orderCompleted, setOrderCompleted] = useState(null);
   const [orderCompletedError, setOrderCompletedError] = useState(null);
@@ -61,19 +62,22 @@ export default function CheckoutForm() {
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
+      setIsLoading(true);
       return;
     }
 
     setIsLoading(true);
-
+    setCookie("notes", JSON.stringify(notes), {
+      path: "/",
+    });
     // destroyCookie(null, "cart");
 
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: REDIRECT_URL,
-        // return_url: "https://bionicosjuicesrios.com/thankyou",
+        // return_url: REDIRECT_URL,
+        return_url: "https://bionicosjuicesrios.com/thankyou",
         receipt_email: user.email,
       },
     });
@@ -91,14 +95,15 @@ export default function CheckoutForm() {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <p className="mb-6">
+    <form id="payment-form" onSubmit={handleSubmit} className=" p-4 rounded-xl">
+      {/* <p className="mb-6">
         Reciept will be sent to:
         <span className="font-bold ml-1">{user.email}</span>
-      </p>
+      </p> */}
+
       <PaymentElement id="payment-element" />
       <button
-        className="btn btn-block btn-primary  mt-8"
+        className="btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover mt-4"
         disabled={isLoading || !stripe || !elements}
         id="submit"
       >

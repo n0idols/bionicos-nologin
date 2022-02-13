@@ -1,8 +1,8 @@
 import "./Hero.module.css";
 import Link from "next/link";
 import { SITE_TITLE } from "@/config/index";
-import Image from "next/image";
 
+const orderbtn = `btn bg-brand-red glass text-white hover:bg-brand-redhover shadow-2xl px-8`;
 export default function Hero() {
   return (
     <>
@@ -11,9 +11,9 @@ export default function Hero() {
           <h1 className="md:text-5xl text-4xl font-bold text-white mb-6">
             {SITE_TITLE}
           </h1>
-          {/* <p className="">2211 E Palmdale Blvd Ste E Palmdale, CA 93550</p> */}
+
           <Link href="/menu">
-            <button className="btn btn-accent shadow-2xl ">Order Now</button>
+            <button className={orderbtn}>Order Now</button>
           </Link>
         </div>
       </div>
