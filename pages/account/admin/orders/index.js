@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import AuthContext from "@/lib/authState";
 import Section from "@/components/Section";
 import parseCookies from "@/lib/cookie";
-import { API_URL } from "@/config/index";
+
 import Link from "next/link";
 import moment from "moment";
 import { Router } from "next/router";
@@ -90,12 +90,15 @@ export async function getServerSideProps({ req }) {
       redirect: { destination: "/account/login" },
     };
   } else {
-    const res = await fetch(`${API_URL}/orders?_sort=created_at:DESC`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/orders?_sort=created_at:DESC`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const orders = await res.json();
     return {

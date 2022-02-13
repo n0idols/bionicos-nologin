@@ -2,9 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import AuthContext from "@/lib/authState";
 import Section from "@/components/Section";
 import parseCookies from "@/lib/cookie";
-import { API_URL } from "@/config/index";
-import Link from "next/link";
-import moment from "moment";
+
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 export default function Dashboard({ orders }) {
@@ -99,7 +97,7 @@ export async function getServerSideProps({ req }) {
       redirect: { destination: "/account/login" },
     };
   } else {
-    const res = await fetch(`${API_URL}/orders/me`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

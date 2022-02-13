@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Section from "@/components/Section";
-import { API_URL } from "@/config/index";
+
 import moment from "moment";
 import formatMoney from "@/lib/formatMoney";
 import parseCookies from "@/lib/cookie";
@@ -94,13 +94,16 @@ export async function getServerSideProps({ req, query: { uuid } }) {
     };
   }
 
-  const res = await fetch(`${API_URL}/orders?uuid=${uuid}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/orders?uuid=${uuid}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   const orderId = await res.json();
 
   return {
