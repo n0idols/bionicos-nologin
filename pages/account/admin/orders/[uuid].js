@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Section from "@/components/Section";
 
 import moment from "moment";
@@ -6,23 +5,28 @@ import formatMoney from "@/lib/formatMoney";
 import parseCookies from "@/lib/cookie";
 
 import Layout from "@/components/Layout";
+import OrderItem from "@/components/OrderItem";
 
 export default function OrderSlug({ token, orderId }) {
   const order = orderId[0];
-  const items = order.line_items;
+  const items = order?.line_items;
   const entries = Object.entries(items);
 
   function getStatus(i) {
     if (i === 1) {
-      return "badge badge-accent mx-2 uppercase font-bold badge-lg mb-8";
+      return "badge badge-accent mx-2 uppercase font-bold";
     }
     if (i === 2) {
-      return "badge badge-secondary mx-2 uppercase font-bold badge-lg mb-8";
+      return "badge badge-secondary mx-2 uppercase font-bold";
     }
     if (i === 3) {
-      return "badge badge-success mx-2 uppercase font-bold badge-lg mb-8";
+      return "badge badge-success mx-2 uppercase font-bold";
+    }
+    if (i === 4) {
+      return "badge badge-primary mx-2 uppercase font-bold";
     }
   }
+
   async function markPending() {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`, {
       method: "PUT",
@@ -54,6 +58,22 @@ export default function OrderSlug({ token, orderId }) {
     });
     window.location.reload();
   }
+
+  async function markPickup() {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        estado: {
+          id: 4,
+        },
+      }),
+    });
+    window.location.reload();
+  }
   async function markCompleted() {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`, {
       method: "PUT",
@@ -74,95 +94,111 @@ export default function OrderSlug({ token, orderId }) {
     <Layout title={order.id}>
       <Section>
         {/* <pre>{JSON.stringify(orderId, null, 2)}</pre> */}
-        <div className="max-w-2xl mx-auto py-8 px-4">
-          <h2 className="">
-            {moment(order.created_at).format("MMMM Do YYYY, h:mm:ss a")}
-          </h2>
+        <div className="max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl">
+          <div className="flex justify-between">
+            <div>
+              <h2>{moment(order.created_at).format("dddd MMMM Do YYYY")}</h2>
 
-          <h1>The order</h1>
+              {/* <span className="">Ordered at: </span> */}
 
-          <h4>
-            Currently:{" "}
-            <span className={getStatus(order.estado.id)}>
-              {order.estado.title}
-            </span>
-          </h4>
+              <h2>{moment(order.created_at).format("h:mm:ss a")}</h2>
+              {/* <span className="text-xs block -mb-2 p-0 font-bold">
+                Customer:
+              </span> */}
+              <h1 className="font-light">{order.user.username}</h1>
+              <h6 className="mb-2">{order.user.email}</h6>
+              {/* <h4>Currently: </h4> */}
 
-          <div className="dropdown">
-            <div tabIndex="0" className="m-1 btn btn-ghost">
-              Change Order Status
+              <div>
+                <small>Status:</small>
+                <span className={getStatus(order.estado.id)}>
+                  {order.estado.title}
+                </span>
+              </div>
             </div>
-            <ul
-              tabIndex="0"
-              className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 space-y-3"
-            >
-              <li>
-                <button
-                  className="btn btn-accent btn-block"
-                  onClick={markPending}
-                >
-                  pending
-                </button>
-              </li>
-              <li>
-                <button
-                  className="btn btn-secondary btn-block"
-                  onClick={markProgress}
-                >
-                  in progress
-                </button>
-              </li>
-              <li>
-                <button
-                  className="btn btn-primary  btn-block"
-                  onClick={markCompleted}
-                >
-                  completed
-                </button>
-              </li>
-            </ul>
+            <div className="dropdown">
+              <div tabIndex="0" className="m-1 btn btn-success">
+                Change Order Status
+              </div>
+              <ul
+                tabIndex="0"
+                className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 space-y-3"
+              >
+                <li>
+                  <button
+                    className="btn btn-accent btn-block"
+                    onClick={markPending}
+                  >
+                    pending
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="btn btn-secondary btn-block"
+                    onClick={markProgress}
+                  >
+                    in progress
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="btn btn-primary btn-block"
+                    onClick={markPickup}
+                  >
+                    ready for pickup
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="btn  btn-block btn-success"
+                    onClick={markCompleted}
+                  >
+                    completed
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
-
           {/* <pre>{JSON.stringify(order.estado, null, 2)}</pre> */}
-          <div className="rounded-lg p-4 my-2">
-            {entries.map((item) => {
-              const theItem = item[1];
-
-              function calcItemNetPrice() {
-                let sum = 0;
-                theItem.modifications?.forEach((modification) => {
-                  sum += modification.amount;
-                });
-                sum += theItem.item.price;
-                return formatMoney(sum);
-              }
-              return (
-                <div key={item.id} className="border rounded-md my-4">
-                  <div className="flex justify-between items-center m-4">
-                    <div className="flex items-center">
-                      <div className="rounded-full bg-base-300 h-8 w-8 flex items-center justify-center text-black">
-                        <h6>1 x</h6>
-                      </div>
-                      <div className="ml-2">
-                        <h1>{theItem.item.name}</h1>
-                        {theItem.modifications?.map((modification, i) => (
-                          <h6 key={i} className="text-gray-600 m-0 p-0">
-                            {modification.name}
-                            {/* {formatMoney(modification.amount)} */}
-                          </h6>
-                        ))}
-                        {/* <h4 className="mt-1">{calcItemNetPrice()}</h4> */}
-                      </div>
-                    </div>
-                  </div>
-                  <hr />
-                </div>
-              );
+          <div className="rounded-lg">
+            {entries.map((item, i) => {
+              return <OrderItem key={i} item={item} />;
             })}
           </div>
-        </div>
-        <div className="card  bordered bg-white cursor-pointer hover:shadow-lg transition ease-linear hover:-translate-y-1">
-          <h1></h1>
+
+          <div className="flex flex-col pt-4">
+            <h2 className="my-4">
+              Notes: <span className="font-light">{order.notes}</span>
+            </h2>
+          </div>
+
+          <div className=" p-2 tracking-wide flex justify-between">
+            <div>
+              <h6>Subtotal</h6>
+            </div>
+            <div>
+              <h6>{formatMoney(order.subtotal)}</h6>
+            </div>
+          </div>
+          <hr />
+
+          <div className=" p-2 tracking-wide flex justify-between">
+            <div>
+              <h6>Tax</h6>
+            </div>
+            <div>
+              <h6>{formatMoney(order.tax)}</h6>
+            </div>
+          </div>
+          <hr />
+          <div className=" p-2 tracking-wide flex justify-between">
+            <div>
+              <h6 className="font-bold">Total</h6>
+            </div>
+            <div>
+              <h6 className="font-bold">{formatMoney(order.total)}</h6>
+            </div>
+          </div>
         </div>
       </Section>
     </Layout>

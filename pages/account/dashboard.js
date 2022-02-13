@@ -50,14 +50,14 @@ export default function Dashboard({ orders }) {
           </button>
         </div>
         {/* {orders.length > 0 ? <></> : <></>} */}
-        {orders.length > 0 ? (
+        {orders.length < 0 ? (
           <div className="mt-8">
             <div>
               <h1 className="text-center p-3">
                 Add items from our menu to get started
               </h1>
             </div>
-            <Link>
+            <Link href="/menu">
               <button
                 passHref="/menu"
                 className="font-bold ml-2 btn btn-success btn-block"
@@ -68,8 +68,10 @@ export default function Dashboard({ orders }) {
           </div>
         ) : (
           <>
-            <h1>Your Order History</h1>
-            {orders?.map((order, i) => {
+            <div className="mb-2">
+              <h3>Your Order History</h3>
+            </div>
+            {orders.map((order, i) => {
               const items = order.line_items;
               const entries = Object.entries(items);
               let quantity = 0;
@@ -79,7 +81,7 @@ export default function Dashboard({ orders }) {
               return (
                 <div
                   key={i}
-                  className="bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2"
+                  className="bg-white shadow-md flex flex-col mb-8 p-4 rounded-lg space-y-2"
                 >
                   <span className="text-xl font-bold text-gray-600">
                     {moment(order.created_at).format("MMMM Do, h:mm A")}
