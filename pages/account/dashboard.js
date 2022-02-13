@@ -50,58 +50,52 @@ export default function Dashboard({ orders }) {
           </button>
         </div>
         {/* {orders.length > 0 ? <></> : <></>} */}
-        {cart.length > 0 ? (
-          <div className="border border-success p-3 rounded-lg animate-pulse">
-            <div>
-              <h1 className="text-center">Thanks for signing up!</h1>
-            </div>
-            <Link href="/checkout">
-              <button className="font-bold ml-2 btn btn-success btn-block">
-                Continue to checkout
-              </button>
-            </Link>
-          </div>
-        ) : (
+        {orders.length > 0 ? (
           <div className="mt-8">
             <div>
               <h1 className="text-center p-3">
                 Add items from our menu to get started
               </h1>
             </div>
-            <Link href="/menu">
-              <button className="font-bold ml-2 btn btn-success btn-block">
+            <Link>
+              <button
+                passHref="/menu"
+                className="font-bold ml-2 btn btn-success btn-block"
+              >
                 View Menu
               </button>
             </Link>
           </div>
+        ) : (
+          <>
+            <h1>Your Order History</h1>
+            {orders?.map((order, i) => {
+              const items = order.line_items;
+              const entries = Object.entries(items);
+              let quantity = 0;
+              items.forEach((item) => {
+                quantity += item.quantity;
+              });
+              return (
+                <div
+                  key={i}
+                  className="bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2"
+                >
+                  <span className="text-xl font-bold text-gray-600">
+                    {moment(order.created_at).format("MMMM Do, h:mm A")}
+                  </span>
+                  <div className={getStatus(order.estado.id)}>
+                    {order.estado.title}
+                  </div>
+                  <h4>Items: {quantity}</h4>
+                  <Link href={`/account/orders/${order.uuid}`} key={order.id}>
+                    <a className="btn btn-outline mx-4">View Details</a>
+                  </Link>
+                </div>
+              );
+            })}
+          </>
         )}
-        {/* {orders && <h1>Your Order History</h1>} */}
-
-        {orders?.map((order, i) => {
-          const items = order.line_items;
-          const entries = Object.entries(items);
-          let quantity = 0;
-          items.forEach((item) => {
-            quantity += item.quantity;
-          });
-          return (
-            <div
-              key={i}
-              className="bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2"
-            >
-              <span className="text-xl font-bold text-gray-600">
-                {moment(order.created_at).format("MMMM Do, h:mm A")}
-              </span>
-              <div className={getStatus(order.estado.id)}>
-                {order.estado.title}
-              </div>
-              <h4>Items: {quantity}</h4>
-              <Link href={`/account/orders/${order.uuid}`} key={order.id}>
-                <a className="btn btn-outline mx-4">View Details</a>
-              </Link>
-            </div>
-          );
-        })}
       </div>
     </Layout>
   );
