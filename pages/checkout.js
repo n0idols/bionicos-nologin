@@ -52,7 +52,7 @@ export default function CheckoutPage({}) {
     date.setSeconds(date.getUTCSeconds());
     date.setMilliseconds(date.getUTCMilliseconds());
 
-    if (date.getDay() === 0) return true;
+    // if (date.getDay() === 0) return true;
     return date.getHours() < 6 || date.getHours() >= 16;
   };
   return (
