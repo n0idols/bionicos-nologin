@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Section from "@/components/Section";
 import parseCookies from "@/lib/cookie";
 import { useCart } from "@/lib/cartState";
-import { API_URL } from "../config";
+
 import { destroyCookie } from "nookies";
 import Link from "next/link";
 export default function ThankYouPage() {
@@ -35,7 +35,7 @@ export async function getServerSideProps({ req, query }) {
     };
   }
 
-  const res = await fetch(`${API_URL}/orders`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

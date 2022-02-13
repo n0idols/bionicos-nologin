@@ -1,21 +1,23 @@
 import cookie from "cookie";
-import { API_URL } from "@/config/index";
 
 const regRoute = async (req, res) => {
   if (req.method === "POST") {
     const { username, email, password } = req.body;
 
-    const strapiRes = await fetch(`${API_URL}/auth/local/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-      }),
-    });
+    const strapiRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/local/register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      }
+    );
 
     const data = await strapiRes.json();
 
