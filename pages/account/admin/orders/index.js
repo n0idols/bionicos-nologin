@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import AuthContext from "@/lib/authState";
 import Section from "@/components/Section";
 import parseCookies from "@/lib/cookie";
-
+import formatMoney from "@/lib/formatMoney";
 import Link from "next/link";
 import moment from "moment";
 import { Router } from "next/router";
@@ -18,6 +18,9 @@ export default function Dashboard({ orders }) {
       return "badge badge-secondary mx-2 uppercase font-bold";
     }
     if (i === 3) {
+      return "badge badge-success mx-2 uppercase font-bold";
+    }
+    if (i === 4) {
       return "badge badge-primary mx-2 uppercase font-bold";
     }
   }
@@ -39,39 +42,45 @@ export default function Dashboard({ orders }) {
                       <th>Date</th>
                       <th>Items</th>
                       <th>Amount</th>
-                      <th>User</th>
+                      <th>Customer</th>
                       <th>Order Status</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {orders?.map((order, i) => {
-                      const entries = Object.entries(order.line_items);
-                      return (
-                        <Link
-                          href={`/account/admin/orders/${order.uuid}`}
-                          key={order.id}
-                        >
-                          <tr className="hover cursor-pointer">
-                            <th>{i + 1}</th>
-                            <td>
-                              {" "}
-                              {moment(order.created_at).format(
-                                "MMMM Do YYYY, h:mm:ss a"
-                              )}
-                            </td>
-                            <td>{entries.length}</td>
-                            <td>$32.33</td>
-                            <td>{order.user.username}</td>
-                            <td>
-                              <div className={getStatus(order.estado.id)}>
-                                {order.estado.title}
-                              </div>
-                            </td>
-                          </tr>
-                        </Link>
-                      );
-                    })}
-                  </tbody>
+                  {orders ? (
+                    <>
+                      <tbody>
+                        {orders.map((order, i) => {
+                          const entries = Object.entries(order.line_items);
+                          return (
+                            <Link
+                              href={`/account/admin/orders/${order.uuid}`}
+                              key={order.id}
+                            >
+                              <tr className="hover cursor-pointer">
+                                <th>{i + 1}</th>
+                                <td>
+                                  {" "}
+                                  {moment(order.created_at).format(
+                                    "MMMM Do YYYY, h:mm:ss a"
+                                  )}
+                                </td>
+                                <td>{entries.length}</td>
+                                <td>{formatMoney(order.total)}</td>
+                                <td>{order.user.username}</td>
+                                <td>
+                                  <div className={getStatus(order.estado.id)}>
+                                    {order.estado.title}
+                                  </div>
+                                </td>
+                              </tr>
+                            </Link>
+                          );
+                        })}
+                      </tbody>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </table>
               </div>
             </>

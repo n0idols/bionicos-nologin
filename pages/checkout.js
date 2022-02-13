@@ -190,8 +190,10 @@ export default function CheckoutPage({}) {
 }
 
 export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
-
+  const { token, cart } = parseCookies(req);
+  if (cart.length === 0) {
+    return { props: {}, redirect: { destination: "/menu" } };
+  }
   if (!token) {
     return {
       props: {},

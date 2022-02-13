@@ -17,6 +17,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     login({ email, password });
+    setLoading(false);
   };
 
   return (
@@ -55,7 +56,9 @@ export default function Login() {
           />
 
           <div className="mt-6">
-            <input type="submit" value="Login" className="btn btn-block" />
+            <button type="submit" className="btn btn-block" disabled={loading}>
+              Login
+            </button>
           </div>
         </form>
       </div>
