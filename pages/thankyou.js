@@ -1,32 +1,91 @@
 import { useEffect } from "react";
-import Section from "@/components/Section";
+
 import parseCookies from "@/lib/cookie";
 import { useCart } from "@/lib/cartState";
 
-import { destroyCookie } from "nookies";
 import Link from "next/link";
-export default function ThankYouPage() {
-  const { emptyCart } = useCart();
-
-  useEffect(() => {
-    // emptyCart();
-    // destroyCookie(null, "cart");
-  }, []);
+import OrderItem from "@/components/OrderItem";
+export default function ThankYouPage({ order }) {
+  const { emptyCart, cart } = useCart();
+  const items = order.line_items;
+  const entries = Object.entries(items);
+  // useEffect(() => {
+  //   if (cart.length > 1) emptyCart();
+  //   destroyCookie(null, "cart");
+  // }, [emptyCart, cart]);
 
   return (
-    <Section>
-      <h1 className="text-2xl">Thank you for your order!</h1>
-      <p>A copy of your reciept has been sent to your email </p>
-      <Link href="/account/dashboard">
-        <a className="btn btn ghost">You can also view your orders here</a>
-      </Link>
-    </Section>
+    <div className="max-w-4xl mx-auto">
+      <div className="bg-white rounded-md p-4 space-y-4">
+        <h1 className="text-2xl">Thank you for your order!</h1>
+
+        {entries.map((item, i) => {
+          const theItem = item[1];
+
+          return <OrderItem key={i} item={item} />;
+        })}
+        <Link href={`/account/orders/${order.uuid}`}>
+          <a className="btn btn-ghost btn-block">view reciept</a>
+        </Link>
+      </div>
+    </div>
   );
 }
 
 export async function getServerSideProps({ req, query }) {
-  const { token, cart } = parseCookies(req);
-  console.log(typeof cart);
+  let { token, cart, notes } = parseCookies(req);
+  cart = JSON.parse(cart);
+
+  const calculateTax = (cart) => {
+    let total = 0;
+    let taxTotal = 0;
+    cart.forEach((value) => {
+      let itemTotal = value.item.price;
+      value.modifications.forEach((modification) => {
+        itemTotal += modification.amount;
+      });
+      itemTotal *= value.quantity;
+      total += itemTotal;
+    });
+    taxTotal = total * 0.1025;
+    const final = Math.round(taxTotal);
+    return final;
+  };
+
+  const calculateSubAmount = (cart) => {
+    let total = 0;
+    cart.forEach((value) => {
+      let itemTotal = value.item.price;
+      value.modifications.forEach((modification) => {
+        itemTotal += modification.amount;
+      });
+      itemTotal *= value.quantity;
+      total += itemTotal;
+    });
+    const final = Math.round(total);
+
+    return final;
+  };
+
+  const calculateTotalAmount = (cart) => {
+    let total = 0;
+    let newTotal = 0;
+    let plusTax = 1.1025;
+
+    cart.forEach((value) => {
+      let itemTotal = value.item.price;
+      value.modifications.forEach((modification) => {
+        itemTotal += modification.amount;
+      });
+      itemTotal *= value.quantity;
+      total += itemTotal;
+    });
+
+    newTotal = total * plusTax;
+    const final = Math.round(newTotal);
+    console.log(final);
+    return final;
+  };
 
   if (!token) {
     return {
@@ -42,17 +101,19 @@ export async function getServerSideProps({ req, query }) {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      // user_permissions_user: user.id,
       charge: query.payment_intent,
       line_items: cart,
       estado: { id: 1 },
-      subtotal: query.payment_intent.amount,
-      total: query.payment_intent.amount,
+
+      tax: `${calculateTax(cart)}`,
+      subtotal: `${calculateSubAmount(cart)}`,
+      total: `${calculateTotalAmount(cart)}`,
+      notes: JSON.parse(notes),
     }),
   });
 
   const order = await res.json();
-
+  console.log({ order });
   return {
     props: {
       order,
