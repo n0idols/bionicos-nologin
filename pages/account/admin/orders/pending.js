@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import AuthContext from "@/lib/authState";
 import Section from "@/components/Section";
 import parseCookies from "@/lib/cookie";
-import { API_URL } from "@/config/index";
+
 import Link from "next/link";
 import moment from "moment";
 import { Router } from "next/router";
