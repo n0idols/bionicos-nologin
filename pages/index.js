@@ -19,7 +19,7 @@ export async function getServerSideProps() {
     `https://api.yelp.com/v3/businesses/bionicos-and-juices-rios-palmdale/reviews`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_YELP_KEY}`,
+        Authorization: `Bearer ${process.env.NEXT_PRIVATE_YELP_KEY}`,
       },
     }
   );
