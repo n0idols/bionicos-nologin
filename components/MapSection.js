@@ -1,3 +1,5 @@
+import LocationMap from "./LocationMap";
+
 export default function MapSection() {
   return (
     <div className="flex flex-col lg:flex-row items-center overflow-x-hidden">
@@ -17,25 +19,27 @@ export default function MapSection() {
               Business Hours
             </p>
             <p>
-              <span className="font-semibold">Mon - Sat: </span>
+              <span className="font-semibold">Everyday </span>
               7:00am - 4:00pm{" "}
             </p>
 
-            <p>
+            {/* <p>
               {" "}
               <span className="font-semibold">Sun: </span>CLOSED
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
 
       <div className="lg:w-1/2 ">
-        <iframe
+        <LocationMap />
+
+        {/* <iframe
           src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6569.832944813545!2d-118.088691!3d34.58098!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xda1ede9cb9f7f244!2sBionicos%20And%20Juice&#39;s%20Rios!5e0!3m2!1sen!2sus!4v1641671358648!5m2!1sen!2sus"
           className="lg:w-full w-screen h-[450px]"
           loading="lazy"
           title="map"
-        ></iframe>
+        ></iframe> */}
       </div>
     </div>
   );

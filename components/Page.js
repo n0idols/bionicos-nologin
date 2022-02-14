@@ -22,7 +22,7 @@ export default function Page({ children }) {
         className="bg-base-100 standalone:mt-28  mt-20"
       >
         <Header />
-        <main className="min-h-screen mb-8">{children}</main>
+        <main className="min-h-screen">{children}</main>
         <Footer />
         <MobileNav />
       </div>

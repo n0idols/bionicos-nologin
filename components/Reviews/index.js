@@ -1,7 +1,7 @@
 import moment from "moment";
 import Image from "next/image";
 import ReactStars from "react-stars";
-
+import { FaYelp } from "react-icons/fa";
 export default function Reviews({ reviews }) {
   function getReviewIndex(i) {
     if (i === 0) {
@@ -19,7 +19,11 @@ export default function Reviews({ reviews }) {
       <h1 className="md:text-4xl text-3xl text-center px-8">
         What our customers have to say
       </h1>
-      <div className="max-w-5xl mx-auto md:my-20 my-12 px-8 ">
+      <div className="flex justify-center items-center">
+        <p className="text-center pt-2">Latest reviews from Yelp</p>
+        <FaYelp className="text-2xl" />
+      </div>
+      <div className="max-w-5xl mx-auto md:mt-10 mt-4 mb-10 px-8 ">
         <div className="grid  md:grid-cols-3 grid-cols-1 gap-3 ">
           {reviews.map((review, i) => (
             <article key={i} className={getReviewIndex(i)}>
