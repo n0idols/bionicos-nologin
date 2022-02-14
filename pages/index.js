@@ -1,7 +1,6 @@
 import Hero from "@/components/Hero";
 import Layout from "@/components/Layout";
 import MapSection from "@/components/MapSection";
-import Reviews from "@/components/Reviews";
 
 export default function Home({}) {
   return (
@@ -12,7 +11,7 @@ export default function Home({}) {
       <MapSection />
     </Layout>
   );
-// }
+}
 
 // export async function getServerSideProps() {
 //   const res = await fetch(
