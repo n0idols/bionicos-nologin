@@ -4,7 +4,9 @@ import ReactMarkdown from "react-markdown";
 export default function Privacy({ policy }) {
   return (
     <div className="prose mx-auto pt-4">
-      <ReactMarkdown children={policy} />
+      <article>
+        <ReactMarkdown>{policy}</ReactMarkdown>
+      </article>
     </div>
   );
 }

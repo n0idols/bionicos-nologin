@@ -4,7 +4,9 @@ import ReactMarkdown from "react-markdown";
 export default function Tos({ tos }) {
   return (
     <div className="prose mx-auto pt-4">
-      <ReactMarkdown children={tos} />
+      <article>
+        <ReactMarkdown>{tos}</ReactMarkdown>
+      </article>
     </div>
   );
 }
