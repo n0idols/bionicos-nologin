@@ -6,10 +6,10 @@ import Page from "@/components/Page";
 import NProgress from "nprogress";
 import "@/styles/globals.css";
 import "@/styles/nprogress.css";
-
+import { SessionProvider } from "next-auth/react";
 import { CartStateProvider } from "@/lib/cartState";
 import { CookiesProvider } from "react-cookie";
-import { AuthProvider } from "@/lib/authState";
+
 import Head from "next/head";
 import * as Fathom from "fathom-client";
 
@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
   return (
     <>
-      <AuthProvider>
+      <SessionProvider session={pageProps.session}>
         <ApolloProvider client={client}>
           <CookiesProvider>
             <CartStateProvider>
@@ -56,15 +56,36 @@ function MyApp({ Component, pageProps }) {
                     content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
                   />
                 </Head>
-                <Component {...pageProps} />
+                {Component.auth ? (
+                  <Auth>
+                    <Component {...pageProps} />
+                  </Auth>
+                ) : (
+                  <Component {...pageProps} />
+                )}
               </Page>
             </CartStateProvider>
           </CookiesProvider>
         </ApolloProvider>
-      </AuthProvider>
+      </SessionProvider>
     </>
   );
 }
-
+function Auth({ children }) {
+  const [session, loading] = useSession();
+  const isUser = !!session?.user;
+  const router = useRouter();
+  useEffect(() => {
+    if (loading) return; // Do nothing while loading
+    if (!isUser) router.push("/login");
+    // If not authenticated, force log in
+  }, [isUser, loading, router]);
+  if (isUser) {
+    return children;
+  }
+  // Session is being fetched, or no user.
+  // If no user, useEffect() will redirect.
+  return <div>Loading...</div>;
+}
 // export default appWithTranslation(MyApp);
 export default MyApp;

@@ -10,20 +10,17 @@ import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 
 export default function Dashboard({ orders }) {
-  const { user, logout } = useContext(AuthContext);
-  const { cart } = useCart();
-
   const router = useRouter();
   // const { loading, error, data } = useQuery(ORDERS);
   // if (loading) return <p>Loading...</p>;
   // if (error) return <p>error :(</p>;
   // console.log(data);
 
-  useEffect(() => {
-    if (user?.role.type === "merchant") {
-      router.push("/account/admin/orders");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user?.role.type === "merchant") {
+  //     router.push("/account/admin/orders");
+  //   }
+  // }, []);
   function getStatus(i) {
     if (i === 1) {
       return "badge badge-accent mx-2 uppercase font-bold";
@@ -103,37 +100,31 @@ export default function Dashboard({ orders }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
-  const { token, cart } = parseCookies(req);
-
+export async function getServerSideProps() {
   // if (cart.length > 1) {
   //   return {
   //     props: {},
   //     redirect: { destination: "/checkout" },
   //   };
   // }
-  if (!token) {
-    return {
-      props: {},
-      redirect: { destination: "/account/login" },
-    };
-  } else {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/orders/me?_sort=date:DESC`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
 
-    const orders = await res.json();
-    return {
-      props: {
-        orders,
-        token,
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/orders/me?_sort=date:DESC`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    };
-  }
+    }
+  );
+
+  const orders = await res.json();
+  return {
+    props: {
+      orders,
+      token,
+    },
+  };
 }
+
+Dashboard.auth = true;

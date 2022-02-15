@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import Header from "./Header";
+import TempHeader from "./TempHeader";
 import Footer from "./Footer";
 import MobileNav from "./MobileNav";
 
@@ -21,7 +22,8 @@ export default function Page({ children }) {
         style={{ WebkitTapHighlightColor: "transparent" }}
         className="bg-base-100 standalone:mt-28  mt-20"
       >
-        <Header />
+        {/* <Header /> */}
+        <TempHeader />
         <main className="min-h-screen">{children}</main>
         <Footer />
         <MobileNav />

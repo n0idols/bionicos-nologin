@@ -14,7 +14,7 @@ export default function Home({ reviews }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch(
     `https://api.yelp.com/v3/businesses/bionicos-and-juices-rios-palmdale/reviews`,
     {

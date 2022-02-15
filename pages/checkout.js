@@ -24,6 +24,7 @@ export default function CheckoutPage({}) {
   const total = totalCartPrice + tax;
 
   useEffect(() => {
+    // if (!user) router.replace("/account/signup");
     // Create PaymentIntent as soon as the page loads
     fetch("/api/stripe/createPaymentIntent", {
       method: "POST",
