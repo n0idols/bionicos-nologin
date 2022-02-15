@@ -19,7 +19,7 @@ export default function MapSection() {
               Business Hours
             </p>
             <p>
-              <span className="font-semibold">Everyday </span>
+              <span className="font-semibold">Mon - Sun </span>
               7:00am - 4:00pm{" "}
             </p>
 
