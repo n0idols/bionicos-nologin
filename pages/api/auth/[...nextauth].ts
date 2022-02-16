@@ -1,12 +1,19 @@
-import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import IAccount from "../../../types/account";
+import iToken from "../../../types/token";
+import IUser from "../../../types/user";
+import ISession from "../../../types/session";
+import axios from "axios";
 
 const options = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -36,10 +43,6 @@ const options = {
         }
       },
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
   ],
 
   secret: "sHyT1z1F+LTcTpSkaBOMnQtSPqc4rE6QTb3JBY5z9RU=", //PUT YOUR OWN SECRET (command: openssl rand -base64 32)
@@ -66,7 +69,6 @@ const options = {
         const data = await response.json();
 
         token.jwt = data.jwt;
-        console.log(data);
         // token.id = data.user.id;
       }
 
