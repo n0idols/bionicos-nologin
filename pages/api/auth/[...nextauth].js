@@ -35,17 +35,17 @@ const options = {
             return null;
           }
         } catch (e) {
-          // console.log('caught error');
-          // const errorMessage = e.response.data.message
+          console.log("caught error");
+          const errorMessage = e.response.data.message;
           // Redirecting to the login page with error message          in the URL
-          // throw new Error(errorMessage + '&email=' + credentials.email)
+          throw new Error(errorMessage + "&email=" + credentials.email);
           return null;
         }
       },
     }),
   ],
 
-  secret: "sHyT1z1F+LTcTpSkaBOMnQtSPqc4rE6QTb3JBY5z9RU=", //PUT YOUR OWN SECRET (command: openssl rand -base64 32)
+  secret: process.env.NEXTAUTH_SECRET, //PUT YOUR OWN SECRET (command: openssl rand -base64 32)
   database: process.env.NEXT_PUBLIC_DATABASE_URL,
   session: {
     strategy: "jwt",
