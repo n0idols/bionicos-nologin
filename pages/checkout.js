@@ -13,12 +13,12 @@ import parseCookies from "@/lib/cookie";
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
 import ClosedIcon from "@/components/icons/Closed";
+import { getSession } from "next-auth/react";
 export default function CheckoutPage({}) {
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
   const [notes, setNotes] = useState("");
-  const { user } = useContext(AuthContext);
 
   const tax = totalCartPrice * 0.1025;
   const total = totalCartPrice + tax;
@@ -65,10 +65,10 @@ export default function CheckoutPage({}) {
 
             <p className="italic ">Please come back when we open!</p>
             <h2>
-              MONDAY - SATURDAY: <span className="block -mt-2">7am - 4pm</span>{" "}
+              MONDAY - SUNDAY: <span className="block -mt-2">7am - 4pm</span>{" "}
             </h2>
 
-            <p>Closed Sunday</p>
+            {/* <p>Closed Sunday</p> */}
           </div>
           <div className="w-1/2">
             <ClosedIcon />
@@ -190,21 +190,23 @@ export default function CheckoutPage({}) {
   );
 }
 
-export async function getServerSideProps({ req }) {
-  const { token, cart } = parseCookies(req);
-  if (!cart) {
-    return { props: {}, redirect: { destination: "/menu" } };
-  }
-  if (!token) {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session)
     return {
-      props: {},
-      redirect: { destination: "/account/signup" },
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
     };
-  }
+
+  // const { cart } = parseCookies(params.req);
+  // if (!cart) {
+  //   return { props: {}, redirect: { destination: "/menu" } };
+  // }
 
   return {
-    props: {
-      token,
-    },
+    props: { session },
   };
 }

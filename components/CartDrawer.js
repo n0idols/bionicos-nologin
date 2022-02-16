@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-import AuthContext from "@/lib/authState";
+import { useState, useEffect } from "react";
 
 import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
@@ -20,7 +19,7 @@ const checkoutbtn = `btn btn-primary btn-lg my-4 rounded-3xl w-full px-4 py-2 fl
 export default function CartDrawer({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
   const { cart, closeCart, totalCartPrice, emptyCart } = useCart();
-  const { user, logout } = useContext(AuthContext);
+
   // const modalRef = useOnClickOutsideRef(() => alert("hey"));
 
   const router = useRouter();

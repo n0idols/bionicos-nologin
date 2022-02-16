@@ -1,8 +1,4 @@
-import { useEffect, useState, useContext } from "react";
-import AuthContext from "@/lib/authState";
-import { useCart } from "@/lib/cartState";
-import Section from "@/components/Section";
-import parseCookies from "@/lib/cookie";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
 
 import Link from "next/link";
 import moment from "moment";
@@ -10,11 +6,7 @@ import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 
 export default function Dashboard({ orders }) {
-  const router = useRouter();
-  // const { loading, error, data } = useQuery(ORDERS);
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>error :(</p>;
-  // console.log(data);
+  const { data: session } = useSession();
 
   // useEffect(() => {
   //   if (user?.role.type === "merchant") {
@@ -39,92 +31,46 @@ export default function Dashboard({ orders }) {
     <Layout title="Dashboard">
       <div className="max-w-xl p-2 mx-auto">
         <div className="flex justify-between mt-4">
-          <h1>Welcome, {user ? user.username : ""}</h1>
+          {/* <h1>Welcome, {user ? user.username : ""}</h1> */}
 
           {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
-          <button className="btn btn-ghost btn-small" onClick={logout}>
+          <button className="btn btn-ghost btn-small" onClick={() => signOut()}>
             Logout
           </button>
         </div>
-        {/* {orders.length > 0 ? <></> : <></>} */}
-        {orders.length < 0 ? (
-          <div className="mt-8">
-            <div>
-              <h1 className="text-center p-3">
-                Add items from our menu to get started
-              </h1>
-            </div>
-            <Link href="/menu">
-              <button
-                passHref="/menu"
-                className="font-bold ml-2 btn btn-success btn-block"
-              >
-                View Menu
-              </button>
-            </Link>
-          </div>
-        ) : (
-          <>
-            <div className="mb-2">
-              <h3>Your Order History</h3>
-            </div>
-            {orders.map((order, i) => {
-              const items = order.line_items;
-              const entries = Object.entries(items);
-              let quantity = 0;
-              items.forEach((item) => {
-                quantity += item.quantity;
-              });
-              return (
-                <div
-                  key={i}
-                  className="bg-white shadow-md flex flex-col mb-8 p-4 rounded-lg space-y-2"
-                >
-                  <span className="text-xl font-bold text-gray-600">
-                    {moment(order.created_at).format("MMMM Do, h:mm A")}
-                  </span>
-                  <div className={getStatus(order.estado.id)}>
-                    {order.estado.title}
-                  </div>
-                  <h4>Items: {quantity}</h4>
-                  <Link href={`/account/orders/${order.uuid}`} key={order.id}>
-                    <a className="btn btn-outline mx-4">View Details</a>
-                  </Link>
-                </div>
-              );
-            })}
-          </>
-        )}
       </div>
     </Layout>
   );
 }
 
-export async function getServerSideProps() {
-  // if (cart.length > 1) {
-  //   return {
-  //     props: {},
-  //     redirect: { destination: "/checkout" },
-  //   };
-  // }
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/orders/me?_sort=date:DESC`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
+  if (!session)
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
       },
-    }
-  );
-
-  const orders = await res.json();
+    };
   return {
-    props: {
-      orders,
-      token,
-    },
+    props: { session },
   };
-}
+  // const res = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_URL}/orders/me?_sort=date:DESC`,
+  //   {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   }
+  // );
 
-Dashboard.auth = true;
+  // const orders = await res.json();
+  // return {
+  //   props: {
+  //     orders,
+  //     token,
+  //   },
+  // };
+}

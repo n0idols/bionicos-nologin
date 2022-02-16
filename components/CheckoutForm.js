@@ -6,8 +6,11 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import AuthContext from "@/lib/authState";
+
+import { GrSecure } from "react-icons/gr";
+import { FaStripe } from "react-icons/fa";
 import Loading from "./icons/Loading";
+import Link from "next/link";
 
 export default function CheckoutForm({ notes }) {
   const stripe = useStripe();
@@ -18,7 +21,6 @@ export default function CheckoutForm({ notes }) {
 
   const [orderCompleted, setOrderCompleted] = useState(null);
   const [orderCompletedError, setOrderCompletedError] = useState(null);
-  const { user } = useContext(AuthContext);
 
   // const [email, setEmail] = useState("");
 
@@ -95,10 +97,14 @@ export default function CheckoutForm({ notes }) {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit} className=" p-4 rounded-xl">
-      {/* <p className="mb-6">
-        Reciept will be sent to:
-        <span className="font-bold ml-1">{user.email}</span>
-      </p> */}
+      <Link href="https://stripe.com">
+        <a className="flex items-center justify-center pb-4 hover:cursor-pointer">
+          <GrSecure className="ml-1 text-2xl text-primary" />
+          Secure Checkout with{" "}
+          <FaStripe className="ml-1 text-5xl text-primary" />
+        </a>
+        {/* <span className="font-bold ml-1">{user.email}</span> */}
+      </Link>
 
       <PaymentElement id="payment-element" />
       <button
