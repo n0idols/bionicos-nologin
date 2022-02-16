@@ -14,35 +14,35 @@ const options = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "text", placeholder: "test@test.com" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        try {
-          const { data } = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/local`,
-            {
-              identifier: credentials.email,
-              password: credentials.password,
-            }
-          );
-          if (data) {
-            return data;
-          } else {
-            return null;
-          }
-        } catch (e) {
-          console.log("caught error");
-          const errorMessage = e.response.data.message;
-          // Redirecting to the login page with error message          in the URL
-          throw new Error(errorMessage + "&email=" + credentials.email);
-          return null;
-        }
-      },
-    }),
+    // CredentialsProvider({
+    //   name: "Credentials",
+    //   credentials: {
+    //     email: { label: "Email", type: "text", placeholder: "test@test.com" },
+    //     password: { label: "Password", type: "password" },
+    //   },
+    //   async authorize(credentials) {
+    //     try {
+    //       const { data } = await axios.post(
+    //         `${process.env.NEXT_PUBLIC_API_URL}/auth/local`,
+    //         {
+    //           identifier: credentials.email,
+    //           password: credentials.password,
+    //         }
+    //       );
+    //       if (data) {
+    //         return data;
+    //       } else {
+    //         return null;
+    //       }
+    //     } catch (e) {
+    //       console.log("caught error");
+    //       const errorMessage = e.response.data.message;
+    //       // Redirecting to the login page with error message          in the URL
+    //       throw new Error(errorMessage + "&email=" + credentials.email);
+    //       return null;
+    //     }
+    //   },
+    // }),
   ],
 
   secret: process.env.NEXTAUTH_SECRET, //PUT YOUR OWN SECRET (command: openssl rand -base64 32)
