@@ -6,8 +6,9 @@ import parseCookies from "@/lib/cookie";
 
 import Layout from "@/components/Layout";
 import OrderItem from "@/components/OrderItem";
+import { withSession } from "../../../../middlewares/session";
 
-export default function OrderSlug({ token, orderId }) {
+export default function OrderSlug({ user, orderId }) {
   const order = orderId[0];
   const items = order?.line_items;
   const entries = Object.entries(items);
@@ -32,7 +33,7 @@ export default function OrderSlug({ token, orderId }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.strapiToken}`,
       },
       body: JSON.stringify({
         estado: {
@@ -48,7 +49,7 @@ export default function OrderSlug({ token, orderId }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.strapiToken}`,
       },
       body: JSON.stringify({
         estado: {
@@ -64,7 +65,7 @@ export default function OrderSlug({ token, orderId }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.strapiToken}`,
       },
       body: JSON.stringify({
         estado: {
@@ -79,7 +80,7 @@ export default function OrderSlug({ token, orderId }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.strapiToken}`,
       },
       body: JSON.stringify({
         estado: {
@@ -205,45 +206,47 @@ export default function OrderSlug({ token, orderId }) {
   );
 }
 
-export async function getServerSideProps({ req, query: { uuid } }) {
-  const { token } = parseCookies(req);
-  if (!token) {
+export const getServerSideProps = withSession(
+  async ({ req, query: { uuid } }) => {
+    const user = req.session.get("user");
+    if (!user)
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/orders?uuid=${uuid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.strapiToken}`,
+        },
+      }
+    );
+    const orderId = await res.json();
+
+    const statusRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/estados`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.strapiToken}`,
+        },
+      }
+    );
+
+    const statuses = await statusRes.json();
+
     return {
-      props: {},
-      redirect: { destination: "/account/login" },
+      props: {
+        orderId,
+        statuses,
+        user,
+      },
     };
   }
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/orders?uuid=${uuid}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const orderId = await res.json();
-
-  const statusRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/estados`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const statuses = await statusRes.json();
-
-  return {
-    props: {
-      token,
-      orderId,
-      statuses,
-    },
-  };
-}
-// export default function OrderSlug() {
-//   return <div>hey</div>;
-// }
+);

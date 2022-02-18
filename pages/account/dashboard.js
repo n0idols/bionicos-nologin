@@ -1,18 +1,23 @@
-import { useSession, signIn, signOut, getSession } from "next-auth/react";
-
 import Link from "next/link";
 import moment from "moment";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
-
+import axios from "axios";
+import { withSession } from "../../middlewares/session";
 export default function Dashboard({ orders }) {
-  const { data: session } = useSession();
-
   // useEffect(() => {
   //   if (user?.role.type === "merchant") {
   //     router.push("/account/admin/orders");
   //   }
   // }, []);
+  const router = useRouter();
+
+  const onLogout = (e) => {
+    e.preventDefault();
+    axios.post("/api/logout").then(() => {
+      router.push("/");
+    });
+  };
   function getStatus(i) {
     if (i === 1) {
       return "badge badge-accent mx-2 uppercase font-bold";
@@ -34,43 +39,76 @@ export default function Dashboard({ orders }) {
           {/* <h1>Welcome, {user ? user.username : ""}</h1> */}
 
           {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
-          <button className="btn btn-ghost btn-small" onClick={() => signOut()}>
+          <button className="btn btn-ghost btn-small" onClick={onLogout}>
             Logout
           </button>
+          {orders && <h1>Your Order History</h1>}
+
+          {orders?.map((order, i) => {
+            const items = order.line_items;
+            const entries = Object.entries(items);
+            let quantity = 0;
+            items.forEach((item) => {
+              quantity += item.quantity;
+            });
+            return (
+              <div
+                key={i}
+                className="bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2"
+              >
+                <span className="text-xl font-bold text-gray-600">
+                  {moment(order.created_at).format("MMMM Do, h:mm A")}
+                </span>
+                <div className={getStatus(order.estado.id)}>
+                  {order.estado.title}
+                </div>
+                <h4>Items: {quantity}</h4>
+                <Link href={`/account/orders/${order.uuid}`} key={order.id}>
+                  <a className="btn btn-outline mx-4">View Details</a>
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </Layout>
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  if (!session)
+export const getServerSideProps = withSession(async ({ req }) => {
+  const user = req.session.get("user");
+  // if not logged in, redirect to login page
+  if (!user)
     return {
       redirect: {
-        destination: "/",
+        destination: "/login",
         permanent: false,
       },
     };
-  return {
-    props: { session },
-  };
-  // const res = await fetch(
-  //   `${process.env.NEXT_PUBLIC_API_URL}/orders/me?_sort=date:DESC`,
-  //   {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   }
-  // );
+  // if not user is merchant, redirect to orders page
+  if (user.role.type === "merchant")
+    return {
+      redirect: {
+        destination: "/account/admin/orders",
+        permanent: false,
+      },
+    };
+  // get users orders
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/orders/me?_sort=date:DESC`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${user.strapiToken}`,
+      },
+    }
+  );
 
-  // const orders = await res.json();
-  // return {
-  //   props: {
-  //     orders,
-  //     token,
-  //   },
-  // };
-}
+  const orders = await res.json();
+  return {
+    props: {
+      orders,
+      user,
+    },
+  };
+});

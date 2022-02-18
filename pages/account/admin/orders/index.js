@@ -7,9 +7,9 @@ import Link from "next/link";
 import moment from "moment";
 import { Router } from "next/router";
 import Layout from "@/components/Layout";
+import { withSession } from "../../../../middlewares/session";
 
-export default function Dashboard({ orders }) {
-  const { user } = useContext(AuthContext);
+export default function Dashboard({ orders, user }) {
   function getStatus(i) {
     if (i === 1) {
       return "badge badge-accent mx-2 uppercase font-bold";
@@ -91,30 +91,34 @@ export default function Dashboard({ orders }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
-  if (!token) {
+export const getServerSideProps = withSession(async ({ req }) => {
+  const user = req.session.get("user");
+  // if not logged in, redirect to login page
+  if (!user)
     return {
-      props: {},
-      redirect: { destination: "/account/login" },
-    };
-  } else {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/orders?_sort=created_at:DESC`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const orders = await res.json();
-    return {
-      props: {
-        orders,
-        token,
+      redirect: {
+        destination: "/login",
+        permanent: false,
       },
     };
-  }
-}
+
+  // get users orders
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/orders?_sort=created_at:DESC`,
+
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${user.strapiToken}`,
+      },
+    }
+  );
+
+  const orders = await res.json();
+  return {
+    props: {
+      orders,
+      user,
+    },
+  };
+});

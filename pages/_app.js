@@ -6,7 +6,6 @@ import Page from "@/components/Page";
 import NProgress from "nprogress";
 import "@/styles/globals.css";
 import "@/styles/nprogress.css";
-import { SessionProvider, useSession } from "next-auth/react";
 import { CartStateProvider } from "@/lib/cartState";
 import { CookiesProvider } from "react-cookie";
 
@@ -45,24 +44,22 @@ function MyApp({ Component, pageProps }) {
   }, []);
   return (
     <>
-      <SessionProvider session={pageProps.session}>
-        <ApolloProvider client={client}>
-          <CookiesProvider>
-            <CartStateProvider>
-              <Page>
-                <Head>
-                  <meta
-                    name="viewport"
-                    content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
-                  />
-                </Head>
+      <ApolloProvider client={client}>
+        <CookiesProvider>
+          <CartStateProvider>
+            <Page>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
+                />
+              </Head>
 
-                <Component {...pageProps} />
-              </Page>
-            </CartStateProvider>
-          </CookiesProvider>
-        </ApolloProvider>
-      </SessionProvider>
+              <Component {...pageProps} />
+            </Page>
+          </CartStateProvider>
+        </CookiesProvider>
+      </ApolloProvider>
     </>
   );
 }

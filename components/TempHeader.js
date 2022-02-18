@@ -1,5 +1,3 @@
-import { useSession, signIn, signOut } from "next-auth/react";
-
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Logo from "./Logo";
@@ -7,15 +5,12 @@ import Logo from "./Logo";
 import { useCart } from "@/lib/cartState";
 import { GrCart } from "react-icons/gr";
 import CartDrawer from "./CartDrawer";
-import SignIn from "./SignIn";
 
 export default function Header() {
   const router = useRouter();
-  const linkClasses = `btn btn-ghost btn-sm rounded-btn `;
+  const linkClasses = `btn btn-ghost btn-sm rounded-btn text-gray-600 `;
   const activeClasses = `btn btn-primary btn-sm rounded-btn `;
   const { cart, show, toggleCart, closeCart } = useCart();
-
-  const { data: session } = useSession();
 
   return (
     <>
@@ -62,7 +57,9 @@ export default function Header() {
             </div>
           </div>
           <div className="navbar-end space-x-4">
-            <SignIn />
+            <Link href="/login">
+              <a className={linkClasses}>Account</a>
+            </Link>
 
             <div className="indicator">
               <button aria-label="cart" onClick={toggleCart} className="px-4">

@@ -1,54 +1,48 @@
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
-//import styles from '../../styles/Login.module.css'
+import axios from "axios";
+import { withSession } from "../middlewares/session";
 
-export default function Login() {
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
-  });
-  const [loginError, setError] = useState("");
+export default function LoginPage() {
   const router = useRouter();
-  function handleUpdate(update) {
-    setCredentials({ ...credentials, ...update });
-  }
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+
+    const body = {
+      email: event.currentTarget.email.value,
+      password: event.currentTarget.password.value,
+    };
+
+    axios.post("/api/login", body).then((user) => {
+      console.log(user);
+      router.push("/account/dashboard");
+    });
+  };
   return (
     <div>
-      <div>
-        <div>
-          <label htmlFor="username">Email</label>
-          <input
-            name="username"
-            type="email"
-            onChange={(e) => handleUpdate({ username: e.target.value })}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            name="password"
-            type="password"
-            onChange={(e) => handleUpdate({ password: e.target.value })}
-          />
-        </div>
-        <span>{loginError}?</span>
-        <button
-          onClick={async () => {
-            const response = await signIn("credentials", {
-              redirect: false,
-              ...credentials,
-            });
-            if (response.error) {
-              setError(response.error);
-            } else if (response.ok) {
-              router.push("/");
-            }
-          }}
-        >
-          Sign in ?
-        </button>
-      </div>
+      <h1>Login to your account</h1>
+      <form method="post" action="/api/login" onSubmit={onSubmit}>
+        <label htmlFor="email">Email</label>
+        <input type="email" name="email" placeholder="test@test.fr" />
+        <label htmlFor="password">Password</label>
+        <input type="password" name="password" placeholder="********" />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
+
+export const getServerSideProps = withSession((context) => {
+  const { req } = context;
+  const user = req.session.get("user");
+  if (user)
+    return {
+      redirect: {
+        destination: "/account/dashboard",
+        permanent: false,
+      },
+    };
+  return {
+    props: {},
+  };
+});

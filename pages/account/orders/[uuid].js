@@ -6,6 +6,7 @@ import formatMoney from "@/lib/formatMoney";
 import parseCookies from "@/lib/cookie";
 import Layout from "@/components/Layout";
 import OrderItem from "@/components/OrderItem";
+import { withSession } from "../../../middlewares/session";
 
 export default function OrderSlug({ orderId }) {
   console.log("hello");
@@ -94,33 +95,33 @@ export default function OrderSlug({ orderId }) {
   );
 }
 
-export async function getServerSideProps({ req, query: { uuid } }) {
-  const { token } = parseCookies(req);
-  if (!token) {
+export const getServerSideProps = withSession(
+  async ({ req, query: { uuid } }) => {
+    const user = req.session.get("user");
+    if (!user)
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/orders?uuid=${uuid}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${user.strapiToken}`,
+        },
+      }
+    );
+
+    const orderId = await res.json();
+
     return {
-      props: {},
-      redirect: { destination: "/account/login" },
+      props: {
+        orderId,
+      },
     };
   }
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/orders?uuid=${uuid}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const orderId = await res.json();
-
-  return {
-    props: {
-      orderId,
-    },
-  };
-}
-// export default function OrderSlug() {
-//   return <div>hey</div>;
-// }
+);

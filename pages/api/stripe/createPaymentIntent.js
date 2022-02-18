@@ -1,5 +1,3 @@
-import { getSession } from "next-auth/react";
-
 const stripe = require("stripe")(`${process.env.NEXT_PRIVATE_STRIPE_KEY}`);
 
 const calculateOrderAmount = (cart) => {
@@ -23,10 +21,6 @@ const calculateOrderAmount = (cart) => {
 };
 
 export default async function handler(req, res) {
-  const session = await getSession({ req });
-  console.log(session);
-
-  if (!session) return res.status(401).send("Unauthorized");
   const { cart } = req.body;
   try {
     // const customer = await stripe.customers.create();

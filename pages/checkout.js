@@ -3,7 +3,7 @@ import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
 import { useState, useEffect, useContext } from "react";
 import { useCart } from "@/lib/cartState";
-import AuthContext from "@/lib/authState";
+import { withSession } from "../middlewares/session";
 
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
@@ -13,7 +13,7 @@ import parseCookies from "@/lib/cookie";
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
 import ClosedIcon from "@/components/icons/Closed";
-import { getSession } from "next-auth/react";
+
 export default function CheckoutPage({}) {
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
@@ -190,23 +190,18 @@ export default function CheckoutPage({}) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  if (!session)
+export const getServerSideProps = withSession((context) => {
+  const { req } = context;
+  if (!req.session)
     return {
       redirect: {
         destination: "/login",
         permanent: false,
       },
     };
-
-  // const { cart } = parseCookies(params.req);
-  // if (!cart) {
-  //   return { props: {}, redirect: { destination: "/menu" } };
-  // }
-
   return {
-    props: { session },
+    props: {
+      user: req.session.get("user") || null,
+    },
   };
-}
+});

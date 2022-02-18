@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Logo from "./Logo";
-import { useState, useContext, useEffect } from "react";
-import AuthContext from "@/lib/authState";
+
 import { useCart } from "@/lib/cartState";
 import { GrCart } from "react-icons/gr";
 import CartDrawer from "./CartDrawer";
@@ -12,7 +11,7 @@ export default function Header() {
   const linkClasses = `btn btn-ghost btn-sm rounded-btn `;
   const activeClasses = `btn btn-primary btn-sm rounded-btn `;
   const { cart, show, toggleCart, closeCart } = useCart();
-  const { user, logout } = useContext(AuthContext);
+  // const { user, logout } = useContext(AuthContext);
 
   function AdminLinks() {
     return (
