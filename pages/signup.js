@@ -32,7 +32,7 @@ export default function SignUpPage() {
       .post("/api/signup", body)
       .then((user) => {
         console.log(user);
-        router.push("/account/dashboard");
+        router.push("/checkout");
       })
       .catch((e) => {
         setLoading(false);
