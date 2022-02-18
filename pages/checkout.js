@@ -20,8 +20,9 @@ export default function CheckoutPage({ user }) {
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
   const [notes, setNotes] = useState("");
-  const [coupon, setCoupon] = useState("");
+  const [couponCode, setCouponCode] = useState("");
   const [couponOff, setCouponOff] = useState(0);
+  const [couponDetail, setCouponDetail] = useState("");
   const tax = totalCartPrice * 0.1025;
   const total = totalCartPrice + tax;
 
@@ -30,13 +31,13 @@ export default function CheckoutPage({ user }) {
     fetch("/api/stripe/createPaymentIntent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart }),
+      body: JSON.stringify({ cart, couponOff }),
     })
       .then((res) => res.json())
       .then((data) => {
         setClientSecret(data.clientSecret);
       });
-  }, [cart]);
+  }, [cart, couponOff]);
 
   const appearance = {
     theme: "stripe",
@@ -70,14 +71,15 @@ export default function CheckoutPage({ user }) {
           }
         }
       `,
-      variables: { id: coupon },
+      variables: { id: couponCode },
     });
-    console.log(data, error);
     if (!data || !data.coupons[0].isActive) {
       alert("Invalid coupon");
       setCouponOff(0);
+      setCouponDetail("");
     } else {
       setCouponOff(data.coupons[0].percentOff / 100);
+      setCouponDetail(data.coupons[0].details);
       alert("Coupon applied");
     }
   };
@@ -140,9 +142,9 @@ export default function CheckoutPage({ user }) {
                 <input
                   className="input-bordered input input-primary"
                   type="text"
-                  value={coupon}
+                  value={couponCode}
                   onChange={(e) => {
-                    setCoupon(e.currentTarget.value);
+                    setCouponCode(e.currentTarget.value);
                   }}
                 />
 
@@ -150,6 +152,7 @@ export default function CheckoutPage({ user }) {
                   Apply Coupon
                 </button>
               </div>
+              <div>{couponDetail}</div>
               <div className="my-2 ">
                 <div className="p-2 tracking-wide flex justify-between">
                   <div>
@@ -222,7 +225,9 @@ export default function CheckoutPage({ user }) {
                   </div>
                 </div>
               </div>
-
+              {couponCode && (
+                <div>You saved {formatMoney(total * couponOff)}</div>
+              )}
               <div className="rounded-lg">
                 {!clientSecret && <Loading />}
                 {clientSecret && (
