@@ -1,7 +1,7 @@
 import { withIronSession, ironSession } from "next-iron-session";
 
 const sessionConfig = {
-  password: process.env.NEXT_PUBLIC_COOKIE_PASSWORD,
+  password: process.env.SECRET_COOKIE_PASSWORD,
   cookieName: "next-session",
   cookieOptions: {
     secure: process.env.NODE_ENV === "production" ? true : false,

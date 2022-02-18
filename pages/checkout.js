@@ -190,9 +190,10 @@ export default function CheckoutPage({}) {
   );
 }
 
-export const getServerSideProps = withSession((context) => {
-  const { req } = context;
-  if (!req.session)
+export const getServerSideProps = withSession(({ req }) => {
+  const user = req.session.get("user");
+  // if not logged in, redirect to login page
+  if (!user)
     return {
       redirect: {
         destination: "/login",
@@ -201,7 +202,7 @@ export const getServerSideProps = withSession((context) => {
     };
   return {
     props: {
-      user: req.session.get("user") || null,
+      user,
     },
   };
 });
