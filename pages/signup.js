@@ -4,22 +4,34 @@ import axios from "axios";
 import { withSession } from "../middlewares/session";
 import Layout from "@/components/Layout";
 import Link from "next/link";
+import { set } from "nprogress";
+import toast from "react-hot-toast";
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   const onSubmit = (event) => {
     event.preventDefault();
 
     const body = {
+      username: event.currentTarget.username.value,
       email: event.currentTarget.email.value,
       password: event.currentTarget.password.value,
     };
 
-    axios.post("/api/signup", body).then((user) => {
-      console.log(user);
-      router.push("/account/dashboard");
-    });
+    try {
+      setLoading(true);
+
+      axios.post("/api/signup", body).then((user) => {
+        console.log(user);
+        router.push("/account/dashboard");
+      });
+    } catch (e) {
+      setLoading(false);
+
+      toast.error(e);
+    }
   };
   return (
     <Layout title="Sign Up">
