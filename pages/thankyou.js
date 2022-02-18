@@ -5,6 +5,7 @@ import { useCart } from "@/lib/cartState";
 import { useCookies } from "react-cookie";
 import Link from "next/link";
 import OrderItem from "@/components/OrderItem";
+import { withSession } from "../middlewares/session";
 export default function ThankYouPage({ order }) {
   const { emptyCart, cart } = useCart();
   const items = order.line_items;
@@ -38,8 +39,17 @@ export default function ThankYouPage({ order }) {
   );
 }
 
-export async function getServerSideProps({ req, query }) {
-  let { token, cart, notes, coupon } = parseCookies(req);
+export const getServerSideProps = withSession(async ({ req, query }) => {
+  const user = req.session.get("user");
+  if (!user)
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  let { cart, notes, coupon } = parseCookies(req);
+
   cart = JSON.parse(cart);
 
   const calculateTax = (cart) => {
@@ -93,17 +103,11 @@ export async function getServerSideProps({ req, query }) {
     return final;
   };
 
-  // if (!token) {
-  //   return {
-  //     props: {},
-  //     redirect: { destination: "/account/login" },
-  //   };
-  // }
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${user.strapiToken}`,
     },
     body: JSON.stringify({
       charge: query.payment_intent,
@@ -124,4 +128,4 @@ export async function getServerSideProps({ req, query }) {
       order,
     },
   };
-}
+});
