@@ -19,6 +19,7 @@ export default function ThankYouPage({ order }) {
   useEffect(() => {
     removeCookie("notes");
     removeCookie("coupon");
+    removeCookie("cart");
   }, []);
 
   return (
@@ -49,6 +50,7 @@ export const getServerSideProps = withSession(async ({ req, query }) => {
       },
     };
   let { cart, notes, coupon } = parseCookies(req);
+  console.log(coupon);
 
   cart = JSON.parse(cart);
 

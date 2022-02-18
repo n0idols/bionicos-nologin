@@ -1,15 +1,23 @@
-import { useEffect, useState, useContext } from "react";
-import AuthContext from "@/lib/authState";
 import Section from "@/components/Section";
-import parseCookies from "@/lib/cookie";
+
 import formatMoney from "@/lib/formatMoney";
 import Link from "next/link";
 import moment from "moment";
-import { Router } from "next/router";
+import { useRouter } from "next/router";
+
 import Layout from "@/components/Layout";
 import { withSession } from "../../../../middlewares/session";
+import axios from "axios";
 
 export default function Dashboard({ orders, user }) {
+  const router = useRouter();
+
+  const onLogout = (e) => {
+    e.preventDefault();
+    axios.post("/api/logout").then(() => {
+      router.push("/");
+    });
+  };
   function getStatus(i) {
     if (i === 1) {
       return "badge badge-accent mx-2 uppercase font-bold";
@@ -30,6 +38,9 @@ export default function Dashboard({ orders, user }) {
       <Section>
         <div>
           <div>
+            <button className="btn btn-ghost btn-small" onClick={onLogout}>
+              Logout
+            </button>
             <>
               <h1 className="text-2xl my-2">Order History</h1>
               {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}

@@ -1,14 +1,12 @@
 import { useState } from "react";
-
 import { useRouter } from "next/router";
 import axios from "axios";
 import { withSession } from "../middlewares/session";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-
-export default function LoginPage() {
-  const router = useRouter();
+export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -18,29 +16,42 @@ export default function LoginPage() {
       password: event.currentTarget.password.value,
     };
 
-    axios.post("/api/login", body).then((user) => {
+    axios.post("/api/signup", body).then((user) => {
       console.log(user);
       router.push("/account/dashboard");
     });
   };
   return (
-    <Layout title="Login">
-      <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl ">
+    <Layout title="Sign Up">
+      <div className="max-w-md mx-auto md:mt-24 mt-16  p-4 rounded-xl ">
         <form
           className="form-control"
           onSubmit={onSubmit}
-          action="/api/login"
+          action="/api/signup"
           method="post"
         >
-          <h1 className="text-center mt-2">Login</h1>
-          <Link href="/account/signup">
+          <h1 className="text-center mt-2">Sign Up</h1>
+
+          <Link href="/account/login">
             <a className="description text-center mt-2">
-              Need an account?
+              Already have an account?
               <span className="font-semibold underline ml-1">
-                Click here to sign up
+                Click here to Login
               </span>
             </a>
           </Link>
+
+          <label htmlFor="email" className="label">
+            <span className="label-text">Full Name</span>
+          </label>
+          <input
+            className="input input-primary"
+            type="text"
+            placeholder="Your name"
+            autoComplete="name"
+            name="username"
+          />
+
           <label htmlFor="email" className="label">
             <span className="label-text">Email</span>
           </label>
@@ -48,6 +59,7 @@ export default function LoginPage() {
             className="input input-primary"
             type="email"
             placeholder="Your email"
+            autoComplete="email"
             name="email"
           />
           <label htmlFor="password" className="label">
@@ -57,13 +69,22 @@ export default function LoginPage() {
             className="input input-primary"
             type="password"
             placeholder="password"
-            autoComplete="password"
+            autoComplete="new-password"
             name="password"
+          />
+          <label htmlFor="confirm-password" className="label">
+            <span className="label-text">Confirm Password</span>
+          </label>
+          <input
+            className="input input-primary"
+            type="password"
+            placeholder="confirm password"
+            autoComplete="passwordConfirm"
           />
 
           <div className="mt-6">
             <button type="submit" className="btn btn-block" disabled={loading}>
-              Login
+              Sign Up
             </button>
           </div>
         </form>

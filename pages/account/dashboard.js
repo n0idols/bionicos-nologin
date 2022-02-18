@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import { withSession } from "../../middlewares/session";
-export default function Dashboard({ orders }) {
+export default function Dashboard({ orders, user }) {
   // useEffect(() => {
   //   if (user?.role.type === "merchant") {
   //     router.push("/account/admin/orders");
@@ -35,41 +35,42 @@ export default function Dashboard({ orders }) {
   return (
     <Layout title="Dashboard">
       <div className="max-w-xl p-2 mx-auto">
-        <div className="flex justify-between mt-4">
-          {/* <h1>Welcome, {user ? user.username : ""}</h1> */}
+        <div className="flex justify-between">
+          <h1>Hello, {user ? user.username : ""}</h1>
 
           {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
-          <button className="btn btn-ghost btn-small" onClick={onLogout}>
+          <button className="btn btn-ghost" onClick={onLogout}>
             Logout
           </button>
-          {orders && <h1>Your Order History</h1>}
-
-          {orders?.map((order, i) => {
-            const items = order.line_items;
-            const entries = Object.entries(items);
-            let quantity = 0;
-            items.forEach((item) => {
-              quantity += item.quantity;
-            });
-            return (
-              <div
-                key={i}
-                className="bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2"
-              >
-                <span className="text-xl font-bold text-gray-600">
-                  {moment(order.created_at).format("MMMM Do, h:mm A")}
-                </span>
-                <div className={getStatus(order.estado.id)}>
-                  {order.estado.title}
-                </div>
-                <h4>Items: {quantity}</h4>
-                <Link href={`/account/orders/${order.uuid}`} key={order.id}>
-                  <a className="btn btn-outline mx-4">View Details</a>
-                </Link>
-              </div>
-            );
-          })}
         </div>
+
+        {orders && <h1>Your Order History</h1>}
+
+        {orders?.map((order, i) => {
+          const items = order.line_items;
+          const entries = Object.entries(items);
+          let quantity = 0;
+          items.forEach((item) => {
+            quantity += item.quantity;
+          });
+          return (
+            <div
+              key={i}
+              className="bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2"
+            >
+              <span className="text-xl font-bold text-gray-600">
+                {moment(order.created_at).format("MMMM Do, h:mm A")}
+              </span>
+              <div className={getStatus(order.estado.id)}>
+                {order.estado.title}
+              </div>
+              <h4>Items: {quantity}</h4>
+              <Link href={`/account/orders/${order.uuid}`} key={order.id}>
+                <a className="btn btn-outline mx-4">View Details</a>
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </Layout>
   );
