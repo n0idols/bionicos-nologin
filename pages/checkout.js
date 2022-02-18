@@ -15,7 +15,7 @@ import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
 import ClosedIcon from "@/components/icons/Closed";
 
-export default function CheckoutPage({}) {
+export default function CheckoutPage({ user }) {
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
@@ -26,13 +26,11 @@ export default function CheckoutPage({}) {
   const total = totalCartPrice + tax;
 
   useEffect(() => {
-    // if (!user) router.replace("/account/signup");
     // Create PaymentIntent as soon as the page loads
     fetch("/api/stripe/createPaymentIntent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cart }),
-      // body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -122,7 +120,9 @@ export default function CheckoutPage({}) {
 
               <div className="form-control px-2">
                 <label className="label">
-                  <span className="label-text">Any special instructions? </span>
+                  <span className="label-text font-bold">
+                    Any special instructions?{" "}
+                  </span>
                 </label>
                 <textarea
                   value={notes}
@@ -130,20 +130,25 @@ export default function CheckoutPage({}) {
                   className="textarea h-24 textarea-bordered textarea-primary"
                   placeholder="Add a note for us here"
                 ></textarea>
-              </div>
-              <div className="flex justify-between m-2">
-                <div className="flex">
-                  <h3 className="m-2">Enter a coupon</h3>
-                  <input
-                    className="border-2"
-                    type="text"
-                    value={coupon}
-                    onChange={(e) => {
-                      setCoupon(e.currentTarget.value);
-                    }}
-                  />
-                </div>
-                <button onClick={applyCoupon}>Apply Coupon</button>
+
+                <label className="label" htmlFor="coupon">
+                  <span className="label-text font-bold mt-2">
+                    Enter a coupon
+                  </span>
+                </label>
+
+                <input
+                  className="input-bordered input input-primary"
+                  type="text"
+                  value={coupon}
+                  onChange={(e) => {
+                    setCoupon(e.currentTarget.value);
+                  }}
+                />
+
+                <button onClick={applyCoupon} className="btn btn-ghost mt-2">
+                  Apply Coupon
+                </button>
               </div>
               <div className="my-2 ">
                 <div className="p-2 tracking-wide flex justify-between">
@@ -222,7 +227,11 @@ export default function CheckoutPage({}) {
                 {!clientSecret && <Loading />}
                 {clientSecret && (
                   <Elements options={options} stripe={stripePromise}>
-                    <CheckoutForm notes={notes} coupon={couponOff} />
+                    <CheckoutForm
+                      notes={notes}
+                      coupon={couponOff}
+                      user={user}
+                    />
                   </Elements>
                 )}
               </div>
@@ -236,7 +245,19 @@ export default function CheckoutPage({}) {
 
 export const getServerSideProps = withSession(({ req }) => {
   const user = req.session.get("user");
+  // if cartn, redirect to login page
+
+  let { cart } = parseCookies(req);
+  if (!cart) {
+    return {
+      redirect: {
+        destination: "/menu",
+        permanent: false,
+      },
+    };
+  }
   // if not logged in, redirect to login page
+
   if (!user)
     return {
       redirect: {

@@ -19,7 +19,8 @@ export default function ThankYouPage({ order }) {
   useEffect(() => {
     removeCookie("notes");
     removeCookie("coupon");
-    removeCookie("cart");
+
+    emptyCart();
   }, []);
 
   return (
@@ -50,7 +51,7 @@ export const getServerSideProps = withSession(async ({ req, query }) => {
       },
     };
   let { cart, notes, coupon } = parseCookies(req);
-  console.log(coupon);
+  console.log(`From thank you: ${coupon}`);
 
   cart = JSON.parse(cart);
 

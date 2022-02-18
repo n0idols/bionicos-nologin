@@ -12,7 +12,7 @@ import { FaStripe } from "react-icons/fa";
 import Loading from "./icons/Loading";
 import Link from "next/link";
 
-export default function CheckoutForm({ notes, coupon }) {
+export default function CheckoutForm({ notes, coupon, user }) {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -82,7 +82,7 @@ export default function CheckoutForm({ notes, coupon }) {
         // Make sure to change this to your payment completion page
 
         return_url: `${process.env.NEXT_PUBLIC_RETURN_URL}`,
-        // receipt_email: user.email,
+        receipt_email: user.email,
       },
     });
 
