@@ -2,17 +2,23 @@ import { useEffect } from "react";
 
 import parseCookies from "@/lib/cookie";
 import { useCart } from "@/lib/cartState";
-
+import { useCookies } from "react-cookie";
 import Link from "next/link";
 import OrderItem from "@/components/OrderItem";
 export default function ThankYouPage({ order }) {
   const { emptyCart, cart } = useCart();
   const items = order.line_items;
   const entries = Object.entries(items);
+  const [cookies, setCookie, removeCookie] = useCookies(["notes", "coupon"]);
+
   // useEffect(() => {
   //   if (cart.length > 1) emptyCart();
   //   destroyCookie(null, "cart");
   // }, [emptyCart, cart]);
+  useEffect(() => {
+    removeCookie("notes");
+    removeCookie("coupon");
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -33,7 +39,7 @@ export default function ThankYouPage({ order }) {
 }
 
 export async function getServerSideProps({ req, query }) {
-  let { token, cart, notes } = parseCookies(req);
+  let { token, cart, notes, coupon } = parseCookies(req);
   cart = JSON.parse(cart);
 
   const calculateTax = (cart) => {
@@ -62,7 +68,7 @@ export async function getServerSideProps({ req, query }) {
       itemTotal *= value.quantity;
       total += itemTotal;
     });
-    const final = Math.round(total);
+    const final = Math.round(total - total * coupon);
 
     return final;
   };
@@ -82,18 +88,17 @@ export async function getServerSideProps({ req, query }) {
     });
 
     newTotal = total * plusTax;
-    const final = Math.round(newTotal);
+    const final = Math.round(newTotal - newTotal * coupon);
     console.log(final);
     return final;
   };
 
-  if (!token) {
-    return {
-      props: {},
-      redirect: { destination: "/account/login" },
-    };
-  }
-
+  // if (!token) {
+  //   return {
+  //     props: {},
+  //     redirect: { destination: "/account/login" },
+  //   };
+  // }
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
     method: "POST",
     headers: {

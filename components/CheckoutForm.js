@@ -12,12 +12,12 @@ import { FaStripe } from "react-icons/fa";
 import Loading from "./icons/Loading";
 import Link from "next/link";
 
-export default function CheckoutForm({ notes }) {
+export default function CheckoutForm({ notes, coupon }) {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["notes"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["notes", "coupon"]);
 
   const [orderCompleted, setOrderCompleted] = useState(null);
   const [orderCompletedError, setOrderCompletedError] = useState(null);
@@ -68,6 +68,9 @@ export default function CheckoutForm({ notes }) {
     }
 
     setIsLoading(true);
+    setCookie("coupon", JSON.stringify(coupon), {
+      path: "/",
+    });
     setCookie("notes", JSON.stringify(notes), {
       path: "/",
     });
@@ -79,7 +82,7 @@ export default function CheckoutForm({ notes }) {
         // Make sure to change this to your payment completion page
 
         return_url: `${process.env.NEXT_PUBLIC_RETURN_URL}`,
-        receipt_email: user.email,
+        // receipt_email: user.email,
       },
     });
 

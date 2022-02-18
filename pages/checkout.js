@@ -4,7 +4,8 @@ import formatMoney from "@/lib/formatMoney";
 import { useState, useEffect, useContext } from "react";
 import { useCart } from "@/lib/cartState";
 import { withSession } from "../middlewares/session";
-
+import client from "@/lib/apollo-client";
+import gql from "graphql-tag";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
@@ -19,7 +20,8 @@ export default function CheckoutPage({}) {
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
   const [notes, setNotes] = useState("");
-
+  const [coupon, setCoupon] = useState("");
+  const [couponOff, setCouponOff] = useState(0);
   const tax = totalCartPrice * 0.1025;
   const total = totalCartPrice + tax;
 
@@ -56,9 +58,34 @@ export default function CheckoutPage({}) {
     // if (date.getDay() === 0) return true;
     return date.getHours() < 6 || date.getHours() >= 16;
   };
+
+  const applyCoupon = async () => {
+    const { data, error } = await client.query({
+      query: gql`
+        query getCoupon($id: String!) {
+          coupons(where: { code: $id }) {
+            id
+            code
+            details
+            isActive
+            percentOff
+          }
+        }
+      `,
+      variables: { id: coupon },
+    });
+    console.log(data, error);
+    if (!data || !data.coupons[0].isActive) {
+      alert("Invalid coupon");
+      setCouponOff(0);
+    } else {
+      setCouponOff(data.coupons[0].percentOff / 100);
+      alert("Coupon applied");
+    }
+  };
   return (
     <Layout title="Checkout">
-      <Modal title="⚠️ We are currently closed" show={isClosed()}>
+      {/* <Modal title="⚠️ We are currently closed" show={isClosed()}>
         <div className="flex px-4">
           <div className="py-6 flex flex-col justify-center">
             <p>😔</p>
@@ -68,13 +95,12 @@ export default function CheckoutPage({}) {
               MONDAY - SUNDAY: <span className="block -mt-2">7am - 4pm</span>{" "}
             </h2>
 
-            {/* <p>Closed Sunday</p> */}
           </div>
           <div className="w-1/2">
             <ClosedIcon />
           </div>
         </div>
-      </Modal>
+      </Modal> */}
       <div className="max-w-2xl mx-auto pt-12 mt-24 px-4 bg-white shadow-xl rounded-xl">
         <Link href="/menu">
           <a className="btn btn-sm btn-primary">Go Back To Menu</a>
@@ -105,13 +131,29 @@ export default function CheckoutPage({}) {
                   placeholder="Add a note for us here"
                 ></textarea>
               </div>
+              <div className="flex justify-between m-2">
+                <div className="flex">
+                  <h3 className="m-2">Enter a coupon</h3>
+                  <input
+                    className="border-2"
+                    type="text"
+                    value={coupon}
+                    onChange={(e) => {
+                      setCoupon(e.currentTarget.value);
+                    }}
+                  />
+                </div>
+                <button onClick={applyCoupon}>Apply Coupon</button>
+              </div>
               <div className="my-2 ">
                 <div className="p-2 tracking-wide flex justify-between">
                   <div>
                     <h6>Subtotal</h6>
                   </div>
                   <div>
-                    <h6>{formatMoney(totalCartPrice)}</h6>
+                    <h6>
+                      {formatMoney(totalCartPrice - totalCartPrice * couponOff)}
+                    </h6>
                   </div>
                 </div>
                 <hr />
@@ -169,7 +211,9 @@ export default function CheckoutPage({}) {
                     <h6 className="font-bold">Total</h6>
                   </div>
                   <div>
-                    <h6 className="font-bold">{formatMoney(total)}</h6>
+                    <h6 className="font-bold">
+                      {formatMoney(total - total * couponOff)}
+                    </h6>
                   </div>
                 </div>
               </div>
@@ -178,7 +222,7 @@ export default function CheckoutPage({}) {
                 {!clientSecret && <Loading />}
                 {clientSecret && (
                   <Elements options={options} stripe={stripePromise}>
-                    <CheckoutForm notes={notes} />
+                    <CheckoutForm notes={notes} coupon={couponOff} />
                   </Elements>
                 )}
               </div>
