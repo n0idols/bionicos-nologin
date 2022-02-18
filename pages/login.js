@@ -33,7 +33,7 @@ export default function LoginPage() {
           method="post"
         >
           <h1 className="text-center mt-2">Login</h1>
-          <Link href="/account/signup">
+          <Link href="/signup">
             <a className="description text-center mt-2">
               Need an account?
               <span className="font-semibold underline ml-1">

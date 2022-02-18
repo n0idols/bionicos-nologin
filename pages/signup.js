@@ -32,7 +32,7 @@ export default function SignUpPage() {
         >
           <h1 className="text-center mt-2">Sign Up</h1>
 
-          <Link href="/account/login">
+          <Link href="/login">
             <a className="description text-center mt-2">
               Already have an account?
               <span className="font-semibold underline ml-1">
