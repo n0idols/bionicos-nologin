@@ -13,25 +13,32 @@ export default function SignUpPage() {
 
   const onSubmit = (event) => {
     event.preventDefault();
-
+    if (
+      event.currentTarget.password.value !==
+      event.currentTarget.confirmPassword.value
+    ) {
+      alert("Password does not match");
+      return;
+    }
     const body = {
       username: event.currentTarget.username.value,
       email: event.currentTarget.email.value,
       password: event.currentTarget.password.value,
     };
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      axios.post("/api/signup", body).then((user) => {
+    axios
+      .post("/api/signup", body)
+      .then((user) => {
         console.log(user);
         router.push("/account/dashboard");
-      });
-    } catch (e) {
-      setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
 
-      toast.error(e);
-    }
+        toast.error(e);
+      });
   };
   return (
     <Layout title="Sign Up">
@@ -92,6 +99,7 @@ export default function SignUpPage() {
             type="password"
             placeholder="confirm password"
             autoComplete="passwordConfirm"
+            name="confirmPassword"
           />
 
           <div className="mt-6">

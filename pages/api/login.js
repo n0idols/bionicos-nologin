@@ -20,7 +20,7 @@ export default nc()
         }));
 
       if (!user.confirmed) {
-        return res.status(401).json({
+        res.status(401).json({
           statusCode: 401,
           message: "User not confirmed",
         });
@@ -32,10 +32,7 @@ export default nc()
     } catch (error) {
       const { response: fetchResponse } = error;
       if (fetchResponse) {
-        return res
-          .status(fetchResponse?.status || 500)
-          .json(error.response?.data);
-      }
-      res.status(500).json(error);
+        res.status(fetchResponse?.status || 500).json(error.response?.data);
+      } else res.status(500).json(error);
     }
   });

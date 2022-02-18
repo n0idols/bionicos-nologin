@@ -18,10 +18,15 @@ export default function LoginPage() {
       password: event.currentTarget.password.value,
     };
 
-    axios.post("/api/login", body).then((user) => {
-      console.log(user);
-      router.push("/account/dashboard");
-    });
+    axios
+      .post("/api/login", body)
+      .then((user) => {
+        console.log(user);
+        router.push("/account/dashboard");
+      })
+      .catch((e) => {
+        alert("Invalid credentials");
+      });
   };
   return (
     <Layout title="Login">
