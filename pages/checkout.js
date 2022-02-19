@@ -1,7 +1,7 @@
 import CartItem from "@/components/Cart/CartItem";
 import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/lib/cartState";
 import { withSession } from "../middlewares/session";
 import client from "@/lib/apollo-client";
@@ -12,8 +12,6 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
 import parseCookies from "@/lib/cookie";
 import Layout from "@/components/Layout";
-import Modal from "@/components/Modal";
-import ClosedIcon from "@/components/icons/Closed";
 
 export default function CheckoutPage({ user }) {
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
@@ -266,7 +264,7 @@ export const getServerSideProps = withSession(({ req }) => {
   if (!user)
     return {
       redirect: {
-        destination: "/login",
+        destination: "/signup",
         permanent: false,
       },
     };

@@ -2,8 +2,8 @@ import LocationMap from "./LocationMap";
 
 export default function MapSection() {
   return (
-    <div className="flex flex-col lg:flex-row items-center overflow-x-hidden">
-      <div className="lg:w-1/2 mx-auto flex flex-col items-center py-8 text-center">
+    <div className="flex flex-col lg:flex-row items-center overflow-x-hidden max-w-5xl mx-auto mb-8">
+      <div className="w-full flex flex-col items-center py-8 text-center">
         <div>
           <div className="mb-6">
             <p className="font-thin uppercase tracking-widest text-2xl">
@@ -31,7 +31,7 @@ export default function MapSection() {
         </div>
       </div>
 
-      <div className="lg:w-1/2 ">
+      <div className=" mx-auto bg-secondary p-1 rounded-lg shadow-2xl ">
         <LocationMap />
 
         {/* <iframe
