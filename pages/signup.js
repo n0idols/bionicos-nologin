@@ -43,6 +43,10 @@ export default function SignUpPage() {
   return (
     <Layout title="Sign Up">
       <div className="max-w-md mx-auto md:mt-24 mt-16  p-4 rounded-xl ">
+        <p>Or use Facebook</p>
+        <Link href={`${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`}>
+          <a>Fb</a>
+        </Link>
         <form
           className="form-control"
           onSubmit={onSubmit}
