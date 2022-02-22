@@ -9,7 +9,7 @@ import CartDrawer from "./CartDrawer";
 export default function Header() {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn text-gray-600 `;
-  const activeClasses = `btn btn-primary btn-sm rounded-btn `;
+  const activeClasses = `btn btn-primary btn-sm rounded-btn text-white `;
   const { cart, show, toggleCart, closeCart } = useCart();
 
   return (
