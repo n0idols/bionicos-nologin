@@ -35,7 +35,7 @@ export default function LocationMap() {
 
   if (loading) return false;
   return (
-    <div className=" -z-10">
+    <div className=" -z-10 ">
       {/* <div className="mb-4">
         <h1 className="text-lg font-bold">{evt.venue}</h1>
         <h1>{evt.address}</h1>
@@ -51,7 +51,7 @@ export default function LocationMap() {
             src="/pin.svg"
             width={30}
             height={30}
-            alt="2211 E Palmdale Blvd Suite e"
+            alt="2211 E Palmdale Blvd Suite E"
           />
 
           {/* <Image src="/pin.svg" width={30} height={30} /> */}

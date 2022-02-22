@@ -6,11 +6,24 @@ import Layout from "@/components/Layout";
 import Link from "next/link";
 import { set } from "nprogress";
 import toast from "react-hot-toast";
+
+import { useCart } from "@/lib/cartState";
+
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
+  const { cart } = useCart();
+  // const fburl = `${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`;
 
+  // const handleFacebook = async () => {
+  //   try {
+  //     const res = await axios.get(fburl);
+  //     console.log(res);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   const onSubmit = (event) => {
     event.preventDefault();
     if (
@@ -32,7 +45,11 @@ export default function SignUpPage() {
       .post("/api/signup", body)
       .then((user) => {
         console.log(user);
-        router.push("/checkout");
+        if (cart.length > 0) {
+          router.push("/checkout");
+        } else {
+          router.push("/menu");
+        }
       })
       .catch((e) => {
         setLoading(false);
@@ -42,7 +59,12 @@ export default function SignUpPage() {
   };
   return (
     <Layout title="Sign Up">
-      <div className="max-w-md mx-auto md:mt-24 mt-16  p-4 rounded-xl ">
+      <div className="max-w-md mx-auto md:mt-24 mt-16  p-4 rounded-xl bg-white">
+        {/* <a href={`${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`}>
+          Continue with Facebook
+        </a> */}
+        {/* <button onClick={handleFacebook}>Continue with Facebook</button> */}
+
         <form
           className="form-control"
           onSubmit={onSubmit}
@@ -81,13 +103,25 @@ export default function SignUpPage() {
             autoComplete="email"
             name="email"
           />
+          {/* 
+          <label htmlFor="phone" className="label">
+            <span className="label-text">Phone</span>
+          </label>
+          <input
+            className="input input-primary"
+            type="phone"
+            placeholder="Your phone number"
+            autoComplete="phone"
+            name="phone"
+          /> */}
+
           <label htmlFor="password" className="label">
             <span className="label-text">Password</span>
           </label>
           <input
             className="input input-primary"
             type="password"
-            placeholder="password"
+            placeholder="Password"
             autoComplete="new-password"
             name="password"
           />
@@ -97,7 +131,7 @@ export default function SignUpPage() {
           <input
             className="input input-primary"
             type="password"
-            placeholder="confirm password"
+            placeholder="Confirm password"
             autoComplete="passwordConfirm"
             name="confirmPassword"
           />

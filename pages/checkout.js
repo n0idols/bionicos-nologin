@@ -1,7 +1,7 @@
 import CartItem from "@/components/Cart/CartItem";
 import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/lib/cartState";
 import { withSession } from "../middlewares/session";
 import client from "@/lib/apollo-client";
@@ -14,7 +14,6 @@ import parseCookies from "@/lib/cookie";
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
 import ClosedIcon from "@/components/icons/Closed";
-
 export default function CheckoutPage({ user }) {
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
@@ -85,22 +84,23 @@ export default function CheckoutPage({ user }) {
   };
   return (
     <Layout title="Checkout">
-      {/* <Modal title="⚠️ We are currently closed" show={isClosed()}>
+      <Modal title="⚠️ We are currently closed" show={isClosed()}>
         <div className="flex px-4">
-          <div className="py-6 flex flex-col justify-center">
+          <div className="flex flex-col justify-center items-center ">
             <p>😔</p>
 
-            <p className="italic ">Please come back when we open!</p>
+            <p className="italic text-center mb-2 text-sm">
+              Please come back when we open!
+            </p>
             <h2>
-              MONDAY - SUNDAY: <span className="block -mt-2">7am - 4pm</span>{" "}
+              MONDAY - SUNDAY: <span className="block ">7:00am - 4:00pm</span>{" "}
             </h2>
-
           </div>
-          <div className="w-1/2">
+          <div className="w-1/2 px-4">
             <ClosedIcon />
           </div>
         </div>
-      </Modal> */}
+      </Modal>
       <div className="max-w-2xl mx-auto pt-12 mt-24 px-4 bg-white shadow-xl rounded-xl">
         <Link href="/menu">
           <a className="btn btn-sm btn-primary">Go Back To Menu</a>
@@ -266,7 +266,7 @@ export const getServerSideProps = withSession(({ req }) => {
   if (!user)
     return {
       redirect: {
-        destination: "/login",
+        destination: "/signup",
         permanent: false,
       },
     };
