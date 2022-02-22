@@ -38,7 +38,7 @@ export default function CouponPopup() {
         <p className="bg-accent px-2 my-2 text-2xl">
           <span className="font-extrabold">22% off </span> your order
         </p>
-        <p className="text-sm">use code "22off" at checkout</p>
+        <p className="text-sm">use code &quot;22off&quot; at checkout</p>
         {copied ? (
           <span style={{ color: "red" }}>
             Copied code, now you can paste it into the coupon box at checkout
