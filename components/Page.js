@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import MobileNav from "./MobileNav";
 
 import toast, { Toaster } from "react-hot-toast";
-import CouponPopup from "./CouponPopup";
+
 import PromoBanner from "./PromoBanner";
 
 export default function Page({ children }) {
