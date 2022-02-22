@@ -36,7 +36,7 @@ export default function LoginPage() {
   };
   return (
     <Layout title="Login">
-      <div className="max-w-md mx-auto md:mt-24 mt-16 p-4 rounded-xl bg-white shadow">
+      <div className="max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow">
         <form
           className="form-control "
           onSubmit={onSubmit}
@@ -73,7 +73,11 @@ export default function LoginPage() {
           />
 
           <div className="mt-6">
-            <button type="submit" className="btn btn-block" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-block text-white"
+              disabled={loading}
+            >
               Login
             </button>
           </div>
