@@ -1,12 +1,12 @@
 import axios from "axios";
-import { withIronSessionSsr } from "next-iron-session";
+
 import { withSession } from "../../../middlewares/session";
 
 export default function CallbackPage() {
   return (
     <div>
       Thank you
-      <p>You'll be redirected to checkout in </p>
+      <p>Youll be redirected to checkout in </p>
     </div>
   );
 }
@@ -19,10 +19,10 @@ export const getServerSideProps = withSession(async ({ query, req }) => {
 
     const user = res.data.user;
     const jdub = res.data.jwt;
+    console.log(res.data);
     req.session.set("user", user);
     req.session.set("token", jdub);
     await req.session.save();
-    console.log(res);
   } catch (err) {
     console.log(err);
   }
