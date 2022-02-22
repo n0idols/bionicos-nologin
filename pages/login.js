@@ -81,12 +81,12 @@ export default function LoginPage() {
               Login
             </button>
           </div>
-          {/* <div className="flex flex-col my-4 ">
+          <div className="flex flex-col my-4 items-center">
             <span className="text-sm">Forgot password?</span>
             <Link href="/forgotpassword">
               <a className=" font-bold underline">Reset password</a>
             </Link>
-          </div> */}
+          </div>
         </form>
       </div>
     </Layout>
