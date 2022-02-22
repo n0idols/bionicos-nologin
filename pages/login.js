@@ -1,14 +1,16 @@
 import { useState } from "react";
-
+import { applySession } from "next-iron-session";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { withSession } from "../middlewares/session";
 import Layout from "@/components/Layout";
 import Link from "next/link";
+import { useCart } from "@/lib/cartState";
 
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { cart } = useCart();
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -22,7 +24,11 @@ export default function LoginPage() {
       .post("/api/login", body)
       .then((user) => {
         console.log(user);
-        router.push("/account/dashboard");
+        if (cart.length > 0) {
+          router.push("/checkout");
+        } else {
+          router.push("/account/dashboard");
+        }
       })
       .catch((e) => {
         alert("Invalid credentials");
@@ -30,9 +36,9 @@ export default function LoginPage() {
   };
   return (
     <Layout title="Login">
-      <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl ">
+      <div className="max-w-md mx-auto md:mt-24 mt-16 p-4 rounded-xl bg-white shadow">
         <form
-          className="form-control"
+          className="form-control "
           onSubmit={onSubmit}
           action="/api/login"
           method="post"
@@ -71,6 +77,12 @@ export default function LoginPage() {
               Login
             </button>
           </div>
+          {/* <div className="flex flex-col my-4 ">
+            <span className="text-sm">Forgot password?</span>
+            <Link href="/forgotpassword">
+              <a className=" font-bold underline">Reset password</a>
+            </Link>
+          </div> */}
         </form>
       </div>
     </Layout>
