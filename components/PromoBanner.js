@@ -26,7 +26,7 @@ export default function PromoBanner() {
           <p className="bg-accent px-2 my-2 text-2xl">
             <span className="font-extrabold ">22% off </span> your order
           </p>
-          <small className="text-white">Use coupon "22off"</small>
+          <small className="text-white">Use coupon &quot;22off&quot; </small>
           <div className="my-3">
             <CopyToClipboard text={coupon} onCopy={copy}>
               <button className="btn btn-outline btn-sm">
