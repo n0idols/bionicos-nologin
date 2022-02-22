@@ -39,7 +39,7 @@ export default function MenuItem({ item }) {
   return (
     <div key={item.id}>
       <a onClick={() => setIsModalOpen(true)} className={card}>
-        {item.image && (
+        {/* {item.image && (
           <div className="relative w-64 h-40">
             <Image
               src={item.image.url}
@@ -49,7 +49,7 @@ export default function MenuItem({ item }) {
               className=" "
             />
           </div>
-        )}
+        )} */}
 
         <div className="p-4 space-y-1 flex flex-col justify-center">
           <h2 className="text-lg">
@@ -69,8 +69,8 @@ export default function MenuItem({ item }) {
         title={item.number ? `${item.number}. ${item.title}` : `${item.title}`}
       >
         <div className="min-h-[200px] flex flex-col justify-between">
-          <div className="relative h-64 w-full">
-            {item.image && (
+          {item.image && (
+            <div className="relative h-64 w-full">
               <Image
                 src={item.image.url}
                 layout="fill"
@@ -78,8 +78,8 @@ export default function MenuItem({ item }) {
                 objectFit="cover"
                 className=""
               />
-            )}
-          </div>
+            </div>
+          )}
           <div className="px-2 my-2">
             {item.description && <p className="my-2">{item.description}</p>}
 
