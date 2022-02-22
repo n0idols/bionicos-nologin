@@ -60,9 +60,9 @@ export default function SignUpPage() {
   return (
     <Layout title="Sign Up">
       <div className="max-w-md mx-auto md:mt-24 mt-16  p-4 rounded-xl bg-white">
-        <a href={`${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`}>
+        {/* <a href={`${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`}>
           Continue with Facebook
-        </a>
+        </a> */}
         {/* <button onClick={handleFacebook}>Continue with Facebook</button> */}
 
         <form
