@@ -69,10 +69,12 @@ export default function CheckoutForm({ notes, coupon, user }) {
 
     setIsLoading(true);
     setCookie("coupon", JSON.stringify(coupon), {
+      sameSite: "lax",
       path: "/",
     });
     setCookie("notes", JSON.stringify(notes), {
       path: "/",
+      sameSite: "lax",
     });
     // destroyCookie(null, "cart");
 
