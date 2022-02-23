@@ -69,13 +69,9 @@ export default function CheckoutForm({ notes, coupon, user }) {
 
     setIsLoading(true);
     setCookie("coupon", JSON.stringify(coupon), {
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
       path: "/",
     });
     setCookie("notes", JSON.stringify(notes), {
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
       path: "/",
     });
     // destroyCookie(null, "cart");
