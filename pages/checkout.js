@@ -150,8 +150,8 @@ export default function CheckoutPage({ user }) {
 
                 <button onClick={applyCoupon} className="btn btn-ghost mt-2">
                   Apply Coupon
-                </button>
-              </div> */}
+                </button> */}
+              </div>
               <div>{couponDetail}</div>
               <div className="my-2 ">
                 <div className="p-2 tracking-wide flex justify-between">
