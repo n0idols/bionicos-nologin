@@ -126,19 +126,18 @@ export default function CheckoutPage({ user }) {
                     Any special instructions?{" "}
                   </span>
                 </label>
-                {/* <textarea
+                <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.currentTarget.value)}
                   className="textarea h-24 textarea-bordered textarea-primary"
                   placeholder="Add a note for us here"
                 ></textarea>
 
-                <label className="label" htmlFor="coupon">
+                {/* <label className="label" htmlFor="coupon">
                   <span className="label-text font-bold mt-2">
                     Enter a coupon
                   </span>
                 </label>
-
                 <input
                   className="input-bordered input input-primary"
                   type="text"
@@ -147,10 +146,9 @@ export default function CheckoutPage({ user }) {
                     setCouponCode(e.currentTarget.value);
                   }}
                 />
-
                 <button onClick={applyCoupon} className="btn btn-ghost mt-2">
                   Apply Coupon
-                </button> */}
+                </button>{" "} */}
               </div>
               <div>{couponDetail}</div>
               <div className="my-2 ">
