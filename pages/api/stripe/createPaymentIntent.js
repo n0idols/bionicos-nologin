@@ -1,6 +1,7 @@
 const stripe = require("stripe")(`${process.env.NEXT_PRIVATE_STRIPE_KEY}`);
 
-const calculateOrderAmount = (cart, couponOff) => {
+const calculateOrderAmount = (cart) => {
+  let couponOff = 0.22;
   let total = 0;
   let newTotal = 0;
   let plusTax = 1.1025;
@@ -21,11 +22,11 @@ const calculateOrderAmount = (cart, couponOff) => {
 };
 
 export default async function handler(req, res) {
-  const { cart, couponOff } = req.body;
+  const { cart } = req.body;
   try {
     // const customer = await stripe.customers.create();
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: calculateOrderAmount(cart, couponOff),
+      amount: calculateOrderAmount(cart),
       currency: "usd",
       automatic_payment_methods: {
         enabled: true,

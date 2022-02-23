@@ -59,7 +59,7 @@ export default function SignUpPage() {
   };
   return (
     <Layout title="Sign Up">
-      <div className="max-w-md mx-auto md:mt-24 mt-16  p-4 rounded-xl bg-white">
+      <div className="max-w-md mx-auto mt-24  p-4 rounded-xl bg-white">
         {/* <a href={`${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`}>
           Continue with Facebook
         </a> */}
@@ -137,7 +137,11 @@ export default function SignUpPage() {
           />
 
           <div className="mt-6">
-            <button type="submit" className="btn btn-block" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-block  text-white"
+              disabled={loading}
+            >
               Sign Up
             </button>
           </div>

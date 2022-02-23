@@ -9,7 +9,7 @@ import CartDrawer from "./CartDrawer";
 export default function Header() {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn text-gray-600 `;
-  const activeClasses = `btn btn-primary btn-sm rounded-btn `;
+  const activeClasses = `btn btn-primary btn-sm rounded-btn text-white `;
   const { cart, show, toggleCart, closeCart } = useCart();
 
   return (
@@ -18,7 +18,7 @@ export default function Header() {
       {/* <AdminDrawer show={show} /> */}
 
       <header className="fixed top-0 z-50 w-full">
-        <div className="navbar shadow-lg bg-base-100 text-neutral-content standalone:pt-4">
+        <div className="navbar shadow-lg bg-white text-neutral-content standalone:pt-4">
           <div className="px-2 mx-2 navbar-start">
             <Logo />
           </div>
@@ -66,7 +66,7 @@ export default function Header() {
                 <span className="relative inline-block ml-2">
                   <div className="indicator">
                     {cart.length > 0 && (
-                      <div className="indicator-item badge badge-primary rounded-full">
+                      <div className="indicator-item badge badge-primary rounded-full text-white">
                         {cart.length}
                       </div>
                     )}

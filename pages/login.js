@@ -11,34 +11,36 @@ export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { cart } = useCart();
-
-  const onSubmit = (event) => {
-    event.preventDefault();
-
-    const body = {
-      email: event.currentTarget.email.value,
-      password: event.currentTarget.password.value,
-    };
-
-    axios
-      .post("/api/login", body)
-      .then((user) => {
-        console.log(user);
-        if (cart.length > 0) {
-          router.push("/checkout");
-        } else {
-          router.push("/account/dashboard");
-        }
-      })
-      .catch((e) => {
-        alert("Invalid credentials");
-      });
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    syrrup: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
   };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("/api/login", values);
+      if (cart.length > 0) {
+        router.push("/checkout");
+      } else {
+        router.push("/account/dashboard");
+      }
+    } catch (err) {
+      alert("Invalid credentials");
+    }
+  };
+
+  const formContainer = `max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow`;
+  const input = `input input-primary`;
   return (
     <Layout title="Login">
-      <div className="max-w-md mx-auto md:mt-24 mt-16 p-4 rounded-xl bg-white shadow">
+      <div className={formContainer}>
         <form
-          className="form-control "
+          className="form-control"
           onSubmit={onSubmit}
           action="/api/login"
           method="post"
@@ -56,28 +58,36 @@ export default function LoginPage() {
             <span className="label-text">Email</span>
           </label>
           <input
-            className="input input-primary"
+            className={input}
             type="email"
             placeholder="Your email"
             name="email"
+            value={values.email}
+            onChange={handleChange}
           />
           <label htmlFor="password" className="label">
             <span className="label-text">Password</span>
           </label>
           <input
-            className="input input-primary"
+            className={input}
             type="password"
             placeholder="password"
             autoComplete="password"
             name="password"
+            value={values.password}
+            onChange={handleChange}
           />
 
           <div className="mt-6">
-            <button type="submit" className="btn btn-block" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-block text-white"
+              disabled={loading}
+            >
               Login
             </button>
           </div>
-          {/* <div className="flex flex-col my-4 ">
+          {/* <div className="flex flex-col my-4 items-center">
             <span className="text-sm">Forgot password?</span>
             <Link href="/forgotpassword">
               <a className=" font-bold underline">Reset password</a>

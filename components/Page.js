@@ -6,6 +6,8 @@ import MobileNav from "./MobileNav";
 
 import toast, { Toaster } from "react-hot-toast";
 
+import PromoBanner from "./PromoBanner";
+
 export default function Page({ children }) {
   return (
     <>
@@ -23,9 +25,11 @@ export default function Page({ children }) {
         className="bg-base-100 standalone:mt-28  mt-20"
       >
         <TempHeader />
+
         <main className="min-h-screen">{children}</main>
         <Footer />
         <MobileNav />
+        <PromoBanner />
       </div>
     </>
   );

@@ -27,7 +27,7 @@ export default function Modal({ show, onClose, children, title }) {
             <div>
               <button
                 onClick={handleClose}
-                className="btn btn-circle btn-sm text-xl "
+                className="btn btn-circle btn-sm text-xl text-white"
               >
                 &times;
               </button>
