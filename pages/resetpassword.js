@@ -1,10 +1,7 @@
 import { useState } from "react";
-
 import { useRouter } from "next/router";
 import axios from "axios";
-import { withSession } from "../middlewares/session";
 import Layout from "@/components/Layout";
-import Link from "next/link";
 
 export default function ResetPassword({ code }) {
   const router = useRouter();
@@ -41,22 +38,27 @@ export default function ResetPassword({ code }) {
       <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl bg-white shadow">
         <form className="form-control" onSubmit={onSubmit} method="post">
           <h1 className="text-center mt-2">Enter new password</h1>
-          <label htmlFor="email" className="label">
-            <span className="label-text">Email</span>
+          <label htmlFor="new-password" className="label">
+            <span className="label-text">New Password</span>
           </label>
           <input
             className="input input-primary"
             type="password"
             placeholder="New Password"
             name="password"
+            autoComplete="new-password"
             value={values.password}
             onChange={handleChange}
           />
+          <label htmlFor="confirm-password" className="label">
+            <span className="label-text">Confirm New Password</span>
+          </label>
           <input
             className="input input-primary"
             type="password"
-            placeholder="New Password"
+            placeholder="Confirm Password"
             name="confirmPassword"
+            autoComplete="new-password"
             value={values.confirmPassword}
             onChange={handleChange}
           />
