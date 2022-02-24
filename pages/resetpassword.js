@@ -18,18 +18,22 @@ export default function ResetPassword({ code }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, {
         code: code,
-        password: password,
-        passwordConfirmation: confirmPassword,
+        password: values.password,
+        passwordConfirmation: values.confirmPassword,
       })
       .then((response) => {
         // Handle success.
         console.log("Your user's password has been changed.");
+        alert("Password Changed Successfuly! Use it to Login");
+        router.push("/login");
       })
       .catch((error) => {
         // Handle error.
+        alert("An error occurred:", error.response);
         console.log("An error occurred:", error.response);
       });
   };
