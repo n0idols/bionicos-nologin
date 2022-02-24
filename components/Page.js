@@ -29,7 +29,7 @@ export default function Page({ children }) {
         <main className="min-h-screen">{children}</main>
         <Footer />
         <MobileNav />
-        <PromoBanner />
+        {/* <PromoBanner /> */}
       </div>
     </>
   );

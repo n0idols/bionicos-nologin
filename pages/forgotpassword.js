@@ -20,6 +20,7 @@ export default function ForgotPassword() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, {
         email: values.email,
@@ -28,12 +29,15 @@ export default function ForgotPassword() {
       .then((response) => {
         // Handle success.
         console.log("Your user received an email");
-        alert("Your user received an email");
+        alert("Email sent! Please follow the link in your email to continue");
       })
       .catch((error) => {
         // Handle error.
         console.log("An error occurred:", error.response);
-        alert("An error occurred:", error.response);
+        alert(
+          "Sorry we don't have that email address on record",
+          error.response
+        );
       });
   };
   return (
