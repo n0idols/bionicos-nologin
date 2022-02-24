@@ -11,6 +11,7 @@ export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     email: "",
+    //ADD HONEYPOT FIELD HERE
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,10 +28,12 @@ export default function ForgotPassword() {
       .then((response) => {
         // Handle success.
         console.log("Your user received an email");
+        alert("Your user received an email");
       })
       .catch((error) => {
         // Handle error.
         console.log("An error occurred:", error.response);
+        alert("An error occurred:", error.response);
       });
   };
   return (
