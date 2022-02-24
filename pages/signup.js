@@ -37,6 +37,7 @@ export default function SignUpPage() {
       username: event.currentTarget.username.value,
       email: event.currentTarget.email.value,
       password: event.currentTarget.password.value,
+      syrrup: event.currentTarget.syrrup.value,
     };
 
     setLoading(true);
@@ -59,7 +60,7 @@ export default function SignUpPage() {
   };
   return (
     <Layout title="Sign Up">
-      <div className="max-w-md mx-auto mt-24  p-4 rounded-xl bg-white">
+      <div className="max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow-xl">
         {/* <a href={`${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`}>
           Continue with Facebook
         </a> */}
@@ -135,6 +136,7 @@ export default function SignUpPage() {
             autoComplete="passwordConfirm"
             name="confirmPassword"
           />
+          <input className="syrrup" type="syrrup" name="syrrup" />
 
           <div className="mt-6">
             <button

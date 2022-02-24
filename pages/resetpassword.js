@@ -9,7 +9,7 @@ export default function ResetPassword({ code }) {
   const [values, setValues] = useState({
     password: "",
     confirmPassword: "",
-    //ADD HONEYPOT FIELD HERE
+    syrrup: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,6 +64,13 @@ export default function ResetPassword({ code }) {
             name="confirmPassword"
             autoComplete="new-password"
             value={values.confirmPassword}
+            onChange={handleChange}
+          />
+          <input
+            className="syrrup"
+            type="syrrup"
+            name="syrrup"
+            value={values.syrrup}
             onChange={handleChange}
           />
 

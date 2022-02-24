@@ -34,7 +34,7 @@ export default function LoginPage() {
     }
   };
 
-  const formContainer = `max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow`;
+  const formContainer = `max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow-xl`;
   const input = `input input-primary`;
   return (
     <Layout title="Login">
@@ -47,11 +47,17 @@ export default function LoginPage() {
         >
           <h1 className="text-center mt-2">Login</h1>
           <Link href="/signup">
-            <a className="description text-center mt-2">
+            <a className="description text-center mt-2 text-sm">
               Need an account?
               <span className="font-semibold underline ml-1">
                 Click here to sign up
               </span>
+            </a>
+          </Link>
+          <Link href="/forgotpassword">
+            <a className="description text-center mt-2 text-sm text-primary">
+              Forgot password?
+              <span className=" underline ml-1">Reset password</span>
             </a>
           </Link>
           <label htmlFor="email" className="label">
@@ -78,6 +84,14 @@ export default function LoginPage() {
             onChange={handleChange}
           />
 
+          <input
+            className="syrrup"
+            type="syrrup"
+            name="syrrup"
+            value={values.syrrup}
+            onChange={handleChange}
+          />
+
           <div className="mt-6">
             <button
               type="submit"
@@ -86,12 +100,6 @@ export default function LoginPage() {
             >
               Login
             </button>
-          </div>
-          <div className="flex flex-col my-4 items-center">
-            <span className="text-sm">Forgot password?</span>
-            <Link href="/forgotpassword">
-              <a className=" font-bold underline">Reset password</a>
-            </Link>
           </div>
         </form>
       </div>

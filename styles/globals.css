@@ -26,3 +26,7 @@ h1 {
 .cart-open {
   @apply w-screen h-screen bg-black;
 }
+
+.syrrup {
+  display: none;
+}
