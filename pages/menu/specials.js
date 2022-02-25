@@ -40,7 +40,7 @@ export default function SpecialsMenu({ specials }) {
     <Layout title="Specials Menu">
       <div className="max-w-7xl mx-auto px-4">
         <div className="md:py-8 py-2">
-          <h1 className="text-center md:text-4xl ">Weekly Specials</h1>
+          <h1 className="grad-text">Daily Specials</h1>
           <p className="text-center md:text-xl my-4">
             Each special comes with a
             <span className="text-primary font-bold"> Large Agua Fresca</span>
@@ -134,7 +134,7 @@ export default function SpecialsMenu({ specials }) {
                       {day === special.id ? (
                         <button
                           onClick={() => setIsModalOpen(true)}
-                          className="btn bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-auto"
+                          className="order-btn"
                         >
                           Add To Order
                         </button>
@@ -240,7 +240,7 @@ export default function SpecialsMenu({ specials }) {
                                             id={m.id}
                                             onClick={() =>
                                               selectMod(
-                                                group.id,
+                                                group.name,
                                                 m.id,
                                                 m.name,
                                                 m.price
