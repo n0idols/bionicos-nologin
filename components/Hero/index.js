@@ -1,7 +1,6 @@
 import "./Hero.module.css";
 import Link from "next/link";
 
-const orderbtn = `btn bg-brand-red glass text-white hover:bg-brand-redhover shadow-2xl px-8`;
 export default function Hero() {
   return (
     <>
@@ -12,7 +11,7 @@ export default function Hero() {
           </h1>
 
           <Link href="/menu">
-            <button className={orderbtn}>Order Now</button>
+            <button className="order-btn">Order Now</button>
           </Link>
         </div>
       </div>
