@@ -14,13 +14,14 @@ import parseCookies from "@/lib/cookie";
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
 import ClosedIcon from "@/components/icons/Closed";
+import { FiPlusCircle } from "react-icons/fi";
 export default function CheckoutPage({ user }) {
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
   const [notes, setNotes] = useState("");
   const [couponCode, setCouponCode] = useState("");
-  const [couponOff, setCouponOff] = useState(0.22);
+  const [couponOff, setCouponOff] = useState(0);
   const [couponDetail, setCouponDetail] = useState("");
   const tax = totalCartPrice * 0.1025;
   const total = totalCartPrice + tax;
@@ -30,13 +31,13 @@ export default function CheckoutPage({ user }) {
     fetch("/api/stripe/createPaymentIntent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart }),
+      body: JSON.stringify({ cart, couponOff }),
     })
       .then((res) => res.json())
       .then((data) => {
         setClientSecret(data.clientSecret);
       });
-  }, [cart]);
+  }, [cart, couponOff]);
 
   const appearance = {
     theme: "stripe",
@@ -103,7 +104,10 @@ export default function CheckoutPage({ user }) {
       </Modal>
       <div className="max-w-2xl mx-auto pt-12 mt-24 px-4 bg-white shadow-xl rounded-xl">
         <Link href="/menu">
-          <a className="btn btn-sm btn-primary text-white">Go Back To Menu</a>
+          <a className="btn btn-sm btn-primary">
+            {" "}
+            <FiPlusCircle className="text-xl mr-1" /> Add More Items
+          </a>
         </Link>
         <div>
           <div>
@@ -138,6 +142,7 @@ export default function CheckoutPage({ user }) {
                     Enter a coupon
                   </span>
                 </label>
+
                 <input
                   className="input-bordered input input-primary"
                   type="text"
@@ -146,11 +151,12 @@ export default function CheckoutPage({ user }) {
                     setCouponCode(e.currentTarget.value);
                   }}
                 />
+
                 <button onClick={applyCoupon} className="btn btn-ghost mt-2">
                   Apply Coupon
-                </button>{" "} */}
+                </button> */}
               </div>
-              <div>{couponDetail}</div>
+              {/* <div>{couponDetail}</div> */}
               <div className="my-2 ">
                 <div className="p-2 tracking-wide flex justify-between">
                   <div>

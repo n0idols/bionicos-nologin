@@ -102,14 +102,13 @@ export default function CheckoutForm({ notes, coupon, user }) {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit} className=" p-4 rounded-xl">
-      <Link href="https://stripe.com">
-        <a className="flex items-center justify-center pb-4 hover:cursor-pointer">
-          <GrSecure className="ml-1 text-2xl text-primary" />
-          Secure Checkout with{" "}
-          <FaStripe className="ml-1 text-5xl text-primary" />
-        </a>
-        {/* <span className="font-bold ml-1">{user.email}</span> */}
-      </Link>
+      {/* <Link href="https://stripe.com"> */}
+      <a className="flex items-center justify-center pb-4 hover:cursor-pointer">
+        <GrSecure className="ml-1 text-2xl text-primary" />
+        Secure Checkout with <FaStripe className="ml-1 text-5xl text-primary" />
+      </a>
+      {/* <span className="font-bold ml-1">{user.email}</span> */}
+      {/* </Link> */}
 
       <PaymentElement id="payment-element" />
       <button

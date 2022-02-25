@@ -6,7 +6,12 @@ export default nc()
   .use(sessionMiddleware)
   .post(async (req, res) => {
     const { email, password } = req.body;
-
+    if (req.body.syrrup) {
+      res.status(400).json({
+        statusCode: 400,
+        message: "what what what 316",
+      });
+    }
     try {
       const user = await createStrapiAxios()
         .post(`/auth/local`, {

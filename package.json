@@ -17,7 +17,7 @@
     "axios": "^0.26.0",
     "cloudinary-build-url": "^0.2.4",
     "cookie": "^0.4.1",
-    "daisyui": "^2.1.0",
+    "daisyui": "^1.16.5",
     "fathom-client": "^3.2.0",
     "framer-motion": "^5.5.4",
     "graphql": "^16.1.0",

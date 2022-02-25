@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 import Link from "next/link";
 import OrderItem from "@/components/OrderItem";
 import { withSession } from "../middlewares/session";
-export default function ThankYouPage({ order }) {
+export default function ThankYouPage({ order, user }) {
   const { emptyCart, cart } = useCart();
   const items = order.line_items;
   const entries = Object.entries(items);
@@ -26,7 +26,9 @@ export default function ThankYouPage({ order }) {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="bg-white rounded-md p-4 space-y-4">
-        <h1 className="text-2xl">Thank you for your order!</h1>
+        <h1 className="text-2xl">{user.username}, Thank you for your order!</h1>
+        <p>It will be ready within 9 - 15 minutes</p>
+        <p>See you soon!</p>
 
         {entries.map((item, i) => {
           const theItem = item[1];
@@ -125,10 +127,11 @@ export const getServerSideProps = withSession(async ({ req, query }) => {
   });
 
   const order = await res.json();
-  console.log({ order });
+
   return {
     props: {
       order,
+      user,
     },
   };
 });
