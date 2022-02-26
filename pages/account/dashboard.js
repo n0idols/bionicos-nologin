@@ -19,9 +19,6 @@ export default function Dashboard({ orders, user }) {
     });
   };
   function getStatus(i) {
-    if (i === 1) {
-      return "badge badge-accent mx-2 uppercase font-bold";
-    }
     if (i === 2) {
       return "badge badge-secondary mx-2 uppercase font-bold";
     }

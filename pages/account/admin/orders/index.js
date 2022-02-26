@@ -105,6 +105,7 @@ export default function Dashboard({ orders, user }) {
 export const getServerSideProps = withSession(async ({ req }) => {
   const user = req.session.get("user");
   // if not logged in, redirect to login page
+  console.log(user);
   if (!user)
     return {
       redirect: {

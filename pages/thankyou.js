@@ -117,7 +117,7 @@ export const getServerSideProps = withSession(async ({ req, query }) => {
     body: JSON.stringify({
       charge: query.payment_intent,
       line_items: cart,
-      estado: { id: 1 },
+      estado: { id: 2 },
 
       tax: `${calculateTax(cart)}`,
       subtotal: `${calculateSubAmount(cart)}`,
