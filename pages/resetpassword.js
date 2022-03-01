@@ -66,13 +66,13 @@ export default function ResetPassword({ code }) {
             value={values.confirmPassword}
             onChange={handleChange}
           />
-          <input
+          {/* <input
             className="syrrup"
             type="syrrup"
             name="syrrup"
             value={values.syrrup}
             onChange={handleChange}
-          />
+          /> */}
 
           <div className="mt-6">
             <button
