@@ -61,7 +61,7 @@ export default function LoginPage() {
               <span className=" underline ml-1">Reset password</span>
             </a>
           </Link>
-          <FBLoginBtn />
+          {/* <FBLoginBtn /> */}
           <label htmlFor="email" className="label">
             <span className="label-text">Email</span>
           </label>

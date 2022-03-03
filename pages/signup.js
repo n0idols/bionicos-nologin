@@ -78,7 +78,7 @@ export default function SignUpPage() {
             </a>
           </Link>
 
-          <FBLoginBtn />
+          {/* <FBLoginBtn /> */}
           <label htmlFor="email" className="label">
             <span className="label-text">Full Name</span>
           </label>
