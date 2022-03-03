@@ -3,7 +3,9 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 import axios from "axios";
-import { withSession } from "../../middlewares/session";
+import { withSession } from "@/middlewares/session";
+import getStatus from "@/lib/getStatus";
+
 export default function Dashboard({ orders, user }) {
   // useEffect(() => {
   //   if (user?.role.type === "merchant") {
@@ -18,29 +20,20 @@ export default function Dashboard({ orders, user }) {
       router.push("/");
     });
   };
-  function getStatus(i) {
-    if (i === 2) {
-      return "badge badge-secondary mx-2 uppercase font-bold";
-    }
-    if (i === 3) {
-      return "badge badge-success mx-2 uppercase font-bold";
-    }
-    if (i === 4) {
-      return "badge badge-primary mx-2 uppercase font-bold";
-    }
-  }
+
   return (
     <Layout title="Dashboard">
       <div className="max-w-xl p-2 mx-auto">
         <div className="flex justify-between">
           <h1>Hello, {user ? user.username : ""}</h1>
+          <pre>{JSON.stringify(user, null, 2)}</pre>
 
           {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
           <button className="btn btn-ghost" onClick={onLogout}>
             Logout
           </button>
         </div>
-
+        {/* 
         {orders && <h1>Your Order History</h1>}
 
         {orders?.map((order, i) => {
@@ -67,7 +60,7 @@ export default function Dashboard({ orders, user }) {
               </Link>
             </div>
           );
-        })}
+        })} */}
       </div>
     </Layout>
   );
