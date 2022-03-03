@@ -19,7 +19,7 @@ export default function CallbackPage({}) {
   return (
     <div>
       Thank you
-      <p>You'll be redirected</p>
+      <p>Youll be redirected</p>
     </div>
   );
 }
