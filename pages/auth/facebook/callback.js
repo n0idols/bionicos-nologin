@@ -1,12 +1,12 @@
 import axios from "axios";
 
-import { withSession } from "../../../middlewares/session";
+import { withSession } from "@/middlewares/session";
 
-export default function CallbackPage() {
+export default function CallbackPage({}) {
   return (
     <div>
       Thank you
-      <p>Youll be redirected to checkout in </p>
+      <p>Youll be redirected to dashboard, if not, click the "account" link.</p>
     </div>
   );
 }
@@ -28,6 +28,10 @@ export const getServerSideProps = withSession(async ({ query, req }) => {
   }
 
   return {
+    redirect: {
+      permanent: false,
+      destination: "/account/dashboard",
+    },
     props: {},
   };
 });

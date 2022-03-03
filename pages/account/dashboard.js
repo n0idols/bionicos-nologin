@@ -26,41 +26,51 @@ export default function Dashboard({ orders, user }) {
       <div className="max-w-xl p-2 mx-auto">
         <div className="flex justify-between">
           <h1>Hello, {user ? user.username : ""}</h1>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
 
-          {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
           <button className="btn btn-ghost" onClick={onLogout}>
             Logout
           </button>
         </div>
-        {/* 
-        {orders && <h1>Your Order History</h1>}
 
-        {orders?.map((order, i) => {
-          const items = order.line_items;
-          const entries = Object.entries(items);
-          let quantity = 0;
-          items.forEach((item) => {
-            quantity += item.quantity;
-          });
-          return (
-            <div
-              key={i}
-              className="bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2"
-            >
-              <span className="text-xl font-bold text-gray-600">
-                {moment(order.created_at).format("MMMM Do, h:mm A")}
-              </span>
-              <div className={getStatus(order.estado.id)}>
-                {order.estado.title}
-              </div>
-              <h4>Items: {quantity}</h4>
-              <Link href={`/account/orders/${order.uuid}`} key={order.id}>
-                <a className="btn btn-outline mx-4">View Details</a>
-              </Link>
-            </div>
-          );
-        })} */}
+        {orders.length > 0 ? (
+          <>
+            <h1>Your Order History</h1>
+            {orders?.map((order, i) => {
+              const items = order.line_items;
+              const entries = Object.entries(items);
+              let quantity = 0;
+              items.forEach((item) => {
+                quantity += item.quantity;
+              });
+              return (
+                <div
+                  key={i}
+                  className="bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2"
+                >
+                  <span className="text-xl font-bold text-gray-600">
+                    {moment(order.created_at).format("MMMM Do, h:mm A")}
+                  </span>
+                  <div className={getStatus(order.estado.id)}>
+                    {order.estado.title}
+                  </div>
+                  <h4>Items: {quantity}</h4>
+                  <Link href={`/account/orders/${order.uuid}`} key={order.id}>
+                    <a className="btn btn-outline mx-4">View Details</a>
+                  </Link>
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            <p>Your order history will be displayed here</p>
+            <Link href="/menu">
+              <a className="btn btn-primary mt-2 btn-sm btn-outline">
+                Go to menu
+              </a>
+            </Link>
+          </>
+        )}
       </div>
     </Layout>
   );

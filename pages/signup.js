@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { withSession } from "../middlewares/session";
+import { withSession } from "@/middlewares/session";
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import { set } from "nprogress";
 import toast from "react-hot-toast";
-
 import { useCart } from "@/lib/cartState";
+import FBLoginBtn from "@/components/FBLoginBtn";
 
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
@@ -61,11 +61,6 @@ export default function SignUpPage() {
   return (
     <Layout title="Sign Up">
       <div className="max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow-xl">
-        <a href={`${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`}>
-          Continue with Facebook
-        </a>
-        {/* <button onClick={handleFacebook}>Continue with Facebook</button> */}
-
         <form
           className="form-control"
           onSubmit={onSubmit}
@@ -75,7 +70,7 @@ export default function SignUpPage() {
           <h1 className="text-center mt-2">Sign Up</h1>
 
           <Link href="/login">
-            <a className="description text-center mt-2">
+            <a className="description text-center mt-2 text-sm">
               Already have an account?
               <span className="font-semibold underline ml-1">
                 Click here to Login
@@ -83,6 +78,7 @@ export default function SignUpPage() {
             </a>
           </Link>
 
+          <FBLoginBtn />
           <label htmlFor="email" className="label">
             <span className="label-text">Full Name</span>
           </label>

@@ -2,10 +2,11 @@ import { useState } from "react";
 import { applySession } from "next-iron-session";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { withSession } from "../middlewares/session";
+import { withSession } from "@/middlewares/session";
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import { useCart } from "@/lib/cartState";
+import FBLoginBtn from "@/components/FBLoginBtn";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -60,6 +61,7 @@ export default function LoginPage() {
               <span className=" underline ml-1">Reset password</span>
             </a>
           </Link>
+          <FBLoginBtn />
           <label htmlFor="email" className="label">
             <span className="label-text">Email</span>
           </label>
