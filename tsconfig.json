@@ -7,7 +7,7 @@
       "@/styles/*": ["styles/*"],
       "@/config/*": ["config/*"],
       "@/lib/*": ["lib/*"],
-      "@/types/*": ["types/*"]
+      "@/middlewares/*": ["middlewares/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
