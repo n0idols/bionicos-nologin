@@ -7,15 +7,15 @@ import { useCart } from "@/lib/cartState";
 import { useRouter } from "next/router";
 
 export default function CallbackPage({}) {
-  const router = useRouter();
-  const { cart } = useCart();
-  useEffect(() => {
-    if (cart.length > 0) {
-      router.push("/checkout");
-    } else {
-      router.push("/account/dashboard");
-    }
-  }, []);
+  // const router = useRouter();
+  // const { cart } = useCart();
+  // useEffect(() => {
+  //   if (cart.length > 0) {
+  //     router.push("/checkout");
+  //   } else {
+  //     router.push("/account/dashboard");
+  //   }
+  // }, []);
   return (
     <div>
       Thank you
@@ -35,12 +35,16 @@ export const getServerSideProps = withSession(async ({ query, req }) => {
     console.log(res.data);
     req.session.set("user", user);
     req.session.set("token", jdub);
+
     await req.session.save();
   } catch (err) {
     console.log(err);
   }
-
   return {
-    props: {},
+    redirect: {
+      destination: "/checkout",
+      permanent: false,
+      props: {},
+    },
   };
 });
