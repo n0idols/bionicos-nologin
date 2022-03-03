@@ -6,7 +6,10 @@ export default function CallbackPage({}) {
   return (
     <div>
       Thank you
-      <p>Youll be redirected to dashboard, if not, click the "account" link.</p>
+      <p>
+        Youll be redirected to dashboard, if not, click the
+        &quote;account&quote; link.
+      </p>
     </div>
   );
 }
