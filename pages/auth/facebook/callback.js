@@ -18,16 +18,6 @@ export default function CallbackPage({}) {
 export const getServerSideProps = withSession(async ({ query, req }) => {
   let { cart } = parseCookies(req);
 
-  if (cart.length > 0) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/checkout",
-      },
-      props: {},
-    };
-  }
-
   try {
     const res = await axios.get(
       `https://bionicos.herokuapp.com/auth/facebook/callback?access_token=${query.access_token}`
@@ -42,7 +32,15 @@ export const getServerSideProps = withSession(async ({ query, req }) => {
   } catch (err) {
     console.log(err);
   }
-
+  if (cart.length > 0) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/checkout",
+      },
+      props: {},
+    };
+  }
   return {
     redirect: {
       permanent: false,
