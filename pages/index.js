@@ -6,6 +6,7 @@ import { gql } from "@apollo/client";
 import client from "@/lib/apollo-client";
 import DaySpecial from "@/components/DaySpecial";
 import LeadCapture from "@/components/LeadCapture";
+import LocationMap from "@/components/LocationMap";
 
 export default function Home({ reviews, specials }) {
   const d = new Date();
@@ -19,7 +20,8 @@ export default function Home({ reviews, specials }) {
       })} */}
       <Reviews reviews={reviews} />
       {/* <LeadCapture /> */}
-      {/* <MapSection /> */}
+      <MapSection />
+      {/* <LocationMap /> */}
     </Layout>
   );
 }

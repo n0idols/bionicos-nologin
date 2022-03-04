@@ -35,16 +35,12 @@ export default function LocationMap() {
 
   if (loading) return false;
   return (
-    <div className=" -z-10 ">
-      {/* <div className="mb-4">
-        <h1 className="text-lg font-bold">{evt.venue}</h1>
-        <h1>{evt.address}</h1>
-      </div> */}
+    <div className=" -z-10 flex justify-center">
       <ReactMapGl
         {...viewport}
         mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
         onViewportChange={(vp) => setViewport(vp)}
-        className="rounded-md"
+        className="rounded-md lg:w-full w-screen h-[450px] "
       >
         <Marker latitude={lat} longitude={lng}>
           <Image
@@ -53,12 +49,8 @@ export default function LocationMap() {
             height={30}
             alt="2211 E Palmdale Blvd Suite E"
           />
-
-          {/* <Image src="/pin.svg" width={30} height={30} /> */}
           <div className="text-black font-bold">
             <div>2211 E Palmdale Blvd Suite e</div>
-            {/* <div>{new Date(evt.date).toLocaleDateString("en-US")}</div> */}
-            {/* <div>@ {evt.time}</div> */}
           </div>
         </Marker>
       </ReactMapGl>
