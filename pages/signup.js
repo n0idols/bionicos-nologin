@@ -34,11 +34,12 @@ export default function SignUpPage() {
     }
     try {
       await axios.post("/api/signup", values);
-      if (cart.length > 0) {
-        router.push("/checkout");
-      } else {
-        router.push("/account/dashboard");
-      }
+      router.push("/menu");
+      // if (cart.length > 0) {
+      //   router.push("/checkout");
+      // } else {
+      //   router.push("/account/dashboard");
+      // }
     } catch (err) {
       alert("Invalid credentials");
       setLoading(false);
