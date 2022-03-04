@@ -14,50 +14,70 @@ export default function SignUpPage() {
   const [error, setError] = useState(null);
   const router = useRouter();
   const { cart } = useCart();
-  // const fburl = `${process.env.NEXT_PUBLIC_API_URL}/connect/facebook`;
 
-  // const handleFacebook = async () => {
-  //   try {
-  //     const res = await axios.get(fburl);
-  //     console.log(res);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  const onSubmit = (event) => {
-    event.preventDefault();
-    if (
-      event.currentTarget.password.value !==
-      event.currentTarget.confirmPassword.value
-    ) {
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    syrrup: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (values.password !== values.confirmPassword) {
       alert("Password does not match");
       return;
     }
-    const body = {
-      username: event.currentTarget.username.value,
-      email: event.currentTarget.email.value,
-      password: event.currentTarget.password.value,
-      syrrup: event.currentTarget.syrrup.value,
-    };
-
-    setLoading(true);
-
-    axios
-      .post("/api/signup", body)
-      .then((user) => {
-        console.log(user);
-        if (cart.length > 0) {
-          router.push("/checkout");
-        } else {
-          router.push("/menu");
-        }
-      })
-      .catch((e) => {
-        setLoading(false);
-
-        toast.error(e);
-      });
+    try {
+      await axios.post("/api/signup", values);
+      if (cart.length > 0) {
+        router.push("/checkout");
+      } else {
+        router.push("/account/dashboard");
+      }
+    } catch (err) {
+      alert("Invalid credentials");
+      setLoading(false);
+    }
   };
+  // const onSubmit = (event) => {
+  //   event.preventDefault();
+  //   if (
+  //     event.currentTarget.password.value !==
+  //     event.currentTarget.confirmPassword.value
+  //   ) {
+  //     alert("Password does not match");
+  //     return;
+  //   }
+  //   const body = {
+  //     username: event.currentTarget.username.value,
+  //     email: event.currentTarget.email.value,
+  //     password: event.currentTarget.password.value,
+  //     syrrup: event.currentTarget.syrrup.value,
+  //   };
+
+  //   setLoading(true);
+
+  //   axios
+  //     .post("/api/signup", body)
+  //     .then((user) => {
+  //       console.log(user);
+  //       if (cart.length > 0) {
+  //         router.push("/checkout");
+  //       } else {
+  //         router.push("/menu");
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       setLoading(false);
+
+  //       toast.error(e);
+  //     });
+  // };
   return (
     <Layout title="Sign Up">
       <div className="max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow-xl">
@@ -79,7 +99,7 @@ export default function SignUpPage() {
           </Link>
 
           {/* <FBLoginBtn /> */}
-          <label htmlFor="email" className="label">
+          <label htmlFor="username" className="label">
             <span className="label-text">Full Name</span>
           </label>
           <input
@@ -88,6 +108,8 @@ export default function SignUpPage() {
             placeholder="Your name"
             autoComplete="name"
             name="username"
+            value={values.username}
+            onChange={handleChange}
           />
 
           <label htmlFor="email" className="label">
@@ -99,6 +121,8 @@ export default function SignUpPage() {
             placeholder="Your email"
             autoComplete="email"
             name="email"
+            value={values.email}
+            onChange={handleChange}
           />
           {/* 
           <label htmlFor="phone" className="label">
@@ -121,6 +145,8 @@ export default function SignUpPage() {
             placeholder="Password"
             autoComplete="new-password"
             name="password"
+            value={values.password}
+            onChange={handleChange}
           />
           <label htmlFor="confirm-password" className="label">
             <span className="label-text">Confirm Password</span>
@@ -131,6 +157,8 @@ export default function SignUpPage() {
             placeholder="Confirm password"
             autoComplete="passwordConfirm"
             name="confirmPassword"
+            value={values.confirmPassword}
+            onChange={handleChange}
           />
           <input className="syrrup" type="syrrup" name="syrrup" />
 
