@@ -22,7 +22,7 @@ module.exports = {
       },
       backgroundImage: {
         "hero-pattern":
-          "linear-gradient(to right bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../public/hero2.jpeg')",
+          "linear-gradient(to right bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('https://res.cloudinary.com/swdb/image/upload/v1646350635/hero2_dsptlf.jpg')",
       },
     },
   },
