@@ -18,8 +18,6 @@ export default function SignUpPage({ user }) {
   useEffect(() => {
     if (user !== null) {
       router.push("/checkout");
-    } else {
-      return;
     }
   }, []);
 
@@ -41,8 +39,10 @@ export default function SignUpPage({ user }) {
       return;
     }
     try {
-      await axios.post("/api/signup", values);
-      router.push("/checkout");
+      const res = await axios.post("/api/signup", values);
+      if (res) {
+        router.push("/checkout");
+      }
 
       // if (cart.length > 0) {
       //   router.push("/checkout");
