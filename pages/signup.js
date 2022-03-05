@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { withSession } from "@/middlewares/session";
@@ -9,11 +9,19 @@ import toast from "react-hot-toast";
 import { useCart } from "@/lib/cartState";
 import FBLoginBtn from "@/components/FBLoginBtn";
 
-export default function SignUpPage() {
+export default function SignUpPage({ user }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
   const { cart } = useCart();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/checkout");
+    } else {
+      return;
+    }
+  }, []);
 
   const [values, setValues] = useState({
     username: "",
@@ -34,7 +42,8 @@ export default function SignUpPage() {
     }
     try {
       await axios.post("/api/signup", values);
-      router.push("/menu");
+      router.push("/checkout");
+
       // if (cart.length > 0) {
       //   router.push("/checkout");
       // } else {
@@ -180,15 +189,9 @@ export default function SignUpPage() {
 
 export const getServerSideProps = withSession((context) => {
   const { req } = context;
-  const user = req.session.get("user");
-  if (user)
-    return {
-      redirect: {
-        destination: "/account/dashboard",
-        permanent: false,
-      },
-    };
   return {
-    props: {},
+    props: {
+      user: req.session.get("user") || null,
+    },
   };
 });

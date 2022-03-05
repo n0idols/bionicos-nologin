@@ -15,7 +15,9 @@ import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
 import ClosedIcon from "@/components/icons/Closed";
 import { FiPlusCircle } from "react-icons/fi";
+import { useRouter } from "next/router";
 export default function CheckoutPage({ user }) {
+  const router = useRouter();
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
@@ -25,18 +27,25 @@ export default function CheckoutPage({ user }) {
   const [couponDetail, setCouponDetail] = useState("");
   const tax = totalCartPrice * 0.1025;
   const total = totalCartPrice + tax;
-
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/api/stripe/createPaymentIntent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart, couponOff }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setClientSecret(data.clientSecret);
-      });
+    if (!user) {
+      router.push("/signup");
+    }
+
+    if (!cart) {
+      router.push("/menu");
+    } else {
+      // Create PaymentIntent as soon as the page loads
+      fetch("/api/stripe/createPaymentIntent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart, couponOff }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setClientSecret(data.clientSecret);
+        });
+    }
   }, [cart, couponOff]);
 
   const appearance = {
@@ -85,7 +94,7 @@ export default function CheckoutPage({ user }) {
   };
   return (
     <Layout title="Checkout">
-      <Modal title="⚠️ We are currently closed" show={isClosed()}>
+      {/* <Modal title="⚠️ We are currently closed" show={isClosed()}>
         <div className="flex px-4">
           <div className="flex flex-col justify-center items-center ">
             <p>😔</p>
@@ -101,43 +110,44 @@ export default function CheckoutPage({ user }) {
             <ClosedIcon />
           </div>
         </div>
-      </Modal>
-      <div className="max-w-2xl mx-auto pt-12 mt-24 px-4 bg-white shadow-xl rounded-xl">
-        <Link href="/menu">
-          <a className="btn btn-sm btn-primary">
-            {" "}
-            <FiPlusCircle className="text-xl mr-1" /> Add More Items
-          </a>
-        </Link>
-        <div>
+      </Modal> */}
+      {user ? (
+        <div className="max-w-2xl mx-auto pt-12 mt-24 px-4 bg-white shadow-xl rounded-xl">
+          <Link href="/menu">
+            <a className="btn btn-sm btn-primary">
+              {" "}
+              <FiPlusCircle className="text-xl mr-1" /> Add More Items
+            </a>
+          </Link>
           <div>
             <div>
-              <div className="my-4">
-                <h1>YOUR ORDER SUMMARY</h1>
+              <div>
+                <div className="my-4">
+                  <h1>YOUR ORDER SUMMARY</h1>
 
-                {cart.map((item, index) => {
-                  return (
-                    <div key={index}>
-                      <CartItem item={item} index={index} />
-                    </div>
-                  );
-                })}
-              </div>
+                  {cart.map((item, index) => {
+                    return (
+                      <div key={index}>
+                        <CartItem item={item} index={index} />
+                      </div>
+                    );
+                  })}
+                </div>
 
-              <div className="form-control px-2">
-                <label className="label">
-                  <span className="label-text font-bold">
-                    Any special instructions?{" "}
-                  </span>
-                </label>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.currentTarget.value)}
-                  className="textarea h-24 textarea-bordered textarea-primary"
-                  placeholder="Add a note for us here"
-                ></textarea>
+                <div className="form-control px-2">
+                  <label className="label">
+                    <span className="label-text font-bold">
+                      Any special instructions?{" "}
+                    </span>
+                  </label>
+                  <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.currentTarget.value)}
+                    className="textarea h-24 textarea-bordered textarea-primary"
+                    placeholder="Add a note for us here"
+                  ></textarea>
 
-                {/* <label className="label" htmlFor="coupon">
+                  {/* <label className="label" htmlFor="coupon">
                   <span className="label-text font-bold mt-2">
                     Enter a coupon
                   </span>
@@ -155,33 +165,35 @@ export default function CheckoutPage({ user }) {
                 <button onClick={applyCoupon} className="btn btn-ghost mt-2">
                   Apply Coupon
                 </button> */}
-              </div>
-              {/* <div>{couponDetail}</div> */}
-              <div className="my-2 ">
-                <div className="p-2 tracking-wide flex justify-between">
-                  <div>
-                    <h6>Subtotal</h6>
-                  </div>
-                  <div>
-                    <h6>
-                      {formatMoney(totalCartPrice - totalCartPrice * couponOff)}
-                    </h6>
-                  </div>
                 </div>
-                <hr />
-
-                <div className=" p-2 tracking-wide flex justify-between">
-                  <div>
-                    <h6>Tax</h6>
+                {/* <div>{couponDetail}</div> */}
+                <div className="my-2 ">
+                  <div className="p-2 tracking-wide flex justify-between">
+                    <div>
+                      <h6>Subtotal</h6>
+                    </div>
+                    <div>
+                      <h6>
+                        {formatMoney(
+                          totalCartPrice - totalCartPrice * couponOff
+                        )}
+                      </h6>
+                    </div>
                   </div>
-                  <div>
-                    <h6>{formatMoney(tax)}</h6>
-                  </div>
-                </div>
-                <hr />
+                  <hr />
 
-                {/* Tip */}
-                {/* 
+                  <div className=" p-2 tracking-wide flex justify-between">
+                    <div>
+                      <h6>Tax</h6>
+                    </div>
+                    <div>
+                      <h6>{formatMoney(tax)}</h6>
+                    </div>
+                  </div>
+                  <hr />
+
+                  {/* Tip */}
+                  {/* 
                 <div className="px-2  flex justify-center flex-col">
                   <h6>Tip the staff</h6>
 
@@ -218,65 +230,77 @@ export default function CheckoutPage({ user }) {
                   </div>
                 </div> */}
 
-                <div className=" p-2 tracking-wide flex justify-between">
-                  <div>
-                    <h6 className="font-bold">Total</h6>
-                  </div>
-                  <div>
-                    <h6 className="font-bold">
-                      {formatMoney(total - total * couponOff)}
-                    </h6>
+                  <div className=" p-2 tracking-wide flex justify-between">
+                    <div>
+                      <h6 className="font-bold">Total</h6>
+                    </div>
+                    <div>
+                      <h6 className="font-bold">
+                        {formatMoney(total - total * couponOff)}
+                      </h6>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {couponCode && (
-                <div>You saved {formatMoney(total * couponOff)}</div>
-              )}
-              <div className="rounded-lg">
-                {!clientSecret && <Loading />}
-                {clientSecret && (
-                  <Elements options={options} stripe={stripePromise}>
-                    <CheckoutForm
-                      notes={notes}
-                      coupon={couponOff}
-                      user={user}
-                    />
-                  </Elements>
+                {couponCode && (
+                  <div>You saved {formatMoney(total * couponOff)}</div>
                 )}
+                <div className="rounded-lg">
+                  {!clientSecret && <Loading />}
+                  {clientSecret && (
+                    <Elements options={options} stripe={stripePromise}>
+                      <CheckoutForm
+                        notes={notes}
+                        coupon={couponOff}
+                        user={user}
+                      />
+                    </Elements>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </Layout>
   );
 }
 
-export const getServerSideProps = withSession(({ req }) => {
-  const user = req.session.get("user");
-  // if cartn, redirect to login page
-
-  let { cart } = parseCookies(req);
-  if (!cart) {
-    return {
-      redirect: {
-        destination: "/menu",
-        permanent: false,
-      },
-    };
-  }
-  // if not logged in, redirect to login page
-
-  if (!user)
-    return {
-      redirect: {
-        destination: "/signup",
-        permanent: false,
-      },
-    };
+export const getServerSideProps = withSession((context) => {
+  const { req } = context;
   return {
     props: {
-      user,
+      user: req.session.get("user") || null,
     },
   };
 });
+
+// export const getServerSideProps = withSession(({ req }) => {
+//   const user = req.session.get("user");
+//   // if cartn, redirect to login page
+
+//   let { cart } = parseCookies(req);
+//   if (!cart) {
+//     return {
+//       redirect: {
+//         destination: "/menu",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   // if not logged in, redirect to login page
+
+//   if (!user)
+//     return {
+//       redirect: {
+//         destination: "/signup",
+//         permanent: false,
+//       },
+//     };
+//   return {
+//     props: {
+//       user,
+//     },
+//   };
+// });
