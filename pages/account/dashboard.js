@@ -5,18 +5,35 @@ import Layout from "@/components/Layout";
 import axios from "axios";
 import { withSession } from "@/middlewares/session";
 import getStatus from "@/lib/getStatus";
+import { useCart } from "@/lib/cartState";
+import { useEffect, useState } from "react";
 
-export default function Dashboard({ orders, user }) {
-  // useEffect(() => {
-  //   if (user?.role.type === "merchant") {
-  //     router.push("/account/admin/orders");
-  //   }
-  // }, []);
+export default function Dashboard({ user }) {
+  const [orders, setOrders] = useState(null);
+  useEffect(() => {
+    if (user) {
+      const res = axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/orders/me?_sort=date:DESC`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.strapiToken}`,
+          },
+        }
+      );
+
+      setOrders(res);
+    } else {
+      return;
+    }
+  }, [user]);
   const router = useRouter();
+  const { emptyCart } = useCart();
 
   const onLogout = (e) => {
     e.preventDefault();
     axios.post("/api/logout").then(() => {
+      emptyCart();
+
       router.push("/");
     });
   };
@@ -76,40 +93,11 @@ export default function Dashboard({ orders, user }) {
   );
 }
 
-export const getServerSideProps = withSession(async ({ req }) => {
-  const user = req.session.get("user");
-  // if not logged in, redirect to login page
-  if (!user)
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  // if not user is merchant, redirect to orders page
-  if (user.role.type === "merchant")
-    return {
-      redirect: {
-        destination: "/account/admin/orders",
-        permanent: false,
-      },
-    };
-  // get users orders
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/orders/me?_sort=date:DESC`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${user.strapiToken}`,
-      },
-    }
-  );
-
-  const orders = await res.json();
+export const getServerSideProps = withSession(async (context) => {
+  const { req } = context;
   return {
     props: {
-      orders,
-      user,
+      user: req.session.get("user") || null,
     },
   };
 });

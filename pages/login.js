@@ -25,11 +25,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await axios.post("/api/login", values);
-      if (cart.length > 0) {
-        router.push("/checkout");
-      } else {
-        router.push("/account/dashboard");
-      }
+      router.push("/menu");
     } catch (err) {
       alert("Invalid credentials");
     }
