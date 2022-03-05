@@ -12,7 +12,7 @@ import { FaStripe } from "react-icons/fa";
 import Loading from "./icons/Loading";
 import Link from "next/link";
 
-export default function CheckoutForm({ notes, user, paymentIntent }) {
+export default function CheckoutForm({ notes, coupon, user }) {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -20,41 +20,42 @@ export default function CheckoutForm({ notes, user, paymentIntent }) {
   const [cookies, setCookie, removeCookie] = useCookies(["notes", "coupon"]);
 
   const [orderCompleted, setOrderCompleted] = useState(null);
+  const [orderCompletedError, setOrderCompletedError] = useState(null);
 
-  const [checkoutError, setCheckoutError] = useState();
-  const [checkoutSuccess, setCheckoutSuccess] = useState();
   // const [email, setEmail] = useState("");
 
-  // useEffect(() => {
-  //   if (!stripe) {
-  //     return;
-  //   }
+  useEffect(() => {
+    if (!stripe) {
+      return;
+    }
 
-  //   const clientSecret = new URLSearchParams(window.location.search).get(
-  //     "payment_intent_client_secret"
-  //   );
+    const clientSecret = new URLSearchParams(window.location.search).get(
+      "payment_intent_client_secret"
+    );
 
-  //   if (!clientSecret) {
-  //     return;
-  //   }
+    if (!clientSecret) {
+      return;
+    }
 
-  //   stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-  //     switch (paymentIntent.status) {
-  //       case "succeeded":
-  //         setMessage("Payment succeeded!");
-  //         break;
-  //       case "processing":
-  //         setMessage("Your payment is processing.");
-  //         break;
-  //       case "requires_payment_method":
-  //         setMessage("Your payment was not successful, please try again.");
-  //         break;
-  //       default:
-  //         setMessage("Something went wrong.");
-  //         break;
-  //     }
-  //   });
-  // }, [stripe]);
+    stripe
+      .retrievePaymentIntent(clientSecret)
+      .then(({ paymentIntent, email }) => {
+        switch (paymentIntent.status) {
+          case "succeeded":
+            setMessage("Payment succeeded!");
+            break;
+          case "processing":
+            setMessage("Your payment is processing.");
+            break;
+          case "requires_payment_method":
+            setMessage("Your payment was not successful, please try again.");
+            break;
+          default:
+            setMessage("Something went wrong.");
+            break;
+        }
+      });
+  }, [stripe]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,28 +66,27 @@ export default function CheckoutForm({ notes, user, paymentIntent }) {
       setIsLoading(true);
       return;
     }
-    try {
-      setIsLoading(true);
-      setCookie("coupon", JSON.stringify(coupon), {
-        sameSite: "lax",
-        path: "/",
-      });
-      setCookie("notes", JSON.stringify(notes), {
-        path: "/",
-        sameSite: "lax",
-      });
-      // destroyCookie(null, "cart");
 
-      const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          // Make sure to change this to your payment completion page
+    setIsLoading(true);
+    setCookie("coupon", JSON.stringify(coupon), {
+      sameSite: "lax",
+      path: "/",
+    });
+    setCookie("notes", JSON.stringify(notes), {
+      path: "/",
+      sameSite: "lax",
+    });
+    // destroyCookie(null, "cart");
 
-          return_url: `${process.env.NEXT_PUBLIC_RETURN_URL}`,
-          receipt_email: user.email,
-        },
-      });
-    } catch (error) {}
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+
+        return_url: `${process.env.NEXT_PUBLIC_RETURN_URL}`,
+        receipt_email: user.email,
+      },
+    });
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
