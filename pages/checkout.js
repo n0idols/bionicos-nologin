@@ -28,20 +28,16 @@ export default function CheckoutPage({ user }) {
   const tax = totalCartPrice * 0.1025;
   const total = totalCartPrice + tax;
   useEffect(() => {
-    if (!user) {
-      router.push("/signup");
-    } else {
-      // Create PaymentIntent as soon as the page loads
-      fetch("/api/stripe/createPaymentIntent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cart, couponOff }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setClientSecret(data.clientSecret);
-        });
-    }
+    // Create PaymentIntent as soon as the page loads
+    fetch("/api/stripe/createPaymentIntent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart, couponOff }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setClientSecret(data.clientSecret);
+      });
   }, [cart, couponOff]);
 
   const appearance = {
