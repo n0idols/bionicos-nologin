@@ -35,11 +35,8 @@ export default function ThankYouPage({ order, user }) {
 
           return <OrderItem key={i} item={item} />;
         })}
-        {/* <Link href={`/account/orders/${order.uuid}`}>
-          <a className="btn btn-ghost btn-block">view your order</a>
-        </Link> */}
-        <Link href={`/account/dashboard/`}>
-          <a className="btn btn-ghost btn-block">view your orders</a>
+        <Link href={`/account/orders/${order.uuid}`}>
+          <a className="btn btn-ghost btn-block">view reciept</a>
         </Link>
       </div>
     </div>
