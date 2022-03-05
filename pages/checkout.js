@@ -29,10 +29,6 @@ export default function CheckoutPage({ user }) {
   const total = totalCartPrice + tax;
   useEffect(() => {
     if (!user) {
-      router.push("/signup");
-    }
-
-    if (!cart) {
       router.push("/menu");
     } else {
       // Create PaymentIntent as soon as the page loads

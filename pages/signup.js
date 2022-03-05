@@ -16,7 +16,7 @@ export default function SignUpPage({ user }) {
   const { cart } = useCart();
 
   useEffect(() => {
-    if (user) {
+    if (user !== null) {
       router.push("/checkout");
     } else {
       return;
