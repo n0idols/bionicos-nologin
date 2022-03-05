@@ -90,7 +90,6 @@ export default function CheckoutPage({ user }) {
         <div className="flex px-4">
           <div className="flex flex-col justify-center items-center ">
             <p>😔</p>
-
             <p className="italic text-center mb-2 text-sm">
               Please come back when we open!
             </p>
@@ -144,7 +143,6 @@ export default function CheckoutPage({ user }) {
                     Enter a coupon
                   </span>
                 </label>
-
                 <input
                   className="input-bordered input input-primary"
                   type="text"
@@ -153,7 +151,6 @@ export default function CheckoutPage({ user }) {
                     setCouponCode(e.currentTarget.value);
                   }}
                 />
-
                 <button onClick={applyCoupon} className="btn btn-ghost mt-2">
                   Apply Coupon
                 </button> */}
@@ -188,7 +185,6 @@ export default function CheckoutPage({ user }) {
                   {/* 
                 <div className="px-2  flex justify-center flex-col">
                   <h6>Tip the staff</h6>
-
                   <div className="btn-group">
                     <input
                       type="radio"
@@ -267,32 +263,3 @@ export const getServerSideProps = withSession((context) => {
     },
   };
 });
-
-// export const getServerSideProps = withSession(({ req }) => {
-//   const user = req.session.get("user");
-//   // if cartn, redirect to login page
-
-//   let { cart } = parseCookies(req);
-//   if (!cart) {
-//     return {
-//       redirect: {
-//         destination: "/menu",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   // if not logged in, redirect to login page
-
-//   if (!user)
-//     return {
-//       redirect: {
-//         destination: "/signup",
-//         permanent: false,
-//       },
-//     };
-//   return {
-//     props: {
-//       user,
-//     },
-//   };
-// });
