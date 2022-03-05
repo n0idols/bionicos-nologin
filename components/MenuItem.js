@@ -10,7 +10,9 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 import Image from "next/image";
-export default function MenuItem({ item }) {
+import { useRouter } from "next/router";
+export default function MenuItem({ item, user }) {
+  const router = useRouter();
   const { addToCart } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modObj, setModObj] = useState({});
@@ -23,15 +25,20 @@ export default function MenuItem({ item }) {
   }
   function addItemToCart(e) {
     e.preventDefault();
-    addToCart(
-      { id: item.id, name: item.title, price: item.price },
-      Object.values(modObj),
-      parseInt(quantity)
-    );
-    resetMod();
-    setIsModalOpen(false);
-    setQuantity(1);
-    toast.success(`Added ${item.title}`);
+    if (user === null) {
+      alert("Please login or signup to place an order");
+      router.push("/signup");
+    } else {
+      addToCart(
+        { id: item.id, name: item.title, price: item.price },
+        Object.values(modObj),
+        parseInt(quantity)
+      );
+      resetMod();
+      setIsModalOpen(false);
+      setQuantity(1);
+      toast.success(`Added ${item.title}`);
+    }
   }
 
   const icon = ``;

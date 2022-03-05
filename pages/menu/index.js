@@ -4,10 +4,11 @@ import MenuItem from "@/components/MenuItem";
 import client from "@/lib/apollo-client";
 import gql from "graphql-tag";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { withSession } from "../../middlewares/session";
 
 const arrow = `text-2xl bg-base-200 h-100 hover:cursor-pointer rounded-md m-2 `;
 
-export default function MenuIndex({ categories }) {
+export default function MenuIndex({ categories, user }) {
   const [current, setCurrent] = useState(0);
   const categoriesHeadingContainerRef = useRef();
   const categoriesRef = useRef([]);
@@ -141,7 +142,7 @@ export default function MenuIndex({ categories }) {
 
               <div className="grid md:grid-cols-2 gap-4">
                 {products.map((item, i) => {
-                  return <MenuItem key={i} item={item} />;
+                  return <MenuItem key={i} item={item} user={user} />;
                 })}
               </div>
             </div>
@@ -151,7 +152,10 @@ export default function MenuIndex({ categories }) {
     </Layout>
   );
 }
-export async function getStaticProps() {
+
+export const getServerSideProps = withSession(async (context) => {
+  // if not logged in, redirect to login page
+  const { req } = context;
   const { data } = await client.query({
     query: gql`
       query {
@@ -181,6 +185,7 @@ export async function getStaticProps() {
   return {
     props: {
       categories: data.categories,
+      user: req.session.get("user") || null,
     },
   };
-}
+});

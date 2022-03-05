@@ -41,7 +41,7 @@ export default function SignUpPage({ user }) {
     try {
       const res = await axios.post("/api/signup", values);
       if (res) {
-        router.push("/checkout");
+        router.push("/menu");
       }
 
       // if (cart.length > 0) {
