@@ -70,15 +70,6 @@ export default function CheckoutForm({ notes, coupon, user }) {
       setIsLoading(true);
       return;
     }
-    fetch("/api/stripe/createPaymentIntent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart, couponOff }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setClientSecret(data.clientSecret);
-      });
 
     setIsLoading(true);
     setCookie("coupon", JSON.stringify(coupon), {
