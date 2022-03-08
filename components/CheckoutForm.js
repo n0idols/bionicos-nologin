@@ -17,7 +17,11 @@ export default function CheckoutForm({ notes, coupon, user }) {
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["notes", "coupon"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "notes",
+    "coupon",
+    "user_id",
+  ]);
 
   const [orderCompleted, setOrderCompleted] = useState(null);
   const [orderCompletedError, setOrderCompletedError] = useState(null);
@@ -73,6 +77,10 @@ export default function CheckoutForm({ notes, coupon, user }) {
       path: "/",
     });
     setCookie("notes", JSON.stringify(notes), {
+      path: "/",
+      sameSite: "lax",
+    });
+    setCookie("user_id", user.id, {
       path: "/",
       sameSite: "lax",
     });

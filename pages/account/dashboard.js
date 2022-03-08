@@ -18,7 +18,9 @@ export default function Dashboard({ orders, user }) {
 
   const onLogout = (e) => {
     e.preventDefault();
-    emptyCart();
+    if (cart.length > 0) {
+      emptyCart();
+    }
     axios.post("/api/logout").then(() => {
       router.push("/");
     });

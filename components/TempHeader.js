@@ -5,18 +5,17 @@ import Logo from "./Logo";
 import { useCart } from "@/lib/cartState";
 import { GrCart } from "react-icons/gr";
 import CartDrawer from "./CartDrawer";
-
+import { useUser, User } from "@supabase/supabase-auth-helpers/react";
 export default function Header() {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn text-gray-600 `;
   const activeClasses = `btn btn-primary btn-sm rounded-btn text-white `;
   const { cart, show, toggleCart, closeCart } = useCart();
-
+  const { user } = useUser();
   return (
     <>
       <CartDrawer show={show} onClose={closeCart} />
       {/* <AdminDrawer show={show} /> */}
-
       <header className="fixed top-0 z-50 w-full">
         <div className="navbar shadow-lg bg-white text-neutral-content standalone:pt-4">
           <div className="px-2 mx-2 navbar-start">
@@ -24,7 +23,6 @@ export default function Header() {
           </div>
           <div className="hidden px-2 mx-2 navbar-center md:flex text-gray-600">
             <div className="flex items-center">
-              {" "}
               <Link href="/">
                 <a
                   className={
@@ -57,10 +55,15 @@ export default function Header() {
             </div>
           </div>
           <div className="navbar-end space-x-4">
-            <Link href="/login">
-              <a className={linkClasses}>Account</a>
-            </Link>
-
+            {user ? (
+              <Link href="/dashboard">
+                <a className={linkClasses}>Your Account</a>
+              </Link>
+            ) : (
+              <Link href="/signup">
+                <a className={linkClasses}>Account</a>
+              </Link>
+            )}
             <div className="indicator">
               <button aria-label="cart" onClick={toggleCart} className="px-4">
                 <span className="relative inline-block ml-2">

@@ -22,7 +22,7 @@ export default function Page({ children }) {
       />
       <div
         style={{ WebkitTapHighlightColor: "transparent" }}
-        className="bg-base-100 standalone:mt-28  mt-20"
+        className="bg-base-100 standalone:mt-28 mt-20"
       >
         <TempHeader />
 

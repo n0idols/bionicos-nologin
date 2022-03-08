@@ -54,7 +54,7 @@ export default function MobileNav() {
           </a>
         </Link>
 
-        <Link href="/account/dashboard">
+        <Link href="/dashboard">
           <a className={iconWrap}>
             <FiUser
               className={

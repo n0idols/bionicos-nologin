@@ -1,13 +1,16 @@
 import client from "@/lib/apollo-client";
 import gql from "graphql-tag";
 import ReactMarkdown from "react-markdown";
+import PleaseSignIn from "../components/PleaseSignIn";
 export default function Tos({ tos }) {
   return (
-    <div className="prose mx-auto pt-4">
-      <article>
-        <ReactMarkdown>{tos}</ReactMarkdown>
-      </article>
-    </div>
+    <PleaseSignIn>
+      <div className="prose mx-auto pt-4">
+        <article>
+          <ReactMarkdown>{tos}</ReactMarkdown>
+        </article>
+      </div>
+    </PleaseSignIn>
   );
 }
 

@@ -11,6 +11,8 @@
     "@apollo/client": "^3.5.6",
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.22.0",
+    "@supabase/supabase-auth-helpers": "^1.2.0",
+    "@supabase/supabase-js": "^1.30.7",
     "@tailwindcss/typography": "^0.5.1",
     "api": "^4.1.1",
     "apollo-upload-client": "^17.0.0",
@@ -25,7 +27,6 @@
     "moment": "^2.29.1",
     "next": "12.0.7",
     "next-connect": "^0.12.1",
-    "next-iron-session": "^4.2.0",
     "nookies": "^2.5.2",
     "nprogress": "^0.2.0",
     "pg": "^8.7.3",
@@ -43,7 +44,8 @@
     "react-modal": "^3.14.4",
     "react-stars": "^2.2.5",
     "reactjs-popup": "^2.0.5",
-    "stripe": "^8.194.0"
+    "stripe": "^8.194.0",
+    "swr": "^1.2.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",

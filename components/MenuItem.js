@@ -25,20 +25,16 @@ export default function MenuItem({ item, user }) {
   }
   function addItemToCart(e) {
     e.preventDefault();
-    if (user === null) {
-      alert("Please login or signup to place an order");
-      router.push("/signup");
-    } else {
-      addToCart(
-        { id: item.id, name: item.title, price: item.price },
-        Object.values(modObj),
-        parseInt(quantity)
-      );
-      resetMod();
-      setIsModalOpen(false);
-      setQuantity(1);
-      toast.success(`Added ${item.title}`);
-    }
+
+    addToCart(
+      { id: item.id, name: item.title, price: item.price },
+      Object.values(modObj),
+      parseInt(quantity)
+    );
+    resetMod();
+    setIsModalOpen(false);
+    setQuantity(1);
+    toast.success(`Added ${item.title}`);
   }
 
   const icon = ``;
