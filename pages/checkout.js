@@ -12,6 +12,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
+import Stripe from "stripe";
 
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
@@ -23,29 +24,30 @@ import {
   calculateSubAmount,
   calculateTax,
 } from "../lib/calcOrder";
-export default function CheckoutPage() {
+import { parseCookies, setCookie } from "nookies";
+export default function CheckoutPage({ paymentIntent }) {
   const router = useRouter();
   const { user } = useUser();
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState(paymentIntent.client_secret);
   const [notes, setNotes] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponOff, setCouponOff] = useState(0);
   const [couponDetail, setCouponDetail] = useState("");
 
-  useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/api/stripe/createPaymentIntent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart, couponOff }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setClientSecret(data.clientSecret);
-      });
-  }, [cart, couponOff]);
+  // useEffect(() => {
+  //   // Create PaymentIntent as soon as the page loads
+  //   fetch("/api/stripe/createPaymentIntent", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ cart, couponOff }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setClientSecret(data.clientSecret);
+  //     });
+  // }, [cart, couponOff]);
 
   const appearance = {
     theme: "stripe",
@@ -117,6 +119,7 @@ export default function CheckoutPage() {
             <FiPlusCircle className="text-xl mr-1" /> Add More Items
           </a>
         </Link>
+        <pre>{JSON.stringify(paymentIntent.id, null, 2)}</pre>
         <div>
           <div>
             <div>
@@ -243,6 +246,7 @@ export default function CheckoutPage() {
                       notes={notes}
                       coupon={couponOff}
                       user={user}
+                      paymentIntent={paymentIntent}
                     />
                   </Elements>
                 )}
@@ -254,4 +258,61 @@ export default function CheckoutPage() {
     </Layout>
   );
 }
-export const getServerSideProps = withAuthRequired({ redirectTo: "/signin" });
+
+const getServerSideProps = withAuthRequired({
+  redirectTo: "/signin",
+  getServerSideProps: async (ctx) => {
+    const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_KEY);
+    let { cart, coupon, paymentIntentId } = parseCookies(ctx);
+    let paymentIntent;
+    // if paymentIntent already exists, return it in props
+    if (paymentIntentId) {
+      paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      return {
+        props: {
+          paymentIntent,
+        },
+      };
+    }
+    // if !paymentIntent, grab the cart items and make one
+    const theCart = JSON.parse(cart);
+
+    const cartItems = Object.values(theCart);
+
+    console.log(cartItems);
+
+    paymentIntent = await stripe.paymentIntents.create({
+      // amount: calculateStripeTotal(cartItems, coupon),
+      amount: 3000,
+      currency: "usd",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+    setCookie(ctx, "paymentIntentId", paymentIntent.id);
+    return {
+      props: {
+        paymentIntent,
+      },
+    };
+  },
+});
+
+export { getServerSideProps };
+
+// export async function getServerSideProps() {
+//   const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_KEY);
+//   const paymentIntent = await stripe.paymentIntents.create({
+//     // amount: calculateStripeTotal(cartItems, couponOff),
+//     amount: 3000,
+//     currency: "usd",
+//     automatic_payment_methods: {
+//       enabled: true,
+//     },
+//   });
+
+//   return {
+//     props: { paymentIntent },
+//   };
+// }

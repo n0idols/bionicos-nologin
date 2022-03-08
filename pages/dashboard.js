@@ -47,8 +47,6 @@ const getServerSideProps = withAuthRequired({
     // const { req } = ctx;
     // const { cart } = parseCookies(req);
 
-    console.log(ctx);
-
     const { data: orders, error } = await supabaseServerClient(ctx)
       .from("orders")
       .select("*")
