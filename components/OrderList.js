@@ -4,7 +4,7 @@ import getStatus from "@/lib/getStatus";
 import formatMoney from "@/lib/formatMoney";
 
 export default function OrderList({ orders }) {
-  const cart = `bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2`;
+  const card = `bg-white shadow-md flex flex-col my-8 p-4 rounded-lg space-y-2`;
   return (
     <div>
       <h1 className="uppercase">Your order history</h1>
@@ -19,7 +19,7 @@ export default function OrderList({ orders }) {
           quantity += item.quantity;
         });
         return (
-          <div className={cart}>
+          <div className={card} key={order.id}>
             <span className="text-xl font-bold text-gray-600">
               {moment(order.ordered_at).format("MMMM Do, h:mm A")}
             </span>

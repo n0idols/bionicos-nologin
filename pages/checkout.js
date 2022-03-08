@@ -18,6 +18,11 @@ import Modal from "@/components/Modal";
 import ClosedIcon from "@/components/icons/Closed";
 import { FiPlusCircle } from "react-icons/fi";
 import { useRouter } from "next/router";
+import {
+  calculateStripeTotal,
+  calculateSubAmount,
+  calculateTax,
+} from "../lib/calcOrder";
 export default function CheckoutPage() {
   const router = useRouter();
   const { user } = useUser();
@@ -28,9 +33,6 @@ export default function CheckoutPage() {
   const [couponCode, setCouponCode] = useState("");
   const [couponOff, setCouponOff] = useState(0);
   const [couponDetail, setCouponDetail] = useState("");
-
-  const tax = totalCartPrice * 0.1025;
-  const total = totalCartPrice + tax;
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -167,9 +169,7 @@ export default function CheckoutPage() {
                     <h6>Subtotal</h6>
                   </div>
                   <div>
-                    <h6>
-                      {formatMoney(totalCartPrice - totalCartPrice * couponOff)}
-                    </h6>
+                    <h6>{formatMoney(calculateSubAmount(cart, couponOff))}</h6>
                   </div>
                 </div>
                 <hr />
@@ -179,7 +179,7 @@ export default function CheckoutPage() {
                     <h6>Tax</h6>
                   </div>
                   <div>
-                    <h6>{formatMoney(tax)}</h6>
+                    <h6>{formatMoney(calculateTax(cart, couponOff))}</h6>
                   </div>
                 </div>
                 <hr />
@@ -227,14 +227,14 @@ export default function CheckoutPage() {
                   </div>
                   <div>
                     <h6 className="font-bold">
-                      {formatMoney(total - total * couponOff)}
+                      {formatMoney(calculateStripeTotal(cart, couponOff))}
                     </h6>
                   </div>
                 </div>
               </div>
-              {couponCode && (
+              {/* {couponCode && (
                 <div>You saved {formatMoney(total * couponOff)}</div>
-              )}
+              )} */}
               <div className="rounded-lg">
                 {!clientSecret && <Loading />}
                 {clientSecret && (

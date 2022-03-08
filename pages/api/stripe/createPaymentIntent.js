@@ -1,11 +1,11 @@
 const stripe = require("stripe")(`${process.env.NEXT_PRIVATE_STRIPE_KEY}`);
 
-const calculateOrderAmount = (cartItems, couponOff) => {
+const calculateOrderAmount = (cart, coupon) => {
   let total = 0;
   let discountedTotal = 0;
   let newTotal = 0;
   let plusTax = 1.1025;
-  cartItems.map((value) => {
+  cart.map((value) => {
     let itemTotal = value.item.price;
     value.modifications?.forEach((modification) => {
       itemTotal += modification.amount;
@@ -14,8 +14,11 @@ const calculateOrderAmount = (cartItems, couponOff) => {
     total += itemTotal;
   });
 
-  discountedTotal = total * couponOff;
-  newTotal = total * plusTax;
+  // total *= coupon;
+  // total *= plusTax;
+
+  discountedTotal = Math.round(total - total * coupon);
+  newTotal = discountedTotal * plusTax;
   const final = Math.round(newTotal);
   console.log(typeof final, "final", final);
 
