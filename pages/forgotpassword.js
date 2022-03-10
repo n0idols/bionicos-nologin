@@ -1,8 +1,6 @@
 import { useState } from "react";
-
 import { useRouter } from "next/router";
 import axios from "axios";
-import { withSession } from "../middlewares/session";
 import Layout from "@/components/Layout";
 import Link from "next/link";
 
@@ -76,18 +74,3 @@ export default function ForgotPassword() {
     </Layout>
   );
 }
-
-export const getServerSideProps = withSession((context) => {
-  const { req } = context;
-  const user = req.session.get("user");
-  if (user)
-    return {
-      redirect: {
-        destination: "/account/dashboard",
-        permanent: false,
-      },
-    };
-  return {
-    props: {},
-  };
-});
