@@ -20,7 +20,9 @@ export default function Page({ children }) {
   const [cool, setCool] = useState("");
 
   useEffect(() => {
-    getProfile();
+    if (user) {
+      getProfile();
+    }
   }, [user]);
 
   async function getProfile() {
