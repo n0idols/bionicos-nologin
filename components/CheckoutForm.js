@@ -11,6 +11,7 @@ import { GrSecure } from "react-icons/gr";
 import { FaStripe } from "react-icons/fa";
 import Loading from "./icons/Loading";
 import Link from "next/link";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 
 export default function CheckoutForm({ notes, coupon, user }) {
   const stripe = useStripe();
