@@ -23,12 +23,14 @@ export default function SignInPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const { error } = await supabaseClient.auth.signIn({
       email,
       password,
     });
     if (error) {
       alert(JSON.stringify(error));
+      setLoading(false);
     }
   };
   useEffect(() => {

@@ -85,7 +85,7 @@ export default function SpecialsMenu({ specials }) {
               <div
                 className={
                   day === special.id
-                    ? "card p-4 bg-primary shadow-xl "
+                    ? "card p-4 bg-primary shadow-xl"
                     : "card p-4 bg-white opacity-50"
                 }
                 key={special.id}

@@ -5,14 +5,12 @@ import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
 import { useState, useEffect } from "react";
 import { useCart } from "@/lib/cartState";
-
 import client from "@/lib/apollo-client";
 import gql from "graphql-tag";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
-import Stripe from "stripe";
 
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
@@ -30,24 +28,24 @@ export default function CheckoutPage({ paymentIntent }) {
   const { user } = useUser();
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
-  const [clientSecret, setClientSecret] = useState(paymentIntent.client_secret);
+  const [clientSecret, setClientSecret] = useState(null);
   const [notes, setNotes] = useState("");
-  const [couponCode, setCouponCode] = useState("");
-  const [couponOff, setCouponOff] = useState(0);
+  const [couponCode, setCouponCode] = useState(true);
+  const [couponOff, setCouponOff] = useState(0.22);
   const [couponDetail, setCouponDetail] = useState("");
 
-  // useEffect(() => {
-  //   // Create PaymentIntent as soon as the page loads
-  //   fetch("/api/stripe/createPaymentIntent", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ cart, couponOff }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setClientSecret(data.clientSecret);
-  //     });
-  // }, [cart, couponOff]);
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    fetch("/api/stripe/createPaymentIntent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart, couponOff }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setClientSecret(data.clientSecret);
+      });
+  }, [cart, couponOff]);
 
   const appearance = {
     theme: "stripe",
@@ -119,7 +117,7 @@ export default function CheckoutPage({ paymentIntent }) {
             <FiPlusCircle className="text-xl mr-1" /> Add More Items
           </a>
         </Link>
-        <pre>{JSON.stringify(paymentIntent.id, null, 2)}</pre>
+
         <div>
           <div>
             <div>
@@ -148,7 +146,7 @@ export default function CheckoutPage({ paymentIntent }) {
                   placeholder="Add a note for us here"
                 ></textarea>
 
-                <label className="label" htmlFor="coupon">
+                {/* <label className="label" htmlFor="coupon">
                   <span className="label-text font-bold mt-2">
                     Enter a coupon
                   </span>
@@ -163,7 +161,7 @@ export default function CheckoutPage({ paymentIntent }) {
                 />
                 <button onClick={applyCoupon} className="btn btn-ghost mt-2">
                   Apply Coupon
-                </button>
+                </button> */}
               </div>
               {/* <div>{couponDetail}</div> */}
               <div className="my-2 ">
@@ -187,43 +185,6 @@ export default function CheckoutPage({ paymentIntent }) {
                 </div>
                 <hr />
 
-                {/* Tip */}
-                {/* 
-                <div className="px-2  flex justify-center flex-col">
-                  <h6>Tip the staff</h6>
-                  <div className="btn-group">
-                    <input
-                      type="radio"
-                      name="options"
-                      id="option1"
-                      data-title="10%"
-                      className="btn btn-outline btn-primary"
-                    />
-                    <input
-                      type="radio"
-                      name="options"
-                      id="option2"
-                      data-title="15%"
-                      checked="checked"
-                      className="btn btn-outline btn-primary"
-                    />
-                    <input
-                      type="radio"
-                      name="options"
-                      id="option3"
-                      data-title="20%"
-                      className="btn btn-outline btn-primary"
-                    />
-                    <input
-                      type="radio"
-                      name="options"
-                      id="other"
-                      data-title="other"
-                      className="btn btn-outline btn-primary"
-                    />
-                  </div>
-                </div> */}
-
                 <div className=" p-2 tracking-wide flex justify-between">
                   <div>
                     <h6 className="font-bold">Total</h6>
@@ -235,9 +196,11 @@ export default function CheckoutPage({ paymentIntent }) {
                   </div>
                 </div>
               </div>
-              {/* {couponCode && (
-                <div>You saved {formatMoney(total * couponOff)}</div>
-              )} */}
+              {couponCode && (
+                <h4 className="text-center text-primary">
+                  You saved {formatMoney(totalCartPrice * couponOff)}
+                </h4>
+              )}
               <div className="rounded-lg">
                 {!clientSecret && <Loading />}
                 {clientSecret && (
@@ -246,7 +209,6 @@ export default function CheckoutPage({ paymentIntent }) {
                       notes={notes}
                       coupon={couponOff}
                       user={user}
-                      paymentIntent={paymentIntent}
                     />
                   </Elements>
                 )}
@@ -262,39 +224,8 @@ export default function CheckoutPage({ paymentIntent }) {
 const getServerSideProps = withAuthRequired({
   redirectTo: "/signin",
   getServerSideProps: async (ctx) => {
-    const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_KEY);
-    let { cart, coupon, paymentIntentId } = parseCookies(ctx);
-    let paymentIntent;
-    // if paymentIntent already exists, return it in props
-    if (paymentIntentId) {
-      paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-      return {
-        props: {
-          paymentIntent,
-        },
-      };
-    }
-    // if !paymentIntent, grab the cart items and make one
-    const theCart = JSON.parse(cart);
-
-    const cartItems = Object.values(theCart);
-
-    console.log(cartItems);
-
-    paymentIntent = await stripe.paymentIntents.create({
-      // amount: calculateStripeTotal(cartItems, coupon),
-      amount: 3000,
-      currency: "usd",
-      automatic_payment_methods: {
-        enabled: true,
-      },
-    });
-
-    setCookie(ctx, "paymentIntentId", paymentIntent.id);
     return {
-      props: {
-        paymentIntent,
-      },
+      props: {},
     };
   },
 });

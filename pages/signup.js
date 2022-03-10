@@ -24,6 +24,7 @@ export default function SignUpPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const { error } = await supabaseClient.auth.signUp(
       {
         email,
@@ -33,6 +34,7 @@ export default function SignUpPage() {
     );
     if (error) {
       alert(JSON.stringify(error));
+      setLoading(false);
     }
   };
   useEffect(() => {

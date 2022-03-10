@@ -7,7 +7,6 @@ import Link from "next/link";
 import OrderItem from "@/components/OrderItem";
 import Layout from "@/components/Layout";
 import {
-  getUser,
   supabaseClient,
   supabaseServerClient,
   withAuthRequired,
@@ -32,19 +31,25 @@ export default function ThankYouPage({ order, error }) {
   //   destroyCookie(null, "cart");
   // }, [emptyCart, cart]);
   useEffect(() => {
-    removeCookie("coupon");
-    emptyCart();
+    const subscription = supabaseClient
+      .from("orders")
+      .on("INSERT", (payload) => {
+        console.log(payload);
+      })
+      .subscribe();
+
+    return () => supabaseClient.removeSubscription(subscription);
   }, []);
 
   return (
     <Layout title="Order Receieved!">
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-lg mx-auto ">
         <h1 className="text-center py-4">Order Receieved!</h1>
-        <div className="bg-white rounded-md p-4 space-y-4">
+        <div className="bg-white rounded-xl p-4 space-y-4 border shadow-xl">
           {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
           {lineItems.map((item) => {
             const itemski = item[1];
-            return <OrderItem itemski={itemski} />;
+            return <OrderItem itemski={itemski} key={item.id} />;
           })}
 
           <p>It will be ready within 9 - 15 minutes</p>
@@ -62,7 +67,7 @@ const getServerSideProps = withAuthRequired({
   redirectTo: "/signin",
   getServerSideProps: async (ctx) => {
     const { req, query } = ctx;
-    let { cart, notes, coupon, user_id } = parseCookies(req);
+    let { cart, notes, coupon, user_id, username } = parseCookies(req);
     cart = JSON.parse(cart);
     console.log(user_id);
 
@@ -73,9 +78,9 @@ const getServerSideProps = withAuthRequired({
           user_id: user_id,
           payment_intent: query.payment_intent,
           line_items: cart,
+          username: username,
           subtotal: calculateSubAmount(cart, coupon),
           total: calculateStripeTotal(cart, coupon),
-
           tax: calculateTax(cart, coupon),
           notes: notes,
           coupon: coupon,

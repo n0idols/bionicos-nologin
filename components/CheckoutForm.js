@@ -17,10 +17,13 @@ export default function CheckoutForm({ notes, coupon, user }) {
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [customer, setCustomer] = useState("");
+  const [userId, setUserId] = useState(user.id);
   const [cookies, setCookie, removeCookie] = useCookies([
     "notes",
     "coupon",
     "user_id",
+    "customer",
   ]);
 
   const [orderCompleted, setOrderCompleted] = useState(null);
@@ -29,6 +32,8 @@ export default function CheckoutForm({ notes, coupon, user }) {
   // const [email, setEmail] = useState("");
 
   useEffect(() => {
+    getProfile();
+
     if (!stripe) {
       return;
     }
@@ -61,6 +66,31 @@ export default function CheckoutForm({ notes, coupon, user }) {
       });
   }, [stripe]);
 
+  async function getProfile() {
+    setIsLoading(true);
+
+    try {
+      let { data, error, status } = await supabaseClient
+        .from("profiles")
+        .select(`username`)
+        .eq("id", userId);
+      console.log(data, error, status);
+      setCustomer(data);
+
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      if (data) {
+        setCustomer(data.username);
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,6 +111,10 @@ export default function CheckoutForm({ notes, coupon, user }) {
       sameSite: "lax",
     });
     setCookie("user_id", user.id, {
+      path: "/",
+      sameSite: "lax",
+    });
+    setCookie("customer", customer, {
       path: "/",
       sameSite: "lax",
     });

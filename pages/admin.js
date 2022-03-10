@@ -12,14 +12,32 @@ import Loading from "../components/icons/Loading";
 import Profile from "../components/Profile";
 import OrdersTable from "@/components/OrdersTable";
 import OrderList from "../components/OrderList";
-import { destroyCookie } from "nookies";
 
-const Dashboard = ({ orders, user }) => {
+const Admin = ({ orders }) => {
   const router = useRouter();
-  // const { user, isLoading, accessToken, error } = useUser();
+  const { user, isLoading, accessToken, error } = useUser();
+
+  const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState(false);
+  const [admin, setIsAdmin] = useState(null);
+
+  //   useEffect(() => {
+  //     if (orders) {
+  //       const subscription = supabaseClient
+  //         .from("orders")
+  //         .on("*", (payload) => {
+  //           alert("NEW ORDER");
+  //           setOrderStatus({ ...orders, ...payload.new });
+  //         })
+  //         .subscribe();
+  //       return () => {
+  //         supabaseClient.removeSubscription(orders);
+  //       };
+  //     }
+  //   }, [user]);
+
   const handleLogOut = async (e) => {
     e.preventDefault();
-    destroyCookie(null, "username");
     const { error } = await supabaseClient.auth.signOut();
     if (error) {
       alert(JSON.stringify(error));
@@ -30,7 +48,16 @@ const Dashboard = ({ orders, user }) => {
 
   return (
     <div className="flex items-center justify-center ">
-      <Profile user={user} orders={orders} />
+      <div className="w-full px-2">
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <OrdersTable orders={orders} />
+          </>
+        )}
+      </div>
+      {/* <Profile user={user} orders={orders} /> */}
       <button onClick={handleLogOut}>Log out</button>
     </div>
   );
@@ -56,5 +83,5 @@ const getServerSideProps = withAuthRequired({
   },
 });
 
-export default Dashboard;
+export default Admin;
 export { getServerSideProps };
