@@ -33,7 +33,7 @@ export default function AllOrders({ orders }) {
     return () => {
       supabaseClient.removeSubscription(mySubscription);
     };
-  }, [orders]);
+  }, []);
   //listen for new orders
   return (
     <Layout title="All Orders">
