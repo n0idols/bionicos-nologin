@@ -13,6 +13,30 @@ export default function TempHeader({ user, admin }) {
   const activeClasses = `btn btn-primary btn-sm rounded-btn text-white `;
   const { cart, show, toggleCart, closeCart } = useCart();
 
+  const [sudo, setSudo] = useState(null);
+
+  function CartDiv() {
+    return (
+      <div className="indicator">
+        <button aria-label="cart" onClick={toggleCart} className="px-4">
+          <span className="relative inline-block ml-2">
+            <div className="indicator">
+              {cart.length > 0 && (
+                <div className="indicator-item badge badge-primary rounded-full text-white">
+                  {cart.length}
+                </div>
+              )}
+
+              <span className="text-2xl text-gray-600">
+                <GrCart />
+              </span>
+            </div>
+          </span>
+        </button>
+      </div>
+    );
+  }
+
   function AdminLinks() {
     return (
       <>
@@ -127,6 +151,7 @@ export default function TempHeader({ user, admin }) {
                 <Link href="/signin">
                   <a className={linkClasses}>Account</a>
                 </Link>
+                <CartDiv />
               </>
             )}
 
@@ -138,23 +163,6 @@ export default function TempHeader({ user, admin }) {
                 </Link>
               </>
             )}
-            <div className="indicator">
-              <button aria-label="cart" onClick={toggleCart} className="px-4">
-                <span className="relative inline-block ml-2">
-                  <div className="indicator">
-                    {cart.length > 0 && (
-                      <div className="indicator-item badge badge-primary rounded-full text-white">
-                        {cart.length}
-                      </div>
-                    )}
-
-                    <span className="text-2xl text-gray-600">
-                      <GrCart />
-                    </span>
-                  </div>
-                </span>
-              </button>
-            </div>
           </div>
         </div>
       </header>

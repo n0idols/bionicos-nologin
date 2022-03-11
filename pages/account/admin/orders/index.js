@@ -12,8 +12,28 @@ import {
   withAuthRequired,
   supabaseServerClient,
 } from "@supabase/supabase-auth-helpers/nextjs";
+import { useState, useEffect } from "react";
 
 export default function AllOrders({ orders }) {
+  const [newOrder, setNewOrder] = useState([]);
+
+  // THIS IS WORKING BUT STOPS AFTER A FEW MINS
+  useEffect(() => {
+    const mySubscription = supabaseClient
+      .from("orders")
+      .on("*", (payload) => {
+        console.log(payload);
+        setNewOrder((newOrder) => [...newOrder, payload]);
+        OneSignal.showSlidedownPrompt().then(() => {
+          console.log("awesome");
+        });
+      })
+      .subscribe();
+
+    return () => {
+      supabaseClient.removeSubscription(mySubscription);
+    };
+  }, [orders]);
   //listen for new orders
   return (
     <Layout title="All Orders">
@@ -22,6 +42,7 @@ export default function AllOrders({ orders }) {
           <div>
             <PageTitle title="All Orders" />
             {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
+            {newOrder && <pre>{JSON.stringify(newOrder, null, 2)}</pre>}
 
             <OrdersTable orders={orders} />
             {/* <OrdersCards orders={orders} user={user} /> */}

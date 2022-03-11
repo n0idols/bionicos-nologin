@@ -42,6 +42,7 @@
     "react-map-gl": "^6.1.18",
     "react-markdown": "^8.0.0",
     "react-modal": "^3.14.4",
+    "react-onesignal": "^2.0.3",
     "react-stars": "^2.2.5",
     "reactjs-popup": "^2.0.5",
     "stripe": "^8.194.0",

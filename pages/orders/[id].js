@@ -20,22 +20,22 @@ export default function OrderSlug({ order }) {
   const daorder = order[0];
   const items = daorder.line_items;
   // const entries = Object.entries(items);
-  const [orderstatus, setOrderStatus] = useState("");
+  const [orderStatus, setOrderStatus] = useState(daorder.orderstatus);
 
-  // useEffect(() => {
-  //   if (order) {
-  //     const subscription = supabaseClient
-  //       .from("orders")
-  //       .on("UPDATE", (payload) => {
-  //         alert("something changed");
-  //         // setOrderStatus({ ...order, ...payload.new });
-  //       })
-  //       .subscribe();
-  //     return () => {
-  //       supabaseClient.removeSubscription(order);
-  //     };
-  //   }
-  // }, [order]);
+  useEffect(() => {
+    if (order) {
+      const mySubscription = supabaseClient
+        .from(`orders:id=eq.${daorder.id}`)
+        .on("UPDATE", (payload) => {
+          setOrderStatus(payload.new.orderstatus);
+        })
+        .subscribe();
+
+      return () => {
+        supabaseClient.removeSubscription(mySubscription);
+      };
+    }
+  }, [order]);
 
   return (
     <Layout title={order.id}>
@@ -45,17 +45,17 @@ export default function OrderSlug({ order }) {
         </button>
         <div className="max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl">
           <p className="">
-            {moment(daorder.created_at).format("MMMM Do YYYY")}
+            {moment(daorder.ordered_at).format("MMMM Do YYYY")}
 
             <span className="font-bold ml-1">@</span>
 
-            {moment(daorder.created_at).format(" h:mm:ss a")}
+            {moment(daorder.ordered_at).format(" h:mm:ss a")}
           </p>
-          <pre>{JSON.stringify(orderstatus)}</pre>
+
           <h1>Your order</h1>
           <div>
             <small>Status:</small>
-            <span className={getStatus(daorder.type)}>{daorder.type}</span>
+            <span className={getStatus(orderStatus)}>{orderStatus}</span>
           </div>
           <div className="rounded-lg my-2">
             {items.map((item, i) => {

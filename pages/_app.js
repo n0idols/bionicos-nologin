@@ -15,6 +15,7 @@ import * as Fathom from "fathom-client";
 
 import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/apollo-client";
+import OneSignal from "react-onesignal";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -23,11 +24,6 @@ Router.events.on("routeChangeError", () => NProgress.done());
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   useEffect(() => {
-    // Initialize Fathom when the app loads
-    // Example: yourdomain.com
-    //  - Do not include https://
-    //  - This must be an exact match of your domain.
-    //  - If you're using www. for your domain, make sure you include that here.
     Fathom.load("DPJEOSNV", {
       includedDomains: ["bionicosjuicesrios.com", "www.bionicosjuicesrios.com"],
     });
@@ -35,14 +31,28 @@ function MyApp({ Component, pageProps }) {
     function onRouteChangeComplete() {
       Fathom.trackPageview();
     }
-    // Record a pageview when route changes
-    router.events.on("routeChangeComplete", onRouteChangeComplete);
 
-    // Unassign event listener
+    router.events.on("routeChangeComplete", onRouteChangeComplete);
+    window.OneSignal = window.OneSignal || [];
+    const OneSignal = window.OneSignal;
+    OneSignal.push(function () {
+      OneSignal.init({
+        appId: "5c54727e-3b23-4f47-a819-58a26be08b8f",
+
+        notifyButton: {
+          enable: true,
+        },
+
+        allowLocalhostAsSecureOrigin: true,
+      });
+    });
+
     return () => {
-      router.events.off("routeChangeComplete", onRouteChangeComplete);
+      // router.events.off("routeChangeComplete", onRouteChangeComplete),
+      window.OneSignal = undefined;
     };
   }, []);
+
   return (
     <>
       <UserProvider supabaseClient={supabaseClient}>
@@ -55,6 +65,10 @@ function MyApp({ Component, pageProps }) {
                     name="viewport"
                     content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
                   />
+                  <script
+                    src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+                    async=""
+                  ></script>
                 </Head>
 
                 <Component {...pageProps} />

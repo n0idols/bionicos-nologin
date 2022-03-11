@@ -20,29 +20,97 @@ export default function OrderSlug({ order }) {
   const daorder = order[0];
   const items = daorder.line_items;
 
-  const [orderstatus, setOrderStatus] = useState("");
-  const [customer, setCustomer] = useState("");
-  const [userId, setUserId] = useState(order.user_id);
-  const [loading, setLoading] = useState(false);
+  const [orderStatus, setOrderStatus] = useState(daorder.orderstatus);
 
+  useEffect(() => {
+    if (order) {
+      const mySubscription = supabaseClient
+        .from(`orders:id=eq.${daorder.id}`)
+        .on("UPDATE", (payload) => {
+          console.log("nice");
+          setOrderStatus(payload.new.orderstatus);
+        })
+        .subscribe();
+
+      return () => {
+        supabaseClient.removeSubscription(mySubscription);
+      };
+    }
+  }, [order]);
+
+  async function readyPickUp() {
+    try {
+      const { data, error } = await supabaseClient
+        .from("orders")
+        .update({ orderstatus: "ready for pickup" })
+        .match({ id: daorder.id });
+      // if (data) window.location.reload();
+    } catch (error) {}
+  }
+  async function completedOrder(e) {
+    e.preventDefault();
+    try {
+      const { data, error } = await supabaseClient
+        .from("orders")
+        .update({ orderstatus: "completed" })
+        .match({ id: daorder.id });
+
+      // if (data) window.location.reload();
+    } catch (error) {}
+  }
   return (
     <Layout title={order.id}>
       <Section>
         <button onClick={() => router.back()}>Go Back</button>
         <div className="max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl">
-          <p className="">
-            {moment(daorder.ordered_at).format("MMMM Do YYYY")}
+          <div className="flex justify-between">
+            <div>
+              <h2 className="">
+                {moment(daorder.ordered_at).format("MMMM Do YYYY")}
 
-            <span className="font-bold ml-1">@</span>
+                <span className="font-bold ml-1">@</span>
 
-            {moment(daorder.ordered_at).format(" h:mm:ss a")}
-          </p>
+                {moment(daorder.ordered_at).format(" h:mm:ss a")}
+              </h2>
+              <h1>
+                <span className="font-light mr-2">Customer:</span>
 
-          <h1>Customer: {daorder.username}</h1>
-          <div>
-            <small>Status:</small>
-            <span className={getStatus(daorder.type)}>{daorder.type}</span>
+                {daorder.username}
+              </h1>
+              <div>
+                <small>Status:</small>
+                <span className={getStatus(orderStatus)}>{orderStatus}</span>
+              </div>
+            </div>
+
+            <div className="dropdown">
+              <div tabIndex="0" className="m-1 btn btn-success btn-outline">
+                Change Order Status
+              </div>
+              <ul
+                tabIndex="0"
+                className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 space-y-3"
+              >
+                <li>
+                  <button
+                    className="btn btn-primary btn-block"
+                    onClick={readyPickUp}
+                  >
+                    ready for pickup
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="btn  btn-block btn-success"
+                    onClick={completedOrder}
+                  >
+                    completed
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
+
           <div className="rounded-lg my-2">
             {items.map((item, i) => {
               // return JSON.stringify(item);

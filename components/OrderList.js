@@ -24,7 +24,9 @@ export default function OrderList({ orders }) {
               {moment(order.ordered_at).format("MMMM Do, h:mm A")}
             </span>
             <h1>
-              <span className={getStatus(order.type)}>{order.type}</span>
+              <span className={getStatus(order.orderstatus)}>
+                {order.orderstatus}
+              </span>
             </h1>
             <p>
               {quantity === 1 ? <>{quantity} Item</> : <>{quantity} Items</>}

@@ -22,6 +22,7 @@ export default function OrdersTable({ orders }) {
             const entries = Object.entries(order.line_items);
             const orderId = order.id;
             const last3 = orderId.slice(0, 3);
+            const { orderstatus } = order;
             return (
               <Link href={`/account/admin/orders/${order.id}`} key={order.id}>
                 <tr className="hover cursor-pointer">
@@ -32,7 +33,7 @@ export default function OrdersTable({ orders }) {
                   <td>{formatMoney(order.total)}</td>
 
                   <td>
-                    <div className={getStatus(order.type)}>{order.type}</div>
+                    <div className={getStatus(orderstatus)}>{orderstatus}</div>
                   </td>
                 </tr>
               </Link>

@@ -45,7 +45,7 @@ export default function ThankYouPage({ order, error }) {
     <Layout title="Order Receieved!">
       <div className="max-w-lg mx-auto ">
         <h1 className="text-center py-4">Order Receieved!</h1>
-        <div className="bg-white rounded-xl p-4 space-y-4 border shadow-xl">
+        <div className="bg-white rounded-xl p-4 space-y-4  shadow-xl">
           {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
           {lineItems.map((item) => {
             const itemski = item[1];
