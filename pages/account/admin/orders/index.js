@@ -42,7 +42,7 @@ export default function AllOrders({ orders }) {
           <div>
             <PageTitle title="All Orders" />
             {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
-            {newOrder && <pre>{JSON.stringify(newOrder, null, 2)}</pre>}
+            {/* {newOrder && <pre>{JSON.stringify(newOrder, null, 2)}</pre>} */}
 
             <OrdersTable orders={orders} />
             {/* <OrdersCards orders={orders} user={user} /> */}

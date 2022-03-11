@@ -52,7 +52,7 @@ export default function TempHeader({ user, admin }) {
             All
           </a>
         </Link>
-        <Link href="/account/admin/orders/pending">
+        {/* <Link href="/account/admin/orders/pending">
           <a
             className={
               router.pathname == "/account/admin/orders/pending"
@@ -84,7 +84,7 @@ export default function TempHeader({ user, admin }) {
           >
             Ready For Pickup
           </a>
-        </Link>
+        </Link> */}
       </>
     );
   }
@@ -144,6 +144,7 @@ export default function TempHeader({ user, admin }) {
                 <Link href="/dashboard">
                   <a className={linkClasses}>My Account</a>
                 </Link>
+                <CartDiv />
               </>
             ) : (
               <>

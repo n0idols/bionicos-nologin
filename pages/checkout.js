@@ -31,7 +31,7 @@ export default function CheckoutPage({ paymentIntent }) {
   const [clientSecret, setClientSecret] = useState(null);
   const [notes, setNotes] = useState("");
   const [couponCode, setCouponCode] = useState(true);
-  const [couponOff, setCouponOff] = useState(0.22);
+  const [couponOff, setCouponOff] = useState(0.15);
   const [couponDetail, setCouponDetail] = useState("");
 
   useEffect(() => {
