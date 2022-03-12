@@ -40,7 +40,7 @@ export default function ThankYouPage({ order, error }) {
 
     return () => supabaseClient.removeSubscription(subscription);
   }, []);
-  Recieved;
+
   return (
     <Layout title="Order Received!">
       <div className="max-w-lg mx-auto ">
