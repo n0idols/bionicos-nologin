@@ -8,10 +8,9 @@ import {
 } from "@supabase/supabase-auth-helpers/nextjs";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Loading from "../components/icons/Loading";
-import Profile from "../components/Profile";
-import OrdersTable from "@/components/OrdersTable";
-import OrderList from "../components/OrderList";
+import Loading from "@/components/icons/Loading";
+import Profile from "@/components/Profile";
+import Layout from "@/components/Layout";
 import { destroyCookie } from "nookies";
 
 const Dashboard = ({ orders, user }) => {
@@ -29,10 +28,12 @@ const Dashboard = ({ orders, user }) => {
   };
 
   return (
-    <div className="flex items-center justify-center ">
-      <Profile user={user} orders={orders} />
-      <button onClick={handleLogOut}>Log out</button>
-    </div>
+    <Layout title="Profile">
+      <div className="flex items-center justify-center ">
+        <Profile user={user} orders={orders} />
+        <button onClick={handleLogOut}>Log out</button>
+      </div>
+    </Layout>
   );
 };
 

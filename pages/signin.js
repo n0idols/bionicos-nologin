@@ -47,15 +47,19 @@ export default function SignInPage() {
       <div className="max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow-xl">
         <form className="form-control" onSubmit={onSubmit} method="post">
           <h1 className="text-center mt-2">Sign In</h1>
-
           <Link href="/signup">
             <a className="description text-center mt-2 text-sm">
               Need an account?
               <span className="font-semibold underline ml-1">Sign up here</span>
             </a>
           </Link>
+          <FBLoginBtn />
 
-          {/* <FBLoginBtn /> */}
+          <div className="mt-8 mb-4">
+            <h2 className="text-center w-full border-b leading-[.1em] m-[10px 0 20px]">
+              <span className="bg-white px-3">Or</span>
+            </h2>
+          </div>
           {/* <label htmlFor="username" className="label">
             <span className="label-text">Full Name</span>
           </label>
@@ -69,6 +73,7 @@ export default function SignInPage() {
             onChange={handleChange}
           /> */}
 
+          <h2 className="text-center font-light">Use email</h2>
           <label htmlFor="email" className="label">
             <span className="label-text">Email</span>
           </label>
@@ -92,7 +97,6 @@ export default function SignInPage() {
             autoComplete="phone"
             name="phone"
           /> */}
-
           <label htmlFor="password" className="label">
             <span className="label-text">Password</span>
           </label>
@@ -105,9 +109,7 @@ export default function SignInPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           {/* <input className="syrrup" type="syrrup" name="syrrup" /> */}
-
           <div className="mt-6">
             <button
               type="submit"
