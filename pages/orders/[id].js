@@ -65,9 +65,10 @@ export default function OrderSlug({ order }) {
 
             <div className="flex flex-col pt-4">
               <h2 className="my-4">
-                Notes:{" "}
+                Notes:
                 <span className="font-light">
-                  {daorder.notes !== "" ? <>None</> : <>{daorder.notes}</>}
+                  {" "}
+                  {daorder.notes?.slice(1, -1)}
                 </span>
               </h2>
             </div>

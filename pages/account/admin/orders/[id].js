@@ -44,7 +44,7 @@ export default function OrderSlug({ order }) {
         .from("orders")
         .update({ orderstatus: "ready for pickup" })
         .match({ id: daorder.id });
-      // if (data) window.location.reload();
+      if (data) window.location.reload();
     } catch (error) {}
   }
   async function completedOrder(e) {
@@ -55,7 +55,7 @@ export default function OrderSlug({ order }) {
         .update({ orderstatus: "completed" })
         .match({ id: daorder.id });
 
-      // if (data) window.location.reload();
+      if (data) window.location.reload();
     } catch (error) {}
   }
   return (
@@ -101,7 +101,7 @@ export default function OrderSlug({ order }) {
                 </li>
                 <li>
                   <button
-                    className="btn  btn-block btn-success"
+                    className="btn btn-block btn-success"
                     onClick={completedOrder}
                   >
                     completed
@@ -119,9 +119,10 @@ export default function OrderSlug({ order }) {
 
             <div className="flex flex-col pt-4">
               <h2 className="my-4">
-                Notes:{" "}
+                Notes:
                 <span className="font-light">
-                  {daorder.notes !== "" ? <>None</> : <>{daorder.notes}</>}
+                  {" "}
+                  {daorder.notes?.slice(1, -1)}
                 </span>
               </h2>
             </div>
