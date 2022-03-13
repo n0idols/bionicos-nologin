@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }) {
         appId: "5c54727e-3b23-4f47-a819-58a26be08b8f",
 
         notifyButton: {
-          enable: true,
+          enable: false,
         },
 
         allowLocalhostAsSecureOrigin: true,
