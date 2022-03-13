@@ -53,13 +53,21 @@ export default function SignInPage() {
               <span className="font-semibold underline ml-1">Sign up here</span>
             </a>
           </Link>
-          <FBLoginBtn />
+          {/* <Link href="/forgotpassword">
+            <a className="description text-center mt-2 text-sm">
+              Forgot Password?
+              <span className="font-semibold underline ml-1">
+                Get Help Logging In
+              </span>
+            </a>
+          </Link> */}
+          {/* <FBLoginBtn /> */}
 
-          <div className="mt-8 mb-4">
+          {/* <div className="mt-8 mb-4">
             <h2 className="text-center w-full border-b leading-[.1em] m-[10px 0 20px]">
               <span className="bg-white px-3">Or</span>
             </h2>
-          </div>
+          </div> */}
           {/* <label htmlFor="username" className="label">
             <span className="label-text">Full Name</span>
           </label>
@@ -73,7 +81,7 @@ export default function SignInPage() {
             onChange={handleChange}
           /> */}
 
-          <h2 className="text-center font-light">Use email</h2>
+          {/* <h2 className="text-center font-light">Use email</h2> */}
           <label htmlFor="email" className="label">
             <span className="label-text">Email</span>
           </label>
