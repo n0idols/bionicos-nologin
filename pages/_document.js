@@ -10,10 +10,6 @@ class MyDocument extends Document {
     return (
       <Html lang="en-US" data-theme="cupcake">
         <Head>
-          <script
-            src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
-            async=""
-          ></script>
           <link
             href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;700&display=swap"
             rel="stylesheet"

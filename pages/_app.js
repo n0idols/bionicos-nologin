@@ -33,24 +33,6 @@ function MyApp({ Component, pageProps }) {
     }
 
     router.events.on("routeChangeComplete", onRouteChangeComplete);
-    window.OneSignal = window.OneSignal || [];
-    const OneSignal = window.OneSignal;
-    OneSignal.push(function () {
-      OneSignal.init({
-        appId: "5c54727e-3b23-4f47-a819-58a26be08b8f",
-
-        notifyButton: {
-          enable: false,
-        },
-
-        allowLocalhostAsSecureOrigin: true,
-      });
-    });
-
-    return () => {
-      // router.events.off("routeChangeComplete", onRouteChangeComplete),
-      window.OneSignal = undefined;
-    };
   }, []);
 
   return (
@@ -65,10 +47,6 @@ function MyApp({ Component, pageProps }) {
                     name="viewport"
                     content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
                   />
-                  <script
-                    src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
-                    async=""
-                  ></script>
                 </Head>
 
                 <Component {...pageProps} />
