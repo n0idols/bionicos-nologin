@@ -135,6 +135,9 @@ export default function TempHeader({ user, admin }) {
             {admin ? (
               <>
                 {" "}
+                {/* <Link href="/account/admin/customers">
+                  <a className={linkClasses}>customers</a>
+                </Link> */}
                 <Link href="/account/admin/orders">
                   <a className={linkClasses}>Orders</a>
                 </Link>

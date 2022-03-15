@@ -38,12 +38,15 @@ export default function MenuItem({ item, user }) {
   }
 
   const icon = ``;
-  const card = `card card-side bordered bg-white cursor-pointer md:hover:shadow-lg transition ease-linear md:hover:-translate-y-1`;
+  const card = ``;
   return (
     <div key={item.id}>
-      <a onClick={() => setIsModalOpen(true)} className={card}>
-        {/* {item.image && (
-          <div className="relative w-64 h-40">
+      {item.image ? (
+        <a
+          onClick={() => setIsModalOpen(true)}
+          className="card grid grid-cols-[150px_1fr] w-full bordered bg-white cursor-pointer md:hover:shadow-lg transition ease-linear md:hover:-translate-y-1"
+        >
+          <div className="relative  h-40">
             <Image
               src={item.image.url}
               layout="fill"
@@ -52,20 +55,38 @@ export default function MenuItem({ item, user }) {
               className=" "
             />
           </div>
-        )} */}
 
-        <div className="p-4 space-y-1 flex flex-col justify-center">
-          <h2 className="text-lg">
-            {" "}
-            {item.number && (
-              <span className="font-light"> {item.number}. </span>
-            )}
-            {item.title}
-          </h2>
-          <p className="text-sm">{item.description}</p>
-          <p className="font-bold text-primary">{formatMoney(item.price)}</p>
-        </div>
-      </a>
+          <div className="p-4 space-y-1 flex flex-col justify-center">
+            <h2 className="text-lg">
+              {" "}
+              {item.number && (
+                <span className="font-light"> {item.number}. </span>
+              )}
+              {item.title}
+            </h2>
+            <p className="text-sm">{item.description}</p>
+            <p className="font-bold text-primary">{formatMoney(item.price)}</p>
+          </div>
+        </a>
+      ) : (
+        <a
+          onClick={() => setIsModalOpen(true)}
+          className="card grid w-full bordered bg-white cursor-pointer md:hover:shadow-lg transition ease-linear md:hover:-translate-y-1"
+        >
+          <div className="p-4 space-y-1 flex flex-col justify-center">
+            <h2 className="text-lg">
+              {" "}
+              {item.number && (
+                <span className="font-light"> {item.number}. </span>
+              )}
+              {item.title}
+            </h2>
+            <p className="text-sm">{item.description}</p>
+            <p className="font-bold text-primary">{formatMoney(item.price)}</p>
+          </div>
+        </a>
+      )}
+
       <Modal
         show={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -144,7 +165,6 @@ export default function MenuItem({ item, user }) {
                                   name={group.name}
                                   id={m.id}
                                   onChange={() => {
-                                    console.log(group);
                                     selectMod(
                                       group.name,
                                       m.id,

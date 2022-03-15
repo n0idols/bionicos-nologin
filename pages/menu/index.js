@@ -172,6 +172,9 @@ export async function getStaticProps() {
                 price
               }
             }
+            image {
+              url
+            }
           }
         }
       }
