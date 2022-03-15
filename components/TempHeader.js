@@ -52,17 +52,6 @@ export default function TempHeader({ user, admin }) {
             All
           </a>
         </Link>
-        {/* <Link href="/account/admin/orders/pending">
-          <a
-            className={
-              router.pathname == "/account/admin/orders/pending"
-                ? activeClasses
-                : linkClasses
-            }
-          >
-            Pending
-          </a>
-        </Link>
         <Link href="/account/admin/orders/progress">
           <a
             className={
@@ -84,7 +73,46 @@ export default function TempHeader({ user, admin }) {
           >
             Ready For Pickup
           </a>
-        </Link> */}
+        </Link>
+        <Link href="/account/admin/orders/completed">
+          <a
+            className={
+              router.pathname == "/account/admin/orders/completed"
+                ? activeClasses
+                : linkClasses
+            }
+          >
+            Completed
+          </a>
+        </Link>
+      </>
+    );
+  }
+
+  function UserLinks() {
+    return (
+      <>
+        <Link href="/">
+          <a className={router.pathname == "/" ? activeClasses : linkClasses}>
+            Home
+          </a>
+        </Link>
+        <Link href="/menu/specials">
+          <a
+            className={
+              router.pathname == "/menu/specials" ? activeClasses : linkClasses
+            }
+          >
+            Specials
+          </a>
+        </Link>
+        <Link href="/menu">
+          <a
+            className={router.pathname == "/menu" ? activeClasses : linkClasses}
+          >
+            Menu
+          </a>
+        </Link>
       </>
     );
   }
@@ -96,73 +124,41 @@ export default function TempHeader({ user, admin }) {
       <header className="fixed top-0 z-50 w-full">
         <div className="navbar shadow-lg bg-white text-neutral-content standalone:pt-4">
           <div className="px-2 mx-2 navbar-start">
-            <Logo />
+            <Logo admin={admin} />
           </div>
           <div className="hidden px-2 mx-2 navbar-center md:flex text-gray-600">
             <div className="flex items-center">
-              {admin ? (
-                <AdminLinks />
-              ) : (
-                <>
-                  <Link href="/">
-                    <a
-                      className={
-                        router.pathname == "/" ? activeClasses : linkClasses
-                      }
-                    >
-                      Home
-                    </a>
-                  </Link>
-                  <Link href="/menu/specials">
-                    <a
-                      className={
-                        router.pathname == "/menu/specials"
-                          ? activeClasses
-                          : linkClasses
-                      }
-                    >
-                      Specials
-                    </a>
-                  </Link>
-                  <Link href="/menu">
-                    <a
-                      className={
-                        router.pathname == "/menu" ? activeClasses : linkClasses
-                      }
-                    >
-                      Menu
-                    </a>
-                  </Link>
-                </>
-              )}
+              {admin ? <AdminLinks /> : <UserLinks />}
             </div>
           </div>
           <div className="navbar-end space-x-4">
-            {user ? (
-              <>
-                {" "}
-                <Link href="/dashboard">
-                  <a className={linkClasses}>My Account</a>
-                </Link>
-                <CartDiv />
-              </>
-            ) : (
-              <>
-                {" "}
-                <Link href="/signin">
-                  <a className={linkClasses}>Account</a>
-                </Link>
-                <CartDiv />
-              </>
-            )}
-
-            {admin && (
+            {admin ? (
               <>
                 {" "}
                 <Link href="/account/admin/orders">
                   <a className={linkClasses}>Orders</a>
                 </Link>
               </>
+            ) : (
+              <div className="flex">
+                {user ? (
+                  <>
+                    {" "}
+                    <Link href="/dashboard">
+                      <a className={linkClasses}>My Account</a>
+                    </Link>
+                    <CartDiv />
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <Link href="/signin">
+                      <a className={linkClasses}>Account</a>
+                    </Link>
+                    <CartDiv />
+                  </>
+                )}
+              </div>
             )}
           </div>
         </div>

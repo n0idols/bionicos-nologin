@@ -1,7 +1,7 @@
 import Section from "@/components/Section";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
-import axios from "axios";
+
 import OrdersTable from "@/components/OrdersTable";
 import OrdersCards from "@/components/OrdersCards";
 import PageTitle from "@/components/PageTitle";
@@ -24,9 +24,6 @@ export default function AllOrders({ orders }) {
       .on("*", (payload) => {
         console.log(payload);
         setNewOrder((newOrder) => [...newOrder, payload]);
-        OneSignal.showSlidedownPrompt().then(() => {
-          console.log("awesome");
-        });
       })
       .subscribe();
 

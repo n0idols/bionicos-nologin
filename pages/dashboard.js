@@ -19,6 +19,7 @@ const Dashboard = ({ orders, user }) => {
   const handleLogOut = async (e) => {
     e.preventDefault();
     destroyCookie(null, "username");
+    destroyCookie(null, "cart");
     const { error } = await supabaseClient.auth.signOut();
     if (error) {
       alert(JSON.stringify(error));
@@ -29,9 +30,9 @@ const Dashboard = ({ orders, user }) => {
 
   return (
     <Layout title="Profile">
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center">
         <Profile user={user} orders={orders} />
-        <button onClick={handleLogOut}>Log out</button>
+        {/* <button onClick={handleLogOut}>Log out</button> */}
       </div>
     </Layout>
   );
