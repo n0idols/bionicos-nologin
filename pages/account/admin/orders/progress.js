@@ -1,7 +1,7 @@
 import Section from "@/components/Section";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
-import SlackNotify from "slack-notify";
+
 import OrdersTable from "@/components/OrdersTable";
 import OrdersCards from "@/components/OrdersCards";
 import PageTitle from "@/components/PageTitle";
