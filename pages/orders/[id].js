@@ -14,28 +14,12 @@ import Layout from "@/components/Layout";
 import OrderItem from "@/components/OrderItem";
 import { useEffect, useState } from "react";
 import Loading from "@/components/icons/Loading";
-import OrderSlugItem from "../../components/OrderSlugItem";
+import OrderSlugItem from "@/components/OrderSlugItem";
 export default function OrderSlug({ order }) {
   const router = useRouter();
   const daorder = order[0];
   const items = daorder.line_items;
   // const entries = Object.entries(items);
-  const [orderStatus, setOrderStatus] = useState(daorder.orderstatus);
-
-  useEffect(() => {
-    if (order) {
-      const mySubscription = supabaseClient
-        .from(`orders:id=eq.${daorder.id}`)
-        .on("UPDATE", (payload) => {
-          setOrderStatus(payload.new.orderstatus);
-        })
-        .subscribe();
-
-      return () => {
-        supabaseClient.removeSubscription(mySubscription);
-      };
-    }
-  }, [order]);
 
   return (
     <Layout title={order.id}>
