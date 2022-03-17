@@ -18,22 +18,22 @@ import OrderSlugItem from "@/components/OrderSlugItem";
 export default function OrderSlug({ order }) {
   const router = useRouter();
   const daorder = order[0];
-  const items = daorder.line_items;
+  const items = order[0].line_items;
   // const entries = Object.entries(items);
 
   return (
-    <Layout title={order.id}>
+    <Layout title={order[0].id}>
       <Section>
         <button onClick={() => router.push("/dashboard")}>
           Back to Profile
         </button>
         <div className="max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl">
           <p className="">
-            {moment(daorder.ordered_at).format("MMMM Do YYYY")}
+            {moment(order[0].ordered_at).format("MMMM Do YYYY")}
 
             <span className="font-bold ml-1">@</span>
 
-            {moment(daorder.ordered_at).format(" h:mm:ss a")}
+            {moment(order[0].ordered_at).format(" h:mm:ss a")}
           </p>
 
           <h1>Your order</h1>
@@ -52,7 +52,7 @@ export default function OrderSlug({ order }) {
                 Notes:
                 <span className="font-light">
                   {" "}
-                  {daorder.notes?.slice(1, -1)}
+                  {order[0].notes?.slice(1, -1)}
                 </span>
               </h2>
             </div>
@@ -62,7 +62,7 @@ export default function OrderSlug({ order }) {
                 <h6>Subtotal</h6>
               </div>
               <div>
-                <h6>{formatMoney(daorder.subtotal)}</h6>
+                <h6>{formatMoney(order[0].subtotal)}</h6>
               </div>
             </div>
             <hr />
@@ -72,7 +72,7 @@ export default function OrderSlug({ order }) {
                 <h6>Tax</h6>
               </div>
               <div>
-                <h6>{formatMoney(daorder.tax)}</h6>
+                <h6>{formatMoney(order[0].tax)}</h6>
               </div>
             </div>
             <hr />
@@ -81,7 +81,7 @@ export default function OrderSlug({ order }) {
                 <h6 className="font-bold">Total</h6>
               </div>
               <div>
-                <h6 className="font-bold">{formatMoney(daorder.total)}</h6>
+                <h6 className="font-bold">{formatMoney(order[0].total)}</h6>
               </div>
             </div>
           </div>
