@@ -41,17 +41,6 @@ export default function TempHeader({ user, admin }) {
     return (
       <>
         {" "}
-        <Link href="/account/admin/orders">
-          <a
-            className={
-              router.pathname == "/account/admin/orders"
-                ? activeClasses
-                : linkClasses
-            }
-          >
-            All
-          </a>
-        </Link>
         <Link href="/account/admin/orders/progress">
           <a
             className={
@@ -138,7 +127,7 @@ export default function TempHeader({ user, admin }) {
                 {/* <Link href="/account/admin/customers">
                   <a className={linkClasses}>customers</a>
                 </Link> */}
-                <Link href="/account/admin/orders">
+                <Link href="/account/admin/orders/progress">
                   <a className={linkClasses}>Orders</a>
                 </Link>
               </>
