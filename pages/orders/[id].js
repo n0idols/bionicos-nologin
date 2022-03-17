@@ -15,6 +15,7 @@ import OrderItem from "@/components/OrderItem";
 import { useEffect, useState } from "react";
 import Loading from "@/components/icons/Loading";
 import OrderSlugItem from "@/components/OrderSlugItem";
+
 export default function OrderSlug({ order }) {
   const router = useRouter();
   const daorder = order[0];
@@ -39,7 +40,9 @@ export default function OrderSlug({ order }) {
           <h1>Your order</h1>
           <div>
             <small>Status:</small>
-            <span className={getStatus(orderStatus)}>{orderStatus}</span>
+            <span className={getStatus(order[0].orderstatus)}>
+              {order[0].orderstatus}
+            </span>
           </div>
           <div className="rounded-lg my-2">
             {items.map((item, i) => {
