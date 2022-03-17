@@ -1,11 +1,7 @@
 import Section from "@/components/Section";
-import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
-import axios from "axios";
 import OrdersTable from "@/components/OrdersTable";
-import OrdersCards from "@/components/OrdersCards";
 import PageTitle from "@/components/PageTitle";
-import { useUser, logout } from "@supabase/supabase-auth-helpers/react";
 
 import {
   supabaseClient,
@@ -14,7 +10,6 @@ import {
   supabaseServerClient,
 } from "@supabase/supabase-auth-helpers/nextjs";
 import { useState, useEffect } from "react";
-import * as PusherPushNotifications from "@pusher/push-notifications-web";
 
 export default function AllOrders({ orders }) {
   const [newOrder, setNewOrder] = useState([]);
@@ -30,19 +25,19 @@ export default function AllOrders({ orders }) {
       .subscribe();
     //payload.new.id, payload.new.username
 
-    const beamsClient = new PusherPushNotifications.Client({
-      instanceId: "30838142-3ef2-40a7-8bed-04c591160247",
-    });
+    // const beamsClient = new PusherPushNotifications.Client({
+    //   instanceId: "30838142-3ef2-40a7-8bed-04c591160247",
+    // });
 
-    beamsClient
-      .start()
-      .then(() => beamsClient.addDeviceInterest("hello"))
-      .then(() => console.log("Successfully registered and subscribed!"))
-      .catch(console.error);
+    // beamsClient
+    //   .start()
+    //   .then(() => beamsClient.addDeviceInterest("hello"))
+    //   .then(() => console.log("Successfully registered and subscribed!"))
+    //   .catch(console.error);
 
-    return () => {
-      supabaseClient.removeSubscription(mySubscription);
-    };
+    // return () => {
+    //   supabaseClient.removeSubscription(mySubscription);
+    // };
   }, []);
   //listen for new orders
 
