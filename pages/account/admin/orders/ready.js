@@ -40,9 +40,11 @@ export default function ReadyForPickup({ orders }) {
             <PageTitle title="Ready For Pickup" />
             {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
             {/* {newOrder && <pre>{JSON.stringify(newOrder, null, 2)}</pre>} */}
-
-            <OrdersTable orders={orders} />
-            {/* <OrdersCards orders={orders} user={user} /> */}
+            {orders.length > 0 ? (
+              <OrdersTable orders={orders} />
+            ) : (
+              <p className="text-center">New Orders Will Be Here</p>
+            )}
           </div>
         </div>
       </Section>

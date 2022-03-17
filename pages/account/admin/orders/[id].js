@@ -22,21 +22,21 @@ export default function OrderSlug({ order }) {
 
   const [orderStatus, setOrderStatus] = useState(daorder.orderstatus);
 
-  useEffect(() => {
-    if (order) {
-      const mySubscription = supabaseClient
-        .from(`orders:id=eq.${daorder.id}`)
-        .on("UPDATE", (payload) => {
-          console.log("nice");
-          setOrderStatus(payload.new.orderstatus);
-        })
-        .subscribe();
+  // useEffect(() => {
+  //   if (order) {
+  //     const mySubscription = supabaseClient
+  //       .from(`orders:id=eq.${daorder.id}`)
+  //       .on("UPDATE", (payload) => {
+  //         console.log("nice");
+  //         setOrderStatus(payload.new.orderstatus);
+  //       })
+  //       .subscribe();
 
-      return () => {
-        supabaseClient.removeSubscription(mySubscription);
-      };
-    }
-  }, [order]);
+  //     return () => {
+  //       supabaseClient.removeSubscription(mySubscription);
+  //     };
+  //   }
+  // }, [order]);
 
   async function readyPickUp() {
     try {
@@ -64,6 +64,7 @@ export default function OrderSlug({ order }) {
         <button onClick={() => router.back()}>Go Back</button>
         <div className="max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl">
           <div className="flex justify-between">
+            {/* <pre>{JSON.stringify(order, null, 2)}</pre> */}
             <div>
               <h2 className="">
                 {moment(daorder.ordered_at).format("MMMM Do YYYY")}
