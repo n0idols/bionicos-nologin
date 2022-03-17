@@ -9,44 +9,40 @@ import Section from "@/components/Section";
 import getStatus from "@/lib/getStatus";
 import moment from "moment";
 import formatMoney from "@/lib/formatMoney";
-import parseCookies from "@/lib/cookie";
-import Layout from "@/components/Layout";
-import OrderItem from "@/components/OrderItem";
-import { useEffect, useState } from "react";
-import Loading from "@/components/icons/Loading";
-import OrderSlugItem from "@/components/OrderSlugItem";
 
+import Layout from "@/components/Layout";
+import OrderSlugItem from "@/components/OrderSlugItem";
 export default function OrderSlug({ order }) {
   const router = useRouter();
+
   const daorder = order[0];
-  const items = order[0].line_items;
-  // const entries = Object.entries(items);
+
+  const items = daorder.line_items;
 
   return (
-    <Layout title={order[0].id}>
+    <Layout title={daorder.id}>
       <Section>
         <button onClick={() => router.push("/dashboard")}>
           Back to Profile
         </button>
         <div className="max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl">
           <p className="">
-            {moment(order[0].ordered_at).format("MMMM Do YYYY")}
+            {moment(daorder.ordered_at).format("MMMM Do YYYY")}
 
             <span className="font-bold ml-1">@</span>
 
-            {moment(order[0].ordered_at).format(" h:mm:ss a")}
+            {moment(daorder.ordered_at).format(" h:mm:ss a")}
           </p>
 
           <h1>Your order</h1>
           <div>
             <small>Status:</small>
-            <span className={getStatus(order[0].orderstatus)}>
-              {order[0].orderstatus}
+            <span className={getStatus(daorder.orderstatus)}>
+              {daorder.orderstatus}
             </span>
           </div>
           <div className="rounded-lg my-2">
             {items.map((item, i) => {
-              // return JSON.stringify(item);
               return <OrderSlugItem key={i} item={item} />;
             })}
 
@@ -55,7 +51,7 @@ export default function OrderSlug({ order }) {
                 Notes:
                 <span className="font-light">
                   {" "}
-                  {order[0].notes?.slice(1, -1)}
+                  {daorder.notes?.slice(1, -1)}
                 </span>
               </h2>
             </div>
@@ -65,7 +61,7 @@ export default function OrderSlug({ order }) {
                 <h6>Subtotal</h6>
               </div>
               <div>
-                <h6>{formatMoney(order[0].subtotal)}</h6>
+                <h6>{formatMoney(daorder.subtotal)}</h6>
               </div>
             </div>
             <hr />
@@ -75,7 +71,7 @@ export default function OrderSlug({ order }) {
                 <h6>Tax</h6>
               </div>
               <div>
-                <h6>{formatMoney(order[0].tax)}</h6>
+                <h6>{formatMoney(daorder.tax)}</h6>
               </div>
             </div>
             <hr />
@@ -84,7 +80,7 @@ export default function OrderSlug({ order }) {
                 <h6 className="font-bold">Total</h6>
               </div>
               <div>
-                <h6 className="font-bold">{formatMoney(order[0].total)}</h6>
+                <h6 className="font-bold">{formatMoney(daorder.total)}</h6>
               </div>
             </div>
           </div>
