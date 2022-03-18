@@ -17,10 +17,8 @@ import Loading from "@/components/icons/Loading";
 import OrderSlugItem from "@/components/OrderSlugItem";
 export default function OrderSlug({ order }) {
   const router = useRouter();
-  const daorder = order[0];
-  const items = daorder.line_items;
 
-  const [orderStatus, setOrderStatus] = useState(daorder.orderstatus);
+  const [orderId, setOrder] = useState("");
 
   // useEffect(() => {
   //   if (order) {
@@ -38,125 +36,138 @@ export default function OrderSlug({ order }) {
   //   }
   // }, [order]);
 
-  async function readyPickUp() {
+  async function readyPickUp(id) {
     try {
       const { data, error } = await supabaseClient
         .from("orders")
         .update({ orderstatus: "ready for pickup" })
-        .match({ id: daorder.id });
+        .match({ id: id });
       if (data) window.location.reload();
     } catch (error) {}
   }
-  async function completedOrder(e) {
-    e.preventDefault();
+  async function completedOrder(id) {
     try {
       const { data, error } = await supabaseClient
         .from("orders")
         .update({ orderstatus: "completed" })
-        .match({ id: daorder.id });
+        .match({ id: id });
 
       if (data) window.location.reload();
     } catch (error) {}
   }
+
   return (
-    <Layout title={order.id}>
+    <Layout>
       <Section>
-        <button onClick={() => router.back()}>Go Back</button>
-        <div className="max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl">
-          <div className="flex justify-between">
-            {/* <pre>{JSON.stringify(order, null, 2)}</pre> */}
-            <div>
-              <h2 className="">
-                {moment(daorder.ordered_at).format("MMMM Do YYYY")}
+        <button onClick={() => router.push("/dashboard")}>
+          Back to Profile
+        </button>
 
-                <span className="font-bold ml-1">@</span>
-
-                {moment(daorder.ordered_at).format(" h:mm:ss a")}
-              </h2>
-              <h1>
-                <span className="font-light mr-2">Customer:</span>
-
-                {daorder.username}
-              </h1>
-              <div>
-                <small>Status:</small>
-                <span className={getStatus(orderStatus)}>{orderStatus}</span>
-              </div>
-            </div>
-
-            <div className="dropdown">
-              <div tabIndex="0" className="m-1 btn btn-success btn-outline">
-                Change Order Status
-              </div>
-              <ul
-                tabIndex="0"
-                className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 space-y-3"
-              >
-                <li>
-                  <button
-                    className="btn btn-primary btn-block"
-                    onClick={readyPickUp}
+        {order.map((pedido) => {
+          const {
+            id,
+            line_items,
+            subtotal,
+            tax,
+            total,
+            coupon,
+            notes,
+            ordered_at,
+            orderstatus,
+            username,
+          } = pedido;
+          return (
+            <div className="receipt-paper" key={id}>
+              <div className="flex flex-end justify-end">
+                <div className="dropdown">
+                  <div tabIndex="0" className="m-1 btn btn-success btn-outline">
+                    Change Order Status
+                  </div>
+                  <ul
+                    tabIndex="0"
+                    className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 space-y-3"
                   >
-                    ready for pickup
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="btn btn-block btn-success"
-                    onClick={completedOrder}
-                  >
-                    completed
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
+                    <li>
+                      <button
+                        className="btn btn-primary btn-block"
+                        onClick={() => readyPickUp(id)}
+                      >
+                        ready for pickup
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className="btn btn-block btn-success"
+                        onClick={() => completedOrder(id)}
+                      >
+                        completed
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-          <div className="rounded-lg my-2">
-            {items.map((item, i) => {
-              // return JSON.stringify(item);
-              return <OrderSlugItem key={i} item={item} />;
-            })}
+              <div>
+                <p className="">
+                  {moment(ordered_at).format("MMMM Do YYYY")}
 
-            <div className="flex flex-col pt-4">
-              <h2 className="my-4">
-                Notes:
-                <span className="font-light">
-                  {" "}
-                  {daorder.notes?.slice(1, -1)}
-                </span>
-              </h2>
-            </div>
+                  <span className="font-bold ml-1">@</span>
 
-            <div className=" p-2 tracking-wide flex justify-between">
-              <div>
-                <h6>Subtotal</h6>
-              </div>
-              <div>
-                <h6>{formatMoney(daorder.subtotal)}</h6>
-              </div>
-            </div>
-            <hr />
+                  {moment(ordered_at).format(" h:mm:ss a")}
+                </p>
 
-            <div className=" p-2 tracking-wide flex justify-between">
-              <div>
-                <h6>Tax</h6>
-              </div>
-              <div>
-                <h6>{formatMoney(daorder.tax)}</h6>
+                <h1>
+                  <span className="font-light mr-2">Customer:</span>
+                  {username}
+                </h1>
+                <div>
+                  <small>Status:</small>
+                  <span className={getStatus(orderstatus)}>{orderstatus}</span>
+                </div>
+                <div className="rounded-lg my-2">
+                  {line_items.map((item, i) => {
+                    return <OrderSlugItem key={i} item={item} />;
+                  })}
+
+                  <div className="flex flex-col pt-4">
+                    <h2 className="my-4">
+                      Notes:
+                      <span className="font-light"> {notes?.slice(1, -1)}</span>
+                    </h2>
+                  </div>
+
+                  <div className=" p-2 tracking-wide flex justify-between">
+                    <div>
+                      <h6>Subtotal</h6>
+                    </div>
+                    <div>
+                      <h6>{formatMoney(subtotal)}</h6>
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div className=" p-2 tracking-wide flex justify-between">
+                    <div>
+                      <h6>Tax</h6>
+                    </div>
+                    <div>
+                      <h6>{formatMoney(tax)}</h6>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className=" p-2 tracking-wide flex justify-between">
+                    <div>
+                      <h6 className="font-bold">Total</h6>
+                    </div>
+                    <div>
+                      <h6 className="font-bold">{formatMoney(total)}</h6>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <hr />
-            <div className=" p-2 tracking-wide flex justify-between">
-              <div>
-                <h6 className="font-bold">Total</h6>
-              </div>
-              <div>
-                <h6 className="font-bold">{formatMoney(daorder.total)}</h6>
-              </div>
-            </div>
-          </div>
-        </div>
+          );
+        })}
       </Section>
     </Layout>
   );

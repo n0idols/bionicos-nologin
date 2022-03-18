@@ -15,76 +15,86 @@ import OrderSlugItem from "@/components/OrderSlugItem";
 export default function OrderSlug({ order }) {
   const router = useRouter();
 
-  const daorder = order[0];
-
-  const items = daorder.line_items;
+  // const daorder = order[0];
 
   return (
-    <Layout title={daorder.id}>
+    <Layout>
       <Section>
         <button onClick={() => router.push("/dashboard")}>
           Back to Profile
         </button>
-        <div className="max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl">
-          <p className="">
-            {moment(daorder.ordered_at).format("MMMM Do YYYY")}
 
-            <span className="font-bold ml-1">@</span>
+        {order.map((pedido) => {
+          const {
+            id,
+            line_items,
+            subtotal,
+            tax,
+            total,
+            coupon,
+            notes,
+            ordered_at,
+            orderstatus,
+          } = pedido;
 
-            {moment(daorder.ordered_at).format(" h:mm:ss a")}
-          </p>
+          return (
+            <div className="receipt-paper" key={id}>
+              <p className="">
+                {moment(ordered_at).format("MMMM Do YYYY")}
 
-          <h1>Your order</h1>
-          <div>
-            <small>Status:</small>
-            <span className={getStatus(daorder.orderstatus)}>
-              {daorder.orderstatus}
-            </span>
-          </div>
-          <div className="rounded-lg my-2">
-            {items.map((item, i) => {
-              return <OrderSlugItem key={i} item={item} />;
-            })}
+                <span className="font-bold ml-1">@</span>
 
-            <div className="flex flex-col pt-4">
-              <h2 className="my-4">
-                Notes:
-                <span className="font-light">
-                  {" "}
-                  {daorder.notes?.slice(1, -1)}
-                </span>
-              </h2>
+                {moment(ordered_at).format(" h:mm:ss a")}
+              </p>
+
+              <h1>Your order</h1>
+              <div>
+                <small>Status:</small>
+                <span className={getStatus(orderstatus)}>{orderstatus}</span>
+              </div>
+              <div className="rounded-lg my-2">
+                {line_items.map((item, i) => {
+                  return <OrderSlugItem key={i} item={item} />;
+                })}
+
+                <div className="flex flex-col pt-4">
+                  <h2 className="my-4">
+                    Notes:
+                    <span className="font-light"> {notes?.slice(1, -1)}</span>
+                  </h2>
+                </div>
+
+                <div className=" p-2 tracking-wide flex justify-between">
+                  <div>
+                    <h6>Subtotal</h6>
+                  </div>
+                  <div>
+                    <h6>{formatMoney(subtotal)}</h6>
+                  </div>
+                </div>
+                <hr />
+
+                <div className=" p-2 tracking-wide flex justify-between">
+                  <div>
+                    <h6>Tax</h6>
+                  </div>
+                  <div>
+                    <h6>{formatMoney(tax)}</h6>
+                  </div>
+                </div>
+                <hr />
+                <div className=" p-2 tracking-wide flex justify-between">
+                  <div>
+                    <h6 className="font-bold">Total</h6>
+                  </div>
+                  <div>
+                    <h6 className="font-bold">{formatMoney(total)}</h6>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <div className=" p-2 tracking-wide flex justify-between">
-              <div>
-                <h6>Subtotal</h6>
-              </div>
-              <div>
-                <h6>{formatMoney(daorder.subtotal)}</h6>
-              </div>
-            </div>
-            <hr />
-
-            <div className=" p-2 tracking-wide flex justify-between">
-              <div>
-                <h6>Tax</h6>
-              </div>
-              <div>
-                <h6>{formatMoney(daorder.tax)}</h6>
-              </div>
-            </div>
-            <hr />
-            <div className=" p-2 tracking-wide flex justify-between">
-              <div>
-                <h6 className="font-bold">Total</h6>
-              </div>
-              <div>
-                <h6 className="font-bold">{formatMoney(daorder.total)}</h6>
-              </div>
-            </div>
-          </div>
-        </div>
+          );
+        })}
       </Section>
     </Layout>
   );
