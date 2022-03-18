@@ -43,7 +43,9 @@ export default function ReadyForPickup({ orders }) {
             {orders.length > 0 ? (
               <OrdersTable orders={orders} />
             ) : (
-              <p className="text-center">New Orders Will Be Here</p>
+              <p className="text-center">
+                Orders Marked Ready For Pickup Will Be Here
+              </p>
             )}
           </div>
         </div>

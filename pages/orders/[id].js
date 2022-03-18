@@ -20,11 +20,14 @@ export default function OrderSlug({ order }) {
   return (
     <Layout>
       <Section>
-        <button onClick={() => router.push("/dashboard")}>
+        <button
+          className="btn btn-outline btn-sm"
+          onClick={() => router.push("/dashboard")}
+        >
           Back to Profile
         </button>
 
-        {order.map((pedido) => {
+        {order?.map((pedido) => {
           const {
             id,
             line_items,
@@ -36,6 +39,7 @@ export default function OrderSlug({ order }) {
             ordered_at,
             orderstatus,
           } = pedido;
+          const last3 = id.slice(0, 3);
 
           return (
             <div className="receipt-paper" key={id}>
@@ -47,7 +51,7 @@ export default function OrderSlug({ order }) {
                 {moment(ordered_at).format(" h:mm:ss a")}
               </p>
 
-              <h1>Your order</h1>
+              <h1>Order #{last3}</h1>
               <div>
                 <small>Status:</small>
                 <span className={getStatus(orderstatus)}>{orderstatus}</span>

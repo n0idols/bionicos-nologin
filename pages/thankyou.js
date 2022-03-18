@@ -7,7 +7,6 @@ import Link from "next/link";
 import OrderItem from "@/components/OrderItem";
 import Layout from "@/components/Layout";
 import {
-  supabaseClient,
   supabaseServerClient,
   withAuthRequired,
 } from "@supabase/supabase-auth-helpers/nextjs";
@@ -17,48 +16,38 @@ import {
   calculateSubAmount,
   calculateTax,
 } from "../lib/calcOrder";
+import OrderReceiptTy from "../components/OrderReceiptTy";
 
 export default function ThankYouPage({ order, error }) {
-  const { emptyCart, cart } = useCart();
-  const { user } = useUser();
   // const items = order.line_items;
   // const entries = Object.entries(items);
   const [cookies, setCookie, removeCookie] = useCookies(["notes", "coupon"]);
-  const lineItems = Object.entries(order[0].line_items);
-
-  // useEffect(() => {
-  //   if (cart.length > 1) emptyCart();
-  //   destroyCookie(null, "cart");
-  // }, [emptyCart, cart]);
-  useEffect(() => {
-    const subscription = supabaseClient
-      .from("orders")
-      .on("INSERT", (payload) => {
-        console.log(payload);
-      })
-      .subscribe();
-
-    return () => supabaseClient.removeSubscription(subscription);
-  }, []);
 
   return (
     <Layout title="Order Received!">
       <div className="max-w-lg mx-auto ">
         <h1 className="text-center py-4">Order Received!</h1>
-        <div className="bg-white rounded-xl p-4 space-y-4  shadow-xl">
-          {/* {error && <pre>{JSON.stringify(error, null, 2)}</pre>} */}
-          {lineItems.map((item) => {
-            const itemski = item[1];
-            return <OrderItem itemski={itemski} key={item.id} />;
-          })}
 
-          <p>It will be ready within 9 - 15 minutes</p>
-          <p>See you soon!</p>
+        {/* {error && <pre>{JSON.stringify(error, null, 2)}</pre>} */}
 
-          <Link href={`/orders/${order[0].id}`}>
-            <a className="btn btn-ghost btn-block">view reciept</a>
-          </Link>
-        </div>
+        {order.map((pedido) => {
+          const last3 = pedido.id.slice(0, 3);
+          return (
+            <>
+              <div className="text-center">
+                <p>It will be ready within 9 - 15 minutes</p>
+                <p>See you soon!</p>
+
+                <p className="font-bold">Your order id: </p>
+                <h1>{last3}</h1>
+              </div>
+              <OrderReceiptTy pedido={pedido} />
+              <Link href={`/orders/${order[0].id}`}>
+                <a className="btn btn-block">view reciept</a>
+              </Link>
+            </>
+          );
+        })}
       </div>
     </Layout>
   );

@@ -59,11 +59,11 @@ export default function OrderSlug({ order }) {
   return (
     <Layout>
       <Section>
-        <button onClick={() => router.push("/dashboard")}>
+        {/* <button onClick={() => router.push("/da")}>
           Back to Profile
-        </button>
+        </button> */}
 
-        {order.map((pedido) => {
+        {order?.map((pedido) => {
           const {
             id,
             line_items,

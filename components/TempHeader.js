@@ -41,7 +41,7 @@ export default function TempHeader({ user, admin }) {
     return (
       <>
         {" "}
-        {/* <Link href="/account/admin/orders/progress">
+        <Link href="/account/admin/orders/progress">
           <a
             className={
               router.pathname == "/account/admin/orders/progress"
@@ -49,7 +49,7 @@ export default function TempHeader({ user, admin }) {
                 : linkClasses
             }
           >
-            In Progress
+            New Orders
           </a>
         </Link>
         <Link href="/account/admin/orders/ready">
@@ -62,8 +62,8 @@ export default function TempHeader({ user, admin }) {
           >
             Ready For Pickup
           </a>
-        </Link> */}
-        {/* <Link href="/account/admin/orders/completed">
+        </Link>
+        <Link href="/account/admin/orders/completed">
           <a
             className={
               router.pathname == "/account/admin/orders/completed"
@@ -73,8 +73,8 @@ export default function TempHeader({ user, admin }) {
           >
             Completed
           </a>
-        </Link> */}
-        <Link href="/account/admin/orders">
+        </Link>
+        {/* <Link href="/account/admin/orders">
           <a
             className={
               router.pathname == "/account/admin/orders"
@@ -84,7 +84,7 @@ export default function TempHeader({ user, admin }) {
           >
             All Orders
           </a>
-        </Link>
+        </Link> */}
       </>
     );
   }
@@ -139,7 +139,7 @@ export default function TempHeader({ user, admin }) {
                   <a className={linkClasses}>customers</a>
                 </Link> */}
                 <Link href="/account/admin/orders/">
-                  <a className={linkClasses}>Orders</a>
+                  <a className={linkClasses}>All Orders</a>
                 </Link>
               </>
             ) : (

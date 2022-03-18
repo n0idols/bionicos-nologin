@@ -33,7 +33,7 @@ export default function ProgressOrders({ orders }) {
   //       console.error(err);
   //     });
   // }
-  // const [newOrder, setNewOrder] = useState([]);
+  const [newOrder, setNewOrder] = useState([]);
 
   // THIS IS WORKING BUT STOPS AFTER A FEW MINS
   useEffect(() => {
@@ -69,16 +69,29 @@ export default function ProgressOrders({ orders }) {
   //   }
   // };
 
+  function checkOrders(e) {
+    e.preventDefault();
+
+    window.location.reload();
+  }
   return (
-    <Layout title="In Progress">
+    <Layout title="New Orders">
       <Section>
         <div>
           <div>
-            <PageTitle title="In Progress" />
+            <PageTitle title="New Orders" />
             {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
-            {/* {newOrder && <pre>{JSON.stringify(newOrder, null, 2)}</pre>} */}
+
             {/* <button onClick={sendMessage}>Send message</button> */}
             {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
+            <div className="flex justify-center w-full  mb-4">
+              <button
+                className="btn btn-success btn-outline btn-sm"
+                onClick={checkOrders}
+              >
+                Click here to Check New orders
+              </button>
+            </div>
             {orders.length > 0 ? (
               <OrdersTable orders={orders} />
             ) : (

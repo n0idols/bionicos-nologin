@@ -5,7 +5,7 @@ export default function Logo({ admin }) {
   return (
     <>
       {admin ? (
-        <Link href="/account/admin/orders">
+        <Link href="/account/admin/orders/progress">
           <div className="h-16 w-28">
             <Image
               src={brandImage}
