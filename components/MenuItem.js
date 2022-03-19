@@ -46,7 +46,7 @@ export default function MenuItem({ item, user }) {
           onClick={() => setIsModalOpen(true)}
           className="card grid grid-cols-[150px_1fr] w-full bordered bg-white cursor-pointer md:hover:shadow-lg transition ease-linear md:hover:-translate-y-1"
         >
-          <div className="relative  h-40">
+          <div className="relative  h-full">
             <Image
               src={item.image.url}
               layout="fill"
