@@ -2,18 +2,33 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Layout from "@/components/Layout";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 
 export default function ResetPassword({ code }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState({
-    password: "",
-    confirmPassword: "",
-    syrrup: "",
-  });
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const accessToken = router.query.access_token;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      notify.error(t("passwords-do-not-match"));
+      return;
+    }
+    setLoading(true);
+
+    supabaseClient.auth.api
+      .updateUser(accessToken, { password })
+      .then(() => {
+        router.push("/signin");
+      })
+      .catch(() => {
+        notify.error(t("error-token-expired"));
+        setLoading(false);
+      });
   };
 
   const onSubmit = (e) => {
@@ -22,8 +37,8 @@ export default function ResetPassword({ code }) {
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, {
         code: code,
-        password: values.password,
-        passwordConfirmation: values.confirmPassword,
+        password: password,
+        passwordConfirmation: confirmPassword,
       })
       .then((response) => {
         // Handle success.
@@ -40,7 +55,7 @@ export default function ResetPassword({ code }) {
   return (
     <Layout title="Enter new password">
       <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl bg-white shadow">
-        <form className="form-control" onSubmit={onSubmit} method="post">
+        <form className="form-control" onSubmit={handleSubmit}>
           <h1 className="text-center mt-2">Enter new password</h1>
           <label htmlFor="new-password" className="label">
             <span className="label-text">New Password</span>
@@ -51,8 +66,8 @@ export default function ResetPassword({ code }) {
             placeholder="New Password"
             name="password"
             autoComplete="new-password"
-            value={values.password}
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <label htmlFor="confirm-password" className="label">
             <span className="label-text">Confirm New Password</span>
@@ -63,15 +78,8 @@ export default function ResetPassword({ code }) {
             placeholder="Confirm Password"
             name="confirmPassword"
             autoComplete="new-password"
-            value={values.confirmPassword}
-            onChange={handleChange}
-          />
-          <input
-            className="syrrup"
-            type="syrrup"
-            name="syrrup"
-            value={values.syrrup}
-            onChange={handleChange}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
 
           <div className="mt-6">
@@ -87,11 +95,4 @@ export default function ResetPassword({ code }) {
       </div>
     </Layout>
   );
-}
-
-export async function getServerSideProps({ query }) {
-  const code = query.code;
-  return {
-    props: { code },
-  };
 }

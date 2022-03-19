@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Layout from "@/components/Layout";
 import Link from "next/link";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 
 export default function ForgotPassword() {
   const router = useRouter();
@@ -19,24 +20,10 @@ export default function ForgotPassword() {
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, {
-        email: values.email,
-        url: `${process.env.NEXT_PUBLIC_API_URL}/admin/plugins/users-permissions/auth/reset-password`,
-      })
-      .then((response) => {
-        // Handle success.
-        console.log("Your user received an email");
-        alert("Email sent! Please follow the link in your email to continue");
-      })
-      .catch((error) => {
-        // Handle error.
-        console.log("An error occurred:", error.response);
-        alert(
-          "Sorry we don't have that email address on record",
-          error.response
-        );
-      });
+    supabaseClient.auth.api.resetPasswordForEmail(values.email, {
+      redirectTo: `${window.location.origin}/resetpassword`,
+    });
+    setLoading(false);
   };
   return (
     <Layout title="Request password reset">

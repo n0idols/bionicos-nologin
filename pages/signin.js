@@ -1,5 +1,6 @@
-import { useUser, Auth } from "@supabase/supabase-auth-helpers/react";
+import { useUser } from "@supabase/supabase-auth-helpers/react";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+import { Auth, Typography, Button } from "@supabase/ui";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -53,14 +54,14 @@ export default function SignInPage() {
               <span className="font-semibold underline ml-1">Sign up here</span>
             </a>
           </Link>
-          {/* <Link href="/forgotpassword">
+          <Link href="/forgotpassword">
             <a className="description text-center mt-2 text-sm">
               Forgot Password?
               <span className="font-semibold underline ml-1">
                 Get Help Logging In
               </span>
             </a>
-          </Link> */}
+          </Link>
           {/* <FBLoginBtn /> */}
 
           {/* <div className="mt-8 mb-4">
@@ -80,8 +81,8 @@ export default function SignInPage() {
             value={values.username}
             onChange={handleChange}
           /> */}
-
           {/* <h2 className="text-center font-light">Use email</h2> */}
+
           <label htmlFor="email" className="label">
             <span className="label-text">Email</span>
           </label>
