@@ -1,3 +1,5 @@
+const withPWA = require("next-pwa");
+
 const securityHeaders = [
   {
     key: "X-DNS-Prefetch-Control",
@@ -13,7 +15,10 @@ const securityHeaders = [
   // },
 ];
 
-module.exports = {
+module.exports = withPWA({
+  pwa: {
+    dest: "public",
+  },
   reactStrictMode: true,
   async headers() {
     return [
@@ -32,4 +37,4 @@ module.exports = {
       "res.cloudinary.com",
     ],
   },
-};
+});
