@@ -3,16 +3,10 @@ import formatMoney from "@/lib/formatMoney";
 import Modal from "./Modal";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import {
-  AiOutlinePlusCircle,
-  AiOutlineMinusCircle,
-  AiOutlineMinus,
-  AiOutlinePlus,
-} from "react-icons/ai";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Image from "next/image";
-import { useRouter } from "next/router";
-export default function MenuItem({ item, user }) {
-  const router = useRouter();
+
+export default function MenuItem({ item }) {
   const { addToCart } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modObj, setModObj] = useState({});
