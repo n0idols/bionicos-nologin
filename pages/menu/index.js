@@ -136,7 +136,7 @@ export default function MenuIndex({ categories }) {
               className="flex flex-col"
             >
               <div id={category.name} className="mt-10 mb-2">
-                <h1>{category.name}</h1>
+                <h1 className="menu-title">{category.name}</h1>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
