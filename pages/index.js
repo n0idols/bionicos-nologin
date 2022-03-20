@@ -6,13 +6,34 @@ import { gql } from "@apollo/client";
 import client from "@/lib/apollo-client";
 
 import FeaturedProduct from "../components/FeaturedProduct";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home({ reviews, specials }) {
   const d = new Date();
   const da = d.getDay();
   const day = da.toString();
+  const router = useRouter();
+  const { asPath } = useRouter();
+  // useEffect(() => {
+  //   if (window.location.hash) {
+  //     alert("yes");
+  //     router.push("/resetpassword");
+  //   } else {
+  //     // Fragment doesn't exist
+  //   }
+  // }, []);
+  useEffect(() => {
+    const hash = asPath === "/#";
+    if (hash) {
+      router.push("/resetpassword");
+    } else {
+      return;
+    }
+  }, [asPath]);
   return (
     <Layout title="Home">
+      {router.asPath}
       <Hero />
       <FeaturedProduct />
       <Reviews reviews={reviews} />

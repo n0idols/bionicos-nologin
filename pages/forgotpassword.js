@@ -7,6 +7,7 @@ import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 
 export default function ForgotPassword() {
   const router = useRouter();
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     email: "",
@@ -21,15 +22,16 @@ export default function ForgotPassword() {
     e.preventDefault();
     setLoading(true);
     supabaseClient.auth.api.resetPasswordForEmail(values.email, {
-      redirectTo: `${window.location.origin}/resetpassword`,
+      redirectTo: `https://bionicosjuicesrios.com/?redirect=/resetpassword`,
     });
-    setLoading(false);
+    setMessage("Sent! Check your email to continue");
   };
   return (
     <Layout title="Request password reset">
       <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl bg-white shadow">
+        {(message && <h1 className="text-center">{message}</h1>) || null}
         <form className="form-control" onSubmit={onSubmit} method="post">
-          <h1 className="text-center mt-2">Request password reset</h1>
+          {/* <h1 className="text-center mt-2">Request password reset</h1> */}
           <Link href="/signup">
             <a className="description text-center mt-2">
               Enter your email address to reset your password

@@ -4,26 +4,26 @@ import axios from "axios";
 import Layout from "@/components/Layout";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 
-export default function ResetPassword({ code }) {
+export default function ResetPassword() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const accessToken = router.query.access_token;
+  // const accessToken = router.hash.access_token;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      notify.error(t("passwords-do-not-match"));
+      notify.error("passwords-do-not-match");
       return;
     }
     setLoading(true);
 
     supabaseClient.auth.api
-      .updateUser(accessToken, { password })
+      .updateUser({ password })
       .then(() => {
-        router.push("/signin");
+        router.push("/dashboard");
       })
       .catch(() => {
         notify.error(t("error-token-expired"));
@@ -31,27 +31,6 @@ export default function ResetPassword({ code }) {
       });
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, {
-        code: code,
-        password: password,
-        passwordConfirmation: confirmPassword,
-      })
-      .then((response) => {
-        // Handle success.
-        console.log("Your user's password has been changed.");
-        alert("Password Changed Successfuly! Use it to Login");
-        router.push("/login");
-      })
-      .catch((error) => {
-        // Handle error.
-        alert("An error occurred:", error.response);
-        console.log("An error occurred:", error.response);
-      });
-  };
   return (
     <Layout title="Enter new password">
       <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl bg-white shadow">
