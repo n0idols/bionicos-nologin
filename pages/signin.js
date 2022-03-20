@@ -53,14 +53,14 @@ export default function SignInPage() {
               <span className="font-semibold underline ml-1">Sign up here</span>
             </a>
           </Link>
-          <Link href="/forgotpassword">
+          {/* <Link href="/forgotpassword">
             <a className="description text-center mt-2 text-sm">
               Forgot Password?
               <span className="font-semibold underline ml-1">
                 Get Help Logging In
               </span>
             </a>
-          </Link>
+          </Link> */}
           {/* <FBLoginBtn /> */}
 
           {/* <div className="mt-8 mb-4">

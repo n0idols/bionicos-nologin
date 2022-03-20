@@ -17,7 +17,7 @@ export default function Home({ reviews, specials }) {
   const { asPath } = useRouter();
   // useEffect(() => {
   //   if (window.location.hash) {
-  //     alert("yes");
+  //     alert("https://www.bionicosjuicesrios.com/?redirect=/resetpassword#");
   //     router.push("/resetpassword");
   //   } else {
   //     // Fragment doesn't exist
@@ -33,7 +33,6 @@ export default function Home({ reviews, specials }) {
   }, [asPath]);
   return (
     <Layout title="Home">
-      {router.asPath}
       <Hero />
       <FeaturedProduct />
       <Reviews reviews={reviews} />
