@@ -15,7 +15,6 @@ import * as Fathom from "fathom-client";
 
 import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/apollo-client";
-import OneSignal from "react-onesignal";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());

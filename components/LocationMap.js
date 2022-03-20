@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import ReactMapGl, { Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Geocode from "react-geocode";
 
 export default function LocationMap() {
   const [lat, setLat] = useState(null);

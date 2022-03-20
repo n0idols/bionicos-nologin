@@ -1,17 +1,12 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import toast from "react-hot-toast";
+
 export default function PromoBanner() {
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(true);
   const close = () => setOpen(false);
   const coupon = "22off";
 
-  const copy = () => {
-    setCopied(true);
-    toast.success(`Copied! Paste it in checkout`);
-  };
   return (
     <>
       {open ? (
