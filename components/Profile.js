@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
-import { useRouter } from "next/router";
+
 import Loading from "./icons/Loading";
 import OrderList from "./OrderList";
-import OrdersTable from "@/components/OrdersTable";
+
 import Link from "next/link";
 
 export default function Profile({ user, orders }) {

@@ -4,9 +4,7 @@ import MapSection from "@/components/MapSection";
 import Reviews from "@/components/Reviews";
 import { gql } from "@apollo/client";
 import client from "@/lib/apollo-client";
-import DaySpecial from "@/components/DaySpecial";
-import LeadCapture from "@/components/LeadCapture";
-import LocationMap from "/components/LocationMap";
+
 import FeaturedProduct from "../components/FeaturedProduct";
 
 export default function Home({ reviews, specials }) {
@@ -17,9 +15,6 @@ export default function Home({ reviews, specials }) {
     <Layout title="Home">
       <Hero />
       <FeaturedProduct />
-      {/* {specials.map((special) => {
-        if (special.id === day) return <DaySpecial special={special} />;
-      })} */}
       <Reviews reviews={reviews} />
       {/* <LeadCapture /> */}
       <MapSection />
@@ -38,40 +33,9 @@ export async function getStaticProps() {
   );
   const reviewData = await res.json();
 
-  const { data } = await client.query({
-    query: gql`
-      query Specials {
-        specials(sort: "id:asc") {
-          id
-          day
-          product {
-            title
-            description
-            modifiers {
-              name
-              max
-              required
-              mod {
-                name
-                price
-              }
-            }
-          }
-          side
-          price
-          image {
-            url
-            hash
-          }
-        }
-      }
-    `,
-  });
-
   return {
     props: {
       reviews: reviewData.reviews,
-      specials: data.specials,
     },
   };
 }

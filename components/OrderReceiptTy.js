@@ -1,19 +1,7 @@
-import {
-  supabaseClient,
-  getUser,
-  withAuthRequired,
-  supabaseServerClient,
-} from "@supabase/supabase-auth-helpers/nextjs";
-import { useRouter } from "next/router";
-import Section from "@/components/Section";
 import getStatus from "@/lib/getStatus";
 import moment from "moment";
 import formatMoney from "@/lib/formatMoney";
-import parseCookies from "@/lib/cookie";
-import Layout from "@/components/Layout";
-import OrderItem from "@/components/OrderItem";
-import { useEffect, useState } from "react";
-import Loading from "@/components/icons/Loading";
+
 import OrderSlugItem from "@/components/OrderSlugItem";
 export default function OrderReceipt({ pedido }) {
   const {

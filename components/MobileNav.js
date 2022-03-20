@@ -1,15 +1,3 @@
-import {
-  AiOutlineSketch,
-  AiOutlineUser,
-  AiOutlineHeart,
-  AiOutlineMenu,
-  AiOutlineSearch,
-  AiOutlineFire,
-  AiOutlineHome,
-  AiOutlineRead,
-  AiFillHome,
-} from "react-icons/ai";
-
 import { FiHome, FiTag, FiBookOpen, FiUser } from "react-icons/fi";
 
 import Link from "next/link";
