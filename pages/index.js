@@ -7,6 +7,7 @@ import client from "@/lib/apollo-client";
 import DaySpecial from "@/components/DaySpecial";
 import LeadCapture from "@/components/LeadCapture";
 import LocationMap from "/components/LocationMap";
+import FeaturedProduct from "../components/FeaturedProduct";
 
 export default function Home({ reviews, specials }) {
   const d = new Date();
@@ -15,6 +16,7 @@ export default function Home({ reviews, specials }) {
   return (
     <Layout title="Home">
       <Hero />
+      <FeaturedProduct />
       {/* {specials.map((special) => {
         if (special.id === day) return <DaySpecial special={special} />;
       })} */}
