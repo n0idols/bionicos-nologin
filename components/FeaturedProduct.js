@@ -2,7 +2,7 @@ import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import MenuItem from "./MenuItem";
 import FeaturedItem from "./FeaturedItem";
-import Loading from "@/components/icons/loading";
+import Loading from "@/components/icons/Loading";
 export default function FeaturedProduct() {
   const { loading, error, data } = useQuery(gql`
     query {
