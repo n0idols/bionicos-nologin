@@ -10,7 +10,7 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // const accessToken = router.hash.access_token;
+  const accessToken = router.hash.access_token;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ export default function ResetPassword() {
     setLoading(true);
 
     supabaseClient.auth.api
-      .updateUser({ password })
+      .updateUser(accessToken, { password })
       .then(() => {
         router.push("/dashboard");
       })
