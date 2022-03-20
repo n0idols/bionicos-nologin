@@ -7,9 +7,13 @@ export const getServerSideProps = ({ res }) => {
     development: "http://localhost:3000",
     production: "https://bionicosjuicesrios.com",
   }[process.env.NODE_ENV];
-
   const staticPages = fs
-    .readdirSync("pages")
+    .readdirSync(
+      {
+        development: "pages",
+        production: "./",
+      }[process.env.NODE_ENV]
+    )
     .filter((staticPage) => {
       return ![
         "_app.js",
