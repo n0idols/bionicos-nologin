@@ -31,7 +31,7 @@ export default function CheckoutPage({ paymentIntent }) {
   const [clientSecret, setClientSecret] = useState(null);
   const [notes, setNotes] = useState("");
   const [couponCode, setCouponCode] = useState(true);
-  const [couponOff, setCouponOff] = useState(0.15);
+  const [couponOff, setCouponOff] = useState(0);
   const [couponDetail, setCouponDetail] = useState("");
 
   useEffect(() => {
@@ -196,10 +196,12 @@ export default function CheckoutPage({ paymentIntent }) {
                   </div>
                 </div>
               </div>
-              {couponCode && (
+              {couponOff !== 0 ? (
                 <h4 className="text-center text-primary">
                   You saved {formatMoney(totalCartPrice * couponOff)}
                 </h4>
+              ) : (
+                <></>
               )}
               <div className="rounded-lg">
                 {!clientSecret && <Loading />}

@@ -57,7 +57,7 @@ export default function FeaturedItem({ item }) {
             )}
             {item.title} <div className="badge badge-secondary">NEW</div>
           </h2>
-          <p className="text-sm">{item.description}</p>
+          <p className="">{item.description}</p>
           <div className="card-actions justify-end">
             <p className="font-bold text-primary">{formatMoney(item.price)}</p>
           </div>
