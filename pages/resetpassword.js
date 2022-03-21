@@ -11,15 +11,6 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // useEffect(() => {
-  //   const accessToken = router.query.access_token;
-  //   console.log(accessToken);
-  //   if (!accessToken) {
-  //     return;
-  //   } else {
-  //     return;
-  //   }
-  // }, []);
   const accessToken = router.query.access_token;
 
   const handleSubmit = (e) => {
