@@ -11,15 +11,16 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  useEffect(() => {
-    const accessToken = asPath?.access_token;
-    if (!accessToken) {
-      return;
-    } else {
-      return;
-    }
-  }, [asPath]);
-  // const accessToken = router.hash?.access_token;
+  // useEffect(() => {
+  //   const accessToken = router.query.access_token;
+  //   console.log(accessToken);
+  //   if (!accessToken) {
+  //     return;
+  //   } else {
+  //     return;
+  //   }
+  // }, []);
+  const accessToken = router.query.access_token;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +44,6 @@ export default function ResetPassword() {
   return (
     <Layout title="Enter new password">
       <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl bg-white shadow">
-        {accessToken}
         <form className="form-control" onSubmit={handleSubmit}>
           <h1 className="text-center mt-2">Enter new password</h1>
           <label htmlFor="new-password" className="label">
