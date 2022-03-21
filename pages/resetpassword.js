@@ -12,7 +12,7 @@ export default function ResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
-    const accessToken = asPath.access_token;
+    const accessToken = asPath?.access_token;
     if (!accessToken) {
       return;
     } else {
