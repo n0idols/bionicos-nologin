@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Layout from "@/components/Layout";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+import { useUser } from "@supabase/supabase-auth-helpers/react";
 
 export default function ResetPassword() {
   const router = useRouter();
@@ -11,7 +12,7 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const accessToken = router.query.access_token;
+  const { user, isLoading, accessToken, error } = useUser();
 
   const handleSubmit = (e) => {
     e.preventDefault();

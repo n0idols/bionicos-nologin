@@ -22,7 +22,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     setLoading(true);
     supabaseClient.auth.api.resetPasswordForEmail(values.email, {
-      redirectTo: `${window.location.origin}/resetpassword`,
+      redirectTo: `https://bionicosjuicesrios.com/resetpassword`,
       // redirectTo: `https://bionicosjuicesrios.com/resetpassword`,
     });
     setMessage("Sent! Check your email to continue");

@@ -23,14 +23,14 @@ export default function Home({ reviews, specials }) {
   //     // Fragment doesn't exist
   //   }
   // }, []);
-  useEffect(() => {
-    const hash = asPath === "/#";
-    if (hash) {
-      router.push("/resetpassword");
-    } else {
-      return;
-    }
-  }, [asPath]);
+  // useEffect(() => {
+  //   const hash = asPath === "/#";
+  //   if (hash) {
+  //     router.push("/resetpassword");
+  //   } else {
+  //     return;
+  //   }
+  // }, [asPath]);
   return (
     <Layout title="Home">
       <Hero />
