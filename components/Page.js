@@ -39,7 +39,10 @@ export default function Page({ children }) {
       }
 
       if (data) {
-        setCookie(null, "username", data[0].username);
+        setCookie(null, "username", data[0].username, {
+          path: "/",
+          sameSite: "lax",
+        });
 
         if (data[0].isAdmin === true) {
           setIsAdmin(true);

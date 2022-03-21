@@ -46,3 +46,7 @@ h1 {
 .receipt-paper {
   @apply max-w-2xl my-4 mx-auto py-8 px-4 bg-white rounded-xl shadow-xl;
 }
+
+.dash {
+  @apply max-w-2xl w-full mx-auto my-4 px-4;
+}

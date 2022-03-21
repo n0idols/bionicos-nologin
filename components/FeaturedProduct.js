@@ -37,7 +37,7 @@ export default function FeaturedProduct() {
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       {data.products.map((item) => (
         <>
-          <h1 className={logo}>Featured Item</h1>
+          <h1 className="grad-text">Featured Item</h1>
 
           <FeaturedItem item={item} />
         </>
