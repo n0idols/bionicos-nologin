@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
-import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+import {
+  supabaseClient,
+  withAuthRequired,
+} from "@supabase/supabase-auth-helpers/nextjs";
 import Loading from "../../components/icons/Loading";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 export default function DashSettings() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(null);
   const [phone, setPhone] = useState(null);
-  const { user } = useUser();
+
   const router = useRouter();
+  const { user } = useUser();
 
   useEffect(() => {
     getProfile();
@@ -34,7 +38,7 @@ export default function DashSettings() {
         setPhone(data.phone);
       }
     } catch (error) {
-      alert(error.message);
+      alert(`From settings- ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -69,7 +73,7 @@ export default function DashSettings() {
   const inputclass = `input input-primary w-full`;
 
   return (
-    <>
+    <div className="max-w-md mx-auto">
       <div className="max-w-md mx-auto py-2">
         <button
           className="btn btn-outline btn-sm"
@@ -78,7 +82,6 @@ export default function DashSettings() {
           Back to Profile
         </button>
       </div>
-
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-xl p-4">
         <h1 className="text-center">Settings</h1>
 
@@ -89,7 +92,7 @@ export default function DashSettings() {
           className={inputclass}
           id="email"
           type="text"
-          value={user.email}
+          value={user?.email}
           disabled
         />
 
@@ -132,6 +135,20 @@ export default function DashSettings() {
           </button> */}
         </div>
       </div>
-    </>
+    </div>
   );
 }
+
+const getServerSideProps = withAuthRequired({
+  redirectTo: "/signin",
+  getServerSideProps: async (ctx) => {
+    // const { req } = ctx;
+    // const { cart } = parseCookies(req);
+
+    return {
+      props: {},
+    };
+  },
+});
+
+export { getServerSideProps };

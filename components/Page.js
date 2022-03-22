@@ -17,11 +17,13 @@ export default function Page({ children }) {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(false);
   const [admin, setIsAdmin] = useState(null);
-  const [cool, setCool] = useState("");
+  const [userprofile, setUserProfile] = useState(null);
 
   useEffect(() => {
     if (user) {
       getProfile();
+    } else {
+      return;
     }
   }, [user]);
 
@@ -31,7 +33,7 @@ export default function Page({ children }) {
     try {
       let { data, error, status } = await supabaseClient
         .from("profiles")
-        .select(`username, isAdmin`)
+        .select(`*`)
         .eq("id", user.id);
 
       if (error && status !== 406) {
@@ -43,13 +45,14 @@ export default function Page({ children }) {
           path: "/",
           sameSite: "lax",
         });
+        setUserProfile(data);
 
         if (data[0].isAdmin === true) {
           setIsAdmin(true);
         }
       }
     } catch (error) {
-      alert(error.message);
+      alert(`From Page wrapper - ${error.message}`);
     } finally {
       setLoading(false);
     }
