@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 
 export default function FBLoginBtn() {
   async function signInWithGoogle() {
-    e.preventDefault();
     const { user, session, error } = await supabaseClient.auth.signIn({
       provider: "google",
     });
