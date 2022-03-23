@@ -10,6 +10,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useCart } from "@/lib/cartState";
 import FBLoginBtn from "@/components/FBLoginBtn";
+import GoogleLogin from "@/components/GoogleLogin";
 
 export default function SignInPage() {
   const [loading, setLoading] = useState(false);
@@ -62,25 +63,15 @@ export default function SignInPage() {
             </a>
           </Link>
           {/* <FBLoginBtn /> */}
+          <GoogleLogin />
 
-          {/* <div className="mt-8 mb-4">
+          <div className="mt-8 mb-4">
             <h2 className="text-center w-full border-b leading-[.1em] m-[10px 0 20px]">
               <span className="bg-white px-3">Or</span>
             </h2>
-          </div> */}
-          {/* <label htmlFor="username" className="label">
-            <span className="label-text">Full Name</span>
-          </label>
-          <input
-            className="input input-primary"
-            type="text"
-            placeholder="Your name"
-            autoComplete="name"
-            name="username"
-            value={values.username}
-            onChange={handleChange}
-          /> */}
-          {/* <h2 className="text-center font-light">Use email</h2> */}
+          </div>
+
+          <h2 className="text-center font-light">Use email</h2>
 
           <label htmlFor="email" className="label">
             <span className="label-text">Email</span>

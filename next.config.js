@@ -19,6 +19,7 @@ module.exports = withPWA({
   pwa: {
     dest: "public",
   },
+
   reactStrictMode: true,
   async headers() {
     return [
