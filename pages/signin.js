@@ -63,7 +63,7 @@ export default function SignInPage() {
             </a>
           </Link>
           {/* <FBLoginBtn /> */}
-          <GoogleLogin />
+          {/* <GoogleLogin />
 
           <div className="mt-8 mb-4">
             <h2 className="text-center w-full border-b leading-[.1em] m-[10px 0 20px]">
@@ -71,7 +71,7 @@ export default function SignInPage() {
             </h2>
           </div>
 
-          <h2 className="text-center font-light">Use email</h2>
+          <h2 className="text-center font-light">Use email</h2> */}
 
           <label htmlFor="email" className="label">
             <span className="label-text">Email</span>
