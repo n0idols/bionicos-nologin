@@ -20,22 +20,6 @@ export default function OrderSlug({ order }) {
 
   const [orderId, setOrder] = useState("");
 
-  // useEffect(() => {
-  //   if (order) {
-  //     const mySubscription = supabaseClient
-  //       .from(`orders:id=eq.${daorder.id}`)
-  //       .on("UPDATE", (payload) => {
-  //         console.log("nice");
-  //         setOrderStatus(payload.new.orderstatus);
-  //       })
-  //       .subscribe();
-
-  //     return () => {
-  //       supabaseClient.removeSubscription(mySubscription);
-  //     };
-  //   }
-  // }, [order]);
-
   async function readyPickUp(id) {
     try {
       const { data, error } = await supabaseClient
@@ -76,6 +60,7 @@ export default function OrderSlug({ order }) {
             orderstatus,
             username,
           } = pedido;
+          const last3 = id.slice(0, 3);
           return (
             <div className="receipt-paper" key={id}>
               <div className="flex flex-end justify-end">
@@ -106,7 +91,7 @@ export default function OrderSlug({ order }) {
                   </ul>
                 </div>
               </div>
-
+              <h1>Order #{last3}</h1>
               <div>
                 <p className="">
                   {moment(ordered_at).format("MMMM Do YYYY")}
@@ -124,7 +109,7 @@ export default function OrderSlug({ order }) {
                   <small>Status:</small>
                   <span className={getStatus(orderstatus)}>{orderstatus}</span>
                 </div>
-                <div className="rounded-lg my-2">
+                <div className="rounded-lg my-4 py-2 bg-white">
                   {line_items.map((item, i) => {
                     return <OrderSlugItem key={i} item={item} />;
                   })}
