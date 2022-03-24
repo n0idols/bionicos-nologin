@@ -18,6 +18,8 @@ export default function Layout({ title, keywords, description, children }) {
 
 Layout.defaultProps = {
   title: process.env.NEXT_PUBLIC_SITE_TITLE,
-  description: "100% Natural juices, smoothies and fruit salads.",
-  keywords: "bionicos palmdale, juice bar palmdale, healthy food palmdale",
+  description:
+    "Order ahead today | 100% Natural juices, smoothies and fruit salads | Located on Palmdale Blvd and 22nd Street East. ",
+  keywords:
+    "bionicos palmdale, juice bar palmdale, healthy food palmdale, bionicos near me, bionicos juices rios,  ",
 };
