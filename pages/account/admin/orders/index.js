@@ -7,17 +7,28 @@ import {
   withAuthRequired,
   supabaseServerClient,
 } from "@supabase/supabase-auth-helpers/nextjs";
-
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Loading from "@/components/icons/Loading";
 export default function AllOrders({ orders }) {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const router = useRouter();
+
+  const refreshData = () => {
+    router.replace(router.asPath);
+    setIsRefreshing(true);
+  };
+  useEffect(() => {
+    setIsRefreshing(false);
+  }, [orders]);
   return (
     <Layout title="All Orders">
       <Section>
         <div>
           <div>
             <PageTitle title="All Orders" />
-            {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
-            {/* {newOrder && <pre>{JSON.stringify(newOrder, null, 2)}</pre>} */}
 
+            {isRefreshing && <Loading />}
             <OrdersTable orders={orders} />
             {/* <OrdersCards orders={orders} user={user} /> */}
           </div>

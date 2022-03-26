@@ -35,17 +35,21 @@ export default function CheckoutPage({ paymentIntent }) {
   const [couponDetail, setCouponDetail] = useState("");
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/api/stripe/createPaymentIntent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart, couponOff }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setClientSecret(data.clientSecret);
-      });
-  }, [cart, couponOff]);
+    if (cart.length === 0) {
+      router.replace("/menu");
+    } else {
+      // Create PaymentIntent as soon as the page loads
+      fetch("/api/stripe/createPaymentIntent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart, couponOff }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setClientSecret(data.clientSecret);
+        });
+    }
+  }, [cart, couponOff, router]);
 
   const appearance = {
     theme: "stripe",

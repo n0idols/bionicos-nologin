@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Section from "@/components/Section";
 import Layout from "@/components/Layout";
 import OrdersTable from "@/components/OrdersTable";
@@ -9,6 +11,17 @@ import {
 } from "@supabase/supabase-auth-helpers/nextjs";
 
 export default function ProgressOrders({ orders }) {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const router = useRouter();
+
+  const refreshData = () => {
+    router.replace(router.asPath);
+    setIsRefreshing(true);
+  };
+  useEffect(() => {
+    setIsRefreshing(false);
+  }, [orders]);
+
   function checkOrders(e) {
     e.preventDefault();
 
