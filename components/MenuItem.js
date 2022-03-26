@@ -14,6 +14,7 @@ export default function MenuItem({ item }) {
   function selectMod(modGroupId, id, name, price) {
     modObj[modGroupId] = { modifier: { id }, amount: price, name };
   }
+
   function resetMod() {
     setModObj({});
   }
@@ -86,7 +87,7 @@ export default function MenuItem({ item }) {
         onClose={() => setIsModalOpen(false)}
         title={item.number ? `${item.number}. ${item.title}` : `${item.title}`}
       >
-        <div className="min-h-[200px] flex flex-col justify-between">
+        <div className="min-h-[200px] flex flex-col justify-between overflow-y-scroll">
           {item.image && (
             <div className="relative h-64 w-full">
               <Image
