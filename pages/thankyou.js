@@ -17,15 +17,17 @@ import {
   calculateTax,
 } from "../lib/calcOrder";
 import OrderReceiptTy from "../components/OrderReceiptTy";
+import { useCart } from "@/lib/cartState";
 
 export default function ThankYouPage({ order, error }) {
   // const items = order.line_items;
   // const entries = Object.entries(items);
+  // const { cart, totalCartPrice, emptyCart } = useCart();
 
   // const [removeCookie] = useCookies(["notes", "coupon", "username", "cart"]);
   // useEffect(() => {
-  //   removeCookie("username", "coupon", "cart", "notes");
-  // }, []);
+  //   emptyCart();
+  // }, [cart]);
 
   return (
     <Layout title="Order Received!">

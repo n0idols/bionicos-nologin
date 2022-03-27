@@ -6,7 +6,7 @@ import Loading from "@/components/icons/Loading";
 export default function FeaturedProduct() {
   const { loading, error, data } = useQuery(gql`
     query {
-      products(where: { id: 110 }) {
+      products(where: { id: 114 }) {
         id
         number
         title
@@ -33,7 +33,7 @@ export default function FeaturedProduct() {
   const logo = `text-center tracking-tighter md:text-4xl text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-purple-900 mb-4`;
 
   return (
-    <div className="pt-20">
+    <div className="pt-10">
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       {data.products.map((item) => (
         <>

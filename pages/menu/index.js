@@ -163,9 +163,10 @@ export async function getStaticProps() {
             title
             description
             price
-            modifiers {
+            modifiers(sort: "number:asc") {
               name
               required
+              custom
               max
               mod {
                 name
