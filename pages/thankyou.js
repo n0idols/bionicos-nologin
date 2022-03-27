@@ -17,7 +17,6 @@ import {
   calculateTax,
 } from "../lib/calcOrder";
 import OrderReceiptTy from "../components/OrderReceiptTy";
-import { useCart } from "@/lib/cartState";
 
 export default function ThankYouPage({ order, error }) {
   // const items = order.line_items;
