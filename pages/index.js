@@ -9,11 +9,11 @@ import FeaturedProduct from "../components/FeaturedProduct";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-export default function Home({ reviews, products }) {
+export default function Home({ reviews }) {
   return (
     <Layout title="Home">
       <Hero />
-      <FeaturedProduct products={products} />
+      <FeaturedProduct />
       <Reviews reviews={reviews} />
       {/* <LeadCapture /> */}
       <MapSection />
@@ -32,15 +32,15 @@ export async function getStaticProps() {
   );
   const reviewData = await yelpRes.json();
 
-  const productRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/products?isFeatured=true`
-  );
-  const productData = await productRes.json();
+  // const productRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_URL}/products?isFeatured=true`
+  // );
+  // const productData = await productRes.json();
 
   return {
     props: {
       reviews: reviewData.reviews,
-      products: productData,
+      // products: productData,
     },
   };
 }
