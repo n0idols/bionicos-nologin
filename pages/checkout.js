@@ -140,7 +140,7 @@ export default function CheckoutPage({ paymentIntent }) {
               <div className="form-control px-2">
                 <label className="label">
                   <span className="label-text font-bold">
-                    Any special instructions?{" "}
+                    Any special instructions? *Not all requests can be honored*
                   </span>
                 </label>
                 <textarea

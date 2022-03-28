@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
     }
 
     router.events.on("routeChangeComplete", onRouteChangeComplete);
-  }, []);
+  }, [router]);
 
   return (
     <>

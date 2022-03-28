@@ -18,7 +18,7 @@ export default function DashSettings() {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [getProfile]);
 
   async function getProfile() {
     try {

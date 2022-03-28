@@ -1,47 +1,41 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
-import MenuItem from "./MenuItem";
-import FeaturedItem from "./FeaturedItem";
-import Loading from "@/components/icons/Loading";
-export default function FeaturedProduct() {
-  const { loading, error, data } = useQuery(gql`
-    query {
-      products(where: { id: 114 }) {
-        id
-        number
-        title
-        description
-        price
-        modifiers {
-          name
-          required
-          max
-          mod {
-            name
-            price
-          }
-        }
-        image {
-          url
-        }
-      }
-    }
-  `);
 
-  if (loading) return <Loading />;
-  if (error) return `Error! ${error.message}`;
-  const logo = `text-center tracking-tighter md:text-4xl text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-purple-900 mb-4`;
+import FeaturedItem from "./FeaturedItem";
+
+export default function FeaturedProduct({ products }) {
+  // const { loading, error, data } = useQuery(gql`
+  //   query {
+  //     products(where: { id: 114 }) {
+  //       id
+  //       number
+  //       title
+  //       description
+  //       price
+  //       modifiers {
+  //         name
+  //         required
+  //         max
+  //         mod {
+  //           name
+  //           price
+  //         }
+  //       }
+  //       image {
+  //         url
+  //       }
+  //     }
+  //   }
+  // `);
 
   return (
-    <div className="pt-10">
+    <div className="pt-10  max-w-4xl mx-auto">
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      {data.products.map((item) => (
-        <>
-          <h1 className="grad-text">Featured Item</h1>
-
-          <FeaturedItem item={item} />
-        </>
-      ))}
+      <h1 className="grad-text">Featured Items</h1>
+      <div className="md:flex justify-center md:space-x-4 space-y-8">
+        {products.map((item, index) => (
+          <FeaturedItem key={index} item={item} />
+        ))}
+      </div>
     </div>
   );
 }

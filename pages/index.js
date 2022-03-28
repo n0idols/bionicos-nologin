@@ -9,32 +9,11 @@ import FeaturedProduct from "../components/FeaturedProduct";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-export default function Home({ reviews, specials }) {
-  const d = new Date();
-  const da = d.getDay();
-  const day = da.toString();
-  const router = useRouter();
-  const { asPath } = useRouter();
-  // useEffect(() => {
-  //   if (window.location.hash) {
-  //     alert("https://www.bionicosjuicesrios.com/?redirect=/resetpassword#");
-  //     router.push("/resetpassword");
-  //   } else {
-  //     // Fragment doesn't exist
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   const hash = asPath === "/#";
-  //   if (hash) {
-  //     router.push("/resetpassword");
-  //   } else {
-  //     return;
-  //   }
-  // }, [asPath]);
+export default function Home({ reviews, products }) {
   return (
     <Layout title="Home">
       <Hero />
-      <FeaturedProduct />
+      <FeaturedProduct products={products} />
       <Reviews reviews={reviews} />
       {/* <LeadCapture /> */}
       <MapSection />
@@ -43,7 +22,7 @@ export default function Home({ reviews, specials }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch(
+  const yelpRes = await fetch(
     `https://api.yelp.com/v3/businesses/bionicos-and-juices-rios-palmdale/reviews`,
     {
       headers: {
@@ -51,11 +30,17 @@ export async function getStaticProps() {
       },
     }
   );
-  const reviewData = await res.json();
+  const reviewData = await yelpRes.json();
+
+  const productRes = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/products?isFeatured=true`
+  );
+  const productData = await productRes.json();
 
   return {
     props: {
       reviews: reviewData.reviews,
+      products: productData,
     },
   };
 }
