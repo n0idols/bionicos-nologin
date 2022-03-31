@@ -45,13 +45,13 @@ export default function Profile({ orders }) {
         <div className="dash">
           <div className="flex justify-between items-center">
             <h1>Hello, {username}</h1>
-            <Link href="/dashboard/settings">
+            {/* <Link href="/dashboard/settings">
               <a className="flex items-center">
                 {" "}
                 <FiSettings className="mr-1" />
                 Settings
               </a>
-            </Link>
+            </Link> */}
           </div>
           {orders.length > 0 ? (
             <OrderList orders={orders} />
