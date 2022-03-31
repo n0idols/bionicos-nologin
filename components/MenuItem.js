@@ -95,7 +95,7 @@ export default function MenuItem({ item }) {
         onClose={() => setIsModalOpen(false)}
         title={item.number ? `${item.number}. ${item.title}` : `${item.title}`}
       >
-        <div className="min-h-[200px] flex flex-col justify-between overflow-y-scroll">
+        <div className="min-h-[200px] flex flex-col justify-between overflow-y-auto">
           {item.image && (
             <div className="relative h-64 w-full">
               <Image
