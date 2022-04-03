@@ -252,10 +252,10 @@ export default function MenuItem({ item }) {
                                 <input
                                   type="checkbox"
                                   className="checkbox checkbox-primary checkbox-sm mr-2 "
-                                  name={m.id}
+                                  name={group.id}
                                   id={m.id}
                                   onClick={() =>
-                                    selectMultiple(m.id, m.name, m.price)
+                                    selectMod(group.id, m.id, m.name, m.price)
                                   }
                                 />
 
