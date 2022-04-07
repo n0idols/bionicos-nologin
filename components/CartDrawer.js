@@ -55,7 +55,7 @@ export default function CartDrawer({ show, onClose, children, title }) {
             <div>
               <h1>Your Order</h1>
             </div>
-            {/* <button onClick={emptyCart}> Clear</button> */}
+            {/* <button onClick={emptyCart}>Empty Cart</button> */}
             <div>
               <button
                 onClick={handleClose}

@@ -19,14 +19,15 @@ import {
 import OrderReceiptTy from "../components/OrderReceiptTy";
 
 export default function ThankYouPage({ order, error }) {
-  // const items = order.line_items;
-  // const entries = Object.entries(items);
-  // const { cart, totalCartPrice, emptyCart } = useCart();
+  const { emptyCart, cart } = useCart();
 
-  // const [removeCookie] = useCookies(["notes", "coupon", "username", "cart"]);
-  // useEffect(() => {
-  //   emptyCart();
-  // }, [cart]);
+  const [cookies, setCookie, removeCookie] = useCookies(["notes", "coupon"]);
+  useEffect(() => {
+    removeCookie("notes");
+    removeCookie("coupon");
+
+    emptyCart();
+  }, []);
 
   return (
     <Layout title="Order Received!">
@@ -40,7 +41,7 @@ export default function ThankYouPage({ order, error }) {
           return (
             <>
               <div className="text-center">
-                <p>It will be ready within 9 - 15 minutes</p>
+                <p>Come on in the store and let us know your order</p>
                 <p>See you soon!</p>
 
                 <p className="font-bold">Your order id: </p>
