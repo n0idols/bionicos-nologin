@@ -41,8 +41,7 @@ export default function ThankYouPage({ order, error }) {
           return (
             <>
               <div className="text-center">
-                <p>Come on in the store and let us know your order</p>
-                <p>See you soon!</p>
+                <p>Come on in and let us know your order</p>
 
                 <p className="font-bold">Your order id: </p>
                 <h1>{last3}</h1>
