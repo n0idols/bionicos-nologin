@@ -1,5 +1,6 @@
 import { useUser, Auth } from "@supabase/supabase-auth-helpers/react";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+import { useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -18,14 +19,28 @@ export default function SignUpPage() {
   const router = useRouter();
   const { cart } = useCart();
   const { user } = useUser();
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [customerId, setCustomerId] = useState("");
+
+  // const createStripeCustomer = async (user) => {
+  //   try {
+  //     const res = await axios.post("/api/stripe/createCustomer", {
+  //       id: user.id,
+  //       email: email,
+  //     });
+  //     setCustomerId(res.id);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabaseClient.auth.signUp(
+    const { user, error } = await supabaseClient.auth.signUp(
       {
         email,
         password,
@@ -36,6 +51,9 @@ export default function SignUpPage() {
       alert(JSON.stringify(error));
       setLoading(false);
     }
+
+    // createStripeCustomer(user);
+    setLoading(false);
   };
   useEffect(() => {
     if (user && cart.length === 0) {
