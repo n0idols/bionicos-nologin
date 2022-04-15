@@ -10,19 +10,10 @@ export default function MenuItem({ item }) {
   const { addToCart } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modObj, setModObj] = useState({});
-
   const [quantity, setQuantity] = useState(1);
   function selectMod(modGroupId, id, name, price) {
     modObj[modGroupId] = { modifier: { id }, amount: price, name };
   }
-  // function selectMultiple(modGroupId, id, name, price) {
-  //   modObj[modGroupId] = Array.prototype.push.apply({
-  //     modifier: { id },
-  //     amount: price,
-  //     name,
-  //   });
-  // }
-
   function resetMod() {
     setModObj({});
   }
@@ -95,7 +86,7 @@ export default function MenuItem({ item }) {
         onClose={() => setIsModalOpen(false)}
         title={item.number ? `${item.number}. ${item.title}` : `${item.title}`}
       >
-        <div className="min-h-[200px] flex flex-col justify-between overflow-y-auto">
+        <div className="min-h-[200px] flex flex-col justify-between">
           {item.image && (
             <div className="relative h-64 w-full">
               <Image
@@ -154,88 +145,43 @@ export default function MenuItem({ item }) {
                         <div className="badge badge-primary rounded-full text-white">
                           Required
                         </div>
+                        {group.mod.map((m, i) => (
+                          <div key={i}>
+                            <div className="flex items-center">
+                              <label
+                                htmlFor={m.id}
+                                className="cursor-pointer label text-sm"
+                              >
+                                <input
+                                  required
+                                  type="radio"
+                                  className="radio radio-primary radio-sm mr-2 "
+                                  name={group.name}
+                                  id={m.id}
+                                  onChange={() => {
+                                    selectMod(
+                                      group.name,
+                                      m.id,
+                                      m.name,
+                                      m.price
+                                    );
+                                  }}
+                                />
 
-                        {group.custom ? (
-                          <>
-                            {group.mod.map((m, i) => (
-                              <div key={i}>
-                                <div className="flex items-center">
-                                  <label
-                                    htmlFor={m.id}
-                                    className="cursor-pointer label text-sm"
-                                  >
-                                    <input
-                                      required
-                                      type="radio"
-                                      className="radio radio-primary radio-sm mr-2 "
-                                      name={group.name}
-                                      id={m.id}
-                                      onChange={() => {
-                                        selectMod(
-                                          m.name,
-                                          m.id,
-                                          m.name,
-                                          m.price
-                                        );
-                                      }}
-                                    />
+                                {m.name}
 
-                                    {m.name}
-
-                                    {m.price === 0 ? (
-                                      <div />
-                                    ) : (
-                                      <span className="ml-1 font-bold ">
-                                        + {formatMoney(m.price)}
-                                      </span>
-                                    )}
-                                  </label>
-                                </div>
-                                <hr />
-                              </div>
-                            ))}
-                          </>
-                        ) : (
-                          <>
-                            {group.mod.map((m, i) => (
-                              <div key={i}>
-                                <div className="flex items-center">
-                                  <label
-                                    htmlFor={m.id}
-                                    className="cursor-pointer label text-sm"
-                                  >
-                                    <input
-                                      required
-                                      type="radio"
-                                      className="radio radio-primary radio-sm mr-2 "
-                                      name={group.name}
-                                      id={m.id}
-                                      onChange={() => {
-                                        selectMod(
-                                          m.name,
-                                          m.id,
-                                          m.name,
-                                          m.price
-                                        );
-                                      }}
-                                    />
-
-                                    {m.name}
-
-                                    {m.price === 0 ? (
-                                      <div />
-                                    ) : (
-                                      <span className="ml-1 font-bold ">
-                                        + {formatMoney(m.price)}
-                                      </span>
-                                    )}
-                                  </label>
-                                </div>
-                                <hr />
-                              </div>
-                            ))}
-                          </>
-                        )}
+                                {m.price === 0 ? (
+                                  <div />
+                                ) : (
+                                  <span className="ml-1 font-bold ">
+                                    + {formatMoney(m.price)}
+                                  </span>
+                                )}
+                              </label>
+                            </div>
+                            <hr />
+                          </div>
+                        ))}
                       </div>
                     ) : (
                       <div>
