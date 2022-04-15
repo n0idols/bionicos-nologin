@@ -6,10 +6,10 @@ export default async function handler(req, res) {
   //   return res.status(401).send("You are not authorized");
   // }
   const stripe = initStripe(process.env.NEXT_PRIVATE_STRIPE_KEY);
-  const { id, email } = req.body;
+
   try {
     const customer = await stripe.customers.create({
-      email: email,
+      email: req.body.record.email,
     });
 
     await supabaseClient
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       .update({
         stripe_customer: customer.id,
       })
-      .eq("id", id);
+      .eq("id", req.body.record.id);
 
     res.send({
       //   stripeCustomer: customer,
