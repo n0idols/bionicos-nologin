@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import Loading from "./icons/Loading";
 import OrderList from "./OrderList";
-
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 import Link from "next/link";
 import { FiSettings } from "react-icons/fi";
 import { useRouter } from "next/router";
