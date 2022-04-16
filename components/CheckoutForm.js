@@ -73,17 +73,17 @@ export default function CheckoutForm({ notes, coupon, user }) {
     try {
       let { data, error, status } = await supabaseClient
         .from("profiles")
-        .select(`username`)
+        .select(`*`)
         .eq("id", userId);
       console.log(data, error, status);
-      setCustomer(data);
+      setCustomer(data.username || data.full.name);
 
       if (error && status !== 406) {
         throw error;
       }
 
       if (data) {
-        setCustomer(data.username);
+        setCustomer(data.username || data.full_name);
       }
     } catch (error) {
       alert(error.message);
