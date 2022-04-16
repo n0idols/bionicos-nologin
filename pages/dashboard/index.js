@@ -7,33 +7,15 @@ import {
   withAuthRequired,
   supabaseServerClient,
 } from "@supabase/supabase-auth-helpers/nextjs";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import Loading from "@/components/icons/Loading";
 import Profile from "@/components/Profile";
 import Layout from "@/components/Layout";
-import { destroyCookie } from "nookies";
 
 const Dashboard = ({ orders, usa }) => {
-  const router = useRouter();
-  // const { user, isLoading, accessToken, error } = useUser();
-  const handleLogOut = async (e) => {
-    e.preventDefault();
-    destroyCookie(null, "username");
-    destroyCookie(null, "cart");
-    const { error } = await supabaseClient.auth.signOut();
-    if (error) {
-      alert(JSON.stringify(error));
-    } else {
-      router.push("/signin");
-    }
-  };
-
   return (
     <Layout title="Profile">
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-between">
         <Profile usa={usa} orders={orders} />
-        <button onClick={handleLogOut}>Log out</button>
       </div>
     </Layout>
   );
