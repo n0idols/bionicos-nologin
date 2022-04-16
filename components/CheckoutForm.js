@@ -76,7 +76,7 @@ export default function CheckoutForm({ notes, coupon, user }) {
         .select(`*`)
         .eq("id", userId);
       console.log(data, error, status);
-      setCustomer(data.username || data.full.name);
+      setCustomer(data.username || data.full_name);
 
       if (error && status !== 406) {
         throw error;
