@@ -114,7 +114,7 @@ export default function CheckoutPage({ paymentIntent }) {
         </div>
       </Modal> */}
 
-      <div className="max-w-2xl mx-auto pt-12 mt-24 px-4 bg-white shadow-xl rounded-xl">
+      <div className="max-w-2xl mx-auto pt-12 my-24 px-4 bg-white shadow-xl rounded-xl">
         <Link href="/menu">
           <a className="btn btn-sm btn-primary">
             {" "}

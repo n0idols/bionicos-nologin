@@ -31,10 +31,10 @@ export default function FeaturedProduct() {
   if (loading) return <Loading />;
 
   return (
-    <div className="pt-10  max-w-4xl mx-auto">
+    <div className="pt-10 max-w-5xl mx-auto px-2">
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <h1 className="grad-text">Featured Items</h1>
-      <div className="md:flex justify-evenly space-y-8 md:space-y-0">
+      <div className="grid  md:grid-cols-3 grid-cols-1 gap-6 ">
         {data.products.map((item, index) => (
           <FeaturedItem key={index} item={item} />
         ))}
