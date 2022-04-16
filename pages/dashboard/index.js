@@ -1,5 +1,6 @@
 import React, { MouseEventHandler, useEffect, useState } from "react";
 import { useUser, logout } from "@supabase/supabase-auth-helpers/react";
+
 import {
   supabaseClient,
   getUser,
@@ -13,7 +14,7 @@ import Profile from "@/components/Profile";
 import Layout from "@/components/Layout";
 import { destroyCookie } from "nookies";
 
-const Dashboard = ({ orders, user }) => {
+const Dashboard = ({ orders, usa }) => {
   const router = useRouter();
   // const { user, isLoading, accessToken, error } = useUser();
   const handleLogOut = async (e) => {
@@ -31,8 +32,8 @@ const Dashboard = ({ orders, user }) => {
   return (
     <Layout title="Profile">
       <div className="flex items-center justify-center">
-        <Profile user={user} orders={orders} />
-        {/* <button onClick={handleLogOut}>Log out</button> */}
+        <Profile usa={usa} orders={orders} />
+        <button onClick={handleLogOut}>Log out</button>
       </div>
     </Layout>
   );
@@ -43,7 +44,7 @@ const getServerSideProps = withAuthRequired({
   getServerSideProps: async (ctx) => {
     // const { req } = ctx;
     // const { cart } = parseCookies(req);
-
+    const { user, accessToken } = await getUser(ctx);
     const { data: orders, error } = await supabaseServerClient(ctx)
       .from("orders")
       .select("*")
@@ -53,6 +54,7 @@ const getServerSideProps = withAuthRequired({
       props: {
         orders,
         error,
+        usa: user,
       },
     };
   },

@@ -8,17 +8,19 @@ import Loading from "@/components/icons/Loading";
 import Layout from "@/components/Layout";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import axios from "axios";
 export default function DashSettings() {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(null);
   const [phone, setPhone] = useState(null);
+  const [customerId, setCustomerId] = useState(null);
 
   const router = useRouter();
   const { user } = useUser();
 
   useEffect(() => {
     getProfile();
-  }, [getProfile]);
+  }, []);
 
   async function getProfile() {
     try {
@@ -68,6 +70,24 @@ export default function DashSettings() {
     } finally {
       setLoading(false);
       toast.success("Profile Updated");
+    }
+  }
+
+  async function createStripeCustomer() {
+    try {
+      const res = await axios.post("/api/stripe/createCustomer", {
+        email: user.email,
+      });
+      setCustomerId(res.id);
+
+      // let { error } = await supabaseClient.from("profiles").upsert(customerId, {
+      //   returning: "minimal", // Don't return the value after inserting
+      // });
+      // if (error) {
+      //   throw error;
+      // }
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -129,12 +149,13 @@ export default function DashSettings() {
               {loading ? <Loading /> : "Update"}
             </button>
 
-            {/* <button
-            className="btn btn-block  btn-outline btn-accent"
-            onClick={() => supabaseClient.auth.signOut()}
-          >
-            Sign Out
-          </button> */}
+            <button
+              className="btn btn-block  btn-outline btn-accent"
+              onClick={() => createStripeCustomer(user)}
+            >
+              createStripeCustomer
+            </button>
+            {customerId}
           </div>
         </div>
       </div>
