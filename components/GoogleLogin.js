@@ -19,7 +19,7 @@ export default function GoogleLogin() {
   return (
     <button
       onClick={signInWithGoogle}
-      className="flex items-center justify-center px-2 py-2 btn mt-2 btn-outline"
+      className="flex items-center justify-center px-2 py-2 btn mt-2 btn-outline btn-block"
     >
       Continue with Google <FcGoogle className="text-xl ml-1" />
     </button>
