@@ -1,12 +1,20 @@
+import { useState } from "react";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
-import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
-export default function FBLoginBtn() {
-  async function signInWithGoogle() {
+export default function GoogleLogin() {
+  const [loading, setLoading] = useState(false);
+
+  async function signInWithGoogle(e) {
+    e.preventDefault();
+
     const { user, session, error } = await supabaseClient.auth.signIn({
       provider: "google",
     });
+    if (error) {
+      alert(JSON.stringify(error));
+      setLoading(false);
+    }
   }
   return (
     <button
