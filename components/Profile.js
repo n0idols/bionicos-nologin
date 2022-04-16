@@ -23,12 +23,14 @@ export default function Profile({ orders, usa }) {
       router.push("/");
     }
   };
+
+  const { user_metadata } = usa;
   return (
     <>
       {usa ? (
         <div className="dash">
           <div className="flex justify-between items-center">
-            <h1>Hello, {usa.user_metadata.username}</h1>
+            <h1>Hello, {user_metadata.username || user_metadata.full_name}</h1>
             {/* <Link href="/dashboard/settings">
               <a className="flex items-center">
                 {" "}
