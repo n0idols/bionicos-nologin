@@ -47,9 +47,9 @@ export default function ThankYouPage({ order, error }) {
                 <h1>{last3}</h1>
               </div>
               <OrderReceiptTy pedido={pedido} />
-              <Link href={`/orders/${order[0].id}`}>
+              {/* <Link href={`/orders/${order[0].id}`}>
                 <a className="btn btn-block">view reciept</a>
-              </Link>
+              </Link> */}
             </>
           );
         })}
