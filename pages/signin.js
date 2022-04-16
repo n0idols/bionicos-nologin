@@ -46,24 +46,11 @@ export default function SignInPage() {
   return (
     <Layout title="Sign In">
       <div className="max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow-xl">
+        <h1 className="text-center mt-2">Sign In</h1>
+
+        <GoogleLogin />
         <form className="form-control" onSubmit={onSubmit} method="post">
-          <h1 className="text-center mt-2">Sign In</h1>
-          <Link href="/signup">
-            <a className="description text-center mt-2 text-sm">
-              Need an account?
-              <span className="font-semibold underline ml-1">Sign up here</span>
-            </a>
-          </Link>
-          <Link href="/forgotpassword">
-            <a className="description text-center mt-2 text-sm text-primary-focus">
-              Forgot Password?
-              <span className="font-semibold underline ml-1">
-                Reset your password
-              </span>
-            </a>
-          </Link>
           {/* <FBLoginBtn /> */}
-          <GoogleLogin />
 
           <div className="mt-8 mb-4">
             <h2 className="text-center w-full border-b leading-[.1em] m-[10px 0 20px]">
@@ -109,6 +96,20 @@ export default function SignInPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {/* <input className="syrrup" type="syrrup" name="syrrup" /> */}
+          <Link href="/signup">
+            <a className="description text-center mt-2 text-sm">
+              Need an account?
+              <span className="font-semibold underline ml-1">Sign up here</span>
+            </a>
+          </Link>
+          <Link href="/forgotpassword">
+            <a className="description text-center mt-2 text-sm text-primary-focus">
+              Forgot Password?
+              <span className="font-semibold underline ml-1">
+                Reset your password
+              </span>
+            </a>
+          </Link>
           <div className="mt-6">
             <button
               type="submit"

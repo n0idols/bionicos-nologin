@@ -5,54 +5,27 @@ import OrderList from "./OrderList";
 
 import Link from "next/link";
 import { FiSettings } from "react-icons/fi";
-import { useUser } from "@supabase/supabase-auth-helpers/react";
-import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 
-export default function Profile({ orders }) {
+export default function Profile({ orders, usa }) {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(null);
-  const { user } = useUser();
-  useEffect(() => {
-    getProfile();
-  }, []);
 
-  async function getProfile() {
-    try {
-      setLoading(true);
-
-      let { data, error, status } = await supabaseClient
-        .from("profiles")
-        .select(`username`)
-        .eq("id", user.id)
-        .single();
-
-      if (error && status !== 406) {
-        throw error;
-      }
-
-      if (data) {
-        setUsername(data.username);
-      }
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setLoading(false);
-    }
-  }
   return (
     <>
-      {user ? (
+      {usa ? (
         <div className="dash">
           <div className="flex justify-between items-center">
-            <h1>Hello, {username}</h1>
-            {/* <Link href="/dashboard/settings">
+            <h1>Hello, {usa.user_metadata.username}</h1>
+            <Link href="/dashboard/settings">
               <a className="flex items-center">
                 {" "}
                 <FiSettings className="mr-1" />
                 Settings
               </a>
-            </Link> */}
+            </Link>
           </div>
+
+          <pre>{JSON.stringify(usa, null, 2)}</pre>
           {orders.length > 0 ? (
             <OrderList orders={orders} />
           ) : (
