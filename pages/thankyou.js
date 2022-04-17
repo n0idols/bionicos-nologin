@@ -46,6 +46,7 @@ export default function ThankYouPage({ order, error }) {
                 <p className="font-bold">Your order id: </p>
                 <h1>{last3}</h1>
               </div>
+
               <OrderReceiptTy pedido={pedido} />
               {/* <Link href={`/orders/${order[0].id}`}>
                 <a className="btn btn-block">view reciept</a>
@@ -61,7 +62,7 @@ const getServerSideProps = withAuthRequired({
   redirectTo: "/signin",
   getServerSideProps: async (ctx) => {
     const { req, query } = ctx;
-    let { cart, notes, coupon, user_id, username } = parseCookies(req);
+    let { cart, notes, coupon, user_id, customer } = parseCookies(req);
     cart = JSON.parse(cart);
 
     const { data: order, error } = await supabaseServerClient(ctx)
@@ -71,7 +72,7 @@ const getServerSideProps = withAuthRequired({
           user_id: user_id,
           payment_intent: query.payment_intent,
           line_items: cart,
-          username: username,
+          username: customer,
           subtotal: calculateSubAmount(cart, coupon),
           total: calculateStripeTotal(cart, coupon),
           tax: calculateTax(cart, coupon),

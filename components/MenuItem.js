@@ -110,7 +110,7 @@ export default function MenuItem({ item }) {
                     disabled={quantity < 2}
                     type="button"
                     onClick={() => setQuantity(quantity - 1)}
-                    className="btn btn-sm btn-ghost disabled:btn-ghost"
+                    className="btn btn-ghost disabled:btn-ghost"
                   >
                     <AiOutlineMinus className={icon} />
                   </button>
@@ -130,7 +130,7 @@ export default function MenuItem({ item }) {
                   <button
                     type="button"
                     onClick={() => setQuantity(quantity + 1)}
-                    className="btn btn-primary btn-sm text-white"
+                    className="btn btn-primary text-white"
                   >
                     <AiOutlinePlus className={icon} />
                   </button>

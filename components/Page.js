@@ -40,17 +40,21 @@ export default function Page({ children }) {
         throw error;
       }
 
-      if (data) {
-        setCookie(null, "username", data[0].username, {
-          path: "/",
-          sameSite: "lax",
-        });
-        setUserProfile(data);
-
-        if (data[0].isAdmin === true) {
-          setIsAdmin(true);
-        }
+      if (data[0].isAdmin === true) {
+        setIsAdmin(true);
       }
+
+      // if (data) {
+      //   setCookie(null, "username", data[0].username || data[0].full_name, {
+      //     path: "/",
+      //     sameSite: "lax",
+      //   });
+      //   setUserProfile(data);
+
+      //   if (data[0].isAdmin === true) {
+      //     setIsAdmin(true);
+      //   }
+      // }
     } catch (error) {
       alert(`From Page wrapper - ${error.message}`);
     } finally {

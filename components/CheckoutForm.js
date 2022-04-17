@@ -75,19 +75,16 @@ export default function CheckoutForm({ notes, coupon, user }) {
         .from("profiles")
         .select(`*`)
         .eq("id", userId);
-      // console.log(data, error, status);
-
-      // setCustomer(data.username || data.full_name);
 
       if (error && status !== 406) {
         throw error;
       }
 
       // if user is using google login
-      if (data.username === null) {
-        setCustomer(data.full_name);
+      if (data[0].username === null) {
+        setCustomer(data[0].full_name);
       } else {
-        setCustomer(data.username);
+        setCustomer(data[0].username);
       }
     } catch (error) {
       alert(error.message);
