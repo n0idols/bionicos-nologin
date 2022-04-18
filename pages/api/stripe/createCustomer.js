@@ -1,5 +1,5 @@
 import initStripe from "stripe";
-import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+import { supabaseServerClient } from "@supabase/supabase-auth-helpers/nextjs";
 
 export default async function handler(req, res) {
   if (req.query.API_ROUTE_SECRET !== process.env.API_ROUTE_SECRET) {
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       email: req.body.record.email,
     });
 
-    await supabaseClient
+    await supabaseServerClient({ req, res })
       .from("profiles")
       .update({
         stripe_customer: customer.id,
