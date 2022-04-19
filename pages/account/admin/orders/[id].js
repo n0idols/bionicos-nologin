@@ -160,13 +160,13 @@ export default function OrderSlug({ order }) {
 
 const getServerSideProps = withAuthRequired({
   redirectTo: "/signin",
-  getServerSideProps: async ({ params }) => {
-    const { id } = params;
+  getServerSideProps: async (ctx) => {
+    const { params } = ctx;
 
-    const { data: order, error } = await supabaseClient
+    const { data: order, error } = await supabaseServerClient(ctx)
       .from("orders")
       .select("*")
-      .filter("id", "eq", id);
+      .filter("id", "eq", params.id);
 
     if (error) {
       console.log(error.message);
