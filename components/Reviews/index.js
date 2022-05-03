@@ -28,21 +28,32 @@ export default function Reviews({ reviews }) {
           {reviews.map((review, i) => (
             <article key={i} className={getReviewIndex(i)}>
               <figure className="flex justify-center items-center p-4">
-                <Image
-                  src={review.user.image_url}
-                  alt={review.user.name}
-                  height={100}
-                  width={100}
-                  className="rounded-full"
-                />
+                {review.user.image_url ? (
+                  <Image
+                    src={review.user.image_url}
+                    alt={review.user.name}
+                    height={100}
+                    width={100}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <Image
+                    src="/profile.webp"
+                    alt={review.user.name}
+                    height={100}
+                    width={100}
+                    className="rounded-full"
+                  />
+                )}
+
                 <div className="ml-4">
                   <h2 className="md:text-2xl text-xl ">{review.user.name}</h2>
 
-                  <p className="text-sm mb-1  ">
+                  <p className="text-sm mb-1">
                     {moment(review.time_created, "YYYYMMDD").fromNow()}
                   </p>
 
-                  <ReactStars count={5} value={review.rating} />
+                  <ReactStars count={5} value={review.rating} edit={false} />
                 </div>
               </figure>
               <div className="px-8 py-2">
