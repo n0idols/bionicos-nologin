@@ -30,7 +30,8 @@ export default function SignInPage() {
       password,
     });
     if (error) {
-      alert(JSON.stringify(error));
+      // alert(error.message);
+      toast.error(error.message);
       setLoading(false);
     }
   };
