@@ -48,7 +48,8 @@ export default function SignUpPage() {
       { data: { username } }
     );
     if (error) {
-      alert(JSON.stringify(error));
+      toast.error(error.message);
+
       setLoading(false);
     }
 
