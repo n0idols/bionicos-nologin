@@ -41,7 +41,9 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
   const [messages, addMessage] = useMessages();
   const [cardsList, setCardsList] = useState(null);
   const [chosenMethod, setPaymentMethod] = useState(null);
-
+  const [customerId, setCustomerId] = useState(
+    stripeCustomer[0].stripe_customer
+  );
   const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover mt-4`;
   const linkClasses = `flex items-center justify-center pb-4 hover:cursor-pointer`;
   useEffect(() => {
@@ -51,7 +53,7 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
   const getCards = async () => {
     try {
       const data = await axios.post("/api/stripe/listCards", {
-        customerId: stripeCustomer[0].stripe_customer,
+        customerId: customerId,
       });
       setCardsList(data.data.paymentMethods.data);
       console.log(data);
