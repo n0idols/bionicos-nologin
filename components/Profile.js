@@ -17,6 +17,10 @@ export default function Profile({ orders, user, stripeCustomer }) {
   const router = useRouter();
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
 
+  const [customerId, setCustomerId] = useState(
+    stripeCustomer[0].stripe_customer
+  );
+
   const handleLogOut = async (e) => {
     e.preventDefault();
     destroyCookie(null, "username");
@@ -37,7 +41,7 @@ export default function Profile({ orders, user, stripeCustomer }) {
 
   const getCards = async () => {
     const data = await axios.post("/api/stripe/listCards", {
-      customerId: stripeCustomer,
+      customerId: customerId,
       // customerId: "cus_Lg2rZekSFSHPT6",
     });
     if (data === undefined) {
