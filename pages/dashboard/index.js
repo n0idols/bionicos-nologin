@@ -15,13 +15,13 @@ import Layout from "@/components/Layout";
 //   const data = await response.json();
 //   return data;
 // };
-const Dashboard = ({ orders, user, accessToken }) => {
+const Dashboard = ({ orders, user, accessToken, stripeCustomer }) => {
   // const { data, error } = useSWR("dashboard", fetcher);
 
   return (
     <Layout title="Profile">
       <div className="flex items-center justify-between">
-        <Profile user={user} orders={orders} />
+        <Profile user={user} orders={orders} stripeCustomer={stripeCustomer} />
       </div>
     </Layout>
   );
@@ -34,15 +34,22 @@ const getServerSideProps = withAuthRequired({
     // const { cart } = parseCookies(req);
     const { user } = await getUser(ctx);
 
-    const { data: orders, error } = await supabaseServerClient(ctx)
+    const { data: orders, error: ordersError } = await supabaseServerClient(ctx)
       .from("orders")
       .select("*")
       .order("ordered_at", { ascending: false });
+
+    const { data: stripeCustomer, error: customerError } =
+      await supabaseServerClient(ctx)
+        .from("customers")
+        .select("stripe_customer")
+        .filter("id", "eq", user.id);
 
     return {
       props: {
         user,
         orders,
+        stripeCustomer,
       },
     };
   },

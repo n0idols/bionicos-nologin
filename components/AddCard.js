@@ -48,7 +48,7 @@ export default function AddCard({ user, stripeCustomer }) {
     // create setupIntent on server
     try {
       const response = await axios.post("/api/stripe/createSetupIntent", {
-        customerId: stripeCustomer[0].stripe_customer,
+        customerId: JSON.stringify(stripeCustomer[0].stripe_customer),
         // card: elements.getElement(CardElement),
       });
 
@@ -74,7 +74,7 @@ export default function AddCard({ user, stripeCustomer }) {
 
       const res = await axios.post("/api/stripe/attatchPaymentMethod", {
         paymentMethod: confirmCard.setupIntent.payment_method,
-        customerId: stripeCustomer[0].stripe_customer,
+        customerId: JSON.stringify(stripeCustomer[0].stripe_customer),
       });
 
       console.log(res);
@@ -124,6 +124,7 @@ export default function AddCard({ user, stripeCustomer }) {
   return (
     <>
       <div>
+        {JSON.stringify(stripeCustomer[0].stripe_customer)}
         <form
           id="payment-form"
           onSubmit={handleSubmit}
