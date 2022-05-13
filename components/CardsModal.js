@@ -8,7 +8,7 @@ const modalstyle = `h-auto flex flex-col shadow-2xl`;
 const modalheader = `shadow-lg bg-gray-200 flex justify-between items-center rounded-t p-4 text-center`;
 const modalbody = `bg-white h-full rounded-b-md`;
 
-export default function Modal({ show, onClose, children, title }) {
+export default function CardsModal({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => setIsBrowser(true), []);
@@ -26,14 +26,14 @@ export default function Modal({ show, onClose, children, title }) {
             <div className="w-full">
               {title && <h1 className="text-center">{title}</h1>}
             </div>
-            {/* <div>
+            <div>
               <button
                 onClick={handleClose}
                 className="btn btn-circle btn-sm text-xl text-white"
               >
                 &times;
               </button>
-            </div> */}
+            </div>
           </div>
 
           <div className={modalbody}>{children}</div>

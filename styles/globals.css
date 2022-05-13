@@ -50,3 +50,7 @@ h1 {
 .dash {
   @apply max-w-2xl w-full mx-auto my-4 px-4;
 }
+
+.card-element {
+  @apply bg-gray-200 p-4 rounded-xl;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import StatusMessages, { useMessages } from "./StatusMessages";
 import OrderReceiptTy from "./OrderReceiptTy";
+import { QueryClient, useMutation, useQuery } from "react-query";
 import { useCookies } from "react-cookie";
 import {
   PaymentElement,
@@ -24,45 +25,78 @@ import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { useCart } from "@/lib/cartState";
 import AddCard from "./AddCard";
 import axios from "axios";
+import Payments from "./icons/Payments";
+import Image from "next/image";
+import CardsModal from "./CardsModal";
+import useSWR from "swr";
+import Select from "react-select";
 
 export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
   const stripe = useStripe();
   const elements = useElements();
   const { emptyCart } = useCart();
-
+  const queryClient = new QueryClient();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [isCardsLoading, setCardsIsLoading] = useState(false);
+  const [openCards, setOpenCards] = useState(false);
   const [orderData, setOrderData] = useState("");
-
   const [orderCompleted, setOrderCompleted] = useState(false);
   const [orderCompletedError, setOrderCompletedError] = useState(null);
-
   const [messages, addMessage] = useMessages();
-  const [cardsList, setCardsList] = useState(null);
+  const [cardsList, setCardsList] = useState([]);
   const [chosenMethod, setPaymentMethod] = useState(null);
-  const [customerId, setCustomerId] = useState(
-    stripeCustomer[0].stripe_customer
-  );
-  const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover mt-4`;
+  const [addNew, setAddNew] = useState(false);
+  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
+  // const [customerId, setCustomerId] = useState(
+  //   stripeCustomer[0].stripe_customer
+  // );
+
+  const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
   const linkClasses = `flex items-center justify-center pb-4 hover:cursor-pointer`;
   useEffect(() => {
     getCards();
+    // mutation.mutate({ customerId: customerId });
   }, []);
 
   const getCards = async () => {
     try {
+      setCardsIsLoading(true);
       const data = await axios.post("/api/stripe/listCards", {
         customerId: customerId,
       });
       setCardsList(data.data.paymentMethods.data);
-      console.log(data);
+      setCardsIsLoading(false);
+
+      return;
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
+
+  // async function fetchCards(customerId) {
+  //   const response = await fetch("/api/stripe/listcards", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ customerId: customerId }),
+  //   });
+  //   const { data } = await response.json();
+  //   return data;
+  // }
+  // const [mutate] = useMutation(fetchCards, {});
+
+  const mutation = useMutation((customerId) => {
+    return axios.post("/api/stripe/listCards", customerId);
+  });
+
+  const handleCardModal = () => {
+    setOpenCards(false);
+    setAddNew(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!stripe || !elements) {
       return;
     }
@@ -73,11 +107,13 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cart }),
+        body: JSON.stringify({ cart, customerId, chosenMethod }),
       }
     ).then((res) => res.json());
     if (backendError) {
       addMessage(backendError.message);
+      setIsLoading(false);
+
       return;
     }
     addMessage("Payment intent created...");
@@ -92,6 +128,8 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
       });
     if (stripeError) {
       addMessage(stripeError.message);
+      setIsLoading(false);
+
       return;
     }
     addMessage(
@@ -116,6 +154,7 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
 
     emptyCart();
     destroyCookie(null, "cart");
+    setIsLoading(false);
   };
 
   return (
@@ -137,70 +176,87 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
           </>
         )}
       </OrderModal>
-      {JSON.stringify(stripeCustomer[0].stripe_customer)}
-      <form
-        id="payment-form"
-        onSubmit={handleSubmit}
-        className=" p-4 rounded-xl"
-      >
-        <a className={linkClasses}>
-          <GrSecure className="ml-1 text-2xl text-primary" />
-          Secure Checkout with{" "}
-          <FaStripe className="ml-1 text-5xl text-primary" />
-        </a>
-        {cardsList && (
-          <>
-            <select
-              value={chosenMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-              className="select select-success w-full max-w-xs"
+      <CardsModal title="Add a card" show={openCards} onClose={handleCardModal}>
+        <div className="flex flex-col space-y-12">
+          <AddCard stripeCustomer={stripeCustomer} />
+          {/* <button
+            onClick={() => setAddNew(true)}
+            className={addNew ? `hidden` : `btn`}
             >
-              {cardsList.map((card, i) => (
-                <option name={card.id} key={i} value={card.id} className="flex">
-                  {card.card.type}
-                  {card.card.last4}
-                </option>
-              ))}
-            </select>
-          </>
-        )}
-        {/* <pre>
+            Add New Card
+          </button> */}
+        </div>
+      </CardsModal>
 
-        {JSON.stringify(cardsList,null,2)}
-        </pre>
- */}
-
-        {JSON.stringify(chosenMethod)}
-        {typeof chosenMethod}
-
-        {/* 
-        {cardsList.map((card, i) => (
-          <div key={i} className="flex items-center space-x-4">
-            <h1>{card.id}</h1>
-            <h1>{card.card.last4}</h1>
-            <div className="flex items-center">
-              <h1>
-                {card.card.exp_month}/{card.card.exp_year}
-              </h1>
+      {cardsList.length === 0 ? (
+        <>
+          {" "}
+          <button
+            onClick={() => setOpenCards(true)}
+            className="btn-block border-2 rouned-lg flex items-center"
+          >
+            <div className="flex p-2">
+              <Image src="/visa.svg" height={25} width={25} alt="visa" />
+              <Image
+                src="/mastercard.svg"
+                height={25}
+                width={25}
+                alt="mastercard"
+              />
+              <Image src="/amex.svg" height={25} width={25} alt="amex" />
             </div>
-          </div>
-        ))} */}
-        {/* <CardElement id="card-element" /> */}
-        <button
-          className={paymentBtn}
-          disabled={isLoading || !stripe || !elements}
-          id="submit"
-        >
-          <span id="button-text">
-            {isLoading ? <Loading /> : "Place Order"}
-          </span>
-        </button>
-        {/* Show any error or success messages */}
+            <div>
+              <p className="text-center">Pay with Card</p>
+            </div>
+          </button>
+          <button className={paymentBtn} disabled>
+            <span id="button-text">Place Order</span>
+          </button>
+        </>
+      ) : (
+        <>
+          <form
+            id="payment-form"
+            onSubmit={handleSubmit}
+            className=" p-4 rounded-xl"
+          >
+            {cardsList?.map((card, i) => {
+              const options = [
+                {
+                  value: card.id,
+                  label: `Pay with ${card.card.brand} - ${card.card.last4}`,
+                },
+              ];
+              return (
+                <Select
+                  key={i}
+                  options={options}
+                  placeholder="Select your card"
+                  onChange={() => setPaymentMethod(card.id)}
+                />
+              );
+            })}
 
-        {/* 
-      {message && <div id="payment-message">{message}</div>}
-    {orderCompleted && <div id="payment-message">{orderCompleted}</div>} */}
-      </form>
+            {/* {JSON.stringify(chosenMethod)} */}
+            {/* {typeof chosenMethod} */}
+            {isCardsLoading && <Loading />}
+            <button
+              className={paymentBtn}
+              disabled={isLoading || !stripe || !elements || !chosenMethod}
+              id="submit"
+            >
+              <span id="button-text">
+                {isLoading ? <Loading /> : "Place Order"}
+              </span>
+            </button>
+            {/* Show any error or success messages */}
+            {/* 
+        {message && <div id="payment-message">{message}</div>}
+      {orderCompleted && <div id="payment-message">{orderCompleted}</div>} */}
+          </form>
+        </>
+      )}
+
       <StatusMessages messages={messages} />
     </>
   );

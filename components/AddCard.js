@@ -8,23 +8,38 @@ import { loadStripe } from "@stripe/stripe-js";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import StatusMessages, { useMessages } from "./StatusMessages";
 
+export const cardElementOptions = {
+  style: {
+    base: {
+      color: "#888",
+      fontSize: "20px",
+    },
+    invalid: {
+      color: "#fa755a",
+      fontSize: "20px",
+    },
+  },
+};
 export default function AddCard({ user, stripeCustomer }) {
   const stripe = useStripe();
   const elements = useElements();
   const [messages, addMessage] = useMessages();
 
-  const [customerId, setCustomerId] = useState(
-    stripeCustomer[0].stripe_customer
-  );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) {
       return;
     }
-    addMessage("Saving card");
+    // addMessage("Saving card");
+
+    setIsLoading(true);
 
     //fetch customer, if not create one
 
@@ -57,22 +72,22 @@ export default function AddCard({ user, stripeCustomer }) {
       const clientSecret = response.data.setupIntent.client_secret;
       const setupIntent = response.data.setupIntent;
 
-      addMessage(`client secret (${clientSecret})`);
-      addMessage(`setupIntent (${setupIntent.id})`);
+      // addMessage(`client secret (${clientSecret})`);
+      // addMessage(`setupIntent (${setupIntent.id})`);
 
       const confirmCard = await stripe.confirmCardSetup(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
-          billing_details: {
-            name: "Jenny Rosen",
-          },
+          // billing_details: {
+          //   name: "Jenny Rosen",
+          // },
         },
       });
 
-      console.log(confirmCard);
-      addMessage(`PaymentMethod (${confirmCard.setupIntent.payment_method})`);
+      // console.log(confirmCard);
+      // addMessage(`PaymentMethod (${confirmCard.setupIntent.payment_method})`);
 
-      addMessage(`Attatching PM to Customer..`);
+      // addMessage(`Attatching PM to Customer..`);
 
       const res = await axios.post("/api/stripe/attatchPaymentMethod", {
         paymentMethod: confirmCard.setupIntent.payment_method,
@@ -80,10 +95,13 @@ export default function AddCard({ user, stripeCustomer }) {
       });
 
       console.log(res);
-      addMessage(`Card saved (${res.data.confirmPaymentMethod.card.last4})`);
+      // addMessage(`Card saved (${res.data.confirmPaymentMethod.card.last4})`);
+      // toast.success("Card Saved");
+
+      location.reload();
     } catch (error) {
       if (error) {
-        // addMessage(error);
+        addMessage("Something went wrong, please try again");
         console.log(error);
         return;
       }
@@ -123,19 +141,33 @@ export default function AddCard({ user, stripeCustomer }) {
     // emptyCart();
     // destroyCookie(null, "cart");
   };
+
   return (
     <>
       <div>
-        {JSON.stringify(stripeCustomer[0].stripe_customer)}
+        {/* {JSON.stringify(stripeCustomer[0].stripe_customer)} */}
         <form
           id="payment-form"
           onSubmit={handleSubmit}
           className=" p-4 rounded-xl"
         >
-          <CardElement id="card-element" />
-          <button className="btn" disabled={!stripe || !elements} id="add">
-            <span id="button-text">Add</span>
-          </button>
+          <div className="card-element">
+            <CardElement id="card-element" options={cardElementOptions} />
+          </div>
+
+          <div className="max-w-sm mx-auto mt-4">
+            <button
+              className={
+                isLoading
+                  ? "btn-primary btn btn-block loading"
+                  : "btn-primary btn btn-block "
+              }
+              disabled={!stripe || !elements}
+              id="add"
+            >
+              <span id="button-text">Save Card</span>
+            </button>
+          </div>
         </form>
         <StatusMessages messages={messages} />
       </div>

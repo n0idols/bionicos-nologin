@@ -12,7 +12,7 @@ import { CookiesProvider } from "react-cookie";
 
 import Head from "next/head";
 import * as Fathom from "fathom-client";
-
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/apollo-client";
 
@@ -22,6 +22,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  const queryClient = new QueryClient();
   useEffect(() => {
     Fathom.load("DPJEOSNV", {
       includedDomains: ["bionicosjuicesrios.com", "www.bionicosjuicesrios.com"],
@@ -37,22 +38,24 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <UserProvider supabaseClient={supabaseClient}>
-        <ApolloProvider client={client}>
-          <CookiesProvider>
-            <CartStateProvider>
-              <Page>
-                <Head>
-                  <meta
-                    name="viewport"
-                    content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
-                  />
-                </Head>
+        <QueryClientProvider client={queryClient}>
+          <ApolloProvider client={client}>
+            <CookiesProvider>
+              <CartStateProvider>
+                <Page>
+                  <Head>
+                    <meta
+                      name="viewport"
+                      content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
+                    />
+                  </Head>
 
-                <Component {...pageProps} />
-              </Page>
-            </CartStateProvider>
-          </CookiesProvider>
-        </ApolloProvider>
+                  <Component {...pageProps} />
+                </Page>
+              </CartStateProvider>
+            </CookiesProvider>
+          </ApolloProvider>
+        </QueryClientProvider>
       </UserProvider>
     </>
   );

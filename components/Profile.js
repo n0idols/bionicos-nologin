@@ -17,9 +17,7 @@ export default function Profile({ orders, user, stripeCustomer }) {
   const router = useRouter();
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
 
-  const [customerId, setCustomerId] = useState(
-    stripeCustomer[0].stripe_customer
-  );
+  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
 
   const handleLogOut = async (e) => {
     e.preventDefault();
@@ -44,7 +42,7 @@ export default function Profile({ orders, user, stripeCustomer }) {
       customerId: customerId,
       // customerId: "cus_Lg2rZekSFSHPT6",
     });
-    if (data === undefined) {
+    if (data !== undefined) {
       setCardsList(data.data.paymentMethods.data);
     } else {
       return;

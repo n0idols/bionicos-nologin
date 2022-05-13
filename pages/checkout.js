@@ -26,11 +26,14 @@ import {
   calculateTax,
 } from "../lib/calcOrder";
 import ClosedModal from "@/components/ClosedModal";
+import axios from "axios";
 
 export default function CheckoutPage({ user, stripeCustomer }) {
   const router = useRouter();
+  const [stripePromise, setStripePromise] = useState(() =>
+    loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`)
+  );
 
-  const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState(null);
   const [notes, setNotes] = useState("");
@@ -203,8 +206,6 @@ const getServerSideProps = withAuthRequired({
       .select("stripe_customer")
       .filter("id", "eq", user.id);
 
-    // const stripeCustomer = data.stripe_customer;
-    console.log(error);
     return {
       props: { user, stripeCustomer },
     };

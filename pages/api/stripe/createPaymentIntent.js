@@ -23,15 +23,15 @@ const calculateOrderAmount = (cart, coupon) => {
 };
 
 export default async function handler(req, res) {
-  const { cart, couponOff } = req.body;
+  const { cart, customerId, chosenMethod } = req.body;
   try {
     // const customer = await stripe.customers.create();
     const paymentIntent = await stripe.paymentIntents.create({
       amount: calculateOrderAmount(cart),
       payment_method_types: ["card"],
       currency: "usd",
-      customer: "cus_Lg2rZekSFSHPT6",
-      payment_method: req.body.chosenMethod,
+      customer: customerId,
+      payment_method: chosenMethod,
       // automatic_payment_methods: {
       //   enabled: true,
       // },
