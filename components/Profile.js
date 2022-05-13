@@ -11,7 +11,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useStripe, useElements, Elements } from "@stripe/react-stripe-js";
 import AddCard from "./AddCard";
 import axios from "axios";
-export default function Profile({ orders, user }) {
+export default function Profile({ orders, user, stripeCustomer }) {
   const [loading, setLoading] = useState(false);
   const [cardsList, setCardsList] = useState(null);
   const router = useRouter();
@@ -37,10 +37,14 @@ export default function Profile({ orders, user }) {
 
   const getCards = async () => {
     const data = await axios.post("/api/stripe/listCards", {
-      customerId: "cus_Lg2rZekSFSHPT6",
+      customerId: stripeCustomer,
+      // customerId: "cus_Lg2rZekSFSHPT6",
     });
-    setCardsList(data.data.paymentMethods.data);
-    console.log(data);
+    if (data === undefined) {
+      setCardsList(data.data.paymentMethods.data);
+    } else {
+      return;
+    }
   };
 
   return (
@@ -75,7 +79,7 @@ export default function Profile({ orders, user }) {
           )}
           <div className="my-8 bg-purple-300">
             <Elements stripe={stripePromise}>
-              <AddCard user={user} />
+              <AddCard user={user} stripeCustomer={stripeCustomer} />
             </Elements>
           </div>
           {orders?.length > 0 ? (
