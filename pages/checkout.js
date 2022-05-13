@@ -26,7 +26,6 @@ import {
   calculateTax,
 } from "../lib/calcOrder";
 import ClosedModal from "@/components/ClosedModal";
-import CustomerContext from "@/lib/customerState";
 
 export default function CheckoutPage({ user, stripeCustomer }) {
   const router = useRouter();
