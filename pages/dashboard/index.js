@@ -1,21 +1,27 @@
 import React, { MouseEventHandler, useEffect, useState } from "react";
-import { useUser, logout } from "@supabase/supabase-auth-helpers/react";
 
+import useSWR from "swr";
 import {
-  supabaseClient,
   getUser,
   withAuthRequired,
   supabaseServerClient,
 } from "@supabase/supabase-auth-helpers/nextjs";
-import Link from "next/link";
+
 import Profile from "@/components/Profile";
 import Layout from "@/components/Layout";
 
-const Dashboard = ({ orders, usa }) => {
+// const fetcher = async () => {
+//   const response = await fetch("/api/user");
+//   const data = await response.json();
+//   return data;
+// };
+const Dashboard = ({ orders, user, accessToken }) => {
+  // const { data, error } = useSWR("dashboard", fetcher);
+
   return (
     <Layout title="Profile">
       <div className="flex items-center justify-between">
-        <Profile usa={usa} orders={orders} />
+        <Profile user={user} orders={orders} />
       </div>
     </Layout>
   );
@@ -26,7 +32,8 @@ const getServerSideProps = withAuthRequired({
   getServerSideProps: async (ctx) => {
     // const { req } = ctx;
     // const { cart } = parseCookies(req);
-    const { user, accessToken } = await getUser(ctx);
+    const { user } = await getUser(ctx);
+
     const { data: orders, error } = await supabaseServerClient(ctx)
       .from("orders")
       .select("*")
@@ -34,9 +41,8 @@ const getServerSideProps = withAuthRequired({
 
     return {
       props: {
+        user,
         orders,
-        error,
-        usa: user,
       },
     };
   },

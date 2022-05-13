@@ -62,7 +62,8 @@ export default function OrderSlug({ order }) {
                 <div className="flex flex-col pt-4">
                   <h2 className="my-4">
                     Notes:
-                    <span className="font-light"> {notes?.slice(1, -1)}</span>
+                    <span className="font-light"> {order[0].notes}</span>
+                    {/* <span className="font-light"> {notes?.slice(1, -1)}</span> */}
                   </h2>
                 </div>
 

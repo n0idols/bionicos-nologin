@@ -7,11 +7,16 @@ import Link from "next/link";
 import { FiSettings } from "react-icons/fi";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
-
-export default function Profile({ orders, usa }) {
+import { loadStripe } from "@stripe/stripe-js";
+import { useStripe, useElements, Elements } from "@stripe/react-stripe-js";
+import AddCard from "./AddCard";
+import axios from "axios";
+export default function Profile({ orders, user }) {
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState(null);
+  const [cardsList, setCardsList] = useState(null);
   const router = useRouter();
+  const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
+
   const handleLogOut = async (e) => {
     e.preventDefault();
     destroyCookie(null, "username");
@@ -24,27 +29,56 @@ export default function Profile({ orders, usa }) {
     }
   };
 
-  const { user_metadata } = usa;
+  const { user_metadata } = user;
+
+  useEffect(() => {
+    getCards();
+  }, []);
+
+  const getCards = async () => {
+    const data = await axios.post("/api/stripe/listCards", {
+      customerId: "cus_Lg2rZekSFSHPT6",
+    });
+    setCardsList(data.data.paymentMethods.data);
+    console.log(data);
+  };
+
   return (
     <>
-      {usa ? (
+      {user ? (
         <div className="dash">
           <div className="flex justify-between items-center">
             <h1>Hello, {user_metadata.username || user_metadata.full_name}</h1>
-            {/* <Link href="/dashboard/settings">
-              <a className="flex items-center">
-                {" "}
-                <FiSettings className="mr-1" />
-                Settings
-              </a>
-            </Link> */}
+
             <div>
               <button onClick={handleLogOut}>Log out</button>
             </div>
           </div>
 
-          {/* <pre>{JSON.stringify(usa, null, 2)}</pre> */}
-          {orders.length > 0 ? (
+          <h1>Payment Methods</h1>
+
+          {/* {cardsList && <pre>{JSON.stringify(cardsList, null, 2)}</pre>} */}
+          {cardsList && (
+            <>
+              {cardsList.map((card, i) => (
+                <div key={i} className="flex items-center space-x-4">
+                  <h1>{card.card.brand}</h1>
+                  <h1>{card.card.last4}</h1>
+                  <div className="flex items-center">
+                    <h1>
+                      {card.card.exp_month}/{card.card.exp_year}
+                    </h1>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+          <div className="my-8 bg-purple-300">
+            <Elements stripe={stripePromise}>
+              <AddCard user={user} />
+            </Elements>
+          </div>
+          {orders?.length > 0 ? (
             <OrderList orders={orders} />
           ) : (
             <div className="flex flex-col space-y-2">

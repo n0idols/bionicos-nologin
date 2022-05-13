@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       name: req.body.record.username || req.body.record.full_name,
       email: req.body.record.email,
     });
-
+    // this is running into RLS issue
     await supabaseServerClient({ req, res })
       .from("profiles")
       .update({

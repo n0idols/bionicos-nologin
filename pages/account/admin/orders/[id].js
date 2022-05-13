@@ -59,6 +59,7 @@ export default function OrderSlug({ order }) {
             ordered_at,
             orderstatus,
             username,
+            full_name,
           } = pedido;
           const last3 = id.slice(0, 3);
           return (
@@ -103,7 +104,7 @@ export default function OrderSlug({ order }) {
 
                 <h1>
                   <span className="font-light mr-2">Customer:</span>
-                  {username}
+                  {username}?{" "}
                 </h1>
                 <div>
                   <small>Status:</small>

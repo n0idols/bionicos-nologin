@@ -14,11 +14,8 @@ const calculateOrderAmount = (cart, coupon) => {
     total += itemTotal;
   });
 
-  // total *= coupon;
-  // total *= plusTax;
-
-  discountedTotal = Math.round(total - total * coupon);
-  newTotal = discountedTotal * plusTax;
+  // discountedTotal = Math.round(total - total * coupon);
+  newTotal = total * plusTax;
   const final = Math.round(newTotal);
   console.log(typeof final, "final", final);
 
@@ -30,11 +27,14 @@ export default async function handler(req, res) {
   try {
     // const customer = await stripe.customers.create();
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: calculateOrderAmount(cart, couponOff),
+      amount: calculateOrderAmount(cart),
+      payment_method_types: ["card"],
       currency: "usd",
-      automatic_payment_methods: {
-        enabled: true,
-      },
+      customer: "cus_Lg2rZekSFSHPT6",
+      payment_method: req.body.chosenMethod,
+      // automatic_payment_methods: {
+      //   enabled: true,
+      // },
     });
     res.send({
       clientSecret: paymentIntent.client_secret,
