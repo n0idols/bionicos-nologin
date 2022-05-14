@@ -37,10 +37,8 @@ export default function AddCard({ user, stripeCustomer }) {
     if (!stripe || !elements) {
       return;
     }
-    // addMessage("Saving card");
-
     setIsLoading(true);
-
+    addMessage("Saving card");
     //fetch customer, if not create one
 
     // const { data: customer, error } = await supabaseClient
@@ -72,8 +70,8 @@ export default function AddCard({ user, stripeCustomer }) {
       const clientSecret = response.data.setupIntent.client_secret;
       const setupIntent = response.data.setupIntent;
 
-      // addMessage(`client secret (${clientSecret})`);
-      // addMessage(`setupIntent (${setupIntent.id})`);
+      addMessage(`client secret (${clientSecret})`);
+      addMessage(`setupIntent (${setupIntent.id})`);
 
       const confirmCard = await stripe.confirmCardSetup(clientSecret, {
         payment_method: {
@@ -85,9 +83,9 @@ export default function AddCard({ user, stripeCustomer }) {
       });
 
       // console.log(confirmCard);
-      // addMessage(`PaymentMethod (${confirmCard.setupIntent.payment_method})`);
+      addMessage(`PaymentMethod (${confirmCard.setupIntent.payment_method})`);
 
-      // addMessage(`Attatching PM to Customer..`);
+      addMessage(`Attatching PM to Customer..`);
 
       const res = await axios.post("/api/stripe/attatchPaymentMethod", {
         paymentMethod: confirmCard.setupIntent.payment_method,
@@ -101,7 +99,8 @@ export default function AddCard({ user, stripeCustomer }) {
       location.reload();
     } catch (error) {
       if (error) {
-        addMessage("Something went wrong, please try again");
+        addMessage(error);
+        // addMessage("Something went wrong, please try again");
         console.log(error);
         return;
       }
