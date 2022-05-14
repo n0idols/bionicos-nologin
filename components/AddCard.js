@@ -29,10 +29,11 @@ export default function AddCard({ user, stripeCustomer }) {
   const [messages, addMessage] = useMessages();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
 
-  const [customerId, setCustomerId] = useState(
-    stripeCustomer[0].stripe_customer
-  );
+  // const [customerId, setCustomerId] = useState(
+  //   stripeCustomer[0].stripe_customer
+  // );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,12 +101,10 @@ export default function AddCard({ user, stripeCustomer }) {
 
       location.reload();
     } catch (error) {
-      if (error) {
-        addMessage(error);
-        // addMessage("Something went wrong, please try again");
-        console.log(error);
-        return;
-      }
+      // addMessage(error);
+      addMessage("Something went wrong, please try again");
+      console.log(error);
+      return;
     }
 
     // const { error: backendError, setupIntent } = await fetch(
