@@ -47,10 +47,10 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
   const [cardsList, setCardsList] = useState([]);
   const [chosenMethod, setPaymentMethod] = useState(null);
   const [addNew, setAddNew] = useState(false);
-  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
-  // const [customerId, setCustomerId] = useState(
-  //   stripeCustomer[0].stripe_customer
-  // );
+  // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
+  const [customerId, setCustomerId] = useState(
+    stripeCustomer[0].stripe_customer
+  );
 
   const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
   const linkClasses = `flex items-center justify-center pb-4 hover:cursor-pointer`;

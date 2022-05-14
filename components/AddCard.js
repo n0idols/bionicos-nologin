@@ -30,7 +30,9 @@ export default function AddCard({ user, stripeCustomer }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
+  const [customerId, setCustomerId] = useState(
+    stripeCustomer[0].stripe_customer
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();

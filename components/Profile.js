@@ -17,7 +17,9 @@ export default function Profile({ orders, user, stripeCustomer }) {
   const router = useRouter();
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
 
-  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
+  const [customerId, setCustomerId] = useState(
+    stripeCustomer[0].stripe_customer
+  );
 
   const handleLogOut = async (e) => {
     e.preventDefault();
