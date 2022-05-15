@@ -33,7 +33,7 @@ import Select from "react-select";
 import ApplePay from "./ApplePay";
 import toast from "react-hot-toast";
 
-export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
+export default function CheckoutForm({ user, cart, notes }) {
   const stripe = useStripe();
   const elements = useElements();
   const { emptyCart } = useCart();
@@ -51,42 +51,32 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
   const [addNew, setAddNew] = useState(false);
   const [options, setOptions] = useState(null);
   // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
-  const [customerId, setCustomerId] = useState(
-    stripeCustomer[0].stripe_customer
-  );
+  const [customerId, setCustomerId] = useState("");
+  const [stripeCustomer, setStripeCustomer] = useState("");
 
   const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
   const linkClasses = `flex items-center justify-center pb-4 hover:cursor-pointer`;
   useEffect(() => {
-    // const getSupaCustomer = async () => {
-    //   try {
-    //     // const { data: stripeCustomer, error: customerError } =
-    //     //   await supabaseClient
-    //     //     .from("customers")
-    //     //     .select("stripe_customer")
-    //     //     .filter("id", "eq", user.id);
-
-    //     if (stripeCustomer.length === 0) {
-    //       setCustomerId("");
-    //     }
-    //     setCustomerId(stripeCustomer[0].stripe_customer);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-    const getStripeCards = async () => {
+    const getSupaCustomer = async () => {
       try {
+        const { data: stripeData, error: customerError } = await supabaseClient
+          .from("customers")
+          .select("stripe_customer")
+          .filter("id", "eq", user.id);
+
+        setStripeCustomer(stripeData);
         const data = await axios.post("/api/stripe/listCards", {
-          customerId: customerId,
+          customerId: stripeData[0].stripe_customer,
         });
+
         setCardsList(data.data.paymentMethods.data);
         return;
       } catch (error) {
-        addMessage(error.message);
-        return;
+        console.log(error);
       }
     };
+
+    getSupaCustomer();
 
     cardsList?.map((card) => {
       setOptions([
@@ -125,7 +115,6 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
     //   ]}
 
     // getSupaCustomer();
-    getStripeCards();
   }, [cardsList]);
 
   const handleCardModal = () => {
@@ -217,15 +206,12 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
       <CardsModal title="Add a card" show={openCards} onClose={handleCardModal}>
         <div className="flex flex-col space-y-12">
           <AddCard
-            customerId={customerId}
             stripeCustomer={stripeCustomer}
             handleCardModal={handleCardModal}
           />
         </div>
       </CardsModal>
       <div className="">
-        {JSON.stringify(customerId)}
-
         <div className="flex items-center justify-center">
           <GrSecure className="ml-1 text-2xl text-primary" />
           Secure Checkout with{" "}

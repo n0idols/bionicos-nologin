@@ -1,5 +1,6 @@
 import {
   getUser,
+  supabaseClient,
   supabaseServerClient,
   withAuthRequired,
 } from "@supabase/supabase-auth-helpers/nextjs";
@@ -28,7 +29,7 @@ import {
 import ClosedModal from "@/components/ClosedModal";
 import axios from "axios";
 
-export default function CheckoutPage({ user, stripeCustomer }) {
+export default function CheckoutPage({ user }) {
   const router = useRouter();
   const [stripePromise, setStripePromise] = useState(() =>
     loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`)
@@ -40,6 +41,7 @@ export default function CheckoutPage({ user, stripeCustomer }) {
   const [couponCode, setCouponCode] = useState(true);
   const [couponOff, setCouponOff] = useState(0);
   const [couponDetail, setCouponDetail] = useState("");
+  const [cardsList, setCardsList] = useState(null);
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -180,12 +182,7 @@ export default function CheckoutPage({ user, stripeCustomer }) {
               )}
               <div className="rounded-lg">
                 <Elements stripe={stripePromise}>
-                  <CheckoutForm
-                    user={user}
-                    notes={notes}
-                    cart={cart}
-                    stripeCustomer={stripeCustomer}
-                  />
+                  <CheckoutForm user={user} notes={notes} cart={cart} />
                 </Elements>
               </div>
             </div>
@@ -201,13 +198,13 @@ const getServerSideProps = withAuthRequired({
   getServerSideProps: async (ctx) => {
     const { user } = await getUser(ctx);
 
-    const { data, error } = await supabaseServerClient(ctx)
-      .from("customers")
-      .select("stripe_customer")
-      .filter("id", "eq", user.id);
+    // const { data, error } = await supabaseServerClient(ctx)
+    //   .from("customers")
+    //   .select("stripe_customer")
+    //   .filter("id", "eq", user.id);
 
     return {
-      props: { user, stripeCustomer: data },
+      props: { user },
     };
   },
 });

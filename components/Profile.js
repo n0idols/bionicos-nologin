@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 import CardsModal from "./CardsModal";
 import Image from "next/image";
 import StatusMessages, { useMessages } from "./StatusMessages";
-export default function Profile({ orders, user, stripeCustomer }) {
+export default function Profile({ orders, user }) {
   const [isLoading, setLoading] = useState(false);
   const [cardsList, setCardsList] = useState(null);
   const [messages, addMessage] = useMessages();
@@ -28,9 +28,7 @@ export default function Profile({ orders, user, stripeCustomer }) {
   // const [customerId, setCustomerId] = useState(
   //   stripeCustomer[0].stripe_customer
   // );
-  const [customerId, setCustomerId] = useState(
-    stripeCustomer[0].stripe_customer
-  );
+  const [stripeCustomer, setStripeCustomer] = useState("");
 
   const handleLogOut = async (e) => {
     e.preventDefault();
@@ -47,40 +45,27 @@ export default function Profile({ orders, user, stripeCustomer }) {
   const { user_metadata } = user;
 
   useEffect(() => {
-    // const getSupaCustomer = async () => {
-    //   try {
-    //     // const { data: stripeCustomer, error: customerError } =
-    //     //   await supabaseClient
-    //     //     .from("customers")
-    //     //     .select("stripe_customer")
-    //     //     .filter("id", "eq", user.id);
-    //     // if no stripecustomer in supabase, return early, this should fix client side error
-    //     if (stripeCustomer.length === 0) {
-    //       setCardsList([]);
-    //       setCustomerId("");
-    //     } else {
-    //       setCustomerId(stripeCustomer[0].stripe_customer);
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-    const getStripeCards = async () => {
+    const getSupaCustomer = async () => {
       try {
+        const { data: stripeData, error: customerError } = await supabaseClient
+          .from("customers")
+          .select("stripe_customer")
+          .filter("id", "eq", user.id);
+
+        setStripeCustomer(stripeData);
+
         const data = await axios.post("/api/stripe/listCards", {
-          customerId: customerId,
+          customerId: stripeData[0].stripe_customer,
         });
 
         setCardsList(data.data.paymentMethods.data);
         return;
       } catch (error) {
-        addMessage(error.message);
-        return;
+        console.log(error);
       }
     };
 
-    getStripeCards();
+    getSupaCustomer();
   }, []);
 
   const handleCardDelete = async (cardId) => {
@@ -114,7 +99,7 @@ export default function Profile({ orders, user, stripeCustomer }) {
             </div>
           </div>
           {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
-          <pre>{JSON.stringify(customerId, null, 2)}</pre>
+          <pre>{JSON.stringify(stripeCustomer, null, 2)}</pre>
           <h1>Payment Methods</h1>
           {isLoading && <Loading />}
           <>

@@ -5,6 +5,7 @@ import {
   getUser,
   withAuthRequired,
   supabaseServerClient,
+  supabaseClient,
 } from "@supabase/supabase-auth-helpers/nextjs";
 
 import Profile from "@/components/Profile";
@@ -15,13 +16,32 @@ import Layout from "@/components/Layout";
 //   const data = await response.json();
 //   return data;
 // };
-const Dashboard = ({ orders, user, accessToken, stripeCustomer }) => {
-  // const { data, error } = useSWR("dashboard", fetcher);
+
+const Dashboard = ({ orders, user }) => {
+  const [stripeCustomer, setStripeCustomer] = useState(null);
+
+  // useEffect(() => {
+  //   //fetch customer from supabase customers table
+
+  //   const getSupaCustomer = async () => {
+  //     try {
+  //       const { data, error } = await supabaseClient
+  //         .from("customers")
+  //         .select("stripe_customer")
+  //         .filter("id", "eq", user.id);
+
+  //       setStripeCustomer(data[0].stripe_customer);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getSupaCustomer();
+  // }, []);
 
   return (
     <Layout title="Profile">
       <div className="flex items-center justify-between">
-        <Profile user={user} orders={orders} stripeCustomer={stripeCustomer} />
+        <Profile user={user} orders={orders} />
       </div>
     </Layout>
   );
@@ -40,19 +60,17 @@ const getServerSideProps = withAuthRequired({
       .select("*")
       .order("ordered_at", { ascending: false });
 
-    const { data: stripeCustomer, error: customerError } =
-      await supabaseServerClient(ctx)
-        .from("customers")
-        .select("stripe_customer")
-        .filter("id", "eq", user.id);
+    // const { data: stripeCustomer, error: customerError } =
+    //   await supabaseServerClient(ctx)
+    //     .from("customers")
+    //     .select("stripe_customer")
+    //     .filter("id", "eq", user.id);
 
-    console.log("supabase customer error", customerError);
-    console.log("supabase orders error", ordersError);
     return {
       props: {
         user,
         orders,
-        stripeCustomer,
+        // stripeCustomer,
       },
     };
   },
