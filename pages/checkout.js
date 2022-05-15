@@ -201,13 +201,13 @@ const getServerSideProps = withAuthRequired({
   getServerSideProps: async (ctx) => {
     const { user } = await getUser(ctx);
 
-    const { data: stripeCustomer, error } = await supabaseServerClient(ctx)
+    const { data, error } = await supabaseServerClient(ctx)
       .from("customers")
       .select("stripe_customer")
       .filter("id", "eq", user.id);
 
     return {
-      props: { user, stripeCustomer },
+      props: { user, stripeCustomer: data },
     };
   },
 });

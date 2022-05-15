@@ -23,17 +23,15 @@ export const cardElementOptions = {
     },
   },
 };
-export default function AddCard({ user, stripeCustomer }) {
+export default function AddCard({ user, stripeCustomer, handleCardModal }) {
   const stripe = useStripe();
   const elements = useElements();
   const [messages, addMessage] = useMessages();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
+  // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
 
-  // const [customerId, setCustomerId] = useState(
-  //   stripeCustomer[0].stripe_customer
-  // );
+  const [customerId, setCustomerId] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,27 +39,26 @@ export default function AddCard({ user, stripeCustomer }) {
       return;
     }
     setIsLoading(true);
-    addMessage("Saving card");
+    // setCustomerId(stripeCustomer[0].stripe_customer)
+    toast("💳 Saving please wait...");
+
+    // addMessage("Saving card");
     //fetch customer, if not create one
+    // TODO stripeCustomer HERE
 
-    // const { data: customer, error } = await supabaseClient
-    //   .from("customers")
-    //   .select("*")
-    //   .filter("id", "eq", user.id);
-    // setCustomerId(customer[0].stripe_customer);
-    // addMessage(`Adding card for customer`);
-
-    // async function createStripeCustomer() {
-    //   try {
-    //     const res = await axios.post("/api/stripe/createCustomer", {
-    //       email: user.email,
-    //     });
-    //     setCustomerId(res.id);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
-    // createStripeCustomer();
+    if (stripeCustomer.length === 0) {
+      try {
+        const res = await axios.post("/api/stripe/createACustomer", {
+          name: user.user_metadata.username || user.user_metadata.full_name,
+          email: user.email,
+          id: user.id,
+        });
+        setCustomerId(res.data.customer.id);
+        return;
+      } catch (error) {
+        addMessage(error);
+      }
+    }
 
     // create setupIntent on server
     try {
@@ -73,8 +70,8 @@ export default function AddCard({ user, stripeCustomer }) {
       const clientSecret = response.data.setupIntent.client_secret;
       const setupIntent = response.data.setupIntent;
 
-      addMessage(`client secret (${clientSecret})`);
-      addMessage(`setupIntent (${setupIntent.id})`);
+      // addMessage(`client secret (${clientSecret})`);
+      // addMessage(`setupIntent (${setupIntent.id})`);
 
       const confirmCard = await stripe.confirmCardSetup(clientSecret, {
         payment_method: {
@@ -86,23 +83,25 @@ export default function AddCard({ user, stripeCustomer }) {
       });
 
       // console.log(confirmCard);
-      addMessage(`PaymentMethod (${confirmCard.setupIntent.payment_method})`);
-
-      addMessage(`Attatching PM to Customer..`);
+      // addMessage(`PaymentMethod (${confirmCard.setupIntent.payment_method})`);
+      // addMessage(`Attatching PM to Customer..`);
 
       const res = await axios.post("/api/stripe/attatchPaymentMethod", {
         paymentMethod: confirmCard.setupIntent.payment_method,
         customerId: customerId,
       });
 
-      console.log(res);
+      // console.log(res);
       // addMessage(`Card saved (${res.data.confirmPaymentMethod.card.last4})`);
-      // toast.success("Card Saved");
-
-      location.reload();
+      toast.success("Card Saved Successfully");
+      handleCardModal();
+      // window.setTimeout(function () {
+      //   location.reload();
+      // }, 3000);
     } catch (error) {
       // addMessage(error);
-      addMessage("Something went wrong, please try again");
+      toast.error("Something went wrong, please try again");
+      setIsLoading(false);
       console.log(error);
       return;
     }
