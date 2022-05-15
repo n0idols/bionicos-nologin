@@ -49,6 +49,7 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
   const [cardsList, setCardsList] = useState([]);
   const [chosenMethod, setPaymentMethod] = useState(null);
   const [addNew, setAddNew] = useState(false);
+  const [options, setOptions] = useState(null);
   // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
   const [customerId, setCustomerId] = useState(
     stripeCustomer[0].stripe_customer
@@ -86,6 +87,42 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
         return;
       }
     };
+
+    cardsList?.map((card) => {
+      setOptions([
+        {
+          value: card.id,
+          label: (
+            <div className="flex items-center space-x-4">
+              <Image src="/visa.svg" height={25} width={25} alt="visa" />{" "}
+              <p>
+                Pay with {card.card.brand} - {card.card.last4}
+              </p>
+            </div>
+          ),
+        },
+      ]);
+    });
+
+    // cardsList?.map((card, i) => {
+    //   const options = [
+    //     {
+    //       value: card.id,
+    //       label: (
+    //         <div className="flex items-center space-x-4">
+    //           <Image
+    //             src="/visa.svg"
+    //             height={25}
+    //             width={25}
+    //             alt="visa"
+    //           />{" "}
+    //           <p>
+    //             Pay with {card.card.brand} - {card.card.last4}
+    //           </p>
+    //         </div>
+    //       ),
+    //     },
+    //   ]}
 
     // getSupaCustomer();
     getStripeCards();

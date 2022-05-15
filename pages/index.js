@@ -2,12 +2,7 @@ import Hero from "@/components/Hero";
 import Layout from "@/components/Layout";
 import MapSection from "@/components/MapSection";
 import Reviews from "@/components/Reviews";
-import { gql } from "@apollo/client";
-import client from "@/lib/apollo-client";
-
 import FeaturedProduct from "../components/FeaturedProduct";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 export default function Home({ reviews }) {
   return (

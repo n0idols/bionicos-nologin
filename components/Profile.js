@@ -93,6 +93,9 @@ export default function Profile({ orders, user, stripeCustomer }) {
     if (Object.keys(deleteResponse.data).length > 0) {
       toast.success("Card removed");
       handleCardModal();
+      window.setTimeout(function () {
+        location.reload();
+      }, 1500);
     }
   };
   const handleCardModal = () => {
@@ -110,7 +113,6 @@ export default function Profile({ orders, user, stripeCustomer }) {
               <button onClick={handleLogOut}>Log out</button>
             </div>
           </div>
-
           {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
           <pre>{JSON.stringify(customerId, null, 2)}</pre>
           <h1>Payment Methods</h1>
@@ -135,27 +137,23 @@ export default function Profile({ orders, user, stripeCustomer }) {
               </div>
             </button>
           </>
-
-          {cardsList ? (
-            <>
-              {cardsList?.map((card, i) => (
-                <div key={i} className="flex items-center space-x-4">
-                  <h1>{card.card.brand}</h1>
-                  <h1>{card.card.last4}</h1>
-                  <div className="flex items-center">
-                    <h1>
-                      {card.card.exp_month}/{card.card.exp_year}
-                    </h1>
-                  </div>
-                  <button onClick={() => handleCardDelete(card.id)}>
-                    delete
-                  </button>
+          <>
+            {cardsList?.map((card, i) => (
+              <div key={i} className="flex items-center space-x-4">
+                <h1>{card.card.brand}</h1>
+                <h1>{card.card.last4}</h1>
+                <div className="flex items-center">
+                  <h1>
+                    {card.card.exp_month}/{card.card.exp_year}
+                  </h1>
                 </div>
-              ))}
-            </>
-          ) : (
-            <></>
-          )}
+                <button onClick={() => handleCardDelete(card.id)}>
+                  delete
+                </button>
+              </div>
+            ))}
+          </>
+
           <CardsModal
             title="Add a card"
             show={openCards}
