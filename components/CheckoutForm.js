@@ -128,7 +128,7 @@ export default function CheckoutForm({ user, cart, notes }) {
     if (!stripe || !elements) {
       return;
     }
-    // addMessage("Creating payment intent...");
+    addMessage("Creating payment intent...");
     // create paymentintent on server
     const { error: backendError, clientSecret } = await fetch(
       "/api/stripe/createPaymentIntent",
@@ -144,7 +144,7 @@ export default function CheckoutForm({ user, cart, notes }) {
 
       return;
     }
-    // addMessage("Payment intent created...");
+    addMessage("Payment intent created...");
 
     // confirm payment on client
     const { error: stripeError, paymentIntent } =
@@ -158,9 +158,9 @@ export default function CheckoutForm({ user, cart, notes }) {
       setIsLoading(false);
       return;
     }
-    // addMessage(
-    //   `PaymentIntent (${paymentIntent.id}): (${paymentIntent.status})`
-    // );
+    addMessage(
+      `PaymentIntent (${paymentIntent.id}): (${paymentIntent.status})`
+    );
 
     //ORDER PAID NOW ATTEMPTING TO SAVE ORDER
     const { data: order, error } = await supabaseClient.from("orders").insert([
