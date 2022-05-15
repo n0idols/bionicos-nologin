@@ -31,9 +31,7 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
   const [isLoading, setIsLoading] = useState(false);
   // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
 
-  const [customerId, setCustomerId] = useState(
-    stripeCustomer[0].stripe_customer
-  );
+  const [customerId, setCustomerId] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,7 +57,7 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
     // create setupIntent on server
     try {
       const response = await axios.post("/api/stripe/createSetupIntent", {
-        customerId: customerId,
+        customerId: stripeCustomer[0].stripe_customer || customerId,
         // card: elements.getElement(CardElement),
       });
       const clientSecret = response.data.setupIntent.client_secret;
@@ -79,7 +77,7 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
       // addMessage(`Attatching PM to Customer..`);
       const res = await axios.post("/api/stripe/attatchPaymentMethod", {
         paymentMethod: confirmCard.setupIntent.payment_method,
-        customerId: customerId,
+        customerId: stripeCustomer[0].stripe_customer || customerId,
       });
 
       // console.log(res);
