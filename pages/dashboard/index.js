@@ -32,6 +32,7 @@ const getServerSideProps = withAuthRequired({
   getServerSideProps: async (ctx) => {
     // const { req } = ctx;
     // const { cart } = parseCookies(req);
+
     const { user } = await getUser(ctx);
 
     const { data: orders, error: ordersError } = await supabaseServerClient(ctx)
@@ -45,8 +46,8 @@ const getServerSideProps = withAuthRequired({
         .select("stripe_customer")
         .filter("id", "eq", user.id);
 
-    console.log(customerError);
-
+    console.log("supabase customer error", customerError);
+    console.log("supabase orders error", ordersError);
     return {
       props: {
         user,

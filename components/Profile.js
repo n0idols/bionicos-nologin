@@ -28,7 +28,9 @@ export default function Profile({ orders, user, stripeCustomer }) {
   // const [customerId, setCustomerId] = useState(
   //   stripeCustomer[0].stripe_customer
   // );
-  const [customerId, setCustomerId] = useState("");
+  const [customerId, setCustomerId] = useState(
+    stripeCustomer[0].stripe_customer
+  );
 
   const handleLogOut = async (e) => {
     e.preventDefault();
@@ -45,15 +47,32 @@ export default function Profile({ orders, user, stripeCustomer }) {
   const { user_metadata } = user;
 
   useEffect(() => {
-    // if stripw customer is
-    setCustomerId(stripeCustomer[0].stripe_customer);
-    const getCards = async () => {
+    // const getSupaCustomer = async () => {
+    //   try {
+    //     // const { data: stripeCustomer, error: customerError } =
+    //     //   await supabaseClient
+    //     //     .from("customers")
+    //     //     .select("stripe_customer")
+    //     //     .filter("id", "eq", user.id);
+    //     // if no stripecustomer in supabase, return early, this should fix client side error
+    //     if (stripeCustomer.length === 0) {
+    //       setCardsList([]);
+    //       setCustomerId("");
+    //     } else {
+    //       setCustomerId(stripeCustomer[0].stripe_customer);
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+
+    const getStripeCards = async () => {
       try {
         const data = await axios.post("/api/stripe/listCards", {
           customerId: customerId,
         });
-        setCardsList(data.data.paymentMethods.data);
 
+        setCardsList(data.data.paymentMethods.data);
         return;
       } catch (error) {
         addMessage(error.message);
@@ -61,7 +80,7 @@ export default function Profile({ orders, user, stripeCustomer }) {
       }
     };
 
-    getCards();
+    getStripeCards();
   }, []);
 
   const handleCardDelete = async (cardId) => {
@@ -91,11 +110,9 @@ export default function Profile({ orders, user, stripeCustomer }) {
               <button onClick={handleLogOut}>Log out</button>
             </div>
           </div>
+
           {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
-          <pre>
-            {JSON.stringify(stripeCustomer[0].stripe_customer, null, 2)}
-            {JSON.stringify(customerId, null, 2)}
-          </pre>
+          <pre>{JSON.stringify(customerId, null, 2)}</pre>
           <h1>Payment Methods</h1>
           {isLoading && <Loading />}
           <>
@@ -119,22 +136,26 @@ export default function Profile({ orders, user, stripeCustomer }) {
             </button>
           </>
 
-          <>
-            {cardsList?.map((card, i) => (
-              <div key={i} className="flex items-center space-x-4">
-                <h1>{card.card.brand}</h1>
-                <h1>{card.card.last4}</h1>
-                <div className="flex items-center">
-                  <h1>
-                    {card.card.exp_month}/{card.card.exp_year}
-                  </h1>
+          {cardsList ? (
+            <>
+              {cardsList?.map((card, i) => (
+                <div key={i} className="flex items-center space-x-4">
+                  <h1>{card.card.brand}</h1>
+                  <h1>{card.card.last4}</h1>
+                  <div className="flex items-center">
+                    <h1>
+                      {card.card.exp_month}/{card.card.exp_year}
+                    </h1>
+                  </div>
+                  <button onClick={() => handleCardDelete(card.id)}>
+                    delete
+                  </button>
                 </div>
-                <button onClick={() => handleCardDelete(card.id)}>
-                  delete
-                </button>
-              </div>
-            ))}
-          </>
+              ))}
+            </>
+          ) : (
+            <></>
+          )}
           <CardsModal
             title="Add a card"
             show={openCards}
@@ -142,7 +163,11 @@ export default function Profile({ orders, user, stripeCustomer }) {
           >
             <div className="flex flex-col space-y-12">
               <Elements stripe={stripePromise}>
-                <AddCard user={user} stripeCustomer={stripeCustomer} />
+                <AddCard
+                  user={user}
+                  stripeCustomer={stripeCustomer}
+                  handleCardModal={handleCardModal}
+                />
               </Elements>
             </div>
           </CardsModal>

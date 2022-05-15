@@ -57,22 +57,38 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
   const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
   const linkClasses = `flex items-center justify-center pb-4 hover:cursor-pointer`;
   useEffect(() => {
-    // mutation.mutate({ customerId: customerId });
+    // const getSupaCustomer = async () => {
+    //   try {
+    //     // const { data: stripeCustomer, error: customerError } =
+    //     //   await supabaseClient
+    //     //     .from("customers")
+    //     //     .select("stripe_customer")
+    //     //     .filter("id", "eq", user.id);
 
-    const getCards = async () => {
+    //     if (stripeCustomer.length === 0) {
+    //       setCustomerId("");
+    //     }
+    //     setCustomerId(stripeCustomer[0].stripe_customer);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+
+    const getStripeCards = async () => {
       try {
         const data = await axios.post("/api/stripe/listCards", {
           customerId: customerId,
         });
         setCardsList(data.data.paymentMethods.data);
-
         return;
       } catch (error) {
+        addMessage(error.message);
         return;
       }
     };
 
-    getCards();
+    // getSupaCustomer();
+    getStripeCards();
   }, [cardsList]);
 
   const handleCardModal = () => {
@@ -164,12 +180,15 @@ export default function CheckoutForm({ user, cart, notes, stripeCustomer }) {
       <CardsModal title="Add a card" show={openCards} onClose={handleCardModal}>
         <div className="flex flex-col space-y-12">
           <AddCard
+            customerId={customerId}
             stripeCustomer={stripeCustomer}
             handleCardModal={handleCardModal}
           />
         </div>
       </CardsModal>
       <div className="">
+        {JSON.stringify(customerId)}
+
         <div className="flex items-center justify-center">
           <GrSecure className="ml-1 text-2xl text-primary" />
           Secure Checkout with{" "}
