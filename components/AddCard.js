@@ -46,16 +46,12 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
     // create setupIntent on server
     try {
       if (stripeCustomer.length === 0) {
-        try {
-          const res = await axios.post("/api/stripe/createACustomer", {
-            name: user.user_metadata.username || user.user_metadata.full_name,
-            email: user.email,
-            id: user.id,
-          });
-          setCustomerId(res.data.customer.id);
-        } catch (error) {
-          addMessage(error);
-        }
+        const res = await axios.post("/api/stripe/createACustomer", {
+          name: user.user_metadata.username || user.user_metadata.full_name,
+          email: user.email,
+          id: user.id,
+        });
+        setCustomerId(res.data.customer.id);
       }
       const response = await axios.post("/api/stripe/createSetupIntent", {
         customerId: stripeCustomer[0].stripe_customer || customerId,
