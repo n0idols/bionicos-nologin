@@ -39,7 +39,7 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
       return;
     }
     setIsLoading(true);
-    // setCustomerId(stripeCustomer[0].stripe_customer)
+    setCustomerId(stripeCustomer[0].stripe_customer);
     toast("💳 Saving please wait...");
 
     // addMessage("Saving card");
