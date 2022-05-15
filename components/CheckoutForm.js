@@ -65,6 +65,7 @@ export default function CheckoutForm({ user, cart, notes }) {
           .filter("id", "eq", user.id);
 
         setStripeCustomer(stripeData);
+        setCustomerId(stripeData[0].stripe_customer);
         const data = await axios.post("/api/stripe/listCards", {
           customerId: stripeData[0].stripe_customer,
         });
