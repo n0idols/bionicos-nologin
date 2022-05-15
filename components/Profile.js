@@ -103,7 +103,7 @@ export default function Profile({ orders, user }) {
           <h1>Payment Methods</h1>
           {isLoading && <Loading />}
 
-          {cardsList.length === 0 ? (
+          {cardsList?.length === 0 ? (
             <>
               <button
                 onClick={() => setOpenCards(true)}
