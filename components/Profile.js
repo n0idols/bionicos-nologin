@@ -99,45 +99,49 @@ export default function Profile({ orders, user }) {
             </div>
           </div>
           {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
-          <pre>{JSON.stringify(stripeCustomer, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(stripeCustomer, null, 2)}</pre> */}
           <h1>Payment Methods</h1>
           {isLoading && <Loading />}
-          <>
-            <button
-              onClick={() => setOpenCards(true)}
-              className="btn-block border-2 rouned-lg flex items-center"
-            >
-              <div className="flex p-2">
-                <Image src="/visa.svg" height={25} width={25} alt="visa" />
-                <Image
-                  src="/mastercard.svg"
-                  height={25}
-                  width={25}
-                  alt="mastercard"
-                />
-                <Image src="/amex.svg" height={25} width={25} alt="amex" />
-              </div>
-              <div>
-                <p className="text-center">Add a new Card</p>
-              </div>
-            </button>
-          </>
-          <>
-            {cardsList?.map((card, i) => (
-              <div key={i} className="flex items-center space-x-4">
-                <h1>{card.card.brand}</h1>
-                <h1>{card.card.last4}</h1>
-                <div className="flex items-center">
-                  <h1>
-                    {card.card.exp_month}/{card.card.exp_year}
-                  </h1>
+
+          {cardsList.length === 0 ? (
+            <>
+              <button
+                onClick={() => setOpenCards(true)}
+                className="btn-block border-2 rouned-lg flex items-center"
+              >
+                <div className="flex p-2">
+                  <Image src="/visa.svg" height={25} width={25} alt="visa" />
+                  <Image
+                    src="/mastercard.svg"
+                    height={25}
+                    width={25}
+                    alt="mastercard"
+                  />
+                  <Image src="/amex.svg" height={25} width={25} alt="amex" />
                 </div>
-                <button onClick={() => handleCardDelete(card.id)}>
-                  delete
-                </button>
-              </div>
-            ))}
-          </>
+                <div>
+                  <p className="text-center">Add a new Card</p>
+                </div>
+              </button>
+            </>
+          ) : (
+            <>
+              {cardsList?.map((card, i) => (
+                <div key={i} className="flex items-center space-x-4">
+                  <h1>{card.card.brand}</h1>
+                  <h1>{card.card.last4}</h1>
+                  <div className="flex items-center">
+                    <h1>
+                      {card.card.exp_month}/{card.card.exp_year}
+                    </h1>
+                  </div>
+                  <button onClick={() => handleCardDelete(card.id)}>
+                    delete
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
 
           <CardsModal
             title="Add a card"
