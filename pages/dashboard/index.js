@@ -45,6 +45,8 @@ const getServerSideProps = withAuthRequired({
         .select("stripe_customer")
         .filter("id", "eq", user.id);
 
+    console.log(customerError);
+
     return {
       props: {
         user,
