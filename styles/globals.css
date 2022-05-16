@@ -35,6 +35,10 @@ h1 {
   @apply font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 md:text-5xl text-4xl my-3 py-3 text-center;
 }
 
+.profile-title {
+  @apply font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 md:text-4xl text-3xl py-2;
+}
+
 .menu-title {
   @apply font-extrabold md:text-4xl text-3xl py-3;
 }
