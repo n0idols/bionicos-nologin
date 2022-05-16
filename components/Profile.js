@@ -47,6 +47,7 @@ export default function Profile({ orders, user }) {
   useEffect(() => {
     const getSupaCustomer = async () => {
       try {
+        setLoading(true);
         const { data: stripeData, error: customerError } = await supabaseClient
           .from("customers")
           .select("stripe_customer")
@@ -59,6 +60,8 @@ export default function Profile({ orders, user }) {
         });
 
         setCardsList(data.data.paymentMethods.data);
+        setLoading(false);
+
         return;
       } catch (error) {
         console.log(error);
@@ -69,18 +72,20 @@ export default function Profile({ orders, user }) {
   }, []);
 
   const handleCardDelete = async (cardId) => {
-    const deleteResponse = await axios.post(
-      "/api/stripe/detatchPaymentMethod",
-      {
-        paymentMethod: cardId,
+    if (window.confirm("Would you like to remove this card?")) {
+      const deleteResponse = await axios.post(
+        "/api/stripe/detatchPaymentMethod",
+        {
+          paymentMethod: cardId,
+        }
+      );
+      if (Object.keys(deleteResponse.data).length > 0) {
+        toast.success("Card removed");
+        handleCardModal();
+        window.setTimeout(function () {
+          location.reload();
+        }, 1500);
       }
-    );
-    if (Object.keys(deleteResponse.data).length > 0) {
-      toast.success("Card removed");
-      handleCardModal();
-      window.setTimeout(function () {
-        location.reload();
-      }, 1500);
     }
   };
   const handleCardModal = () => {
@@ -91,8 +96,8 @@ export default function Profile({ orders, user }) {
     <>
       {user ? (
         <div className="dash">
-          <div className="flex justify-between items-center">
-            <h1>Hello, {user_metadata.username || user_metadata.full_name}</h1>
+          <div className="flex justify-between items-center mb-8">
+            <p>Hello, {user_metadata.username || user_metadata.full_name}</p>
 
             <div>
               <button onClick={handleLogOut}>Log out</button>
@@ -100,7 +105,7 @@ export default function Profile({ orders, user }) {
           </div>
           {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
           {/* <pre>{JSON.stringify(stripeCustomer, null, 2)}</pre> */}
-          <h1>Payment Methods</h1>
+          <h1 className="profile-title">Payment Methods</h1>
           {isLoading && <Loading />}
 
           {cardsList?.length === 0 ? (
@@ -127,17 +132,27 @@ export default function Profile({ orders, user }) {
           ) : (
             <>
               {cardsList?.map((card, i) => (
-                <div key={i} className="flex items-center space-x-4">
-                  <h1>{card.card.brand}</h1>
-                  <h1>{card.card.last4}</h1>
-                  <div className="flex items-center">
-                    <h1>
-                      {card.card.exp_month}/{card.card.exp_year}
-                    </h1>
+                <div
+                  key={i}
+                  className="flex items-center justify-between  border-2 rounded-lg"
+                >
+                  <div className="flex p-2 flex-col">
+                    <p>
+                      {card.card.brand}...{card.card.last4}
+                    </p>
+
+                    <p>
+                      Exp. {card.card.exp_month}/{card.card.exp_year}
+                    </p>
                   </div>
-                  <button onClick={() => handleCardDelete(card.id)}>
-                    delete
-                  </button>
+                  <div>
+                    <button
+                      className="btn-error btn btn-outline"
+                      onClick={() => handleCardDelete(card.id)}
+                    >
+                      delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </>
@@ -158,8 +173,9 @@ export default function Profile({ orders, user }) {
               </Elements>
             </div>
           </CardsModal>
-          <div className="my-8">
-            <h1>Order History</h1>
+          <div className="mt-12">
+            <h1 className="profile-title">Order History</h1>
+
             {orders?.length > 0 ? (
               <OrderList orders={orders} />
             ) : (

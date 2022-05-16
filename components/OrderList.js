@@ -7,7 +7,6 @@ export default function OrderList({ orders }) {
   // const card = `bg-white shadow-md flex justify-between my-8 p-4 rounded-lg space-y-2`;
   return (
     <div>
-      <h1 className="uppercase">Your order history</h1>
       {orders.map((order) => {
         const items = order.line_items;
         const entries = Object.entries(items);
@@ -20,7 +19,7 @@ export default function OrderList({ orders }) {
           quantity += item.quantity;
         });
         return (
-          <div className="card my-8 p-4 bg-white shadow-lg" key={order.id}>
+          <div className="card mb-4 p-4 bg-white shadow-lg" key={order.id}>
             <div className="card-title">
               <span className="text-xl font-bold text-gray-600">
                 {moment(order.ordered_at).format("MMMM Do, h:mm A")}
