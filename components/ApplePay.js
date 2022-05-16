@@ -56,14 +56,13 @@ export default function ApplePay({ user, notes, stripeCustomer }) {
     pr.on("paymentmethod", async (e) => {
       // create payment intent
       // create paymentintent on server
-      console.log(e.paymentMethod.id);
-      setPaymentMethod(e.paymentMethod.id);
+
       const { error: backendError, clientSecret } = await fetch(
         "/api/stripe/createPaymentIntent",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cart, customerId, paymentMethod }),
+          body: JSON.stringify({ cart }),
         }
       ).then((res) => res.json());
       if (backendError) {
@@ -76,7 +75,7 @@ export default function ApplePay({ user, notes, stripeCustomer }) {
         await stripe.confirmCardPayment(
           clientSecret,
           {
-            payment_method: paymentMethod,
+            payment_method: e.paymentMethod.id,
             // card: elements.getElement(CardElement),
           },
           {
@@ -117,14 +116,14 @@ export default function ApplePay({ user, notes, stripeCustomer }) {
 
   return (
     <>
-      <OrderModal title="Order Received!" show={orderCompleted}>
+      <OrderModal title="✅ Order Received!" show={orderCompleted}>
         {orderData && (
           <>
             <div className="text-center my-4 space-y-2">
               <h1>Thank you, {orderData[0].username}</h1>
-              <p>Your order id:</p>
+              <p>Come on in and let us know your order ID</p>
 
-              <h1>#{orderData[0].id.slice(0, 3)}</h1>
+              <h1>{orderData[0].id.slice(0, 3)}</h1>
             </div>
             <div className="flex justify-center">
               <Link href={`/orders/${orderData[0].id}`}>

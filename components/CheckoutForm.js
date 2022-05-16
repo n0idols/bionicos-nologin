@@ -223,7 +223,7 @@ export default function CheckoutForm({ user, cart, notes }) {
         {cardsList.length === 0 ? (
           <>
             <div>
-              {/* <ApplePay user={user} notes={notes} stripeCustomer={stripeCustomer} /> */}
+              <ApplePay user={user} notes={notes} />
 
               <div className="my-4">
                 <button
@@ -245,7 +245,6 @@ export default function CheckoutForm({ user, cart, notes }) {
                   </div>
                 </button>
               </div>
-
               <div>
                 <button className={paymentBtn} disabled>
                   <span id="button-text">Place Order</span>
