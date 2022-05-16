@@ -45,7 +45,10 @@ export default function ApplePay({ user, notes }) {
       country: "US",
       requestPayerEmail: true,
       requestPayerName: true,
-      total: { label: "demo", amount: calculateStripeTotal(cart) },
+      total: {
+        label: "Bionicos and Juices Rios LLC",
+        amount: calculateStripeTotal(cart),
+      },
     });
     pr.canMakePayment().then((result) => {
       if (result) {
