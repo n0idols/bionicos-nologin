@@ -18,8 +18,6 @@ import Layout from "@/components/Layout";
 // };
 
 const Dashboard = ({ orders, user }) => {
-  const [stripeCustomer, setStripeCustomer] = useState(null);
-
   // useEffect(() => {
   //   //fetch customer from supabase customers table
 
