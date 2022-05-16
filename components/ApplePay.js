@@ -17,14 +17,13 @@ import {
 } from "@/lib/calcOrder";
 import Link from "next/link";
 
-export default function ApplePay({ user, notes, stripeCustomer }) {
+export default function ApplePay({ user, notes }) {
   const [messages, addMessage] = useMessages();
   const [paymentRequest, setPaymentRequest] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [orderData, setOrderData] = useState("");
   const [orderCompleted, setOrderCompleted] = useState(false);
 
-  const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
   // const [customerId, setCustomerId] = useState(
   //   stripeCustomer[0].stripe_customer
   // );
@@ -85,7 +84,6 @@ export default function ApplePay({ user, notes, stripeCustomer }) {
       if (stripeError) {
         addMessage(stripeError.message);
         // toast.error(stripeError.message)
-        e.complete("fail");
 
         return;
       }
@@ -106,6 +104,9 @@ export default function ApplePay({ user, notes, stripeCustomer }) {
           },
         ]);
       // TODO HANDLE THE POTENTIAL SAVED ORDER ERROR HERE -- CHARGED CUSTOMER BUT ORDER NOT SAVED
+      if (error) {
+        addMessage("We recieved your order, please visit the store");
+      }
 
       setOrderCompleted(true);
       setOrderData(order);

@@ -223,7 +223,7 @@ export default function CheckoutForm({ user, cart, notes }) {
         {cardsList.length === 0 ? (
           <>
             <div>
-              <ApplePay user={user} notes={notes} />
+              {/* <ApplePay user={user} notes={notes} /> maybe need to call useUser on this component */}
 
               <div className="my-4">
                 <button
@@ -255,7 +255,6 @@ export default function CheckoutForm({ user, cart, notes }) {
         ) : (
           <>
             <div>
-              {/* <ApplePay /> or */}
               <form
                 id="payment-form"
                 onSubmit={handleSubmit}
