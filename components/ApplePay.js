@@ -16,6 +16,8 @@ import {
   calculateTax,
 } from "@/lib/calcOrder";
 import Link from "next/link";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+import { parseCookies, setCookie, destroyCookie } from "nookies";
 
 export default function ApplePay({ user, notes }) {
   const [messages, addMessage] = useMessages();
@@ -31,10 +33,10 @@ export default function ApplePay({ user, notes }) {
   const stripe = useStripe();
   const elements = useElements();
 
-  const { cart, totalCartPrice } = useCart();
+  const { cart, emptyCart } = useCart();
 
   useEffect(() => {
-    if (!stripe || !elements) {
+    if (!stripe || !elements || !supabaseClient) {
       return;
     }
 
@@ -83,12 +85,16 @@ export default function ApplePay({ user, notes }) {
         );
       if (stripeError) {
         addMessage(stripeError.message);
+        e.complete("fail");
         // toast.error(stripeError.message)
-
         return;
       }
+      e.complete("success");
+      if (paymentIntent.status == "requires_action") {
+        stripe.confirmCardPayment(clientSecret);
+      }
       //ORDER PAID NOW ATTEMPTING TO SAVE ORDER
-      const { data: order, error } = await supabaseClient
+      const { data: order, error: orderError } = await supabaseClient
         .from("orders")
         .insert([
           {
@@ -104,7 +110,7 @@ export default function ApplePay({ user, notes }) {
           },
         ]);
       // TODO HANDLE THE POTENTIAL SAVED ORDER ERROR HERE -- CHARGED CUSTOMER BUT ORDER NOT SAVED
-      if (error) {
+      if (orderError) {
         addMessage("We recieved your order, please visit the store");
       }
 
@@ -137,7 +143,7 @@ export default function ApplePay({ user, notes }) {
       {paymentRequest && (
         <>
           <p className="text-center text-sm">Use Apple Pay</p>
-          {JSON.stringify(calculateStripeTotal(cart))}
+
           <PaymentRequestButtonElement options={{ paymentRequest }} />
           <div className="my-8 ">
             <h2 className="text-center w-full border-b leading-[.1em] m-[10px 0 20px]">

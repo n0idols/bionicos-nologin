@@ -82,9 +82,9 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
       // addMessage(`Card saved (${res.data.confirmPaymentMethod.card.last4})`);
       toast.success("Card Saved Successfully");
       handleCardModal();
-      // window.setTimeout(function () {
-      //   location.reload();
-      // }, 3000);
+      window.setTimeout(function () {
+        location.reload();
+      }, 1000);
     } catch (error) {
       // addMessage(error);
       toast.error("Something went wrong, please try again");

@@ -116,7 +116,7 @@ export default function CheckoutForm({ user, cart, notes }) {
     //   ]}
 
     // getSupaCustomer();
-  }, [cardsList]);
+  }, []);
 
   const handleCardModal = () => {
     setOpenCards(false);
@@ -223,7 +223,7 @@ export default function CheckoutForm({ user, cart, notes }) {
         {cardsList.length === 0 ? (
           <>
             <div>
-              {/* <ApplePay user={user} notes={notes} /> maybe need to call useUser on this component */}
+              <ApplePay user={user} notes={notes} />
 
               <div className="my-4">
                 <button
