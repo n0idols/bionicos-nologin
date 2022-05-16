@@ -129,7 +129,7 @@ export default function CheckoutForm({ user, cart, notes }) {
     if (!stripe || !elements) {
       return;
     }
-    addMessage("Creating payment intent...");
+    // addMessage("Creating payment intent...");
     // create paymentintent on server
     const { error: backendError, clientSecret } = await fetch(
       "/api/stripe/createPaymentIntent",
@@ -145,7 +145,7 @@ export default function CheckoutForm({ user, cart, notes }) {
 
       return;
     }
-    addMessage("Payment intent created...");
+    // addMessage("Payment intent created...");
 
     // confirm payment on client
     const { error: stripeError, paymentIntent } =
@@ -159,9 +159,9 @@ export default function CheckoutForm({ user, cart, notes }) {
       setIsLoading(false);
       return;
     }
-    addMessage(
-      `PaymentIntent (${paymentIntent.id}): (${paymentIntent.status})`
-    );
+    // addMessage(
+    //   `PaymentIntent (${paymentIntent.id}): (${paymentIntent.status})`
+    // );
 
     //ORDER PAID NOW ATTEMPTING TO SAVE ORDER
     const { data: order, error } = await supabaseClient.from("orders").insert([
@@ -177,7 +177,9 @@ export default function CheckoutForm({ user, cart, notes }) {
       },
     ]);
     // TODO HANDLE THE POTENTIAL SAVED ORDER ERROR HERE -- CHARGED CUSTOMER BUT ORDER NOT SAVED
-
+    if (error) {
+      addMessage("We recieved your order, please visit the store");
+    }
     setOrderCompleted(true);
     setOrderData(order);
     emptyCart();
@@ -187,14 +189,14 @@ export default function CheckoutForm({ user, cart, notes }) {
 
   return (
     <>
-      <OrderModal title="Order Received!" show={orderCompleted}>
+      <OrderModal title="✅ Order Received!" show={orderCompleted}>
         {orderData && (
           <>
             <div className="text-center my-4 space-y-2">
               <h1>Thank you, {orderData[0].username}</h1>
-              <p>Your order id:</p>
+              <p>Come on in and let us know your order ID</p>
 
-              <h1>#{orderData[0].id.slice(0, 3)}</h1>
+              <h1>{orderData[0].id.slice(0, 3)}</h1>
             </div>
             <div className="flex justify-center">
               <Link href={`/orders/${orderData[0].id}`}>
@@ -266,12 +268,12 @@ export default function CheckoutForm({ user, cart, notes }) {
                       value: card.id,
                       label: (
                         <div className="flex items-center space-x-4">
-                          <Image
+                          {/* <Image
                             src="/visa.svg"
                             height={25}
                             width={25}
                             alt="visa"
-                          />{" "}
+                          />{" "} */}
                           <p>
                             Pay with {card.card.brand} - {card.card.last4}
                           </p>

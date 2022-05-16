@@ -32,6 +32,7 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
   // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
 
   const [customerId, setCustomerId] = useState(null);
+  const [consent, setConsent] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +52,7 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
           email: user.email,
           id: user.id,
         });
-        setCustomerId(res.data.customer.id);
+        setCustomerId(await res.data.customer.id);
       }
       const response = await axios.post("/api/stripe/createSetupIntent", {
         customerId: stripeCustomer[0].stripe_customer || customerId,
@@ -133,20 +134,33 @@ export default function AddCard({ user, stripeCustomer, handleCardModal }) {
         <form
           id="payment-form"
           onSubmit={handleSubmit}
-          className=" p-4 rounded-xl"
+          className=" p-4  rounded-xl"
         >
           <div className="card-element">
             <CardElement id="card-element" options={cardElementOptions} />
           </div>
 
-          <div className="max-w-sm mx-auto mt-4">
+          <div className="max-w-md mx-auto">
+            <div className="form-control my-4 px-4">
+              <label className="cursor-pointer label">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  className="checkbox checkbox-primary"
+                  onChange={() => setConsent(!consent)}
+                />
+                <span className="label-text">
+                  Yes, I agree to store my card to make purchases
+                </span>
+              </label>
+            </div>
             <button
               className={
                 isLoading
                   ? "btn-primary btn btn-block loading"
                   : "btn-primary btn btn-block "
               }
-              disabled={!stripe || !elements}
+              disabled={!stripe || !elements || !consent}
               id="add"
             >
               <span id="button-text">Save Card</span>
