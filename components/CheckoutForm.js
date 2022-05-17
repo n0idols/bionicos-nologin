@@ -3,12 +3,7 @@ import StatusMessages, { useMessages } from "./StatusMessages";
 import OrderReceiptTy from "./OrderReceiptTy";
 import { QueryClient, useMutation, useQuery } from "react-query";
 import { useCookies } from "react-cookie";
-import {
-  PaymentElement,
-  useStripe,
-  useElements,
-  CardElement,
-} from "@stripe/react-stripe-js";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
 import {
   calculateStripeTotal,
   calculateSubAmount,
@@ -33,6 +28,9 @@ import Select from "react-select";
 import ApplePay from "./ApplePay";
 import toast from "react-hot-toast";
 
+import { cardElementOptions } from "./AddCard";
+import OneTimePayment from "./OneTimePayment";
+
 export default function CheckoutForm({ user, cart, notes }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -53,6 +51,8 @@ export default function CheckoutForm({ user, cart, notes }) {
   // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
   const [customerId, setCustomerId] = useState("");
   const [stripeCustomer, setStripeCustomer] = useState("");
+  const [emailRes, setEmailResponse] = useState(null);
+  const [saveForLater, setSaveForLater] = useState(false);
 
   const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
   const linkClasses = `flex items-center justify-center pb-4 hover:cursor-pointer`;
@@ -78,22 +78,6 @@ export default function CheckoutForm({ user, cart, notes }) {
     };
 
     getSupaCustomer();
-
-    cardsList?.map((card) => {
-      setOptions([
-        {
-          value: card.id,
-          label: (
-            <div className="flex items-center space-x-4">
-              <Image src="/visa.svg" height={25} width={25} alt="visa" />{" "}
-              <p>
-                Pay with {card.card.brand} - {card.card.last4}
-              </p>
-            </div>
-          ),
-        },
-      ]);
-    });
 
     // cardsList?.map((card, i) => {
     //   const options = [
@@ -176,10 +160,17 @@ export default function CheckoutForm({ user, cart, notes }) {
         notes: notes,
       },
     ]);
-    // TODO HANDLE THE POTENTIAL SAVED ORDER ERROR HERE -- CHARGED CUSTOMER BUT ORDER NOT SAVED
+    //  HANDLE THE POTENTIAL SAVED ORDER ERROR HERE -- CHARGED CUSTOMER BUT ORDER NOT SAVED
     if (error) {
       addMessage("We recieved your order, please visit the store");
     }
+
+    // SEND TRANSACTIONAL EMAIL
+    // const res = await axios.post("/api/email", {
+    //   order,
+    // });
+    // setEmailResponse(res);
+
     setOrderCompleted(true);
     setOrderData(order);
     emptyCart();
@@ -220,99 +211,68 @@ export default function CheckoutForm({ user, cart, notes }) {
           Secure Checkout with{" "}
           <FaStripe className="ml-1 text-5xl text-primary" />
         </div>
-        {cardsList.length === 0 ? (
-          <>
-            <div>
-              <ApplePay user={user} notes={notes} />
+        <ApplePay user={user} notes={notes} />
 
-              <div className="my-4">
-                <button
-                  onClick={() => setOpenCards(true)}
-                  className="btn-block border-2 rouned-lg flex items-center"
-                >
-                  <div className="flex p-2">
-                    <Image src="/visa.svg" height={25} width={25} alt="visa" />
-                    <Image
-                      src="/mastercard.svg"
-                      height={25}
-                      width={25}
-                      alt="mastercard"
-                    />
-                    <Image src="/amex.svg" height={25} width={25} alt="amex" />
-                  </div>
-                  <div>
-                    <p className="text-center">Add a new card</p>
-                  </div>
-                </button>
-              </div>
-              <div>
-                <button className={paymentBtn} disabled>
-                  <span id="button-text">Place Order</span>
-                </button>
-              </div>
-            </div>
-          </>
-        ) : (
+        {cardsList.length === 0 && <OneTimePayment user={user} notes={notes} />}
+        {cardsList.length > 0 && (
           <>
-            <div>
-              <form
-                id="payment-form"
-                onSubmit={handleSubmit}
-                className="p-4 rounded-xl"
-              >
-                {cardsList?.map((card, i) => {
-                  const options = [
-                    {
-                      value: card.id,
-                      label: (
-                        <div className="flex items-center space-x-4">
-                          {/* <Image
+            <>
+              <div>
+                <form
+                  id="payment-form"
+                  onSubmit={handleSubmit}
+                  className="p-4 rounded-xl"
+                >
+                  {cardsList?.map((card, i) => {
+                    const options = [
+                      {
+                        value: card.id,
+                        label: (
+                          <div className="flex items-center space-x-4">
+                            {/* <Image
                             src="/visa.svg"
                             height={25}
                             width={25}
                             alt="visa"
                           />{" "} */}
-                          <p>
-                            Pay with {card.card.brand} - {card.card.last4}
-                          </p>
-                        </div>
-                      ),
-                    },
-                  ];
-                  return (
-                    <Select
-                      key={i}
-                      options={options}
-                      placeholder="Select your card"
-                      onChange={() => setPaymentMethod(card.id)}
-                      className="mb-4"
-                    />
-                  );
-                })}
-                <div>
-                  <button
-                    className={paymentBtn}
-                    disabled={
-                      isLoading || !stripe || !elements || !chosenMethod
-                    }
-                    id="submit"
-                  >
-                    <span id="button-text">
-                      {isLoading ? <Loading /> : "Place Order"}
-                    </span>
-                  </button>
-                  {chosenMethod && (
-                    <p className="text-center text-sm">
-                      You Card Will Now Be Charged
-                    </p>
-                  )}
-                </div>
-                {/* Show any error or success messages */}
-                {/* 
-        {message && <div id="payment-message">{message}</div>}
-      {orderCompleted && <div id="payment-message">{orderCompleted}</div>} */}
-              </form>
-            </div>
+                            <p>
+                              Pay with {card.card.brand} - {card.card.last4}
+                            </p>
+                          </div>
+                        ),
+                      },
+                    ];
+                    return (
+                      <Select
+                        key={i}
+                        options={options}
+                        placeholder="Select your card"
+                        onChange={() => setPaymentMethod(card.id)}
+                        className="mb-4"
+                      />
+                    );
+                  })}
+                  <div>
+                    <button
+                      className={paymentBtn}
+                      disabled={
+                        isLoading || !stripe || !elements || !chosenMethod
+                      }
+                      id="submit"
+                    >
+                      <span id="button-text">
+                        {isLoading ? <Loading /> : "Place Order"}
+                      </span>
+                    </button>
+                    {chosenMethod && (
+                      <p className="text-center text-sm">
+                        Your Card Will Now Be Charged
+                      </p>
+                    )}
+                  </div>
+                </form>
+              </div>
+            </>
           </>
         )}
       </div>

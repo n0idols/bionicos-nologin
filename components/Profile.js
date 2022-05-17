@@ -30,18 +30,6 @@ export default function Profile({ orders, user }) {
   // );
   const [stripeCustomer, setStripeCustomer] = useState("");
 
-  const handleLogOut = async (e) => {
-    e.preventDefault();
-    destroyCookie(null, "username");
-    destroyCookie(null, "cart");
-    const { error } = await supabaseClient.auth.signOut();
-    if (error) {
-      alert(JSON.stringify(error));
-    } else {
-      router.push("/");
-    }
-  };
-
   const { user_metadata } = user;
 
   useEffect(() => {
@@ -70,6 +58,17 @@ export default function Profile({ orders, user }) {
 
     getSupaCustomer();
   }, []);
+  const handleLogOut = async (e) => {
+    e.preventDefault();
+    destroyCookie(null, "username");
+    destroyCookie(null, "cart");
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      alert(JSON.stringify(error));
+    } else {
+      router.push("/");
+    }
+  };
 
   const handleCardDelete = async (cardId) => {
     if (window.confirm("Would you like to remove this card?")) {
@@ -84,7 +83,7 @@ export default function Profile({ orders, user }) {
         handleCardModal();
         window.setTimeout(function () {
           location.reload();
-        }, 1500);
+        }, 1000);
       }
     }
   };

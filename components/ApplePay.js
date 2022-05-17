@@ -46,7 +46,7 @@ export default function ApplePay({ user, notes }) {
       requestPayerEmail: true,
       requestPayerName: true,
       total: {
-        label: "Bionicos and Juices Rios LLC",
+        label: "Bionicos and Juices Rios",
         amount: calculateStripeTotal(cart),
       },
     });
