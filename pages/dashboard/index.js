@@ -49,7 +49,7 @@ const getServerSideProps = withAuthRequired({
   redirectTo: "/signin",
   getServerSideProps: async (ctx) => {
     // const { req } = ctx;
-    // const { cart } = parseCookies(req);
+    // // const { cart } = parseCookies(req);
 
     const { user } = await getUser(ctx);
 
@@ -58,11 +58,11 @@ const getServerSideProps = withAuthRequired({
       .select("*")
       .order("ordered_at", { ascending: false });
 
-    // const { data: stripeCustomer, error: customerError } =
-    //   await supabaseServerClient(ctx)
-    //     .from("customers")
-    //     .select("stripe_customer")
-    //     .filter("id", "eq", user.id);
+    const { data: stripeCustomer, error: customerError } =
+      await supabaseServerClient(ctx)
+        .from("customers")
+        .select("stripe_customer")
+        .filter("id", "eq", user.id);
 
     return {
       props: {
