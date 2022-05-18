@@ -113,7 +113,7 @@ export default function CheckoutPage({ user }) {
               <div className="form-control px-2">
                 <label className="label">
                   <span className="label-text font-bold">
-                    Any special instructions? *Not all requests can be honored*
+                    Any special instructions?
                   </span>
                 </label>
                 <textarea
@@ -164,12 +164,12 @@ export default function CheckoutPage({ user }) {
 
                 <div className=" p-2 tracking-wide flex justify-between">
                   <div>
-                    <h6 className="font-bold">Total</h6>
+                    <h1 className="font-bold">Total</h1>
                   </div>
                   <div>
-                    <h6 className="font-bold">
+                    <h1 className="font-bold">
                       {formatMoney(calculateStripeTotal(cart, couponOff))}
-                    </h6>
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function CheckoutPage({ user }) {
               ) : (
                 <></>
               )}
-              <div className="rounded-lg">
+              <div className="rounded-lg pb-2">
                 <Elements stripe={stripePromise}>
                   <CheckoutForm user={user} notes={notes} cart={cart} />
                 </Elements>
