@@ -134,7 +134,7 @@ export default function OneTimePayment({ user, notes }) {
       </OrderModal>
 
       <>
-        <div className="flex justify-between items-center ">
+        <div className="flex justify-between items-center mb-2 ">
           <div className="flex p-2">
             <Image src="/visa.svg" height={25} width={25} alt="visa" />
             <Image
@@ -148,7 +148,7 @@ export default function OneTimePayment({ user, notes }) {
           </div>
 
           <Link href="/dashboard">
-            <a className="btn btn-sm text-sm btn-primary ml-2 btn-outline">
+            <a className="btn btn-sm text-xs btn-primary ml-2 btn-outline">
               Manage Cards
             </a>
           </Link>
