@@ -16,7 +16,6 @@ export const cardElementOptions = {
     base: {
       color: "#888",
       fontSize: "20px",
-      fontFamily: "Work Sans",
     },
     invalid: {
       color: "#fa755a",
