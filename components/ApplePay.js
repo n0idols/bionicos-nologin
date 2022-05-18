@@ -150,7 +150,7 @@ export default function ApplePay({ user, notes }) {
           <PaymentRequestButtonElement options={{ paymentRequest }} />
           <div className="my-8 ">
             <h2 className="text-center w-full border-b leading-[.1em] m-[10px 0 20px]">
-              <span className="bg-white px-3">OR</span>
+              <span className="px-3">OR</span>
             </h2>
           </div>
         </>

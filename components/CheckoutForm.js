@@ -205,7 +205,7 @@ export default function CheckoutForm({ user, cart, notes }) {
           />
         </div>
       </CardsModal>
-      <div className="p-2 mb-2 border-4 border-dotted shadow-xl bg-slate-100 rounded-lg">
+      <div className="p-2 mb-2 border-4 border-dotted shadow-xl bg-base-100 rounded-lg">
         <div className="flex items-center justify-center text-xs">
           <GrSecure className="ml-1 text-lg text-primary" />
           Secure Checkout with{" "}
