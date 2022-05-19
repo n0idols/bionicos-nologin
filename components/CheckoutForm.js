@@ -48,7 +48,6 @@ export default function CheckoutForm({ user, cart, notes }) {
   const [chosenMethod, setPaymentMethod] = useState(null);
   const [addNew, setAddNew] = useState(false);
   const [options, setOptions] = useState(null);
-  // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
   const [customerId, setCustomerId] = useState("");
   const [stripeCustomer, setStripeCustomer] = useState("");
   const [emailRes, setEmailResponse] = useState(null);
@@ -57,49 +56,33 @@ export default function CheckoutForm({ user, cart, notes }) {
   const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
   const linkClasses = `flex items-center justify-center pb-4 hover:cursor-pointer`;
   useEffect(() => {
+    // From Customers table, grab the matching user id
     const getSupaCustomer = async () => {
       try {
+        setIsLoading(true);
+
         const { data: stripeData, error: customerError } = await supabaseClient
           .from("customers")
           .select("stripe_customer")
           .filter("id", "eq", user.id);
-
+        // Set the stripeCustomer data to send off to paymentIntent
         setStripeCustomer(stripeData);
         setCustomerId(stripeData[0].stripe_customer);
+        // from the fetched supabase ID, grab the customer's listed cards (if any)
         const data = await axios.post("/api/stripe/listCards", {
           customerId: stripeData[0].stripe_customer,
         });
-
         setCardsList(data.data.paymentMethods.data);
         return;
       } catch (error) {
+        // todo handle this properly
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
-
     getSupaCustomer();
-
-    // cardsList?.map((card, i) => {
-    //   const options = [
-    //     {
-    //       value: card.id,
-    //       label: (
-    //         <div className="flex items-center space-x-4">
-    //           <Image
-    //             src="/visa.svg"
-    //             height={25}
-    //             width={25}
-    //             alt="visa"
-    //           />{" "}
-    //           <p>
-    //             Pay with {card.card.brand} - {card.card.last4}
-    //           </p>
-    //         </div>
-    //       ),
-    //     },
-    //   ]}
-
-    // getSupaCustomer();
+    // I would like to refresh this I think i need to seperate these functions because right now, it keeps running the function and spamming stripe
   }, []);
 
   const handleCardModal = () => {
@@ -213,66 +196,74 @@ export default function CheckoutForm({ user, cart, notes }) {
         </div>
         <ApplePay user={user} notes={notes} />
 
-        {cardsList.length === 0 && <OneTimePayment user={user} notes={notes} />}
-        {cardsList.length > 0 && (
+        {isLoading ? (
+          <Loading />
+        ) : (
           <>
-            <>
-              <div>
-                <form
-                  id="payment-form"
-                  onSubmit={handleSubmit}
-                  className="p-4 rounded-xl"
-                >
-                  {cardsList?.map((card, i) => {
-                    const options = [
-                      {
-                        value: card.id,
-                        label: (
-                          <div className="flex items-center space-x-4">
-                            {/* <Image
+            {cardsList.length === 0 && (
+              <OneTimePayment user={user} notes={notes} />
+            )}
+            {cardsList.length > 0 && (
+              <>
+                <>
+                  <div>
+                    <form
+                      id="payment-form"
+                      onSubmit={handleSubmit}
+                      className="p-4 rounded-xl"
+                    >
+                      {cardsList?.map((card, i) => {
+                        const options = [
+                          {
+                            value: card.id,
+                            label: (
+                              <div className="flex items-center space-x-4">
+                                {/* <Image
                             src="/visa.svg"
                             height={25}
                             width={25}
                             alt="visa"
                           />{" "} */}
-                            <p>
-                              Pay with {card.card.brand} - {card.card.last4}
-                            </p>
-                          </div>
-                        ),
-                      },
-                    ];
-                    return (
-                      <Select
-                        key={i}
-                        options={options}
-                        placeholder="Select your card"
-                        onChange={() => setPaymentMethod(card.id)}
-                        className="mb-4"
-                      />
-                    );
-                  })}
-                  <div>
-                    <button
-                      className={paymentBtn}
-                      disabled={
-                        isLoading || !stripe || !elements || !chosenMethod
-                      }
-                      id="submit"
-                    >
-                      <span id="button-text">
-                        {isLoading ? <Loading /> : "Place Order"}
-                      </span>
-                    </button>
-                    {chosenMethod && (
-                      <p className="text-center text-sm">
-                        Your Card Will Now Be Charged
-                      </p>
-                    )}
+                                <p>
+                                  Pay with {card.card.brand} - {card.card.last4}
+                                </p>
+                              </div>
+                            ),
+                          },
+                        ];
+                        return (
+                          <Select
+                            key={i}
+                            options={options}
+                            placeholder="Select your card"
+                            onChange={() => setPaymentMethod(card.id)}
+                            className="mb-4"
+                          />
+                        );
+                      })}
+                      <div>
+                        <button
+                          className={paymentBtn}
+                          disabled={
+                            isLoading || !stripe || !elements || !chosenMethod
+                          }
+                          id="submit"
+                        >
+                          <span id="button-text">
+                            {isLoading ? <Loading /> : "Place Order"}
+                          </span>
+                        </button>
+                        {chosenMethod && (
+                          <p className="text-center text-sm">
+                            Your Card Will Now Be Charged
+                          </p>
+                        )}
+                      </div>
+                    </form>
                   </div>
-                </form>
-              </div>
-            </>
+                </>
+              </>
+            )}
           </>
         )}
       </div>

@@ -11,12 +11,12 @@ export default function ClosedModal() {
     date.setMilliseconds(date.getUTCMilliseconds());
 
     // if (date.getDay() === 0) return true;
-    return date.getHours() < 6 || date.getHours() >= 16;
+    return date.getHours() < 6 || date.getHours() >= 15;
   };
 
   return (
     <>
-      <Modal title="⚠️ We are currently closed">
+      <Modal title="⚠️ We are currently closed" show={isClosed()}>
         <div className="flex px-4">
           <div className="flex flex-col justify-center items-center ">
             <p>😔</p>

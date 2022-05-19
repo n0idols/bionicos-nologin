@@ -152,7 +152,7 @@ export default function CheckoutPage({ user }) {
                 </div>
                 <hr />
 
-                <div className=" p-2 tracking-wide flex justify-between">
+                <div className="p-2 tracking-wide flex justify-between">
                   <div>
                     <h6>Tax</h6>
                   </div>
@@ -162,7 +162,7 @@ export default function CheckoutPage({ user }) {
                 </div>
                 <hr />
 
-                <div className=" p-2 tracking-wide flex justify-between">
+                <div className="p-2 tracking-wide flex justify-between">
                   <div>
                     <h1 className="font-bold">Total</h1>
                   </div>
