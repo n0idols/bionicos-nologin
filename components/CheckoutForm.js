@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StatusMessages, { useMessages } from "./StatusMessages";
-import OrderReceiptTy from "./OrderReceiptTy";
-import { QueryClient, useMutation, useQuery } from "react-query";
-import { useCookies } from "react-cookie";
+import { QueryClient } from "react-query";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import {
   calculateStripeTotal,
@@ -14,21 +12,14 @@ import { FaStripe } from "react-icons/fa";
 import Loading from "./icons/Loading";
 import Link from "next/link";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
-import { useUser } from "@supabase/supabase-auth-helpers/react";
 import OrderModal from "./OrderModal";
-import { parseCookies, setCookie, destroyCookie } from "nookies";
+import { destroyCookie } from "nookies";
 import { useCart } from "@/lib/cartState";
 import AddCard from "./AddCard";
 import axios from "axios";
-import Payments from "./icons/Payments";
-import Image from "next/image";
 import CardsModal from "./CardsModal";
-import useSWR from "swr";
 import Select from "react-select";
 import ApplePay from "./ApplePay";
-import toast from "react-hot-toast";
-
-import { cardElementOptions } from "./AddCard";
 import OneTimePayment from "./OneTimePayment";
 
 export default function CheckoutForm({ user, cart, notes }) {
