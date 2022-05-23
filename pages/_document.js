@@ -14,7 +14,10 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;700&display=swap"
             rel="stylesheet"
           />
+
           <link rel="manifest" href="/site.webmanifest" />
+          <meta property="og:image" content="/biostorefront.jpg" />
+
           <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
