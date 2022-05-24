@@ -86,7 +86,7 @@ export default function MenuIndex({ categories }) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [categoriesHeadingContainerRef.current, current]);
+  }, [current]);
 
   const activeLink = `whitespace-nowrap cursor-pointer p-2 md:p-3 rounded-md bg-gray-200 transition ease-in-out font-bold`;
   const regularLink = `whitespace-nowrap cursor-pointer p-2 md:p-3 rounded-md hover:bg-gray-200 transition ease-in-out`;
