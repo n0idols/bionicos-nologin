@@ -24,7 +24,11 @@ export default function OrdersTable({ orders }) {
             const last3 = orderId.slice(0, 3);
             const { orderstatus } = order;
             return (
-              <Link href={`/account/admin/orders/${order.id}`} key={order.id}>
+              <Link
+                href={`/account/admin/orders/${order.id}`}
+                key={order.id}
+                passHref
+              >
                 <tr className="hover cursor-pointer">
                   <th>{last3}</th>
                   <td>{moment(order.ordered_at).format("M/DD, h:mm:ss a")}</td>

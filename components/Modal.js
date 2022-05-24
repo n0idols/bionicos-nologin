@@ -11,7 +11,9 @@ const modalbody = `bg-white h-full rounded-b-md`;
 export default function Modal({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
 
-  useEffect(() => setIsBrowser(true));
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
 
   const handleClose = (e) => {
     e.preventDefault();

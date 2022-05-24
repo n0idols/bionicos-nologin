@@ -31,7 +31,7 @@ export default function LocationMap() {
         setLoading(false);
       })
       .catch((error) => addMessage(error));
-  }, [viewport]);
+  }, [viewport, addMessage]);
 
   if (loading) return false;
   return (

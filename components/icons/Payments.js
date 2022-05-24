@@ -3,11 +3,16 @@ import Image from "next/image";
 export default function Payments() {
   return (
     <div className="flex justify-center w-full">
-      <Image src="/visa.svg" height={50} width={50} />
+      <Image src="/visa.svg" height={50} width={50} alt="visa logo" />
 
-      <Image src="/mastercard.svg" height={50} width={50} />
+      <Image
+        src="/mastercard.svg"
+        height={50}
+        width={50}
+        alt="mastercard logo"
+      />
 
-      <Image src="/amex.svg" height={50} width={50} />
+      <Image src="/amex.svg" height={50} width={50} alt="amex logo" />
     </div>
   );
 }

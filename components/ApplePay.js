@@ -123,6 +123,9 @@ export default function ApplePay({ user, notes }) {
     user.id,
     user.user_metadata.full_name,
     user.user_metadata.username,
+    cart,
+    emptyCart,
+    notes,
   ]);
 
   return (
