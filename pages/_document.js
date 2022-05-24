@@ -16,10 +16,6 @@ class MyDocument extends Document {
           />
 
           <link rel="manifest" href="/site.webmanifest" />
-          <meta
-            property="og:image"
-            content="https://bionicosjuicesrios.com/biostorefront.jpg"
-          />
 
           <meta
             name="apple-mobile-web-app-status-bar-style"
