@@ -26,7 +26,7 @@ export default function Home({ reviews, featuredProducts }) {
       {/* <button className="btn btn-outline" onClick={handleThat}>
         sendmail
       </button> */}
-      {JSON.stringify(response)}
+
       <Hero />
       <FeaturedProduct featuredProducts={featuredProducts} />
       <Reviews reviews={reviews} />
