@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }) {
                 <Head>
                   <meta
                     property="og:image"
-                    content="https://bionicosjuicesrios.com/biostorefront.jpg"
+                    content="https://bionicosjuicesrios.com/biostorefront.jpeg"
                   />
 
                   <meta
