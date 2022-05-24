@@ -10,7 +10,7 @@ export default function Hero() {
             {process.env.NEXT_PUBLIC_SITE_TITLE}
           </h1>
 
-          <Link href="/menu">
+          <Link href="/menu" passHref>
             <button className="order-btn">Order Now</button>
           </Link>
         </div>

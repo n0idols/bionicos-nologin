@@ -66,7 +66,7 @@ export default function CheckoutForm({ user, cart, notes }) {
     };
     getSupaCustomer();
     // I would like to refresh this I think i need to seperate these functions because right now, it keeps running the function and spamming stripe
-  }, []);
+  }, [user.id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -2,10 +2,11 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import ReactMapGl, { Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-
+import StatusMessages, { useMessages } from "./StatusMessages";
 export default function LocationMap() {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
+  const [messages, addMessage] = useMessages();
   const [loading, setLoading] = useState(true);
   const [viewport, setViewport] = useState({
     latitude: 34.579449,
@@ -29,8 +30,8 @@ export default function LocationMap() {
         setViewport({ ...viewport, latitude: lat, longitude: lon });
         setLoading(false);
       })
-      .catch((error) => console.log("error", error));
-  }, []);
+      .catch((error) => addMessage(error));
+  }, [viewport]);
 
   if (loading) return false;
   return (
@@ -53,6 +54,7 @@ export default function LocationMap() {
           </div>
         </Marker>
       </ReactMapGl>
+      <StatusMessages messages={messages} />
     </div>
   );
 }

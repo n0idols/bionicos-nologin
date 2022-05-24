@@ -41,7 +41,6 @@ export default function CheckoutPage({ user }) {
   const [couponCode, setCouponCode] = useState(true);
   const [couponOff, setCouponOff] = useState(0);
   const [couponDetail, setCouponDetail] = useState("");
-  const [cardsList, setCardsList] = useState(null);
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -49,7 +48,7 @@ export default function CheckoutPage({ user }) {
     } else {
       return;
     }
-  }, [router]);
+  }, [router, cart.length]);
   const appearance = {
     theme: "stripe",
   };

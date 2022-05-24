@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import StatusMessages, { useMessages } from "./StatusMessages";
 import {
   useStripe,
   useElements,
-  CardElement,
-  Elements,
   PaymentRequestButtonElement,
 } from "@stripe/react-stripe-js";
 import { useCart } from "@/lib/cartState";
@@ -17,7 +15,7 @@ import {
 } from "@/lib/calcOrder";
 import Link from "next/link";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
-import { parseCookies, setCookie, destroyCookie } from "nookies";
+import { destroyCookie } from "nookies";
 
 export default function ApplePay({ user, notes }) {
   const [messages, addMessage] = useMessages();
@@ -25,10 +23,6 @@ export default function ApplePay({ user, notes }) {
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [orderData, setOrderData] = useState("");
   const [orderCompleted, setOrderCompleted] = useState(false);
-
-  // const [customerId, setCustomerId] = useState(
-  //   stripeCustomer[0].stripe_customer
-  // );
 
   const stripe = useStripe();
   const elements = useElements();
@@ -122,7 +116,14 @@ export default function ApplePay({ user, notes }) {
       emptyCart();
       destroyCookie(null, "cart");
     });
-  }, [stripe, elements, addMessage]);
+  }, [
+    stripe,
+    elements,
+    addMessage,
+    user.id,
+    user.user_metadata.full_name,
+    user.user_metadata.username,
+  ]);
 
   return (
     <>
