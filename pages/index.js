@@ -9,25 +9,23 @@ import { useState } from "react";
 import FeaturedProduct from "../components/FeaturedProduct";
 
 export default function Home({ reviews, featuredProducts }) {
-  const [order, setOrder] = useState(null);
-  const [response, setResponse] = useState("yo");
-  const handleThat = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("/api/email", {
-        order,
-      });
+  // const handleThat = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await axios.post("/api/email", {
+  //       order,
+  //     });
 
-      setResponse(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     setResponse(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   return (
     <Layout title="Home">
-      <button className="btn btn-outline" onClick={handleThat}>
+      {/* <button className="btn btn-outline" onClick={handleThat}>
         sendmail
-      </button>
+      </button> */}
       {JSON.stringify(response)}
       <Hero />
       <FeaturedProduct featuredProducts={featuredProducts} />
