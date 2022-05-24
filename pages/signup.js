@@ -1,17 +1,14 @@
-import { useUser, Auth } from "@supabase/supabase-auth-helpers/react";
+import { useUser } from "@supabase/supabase-auth-helpers/react";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
-import { useStripe } from "@stripe/react-stripe-js";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 
 import Layout from "@/components/Layout";
 import Link from "next/link";
 
 import toast from "react-hot-toast";
 import { useCart } from "@/lib/cartState";
-import FBLoginBtn from "@/components/FBLoginBtn";
-import { set } from "nprogress";
 
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
@@ -63,7 +60,7 @@ export default function SignUpPage() {
     if (user && cart.length > 0) {
       router.push("/checkout");
     }
-  }, [user, router]);
+  }, [user, router, cart.length]);
 
   return (
     <Layout title="Sign Up">

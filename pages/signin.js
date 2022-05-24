@@ -42,7 +42,7 @@ export default function SignInPage() {
     if (user && cart.length > 0) {
       router.push("/checkout");
     }
-  }, [user, router]);
+  }, [user, router, cart.length]);
 
   return (
     <Layout title="Sign In">

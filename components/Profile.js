@@ -3,12 +3,11 @@ import { useState, useEffect } from "react";
 import Loading from "./icons/Loading";
 import OrderList from "./OrderList";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
-import Link from "next/link";
-import { FiSettings } from "react-icons/fi";
+
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
 import { loadStripe } from "@stripe/stripe-js";
-import { useStripe, useElements, Elements } from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import AddCard from "./AddCard";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -52,7 +51,7 @@ export default function Profile({ orders, user }) {
 
         return;
       } catch (error) {
-        console.log(error);
+        throw error;
       }
     };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StatusMessages, { useMessages } from "./StatusMessages";
-import { QueryClient } from "react-query";
+
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import {
   calculateStripeTotal,
@@ -15,9 +15,9 @@ import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 import OrderModal from "./OrderModal";
 import { destroyCookie } from "nookies";
 import { useCart } from "@/lib/cartState";
-import AddCard from "./AddCard";
+
 import axios from "axios";
-import CardsModal from "./CardsModal";
+
 import Select from "react-select";
 import ApplePay from "./ApplePay";
 import OneTimePayment from "./OneTimePayment";
@@ -26,26 +26,18 @@ export default function CheckoutForm({ user, cart, notes }) {
   const stripe = useStripe();
   const elements = useElements();
   const { emptyCart } = useCart();
-  const queryClient = new QueryClient();
-  const [message, setMessage] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
-  const [isCardsLoading, setCardsIsLoading] = useState(false);
-  const [openCards, setOpenCards] = useState(false);
   const [orderData, setOrderData] = useState("");
   const [orderCompleted, setOrderCompleted] = useState(false);
-  const [orderCompletedError, setOrderCompletedError] = useState(null);
   const [messages, addMessage] = useMessages();
   const [cardsList, setCardsList] = useState([]);
   const [chosenMethod, setPaymentMethod] = useState(null);
-  const [addNew, setAddNew] = useState(false);
-  const [options, setOptions] = useState(null);
   const [customerId, setCustomerId] = useState("");
   const [stripeCustomer, setStripeCustomer] = useState("");
-  const [emailRes, setEmailResponse] = useState(null);
-  const [saveForLater, setSaveForLater] = useState(false);
 
   const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
-  const linkClasses = `flex items-center justify-center pb-4 hover:cursor-pointer`;
+
   useEffect(() => {
     // From Customers table, grab the matching user id
     const getSupaCustomer = async () => {
@@ -75,11 +67,6 @@ export default function CheckoutForm({ user, cart, notes }) {
     getSupaCustomer();
     // I would like to refresh this I think i need to seperate these functions because right now, it keeps running the function and spamming stripe
   }, []);
-
-  const handleCardModal = () => {
-    setOpenCards(false);
-    setAddNew(false);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -171,14 +158,7 @@ export default function CheckoutForm({ user, cart, notes }) {
           </>
         )}
       </OrderModal>
-      <CardsModal title="Add a card" show={openCards} onClose={handleCardModal}>
-        <div className="flex flex-col space-y-12">
-          <AddCard
-            stripeCustomer={stripeCustomer}
-            handleCardModal={handleCardModal}
-          />
-        </div>
-      </CardsModal>
+
       <div className="p-2 mb-2 border-4 border-dotted shadow-xl bg-base-100 rounded-lg">
         <div className="flex items-center justify-center text-xs">
           <GrSecure className="ml-1 text-lg text-primary" />
