@@ -44,11 +44,6 @@ function MyApp({ Component, pageProps }) {
               <Page>
                 <Head>
                   <meta
-                    property="og:image"
-                    content="https://bionicosjuicesrios.com/biostorefront.jpeg"
-                  />
-
-                  <meta
                     name="viewport"
                     content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
                   />
