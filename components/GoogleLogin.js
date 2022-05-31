@@ -8,9 +8,12 @@ export default function GoogleLogin() {
   async function signInWithGoogle(e) {
     e.preventDefault();
 
-    const { user, session, error } = await supabaseClient.auth.signIn({
-      provider: "google",
-    });
+    const { user, session, error } = await supabaseClient.auth.signIn(
+      {
+        provider: "google",
+      },
+      { redirectTo: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout` }
+    );
     if (error) {
       alert(JSON.stringify(error));
       setLoading(false);
