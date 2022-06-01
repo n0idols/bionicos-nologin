@@ -13,8 +13,8 @@ const container = `fixed top-0 right-0 h-screen w-full md:w-5/12 xl:w-4/12`;
 const drawerstyle = ` h-screen flex flex-col shadow-2xl `;
 const drawerheader = `shadow-lg bg-gray-200 flex justify-between items-center p-4`;
 const drawerbody = `bg-white h-full px-4 overflow-y-auto`;
-const drawerfooter = `bg-gray-200 shadow-lg p-2`;
-const checkoutbtn = `btn btn-primary btn-lg my-4 rounded-3xl w-full px-4 py-2 flex justify-between`;
+const drawerfooter = `bg-gray-200 shadow-lg px-2 pt-2 pb-16`;
+const checkoutbtn = `btn btn-primary btn-lg my-4  w-full py-2 flex justify-between`;
 
 export default function CartDrawer({ show, onClose, children, title }) {
   const [isBrowser, setIsBrowser] = useState(false);
@@ -55,7 +55,9 @@ export default function CartDrawer({ show, onClose, children, title }) {
             <div>
               <h1>Your Order</h1>
             </div>
-            {/* <button onClick={emptyCart}>Empty Cart</button> */}
+            <button className="btn btn-sm btn-outline" onClick={emptyCart}>
+              Empty Cart
+            </button>
             <div>
               <button
                 onClick={handleClose}
@@ -67,14 +69,6 @@ export default function CartDrawer({ show, onClose, children, title }) {
           </div>
 
           <div className={drawerbody}>
-            <button
-              onClick={onCheckout}
-              className={checkoutbtn}
-              disabled={cart.length == 0}
-            >
-              <h3 className="text-white">Checkout</h3>
-              <h3 className="text-white">{formatMoney(totalCartPrice)}</h3>
-            </button>
             <div>
               {cart.length === 0 ? (
                 <div className="space-y-4">
@@ -100,7 +94,16 @@ export default function CartDrawer({ show, onClose, children, title }) {
               )}
             </div>
           </div>
-          <div className={drawerfooter}></div>
+          <div className={drawerfooter}>
+            <button
+              onClick={onCheckout}
+              className={checkoutbtn}
+              disabled={cart.length == 0}
+            >
+              <h3 className="text-white">Checkout</h3>
+              <h3 className="text-white">{formatMoney(totalCartPrice)}</h3>
+            </button>
+          </div>
         </div>
       </div>
     </div>

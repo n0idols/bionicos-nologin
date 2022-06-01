@@ -33,7 +33,14 @@ export default function MapSection() {
         </div>
 
         <div className=" rounded-lg lg:w-full w-screen ">
-          <LocationMap />
+          {/* <LocationMap /> */}
+
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6569.832944813545!2d-118.088691!3d34.58098!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xda1ede9cb9f7f244!2sBionicos%20And%20Juice&#39;s%20Rios!5e0!3m2!1sen!2sus!4v1641671358648!5m2!1sen!2sus"
+            className="lg:w-full w-screen h-[450px]"
+            loading="lazy"
+            title="map"
+          ></iframe>
         </div>
       </div>
     </>
