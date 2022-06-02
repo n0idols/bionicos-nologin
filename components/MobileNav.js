@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
+import { useEffect, useState } from "react";
 
 const icon = `text-gray-600 text-2xl`;
 const iconActive = `text-primary  text-2xl`;
@@ -12,9 +13,17 @@ const navWrap = `fixed bottom-0 inset-x-0 bg-gray-200 flex md:hidden justify-bet
 const iconWrap = `w-full h-full p-4 text-center flex flex-col items-center text-xs`;
 
 export default function MobileNav() {
-  const { cart, toggleCart, totalCartPrice } = useCart();
   const router = useRouter();
-  const showCart = router.pathname !== "/checkout" && cart.length > 0;
+  const { cart, toggleCart, totalCartPrice } = useCart();
+  const [showCart, setShowCart] = useState(null);
+  useEffect(() => {
+    if (router.pathname === "/checkout") {
+      setShowCart(false);
+    }
+    if (router.pathname !== "/checkout" && cart.length > 0) {
+      setShowCart(true);
+    }
+  }, [router, cart.length]);
 
   function CartDiv() {
     return (
@@ -60,8 +69,7 @@ export default function MobileNav() {
           <Link href="/">
             <a className={iconWrap}>
               <FiHome className={router.pathname == "/" ? iconActive : icon} />
-              {/* Home */}
-              {JSON.stringify(showCart)}
+              Home
             </a>
           </Link>
 

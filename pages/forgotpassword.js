@@ -6,7 +6,6 @@ import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 import { NextSeo } from "next-seo";
 
 export default function ForgotPassword() {
-  const router = useRouter();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({

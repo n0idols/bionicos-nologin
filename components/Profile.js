@@ -79,6 +79,9 @@ export default function Profile({ orders, user }) {
       if (Object.keys(deleteResponse.data).length > 0) {
         toast.success("Card removed");
         handleCardModal();
+        window.setTimeout(function () {
+          location.reload();
+        }, 1000);
       }
     }
   };

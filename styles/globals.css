@@ -44,7 +44,7 @@ h1 {
 }
 
 .order-btn {
-  @apply btn bg-brand-red glass text-gray-700 hover:bg-brand-redhover shadow-2xl px-8;
+  @apply btn bg-brand-red glass text-gray-700 shadow-2xl px-8;
 }
 
 .receipt-paper {

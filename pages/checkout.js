@@ -89,7 +89,7 @@ export default function CheckoutPage({ user }) {
 
       <ClosedModal />
 
-      <div className="max-w-2xl mx-auto pt-12 lg:my-24 px-4 bg-white shadow-xl rounded-xl">
+      <div className="max-w-2xl mx-auto pt-12 mt-2 px-4 bg-white shadow-xl rounded-xl">
         <Link href="/menu">
           <a className="btn btn-sm btn-primary">
             {" "}

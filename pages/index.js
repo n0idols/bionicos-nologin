@@ -2,9 +2,8 @@ import Hero from "@/components/Hero";
 import MapSection from "@/components/MapSection";
 import Reviews from "@/components/Reviews";
 import client from "@/lib/apollo-client";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { NextSeo } from "next-seo";
-import { useState } from "react";
 import FeaturedProduct from "../components/FeaturedProduct";
 
 export default function Home({ reviews, featuredProducts }) {

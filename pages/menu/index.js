@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-
 import MenuItem from "@/components/MenuItem";
 import client from "@/lib/apollo-client";
 import gql from "graphql-tag";

@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <>
       <footer className="footer footer-center bg-base-200 text-base-content  pt-8 pb-24 md:pb-8">
-        <div className="">
+        <div>
           <Logo />
           <div className="grid grid-flow-col gap-8 mt-2">
             <a href="tel:+16612662620">

@@ -1,19 +1,8 @@
 import CartItem from "@/components/Cart/CartItem";
 import { useCart } from "@/lib/cartState";
-import formatMoney from "@/lib/formatMoney";
-import { useCookies } from "react-cookie";
-import Link from "next/link";
-import { useState } from "react";
-export default function Cart() {
-  const [cookie, setCookie] = useCookies(["user"]);
-  const { cart, totalCartPrice, closeCart } = useCart();
 
-  function openAuthModal() {
-    // $authOpen = true;
-    // $cartOpen = false;
-    // setIsCartDrawerOpen(false);
-    closeCart();
-  }
+export default function Cart() {
+  const { cart } = useCart();
 
   return (
     <div>

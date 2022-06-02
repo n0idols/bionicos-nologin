@@ -14,11 +14,11 @@ const container = `fixed top-0 right-0 h-screen w-full md:w-5/12 xl:w-4/12`;
 const drawerstyle = ` h-screen flex flex-col shadow-2xl `;
 const drawerheader = `shadow-lg bg-gray-200 flex justify-between items-center p-4`;
 const drawerbody = `bg-white h-full px-4 overflow-y-auto`;
-const drawerfooter = `bg-gray-200 shadow-lg px-2 pt-2 `;
-const checkoutbtnDesk = `hidden md:flex btn btn-primary btn-lg my-4  w-full py-2  justify-between`;
-const checkoutbtn = `md:hidden btn btn-primary btn-lg my-4  w-full py-2 flex justify-between`;
+const drawerfooter = `bg-gray-200 shadow-lg px-2 pb-20`;
+const checkoutbtnDesk = `hidden md:flex btn btn-primary btn-lg my-4 w-full py-2 justify-between`;
+const checkoutbtn = `md:hidden btn btn-primary btn-lg my-4  w-full py-2 flex justify-between `;
 
-export default function CartDrawer({ show, onClose, children, title }) {
+export default function CartDrawer({ show, onClose }) {
   const [isBrowser, setIsBrowser] = useState(false);
   const { cart, closeCart, totalCartPrice, emptyCart } = useCart();
 
@@ -59,7 +59,7 @@ export default function CartDrawer({ show, onClose, children, title }) {
             <div>
               <button
                 onClick={handleClose}
-                className="btn btn-circle btn-sm text-xl "
+                className="btn btn-circle btn-sm text-xl"
               >
                 &times;
               </button>
