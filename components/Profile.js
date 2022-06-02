@@ -54,7 +54,6 @@ export default function Profile({ orders, user }) {
         throw error;
       }
     };
-
     getSupaCustomer();
   }, []);
   const handleLogOut = async (e) => {
@@ -80,9 +79,6 @@ export default function Profile({ orders, user }) {
       if (Object.keys(deleteResponse.data).length > 0) {
         toast.success("Card removed");
         handleCardModal();
-        window.setTimeout(function () {
-          location.reload();
-        }, 1000);
       }
     }
   };
@@ -95,10 +91,15 @@ export default function Profile({ orders, user }) {
       {user ? (
         <div className="dash">
           <div className="flex justify-between items-center mb-8">
-            <p>Hello, {user_metadata.username || user_metadata.full_name}</p>
+            <h1>Hello, {user_metadata.username || user_metadata.full_name}</h1>
 
             <div>
-              <button onClick={handleLogOut}>Log out</button>
+              <button
+                className="btn btn-outline btn-warning btn-sm"
+                onClick={handleLogOut}
+              >
+                Log out
+              </button>
             </div>
           </div>
           {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}

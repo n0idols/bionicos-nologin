@@ -1,5 +1,3 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
-
 import {
   getUser,
   withAuthRequired,
@@ -8,14 +6,16 @@ import {
 
 import Profile from "@/components/Profile";
 import Layout from "@/components/Layout";
+import { NextSeo } from "next-seo";
 
 const Dashboard = ({ orders, user }) => {
   return (
-    <Layout title="Profile">
+    <>
+      <NextSeo title="Dashboard" description="Dashboard" />
       <div className="flex items-center justify-between">
         <Profile user={user} orders={orders} />
       </div>
-    </Layout>
+    </>
   );
 };
 

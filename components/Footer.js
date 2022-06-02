@@ -26,9 +26,11 @@ export default function Footer() {
           <Link href="/privacy">
             <a className="link link-hover">Privacy Policy</a>
           </Link>
+
           <Link href="/tos">
             <a className="link link-hover">Terms of Service</a>
           </Link>
+
           <a className="link link-hover">Disclaimer</a>
         </div>
         <div className="hidden md:flex">

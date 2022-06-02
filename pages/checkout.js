@@ -28,6 +28,7 @@ import {
 } from "../lib/calcOrder";
 import ClosedModal from "@/components/ClosedModal";
 import axios from "axios";
+import { NextSeo } from "next-seo";
 
 export default function CheckoutPage({ user }) {
   const router = useRouter();
@@ -82,11 +83,16 @@ export default function CheckoutPage({ user }) {
       alert("Coupon applied");
     }
   };
+
+  const title = `Checkout`;
+  const description = `Complete your order`;
   return (
-    <Layout title="Checkout">
+    <>
+      <NextSeo title={title} description={description} />
+
       <ClosedModal />
 
-      <div className="max-w-2xl mx-auto pt-12 my-24 px-4 bg-white shadow-xl rounded-xl">
+      <div className="max-w-2xl mx-auto pt-12 lg:my-24 px-4 bg-white shadow-xl rounded-xl">
         <Link href="/menu">
           <a className="btn btn-sm btn-primary">
             {" "}
@@ -188,7 +194,7 @@ export default function CheckoutPage({ user }) {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 }
 

@@ -9,6 +9,7 @@ import Link from "next/link";
 
 import toast from "react-hot-toast";
 import { useCart } from "@/lib/cartState";
+import { NextSeo } from "next-seo";
 
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
@@ -62,8 +63,12 @@ export default function SignUpPage() {
     }
   }, [user, router, cart.length]);
 
+  const title = `Sign up`;
+  const description = `Sign up for an account to view order history and save payment methods.`;
   return (
-    <Layout title="Sign Up">
+    <>
+      <NextSeo title={title} description={description} />
+
       <div className="max-w-md mx-auto mt-24 p-4 rounded-xl bg-white shadow-xl">
         <form className="form-control" onSubmit={onSubmit} method="post">
           <h1 className="text-center mt-2">Create a new account</h1>
@@ -139,6 +144,6 @@ export default function SignUpPage() {
           </div>
         </form>
       </div>
-    </Layout>
+    </>
   );
 }

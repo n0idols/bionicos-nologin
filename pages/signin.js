@@ -4,13 +4,13 @@ import { AiOutlineMail } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import Layout from "@/components/Layout";
 import Link from "next/link";
 
 import toast from "react-hot-toast";
 import { useCart } from "@/lib/cartState";
 import FBLoginBtn from "@/components/FBLoginBtn";
 import GoogleLogin from "@/components/GoogleLogin";
+import { NextSeo } from "next-seo";
 
 export default function SignInPage() {
   const [loading, setLoading] = useState(false);
@@ -44,10 +44,13 @@ export default function SignInPage() {
     }
   }, [user, router, cart.length]);
 
+  const title = `Sign In`;
+  const description = `Manage your account, view order history, and save payment methods.`;
   return (
-    <Layout title="Sign In">
+    <>
+      <NextSeo title={title} description={description} />
       <div className="max-w-md mx-auto">
-        <div className="mx-4 mt-24 p-4 rounded-xl bg-white shadow-xl">
+        <div className="mx-4 mt-8 p-4 rounded-xl bg-white shadow-xl">
           <h1 className="text-center mt-2">Sign In</h1>
 
           <GoogleLogin />
@@ -125,6 +128,6 @@ export default function SignInPage() {
           </form>
         </div>
       </div>
-    </Layout>
+    </>
   );
 }

@@ -7,7 +7,7 @@ import { GrCart } from "react-icons/gr";
 import CartDrawer from "./CartDrawer";
 import { useUser, User } from "@supabase/supabase-auth-helpers/react";
 import { useEffect, useState } from "react";
-export default function TempHeader({ user, admin }) {
+export default function TempHeader({ user }) {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn text-gray-600 `;
   const activeClasses = `btn btn-primary btn-sm rounded-btn text-white `;
@@ -36,59 +36,6 @@ export default function TempHeader({ user, admin }) {
       </div>
     );
   }
-
-  function AdminLinks() {
-    return (
-      <>
-        {" "}
-        <Link href="/account/admin/orders/progress">
-          <a
-            className={
-              router.pathname == "/account/admin/orders/progress"
-                ? activeClasses
-                : linkClasses
-            }
-          >
-            New Orders
-          </a>
-        </Link>
-        <Link href="/account/admin/orders/ready">
-          <a
-            className={
-              router.pathname == "/account/admin/orders/ready"
-                ? activeClasses
-                : linkClasses
-            }
-          >
-            Ready For Pickup
-          </a>
-        </Link>
-        <Link href="/account/admin/orders/completed">
-          <a
-            className={
-              router.pathname == "/account/admin/orders/completed"
-                ? activeClasses
-                : linkClasses
-            }
-          >
-            Completed
-          </a>
-        </Link>
-        {/* <Link href="/account/admin/orders">
-          <a
-            className={
-              router.pathname == "/account/admin/orders"
-                ? activeClasses
-                : linkClasses
-            }
-          >
-            All Orders
-          </a>
-        </Link> */}
-      </>
-    );
-  }
-
   function UserLinks() {
     return (
       <>
@@ -120,33 +67,21 @@ export default function TempHeader({ user, admin }) {
   return (
     <>
       <CartDrawer show={show} onClose={closeCart} />
-      {/* <AdminDrawer show={show} /> */}
-      <header className="fixed top-0 z-50 w-full">
-        <div className="navbar shadow-lg bg-white text-neutral-content standalone:pt-4">
-          <div className="px-2 mx-2 navbar-start">
-            <Logo admin={admin} />
-          </div>
-          <div className="hidden px-2 mx-2 navbar-center md:flex text-gray-600">
-            <div className="flex items-center">
-              {admin ? <AdminLinks /> : <UserLinks />}
+      <div className="hidden md:flex">
+        <header className="fixed top-0 z-50 w-full">
+          <div className="navbar shadow-lg bg-white text-neutral-content standalone:pt-4">
+            <div className="px-2 mx-2 navbar-start">
+              <Logo />
             </div>
-          </div>
-          <div className="navbar-end space-x-4">
-            {admin ? (
-              <>
-                {" "}
-                {/* <Link href="/account/admin/customers">
-                  <a className={linkClasses}>customers</a>
-                </Link> */}
-                <Link href="/account/admin/orders/">
-                  <a className={linkClasses}>All Orders</a>
-                </Link>
-              </>
-            ) : (
+            <div className="hidden px-2 mx-2 navbar-center md:flex text-gray-600">
+              <div className="flex items-center">
+                <UserLinks />
+              </div>
+            </div>
+            <div className="navbar-end space-x-4">
               <div className="flex">
                 {user ? (
                   <>
-                    {" "}
                     <Link href="/dashboard">
                       <a className={linkClasses}>My Account</a>
                     </Link>
@@ -154,7 +89,6 @@ export default function TempHeader({ user, admin }) {
                   </>
                 ) : (
                   <>
-                    {" "}
                     <Link href="/signin">
                       <a className={linkClasses}>Account</a>
                     </Link>
@@ -162,10 +96,10 @@ export default function TempHeader({ user, admin }) {
                   </>
                 )}
               </div>
-            )}
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
     </>
   );
 }

@@ -19,48 +19,6 @@ export default function Page({ children }) {
   const [admin, setIsAdmin] = useState(null);
   const [userprofile, setUserProfile] = useState(null);
 
-  useEffect(() => {
-    if (user) {
-      getProfile();
-    } else {
-      return;
-    }
-  }, [user]);
-
-  async function getProfile() {
-    setLoading(true);
-
-    try {
-      let { data, error, status } = await supabaseClient
-        .from("profiles")
-        .select(`*`)
-        .eq("id", user.id);
-
-      if (error && status !== 406) {
-        throw error;
-      }
-
-      if (data[0].isAdmin === true) {
-        setIsAdmin(true);
-      }
-
-      // if (data) {
-      //   setCookie(null, "username", data[0].username || data[0].full_name, {
-      //     path: "/",
-      //     sameSite: "lax",
-      //   });
-      //   setUserProfile(data);
-
-      //   if (data[0].isAdmin === true) {
-      //     setIsAdmin(true);
-      //   }
-      // }
-    } catch (error) {
-      alert(`From Page wrapper - ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  }
   return (
     <>
       <Toaster
@@ -74,9 +32,9 @@ export default function Page({ children }) {
       />
       <div
         style={{ WebkitTapHighlightColor: "transparent" }}
-        className="bg-base-100 standalone:mt-28 mt-20"
+        className="bg-base-100  md:mt-20"
       >
-        <TempHeader admin={admin} user={user} />
+        <TempHeader user={user} />
 
         <main className="min-h-screen">{children}</main>
         <Footer />

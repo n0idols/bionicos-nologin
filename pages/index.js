@@ -1,38 +1,41 @@
 import Hero from "@/components/Hero";
-import Layout from "@/components/Layout";
 import MapSection from "@/components/MapSection";
 import Reviews from "@/components/Reviews";
 import client from "@/lib/apollo-client";
 import { gql, useQuery } from "@apollo/client";
-import axios from "axios";
+import { NextSeo } from "next-seo";
 import { useState } from "react";
 import FeaturedProduct from "../components/FeaturedProduct";
 
 export default function Home({ reviews, featuredProducts }) {
-  // const handleThat = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await axios.post("/api/email", {
-  //       order,
-  //     });
-
-  //     setResponse(res);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const title = `${process.env.NEXT_PUBLIC_SITE_TITLE} - Home`;
+  const description = `Order ahead today | 100% Natural juices, smoothies and fruit salads`;
   return (
-    <Layout title="Home">
-      {/* <button className="btn btn-outline" onClick={handleThat}>
-        sendmail
-      </button> */}
-
+    <>
+      <NextSeo
+        title={title}
+        description={description}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_CLIENT_URL}`,
+          title: title,
+          description: description,
+          images: [
+            {
+              url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/ogbio.jpg`,
+              width: 800,
+              height: 600,
+              alt: "Bionicos Home Image",
+              type: "image/jpeg",
+            },
+          ],
+        }}
+      />
       <Hero />
       <FeaturedProduct featuredProducts={featuredProducts} />
       <Reviews reviews={reviews} />
       {/* <LeadCapture /> */}
       <MapSection />
-    </Layout>
+    </>
   );
 }
 

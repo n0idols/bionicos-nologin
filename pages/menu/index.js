@@ -4,6 +4,7 @@ import MenuItem from "@/components/MenuItem";
 import client from "@/lib/apollo-client";
 import gql from "graphql-tag";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { NextSeo } from "next-seo";
 
 const arrow = `text-2xl bg-base-200 h-100 hover:cursor-pointer rounded-md m-2 `;
 
@@ -88,10 +89,14 @@ export default function MenuIndex({ categories }) {
     };
   }, [current]);
 
+  const title = `${process.env.NEXT_PUBLIC_SITE_TITLE} - Full Menu`;
+  const description = `Browse Bionicos, Natural Juices, Acai Bowls, and much more.`;
   const activeLink = `whitespace-nowrap cursor-pointer p-2 md:p-3 rounded-md bg-gray-200 transition ease-in-out font-bold`;
   const regularLink = `whitespace-nowrap cursor-pointer p-2 md:p-3 rounded-md hover:bg-gray-200 transition ease-in-out`;
   return (
-    <Layout title="Menu">
+    <>
+      <NextSeo title={title} description={description} />
+
       <div className="w-full flex mx-auto fixed z-50 bg-base-100 xl:justify-center">
         <div className="flex items-center w-full">
           <div>
@@ -148,7 +153,7 @@ export default function MenuIndex({ categories }) {
           );
         })}
       </div>
-    </Layout>
+    </>
   );
 }
 export async function getStaticProps() {

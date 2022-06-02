@@ -37,7 +37,7 @@ export default function ProgressOrders({ orders }) {
 
             {/* <button onClick={sendMessage}>Send message</button> */}
             {/* <pre>{JSON.stringify(orders, null, 2)}</pre> */}
-            <div className="flex justify-center w-full  mb-4">
+            <div className="flex justify-center w-full mb-4">
               <button
                 className="btn btn-success btn-outline btn-sm"
                 onClick={checkOrders}
@@ -62,13 +62,13 @@ const getServerSideProps = withAuthRequired({
   redirectTo: "/signin",
   getServerSideProps: async (ctx) => {
     // const { req } = ctx;
-    // const { cart } = parseCookies(req);
+    // // const { cart } = parseCookies(req);
 
-    const { data: orders, error } = await supabaseServerClient(ctx)
-      .from("orders")
-      .select("*")
-      .eq("orderstatus", "in progress")
-      .order("ordered_at", { ascending: false });
+    // const { data: orders, error } = await supabaseServerClient(ctx)
+    //   .from("orders")
+    //   .select("*")
+    //   .eq("orderstatus", "in progress")
+    //   .order("ordered_at", { ascending: false });
 
     return {
       props: {

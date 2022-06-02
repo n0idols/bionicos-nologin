@@ -86,7 +86,7 @@ export default function MenuItem({ item }) {
         onClose={() => setIsModalOpen(false)}
         title={item.number ? `${item.number}. ${item.title}` : `${item.title}`}
       >
-        <div className="min-h-[200px] flex flex-col justify-between">
+        <div className="min-h-[200px] flex flex-col justify-around ">
           {item.image && (
             <div className="relative h-64 w-full">
               <Image
@@ -98,10 +98,10 @@ export default function MenuItem({ item }) {
               />
             </div>
           )}
-          <div className="px-2 my-2">
+          <div className="px-2">
             {item.description && <p className="my-2">{item.description}</p>}
 
-            <form onSubmit={addItemToCart} className="py-2">
+            <form onSubmit={addItemToCart} className="h-full">
               <div className="flex  items-center my-4">
                 <h2 className="">Quantity</h2>
 
@@ -130,7 +130,7 @@ export default function MenuItem({ item }) {
                   <button
                     type="button"
                     onClick={() => setQuantity(quantity + 1)}
-                    className="btn btn-primary text-white"
+                    className="btn btn-primary "
                   >
                     <AiOutlinePlus className={icon} />
                   </button>
@@ -142,7 +142,7 @@ export default function MenuItem({ item }) {
                     <h2>{group.name}</h2>
                     {group.required ? (
                       <div>
-                        <div className="badge badge-primary rounded-full text-white">
+                        <div className="badge badge-primary rounded-full ">
                           Required
                         </div>
                         {group.mod.map((m, i) => (
@@ -224,12 +224,12 @@ export default function MenuItem({ item }) {
                   </div>
                 </div>
               ))}
-
-              <button className="btn bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-auto">
+              <button className="btn bg-brand-red glass hover:bg-brand-redhover btn-block mt-auto text-gray-700 mb-2">
+                {/* <button className="btn btn-brand btn-block mb-2 "> */}
                 Add To Order
               </button>
 
-              {/* <button className="bg-primary-red py-2 text-white w-full rounded-lg">Add To Order</button>  */}
+              {/* <button className="bg-primary-red py-2  w-full rounded-lg">Add To Order</button>  */}
             </form>
           </div>
         </div>

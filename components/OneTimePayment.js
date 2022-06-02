@@ -22,7 +22,7 @@ import { cardElementOptions } from "./AddCard";
 import Loading from "./icons/Loading";
 import Image from "next/image";
 
-const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
+const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-gray-700 hover:bg-brand-redhover my-4`;
 
 export default function OneTimePayment({ user, notes }) {
   const [messages, addMessage] = useMessages();

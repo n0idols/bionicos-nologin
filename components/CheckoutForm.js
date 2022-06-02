@@ -36,7 +36,7 @@ export default function CheckoutForm({ user, cart, notes }) {
   const [customerId, setCustomerId] = useState("");
   const [stripeCustomer, setStripeCustomer] = useState("");
 
-  const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-white hover:bg-brand-redhover my-4`;
+  const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-gray-700 hover:bg-brand-redhover my-4`;
 
   useEffect(() => {
     // From Customers table, grab the matching user id

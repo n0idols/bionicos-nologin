@@ -8,6 +8,7 @@ import { buildUrl } from "cloudinary-build-url";
 import formatMoney from "@/lib/formatMoney";
 import toast from "react-hot-toast";
 import Layout from "@/components/Layout";
+import { NextSeo } from "next-seo";
 
 export default function SpecialsMenu({ specials }) {
   const d = new Date();
@@ -35,9 +36,12 @@ export default function SpecialsMenu({ specials }) {
     toast.success(`Added ${item.day} Special`);
   }
   const active = `text-transparent bg-clip-text bg-gradient-to-br from-accent to-accent-focus-focus`;
+  const title = `Checkout`;
 
   return (
-    <Layout title="Specials Menu">
+    <>
+      <NextSeo title={title} description={description} />
+
       <div className="max-w-7xl mx-auto px-4">
         <div className="md:py-8 py-2">
           <h1 className="grad-text">Daily Specials</h1>
@@ -292,7 +296,7 @@ export default function SpecialsMenu({ specials }) {
         </div>
         {/* <pre>{JSON.stringify(specials, null, 2)}</pre> */}
       </div>
-    </Layout>
+    </>
   );
 }
 
