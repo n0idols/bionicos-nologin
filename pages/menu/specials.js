@@ -36,7 +36,8 @@ export default function SpecialsMenu({ specials }) {
     toast.success(`Added ${item.day} Special`);
   }
   const active = `text-transparent bg-clip-text bg-gradient-to-br from-accent to-accent-focus-focus`;
-  const title = `Checkout`;
+  const title = `${process.env.NEXT_PUBLIC_SITE_TITLE} - Specials Menu`;
+  const description = `Browse our daily special. Each special comes with a Large Agua Fresca.`;
 
   return (
     <>
