@@ -7,7 +7,7 @@ import Modal from "@/components/Modal";
 import { buildUrl } from "cloudinary-build-url";
 import formatMoney from "@/lib/formatMoney";
 import toast from "react-hot-toast";
-import Layout from "@/components/Layout";
+
 import { NextSeo } from "next-seo";
 
 export default function SpecialsMenu({ specials }) {

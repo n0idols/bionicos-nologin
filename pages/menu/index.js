@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import Layout from "@/components/Layout";
+
 import MenuItem from "@/components/MenuItem";
 import client from "@/lib/apollo-client";
 import gql from "graphql-tag";

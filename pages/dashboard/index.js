@@ -3,9 +3,7 @@ import {
   withAuthRequired,
   supabaseServerClient,
 } from "@supabase/supabase-auth-helpers/nextjs";
-
 import Profile from "@/components/Profile";
-import Layout from "@/components/Layout";
 import { NextSeo } from "next-seo";
 
 const Dashboard = ({ orders, user }) => {

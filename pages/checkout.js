@@ -16,9 +16,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
-
-import Layout from "@/components/Layout";
-
 import { FiPlusCircle } from "react-icons/fi";
 import { useRouter } from "next/router";
 import {
@@ -27,7 +24,7 @@ import {
   calculateTax,
 } from "../lib/calcOrder";
 import ClosedModal from "@/components/ClosedModal";
-import axios from "axios";
+
 import { NextSeo } from "next-seo";
 
 export default function CheckoutPage({ user }) {
