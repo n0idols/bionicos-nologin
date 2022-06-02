@@ -1,14 +1,10 @@
 import {
   getUser,
-  supabaseClient,
-  supabaseServerClient,
   withAuthRequired,
 } from "@supabase/supabase-auth-helpers/nextjs";
-import { useUser } from "@supabase/supabase-auth-helpers/react";
 import CartItem from "@/components/Cart/CartItem";
-import Loading from "@/components/icons/Loading";
 import formatMoney from "@/lib/formatMoney";
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { useCart } from "@/lib/cartState";
 import client from "@/lib/apollo-client";
 import gql from "graphql-tag";
@@ -17,7 +13,7 @@ import Link from "next/link";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
 import { FiPlusCircle } from "react-icons/fi";
-import { useRouter } from "next/router";
+
 import {
   calculateStripeTotal,
   calculateSubAmount,
@@ -28,7 +24,6 @@ import ClosedModal from "@/components/ClosedModal";
 import { NextSeo } from "next-seo";
 
 export default function CheckoutPage({ user }) {
-  const router = useRouter();
   const [stripePromise, setStripePromise] = useState(() =>
     loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`)
   );
@@ -40,13 +35,13 @@ export default function CheckoutPage({ user }) {
   const [couponOff, setCouponOff] = useState(0);
   const [couponDetail, setCouponDetail] = useState("");
 
-  useEffect(() => {
-    if (cart.length === 0) {
-      router.replace("/dashboard");
-    } else {
-      return;
-    }
-  }, [router, cart.length]);
+  // useEffect(() => {
+  //   if (cart.length === 0) {
+  //     router.replace("/dashboard");
+  //   } else {
+  //     return;
+  //   }
+  // }, [router, cart.length]);
   const appearance = {
     theme: "stripe",
   };
@@ -86,9 +81,7 @@ export default function CheckoutPage({ user }) {
   return (
     <>
       <NextSeo title={title} description={description} />
-
       <ClosedModal />
-
       <div className="max-w-2xl mx-auto pt-12 mt-2 px-4 bg-white shadow-xl rounded-xl">
         <Link href="/menu">
           <a className="btn btn-sm btn-primary">
@@ -96,7 +89,6 @@ export default function CheckoutPage({ user }) {
             <FiPlusCircle className="text-xl mr-1" /> Add More Items
           </a>
         </Link>
-
         <div>
           <div>
             <div>
