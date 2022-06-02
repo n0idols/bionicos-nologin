@@ -4,7 +4,6 @@ import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import Layout from "@/components/Layout";
 import Link from "next/link";
 
 import toast from "react-hot-toast";

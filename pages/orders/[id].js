@@ -7,16 +7,16 @@ import Section from "@/components/Section";
 import getStatus from "@/lib/getStatus";
 import moment from "moment";
 import formatMoney from "@/lib/formatMoney";
-
-import Layout from "@/components/Layout";
 import OrderSlugItem from "@/components/OrderSlugItem";
+import { NextSeo } from "next-seo";
 export default function OrderSlug({ order }) {
   const router = useRouter();
 
   // const daorder = order[0];
 
   return (
-    <Layout>
+    <>
+      <NextSeo title="Your Order" description="Order Details" />
       <Section>
         <button
           className="btn btn-outline btn-sm"
@@ -99,7 +99,7 @@ export default function OrderSlug({ order }) {
           );
         })}
       </Section>
-    </Layout>
+    </>
   );
 }
 

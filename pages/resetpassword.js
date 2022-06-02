@@ -4,6 +4,7 @@ import axios from "axios";
 import Layout from "@/components/Layout";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
+import { NextSeo } from "next-seo";
 
 export default function ResetPassword() {
   const router = useRouter();
@@ -34,7 +35,8 @@ export default function ResetPassword() {
   };
 
   return (
-    <Layout title="Enter new password">
+    <>
+      <NextSeo title="Enter new password" description="Set new password" />
       <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl bg-white shadow">
         <form className="form-control" onSubmit={handleSubmit}>
           <h1 className="text-center mt-2">Enter new password</h1>
@@ -74,6 +76,6 @@ export default function ResetPassword() {
           </div>
         </form>
       </div>
-    </Layout>
+    </>
   );
 }

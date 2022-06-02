@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
-import Layout from "@/components/Layout";
+
 import Link from "next/link";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+import { NextSeo } from "next-seo";
 
 export default function ForgotPassword() {
   const router = useRouter();
@@ -28,7 +28,11 @@ export default function ForgotPassword() {
     setMessage("Sent! Check your email to continue");
   };
   return (
-    <Layout title="Request password reset">
+    <>
+      <NextSeo
+        title="Request password reset"
+        description="Recover your Bionicos and Juices Rios account"
+      />
       <div className="max-w-md mx-auto  md:mt-24 mt-16  p-4 rounded-xl bg-white shadow">
         {(message && <h1 className="text-center">{message}</h1>) || null}
         <form className="form-control" onSubmit={onSubmit} method="post">
@@ -61,6 +65,6 @@ export default function ForgotPassword() {
           </div>
         </form>
       </div>
-    </Layout>
+    </>
   );
 }
