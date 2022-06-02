@@ -22,6 +22,8 @@ export default function MobileNav() {
     }
     if (router.pathname !== "/checkout" && cart.length > 0) {
       setShowCart(true);
+    } else {
+      setShowCart(false);
     }
   }, [router, cart.length]);
 
