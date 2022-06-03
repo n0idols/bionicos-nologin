@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -13,7 +12,7 @@ export default function Page({ children }) {
     <>
       <Toaster
         toastOptions={{
-          duration: 4000,
+          duration: 3000,
           position: "bottom-center",
           style: {
             padding: "16px",

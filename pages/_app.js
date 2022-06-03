@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 // import { appWithTranslation } from "next-i18next";
 import { UserProvider } from "@supabase/supabase-auth-helpers/react";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
@@ -10,7 +10,6 @@ import "@/styles/nprogress.css";
 import { CartStateProvider } from "@/lib/cartState";
 import { CookiesProvider } from "react-cookie";
 
-import Head from "next/head";
 import * as Fathom from "fathom-client";
 
 import { ApolloProvider } from "@apollo/client";
@@ -42,13 +41,6 @@ function MyApp({ Component, pageProps }) {
           <CookiesProvider>
             <CartStateProvider>
               <Page>
-                <Head>
-                  <meta
-                    name="viewport"
-                    content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
-                  />
-                </Head>
-
                 <Component {...pageProps} />
               </Page>
             </CartStateProvider>
