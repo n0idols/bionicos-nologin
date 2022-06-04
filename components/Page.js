@@ -6,16 +6,18 @@ import { Toaster } from "react-hot-toast";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
 
 export default function Page({ children }) {
-  const { user, isLoading } = useUser();
-
+  const { user } = useUser();
   return (
     <>
       <Toaster
         toastOptions={{
           duration: 3000,
           position: "bottom-center",
+          reverseOrder: "true",
           style: {
-            padding: "16px",
+            paddingInline: "1rem",
+            fontFamily: "work sans, sans-serif",
+            fontSize: ".9rem",
           },
         }}
       />

@@ -21,10 +21,6 @@ class MyDocument extends Document {
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
           />
-          <meta
-            name="viewport"
-            content="initial-scale=1,width=device-width, viewport-fit=cover, user-scalable=no"
-          />
 
           <meta name="theme-color" content="#eeeae6" />
           <link

@@ -34,14 +34,12 @@ export default function MobileNav() {
           aria-label="cart"
           onClick={toggleCart}
           // className="p-2 flex w-full justify-center items-center"
-          className="btn btn-primary btn-lg w-full flex justify-between"
+          className="btn btn-primary w-full flex justify-between"
         >
           <h2>your order</h2>
 
           <span className="relative flex items-center mx-4">
-            <div className="mr-4 text-gray-800">
-              {formatMoney(totalCartPrice)}
-            </div>
+            <div className="mr-4">{formatMoney(totalCartPrice)}</div>
             <div className="indicator">
               <div className="indicator-item badge badge-secondary rounded-full ">
                 {cart.length}

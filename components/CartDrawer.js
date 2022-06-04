@@ -15,8 +15,8 @@ const drawerstyle = ` h-screen flex flex-col shadow-2xl `;
 const drawerheader = `shadow-lg bg-gray-200 flex justify-between items-center p-4`;
 const drawerbody = `bg-white h-full px-4 overflow-y-auto`;
 const drawerfooter = `bg-gray-200 shadow-lg px-2 pb-20`;
-const checkoutbtnDesk = `hidden md:flex btn btn-primary btn-lg my-4 w-full py-2 justify-between`;
-const checkoutbtn = `md:hidden btn btn-primary btn-lg my-4  w-full py-2 flex justify-between `;
+const checkoutbtnDesk = `hidden md:flex btn btn-primary  my-4 w-full py-2 justify-between`;
+const checkoutbtn = `md:hidden btn btn-primary  my-4  w-full py-2 flex justify-between `;
 
 export default function CartDrawer({ show, onClose }) {
   const [isBrowser, setIsBrowser] = useState(false);

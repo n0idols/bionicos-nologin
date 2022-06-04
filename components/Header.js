@@ -8,8 +8,8 @@ import CartDrawer from "./CartDrawer";
 export default function Header({ user }) {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn text-gray-600 `;
-  const activeClasses = `btn btn-primary btn-sm rounded-btn text-white `;
-  const cartBadge = `indicator-item badge badge-primary rounded-full text-white`;
+  const activeClasses = `btn btn-primary btn-sm rounded-btn  `;
+  const cartBadge = `indicator-item badge badge-primary rounded-full `;
   const { cart, show, toggleCart, closeCart } = useCart();
 
   function CartDiv() {
