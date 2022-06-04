@@ -8,7 +8,7 @@ import FeaturedProduct from "../components/FeaturedProduct";
 
 export default function Home({ reviews, featuredProducts }) {
   const title = `${process.env.NEXT_PUBLIC_SITE_TITLE} - Home`;
-  const description = `Order ahead today | 100% Natural juices, smoothies and fruit salads`;
+  const description = `Order ahead today | 100% Natural juices, smoothies and fruit salads | 2211 E Palmdale Blvd STE E, Palmdale, CA 93550`;
   return (
     <>
       <NextSeo
