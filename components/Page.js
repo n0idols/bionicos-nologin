@@ -18,7 +18,6 @@ export default function Page({ children }) {
             paddingInline: "1rem",
             fontFamily: "work sans, sans-serif",
             fontSize: ".9rem",
-            x,
           },
         }}
       />
