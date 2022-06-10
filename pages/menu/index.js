@@ -89,7 +89,7 @@ export default function MenuIndex({ categories }) {
   }, [current]);
 
   const title = `${process.env.NEXT_PUBLIC_SITE_TITLE} - Full Menu`;
-  const description = `Browse Bionicos, Natural Juices, Acai Bowls, and much more.`;
+  const description = `Browse Bionicos, Natural Juices, Acai Bowls, and  more.`;
   const activeLink = `whitespace-nowrap cursor-pointer p-2 md:p-3 rounded-md bg-gray-200 transition ease-in-out font-bold`;
   const regularLink = `whitespace-nowrap cursor-pointer p-2 md:p-3 rounded-md hover:bg-gray-200 transition ease-in-out`;
   return (
