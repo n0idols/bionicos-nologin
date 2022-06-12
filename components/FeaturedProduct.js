@@ -1,8 +1,6 @@
-import { useQuery } from "@apollo/client";
 import React from "react";
-import gql from "graphql-tag";
+
 import FeaturedItem from "./FeaturedItem";
-import Loading from "./icons/Loading";
 
 export default function FeaturedProduct({ featuredProducts }) {
   return (

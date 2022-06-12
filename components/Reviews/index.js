@@ -15,7 +15,7 @@ export default function Reviews({ reviews }) {
     }
   }
   return (
-    <div className=" py-20 bg-base-100">
+    <div className="py-20 bg-base-100">
       <h1 className="md:text-4xl text-3xl text-center px-8">
         What our customers have to say
       </h1>
