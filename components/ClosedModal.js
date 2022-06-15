@@ -11,7 +11,7 @@ export default function ClosedModal() {
     date.setMilliseconds(date.getUTCMilliseconds());
 
     // if (date.getDay() === 0) return true;
-    return date.getHours() < 6 || date.getHours() >= 20;
+    return date.getHours() < 6 || date.getHours() >= 15;
   };
 
   return (
