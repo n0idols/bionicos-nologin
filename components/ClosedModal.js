@@ -16,17 +16,23 @@ export default function ClosedModal() {
 
   return (
     <>
-      <Modal title="⚠️ We are currently closed" show={isClosed()}>
+      <Modal title="⚠️ We are currently closed" show="true">
         <div className="flex px-4">
           <div className="flex flex-col justify-center items-center ">
             <p>😔</p>
-            <p className="italic text-center mb-2 text-sm">
+            {/* <p className="italic text-center mb-2 text-sm">
               Please come back when we open!
+            </p> */}
+            <p className="italic text-center mb-2 text-sm">
+              We are closed for Fathers Day
             </p>
-
-            <h2>
-              MONDAY - SUNDAY: <span className="block ">7:00am - 4:00pm</span>{" "}
+            <h2 className="text-center">
+              We will reopen Monday, June 20 @ 7:00am{" "}
             </h2>
+
+            {/* <h2>
+              MONDAY - SUNDAY: <span className="block ">7:00am - 4:00pm</span>{" "}
+            </h2> */}
           </div>
           <div className="w-1/2 px-4">
             <ClosedIcon />
