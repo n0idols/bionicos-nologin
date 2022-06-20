@@ -16,7 +16,7 @@ export default function ClosedModal() {
 
   return (
     <>
-      <Modal title="⚠️ We are currently closed" show="true">
+      <Modal title="⚠️ We are currently closed" show={getHours()}>
         <div className="flex px-4">
           <div className="flex flex-col justify-center items-center ">
             <p>😔</p>
