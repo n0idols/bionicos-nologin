@@ -1,7 +1,7 @@
-import moment from "moment";
 import Link from "next/link";
 import getStatus from "@/lib/getStatus";
 import formatMoney from "@/lib/formatMoney";
+import format from "date-fns/format";
 
 export default function OrderList({ orders }) {
   // const card = `bg-white shadow-md flex justify-between my-8 p-4 rounded-lg space-y-2`;
@@ -21,23 +21,24 @@ export default function OrderList({ orders }) {
         return (
           <div className="card mb-4 p-4 bg-white shadow-lg" key={order.id}>
             <div className="card-title">
-              <span className="text-xl font-bold text-gray-600">
-                {moment(order.ordered_at).format("MMMM Do, h:mm A")}
-              </span>
               <h1>
-                <span className={getStatus(order.orderstatus)}>
-                  {order.orderstatus}
+                <span className="text-xl font-bold text-gray-600">
+                  {format(new Date(order.ordered_at), "PPpp ")}
                 </span>
               </h1>
             </div>
+            <span className={getStatus(order.orderstatus)}>
+              {order.orderstatus}
+            </span>
 
-            <h1>Order #{last3}</h1>
-            <p>
-              {quantity === 1 ? <>{quantity} Item</> : <>{quantity} Items</>}
-              {/* {leading} + {quantity - 1} more */}
-            </p>
+            <div className="my-4 text-xl">
+              <h1>Order #{last3}</h1>
 
-            <p>Total: {formatMoney(order.total)}</p>
+              <p>
+                {quantity === 1 ? <>{quantity} Item</> : <>{quantity} Items</>}
+              </p>
+              <p>Total: {formatMoney(order.total)}</p>
+            </div>
 
             <div className="card-actions">
               <Link href={`/orders/${order.id}`} key={order.id}>

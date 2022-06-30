@@ -1,7 +1,8 @@
-import moment from "moment";
 import Image from "next/image";
-import ReactStars from "react-stars";
 import { FaYelp } from "react-icons/fa";
+import { format } from "date-fns";
+import Stars from "../Stars";
+
 export default function Reviews({ reviews }) {
   function getReviewIndex(i) {
     if (i === 0) {
@@ -14,6 +15,7 @@ export default function Reviews({ reviews }) {
       return "bg-emerald-300 card shadow-lg";
     }
   }
+
   return (
     <div className="py-20 bg-base-100">
       <h1 className="md:text-4xl text-3xl text-center px-8">
@@ -48,12 +50,10 @@ export default function Reviews({ reviews }) {
 
                 <div className="ml-4">
                   <h2 className="md:text-2xl text-xl ">{review.user.name}</h2>
-
                   <p className="text-sm mb-1">
-                    {moment(review.time_created, "YYYYMMDD").fromNow()}
+                    {format(new Date(review.time_created), "PPP")}
                   </p>
-
-                  <ReactStars count={5} value={review.rating} edit={false} />
+                  <Stars value={review.rating} />
                 </div>
               </figure>
               <div className="px-8 py-2">

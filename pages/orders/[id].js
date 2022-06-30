@@ -3,27 +3,26 @@ import {
   supabaseServerClient,
 } from "@supabase/supabase-auth-helpers/nextjs";
 import { useRouter } from "next/router";
-import Section from "@/components/Section";
+
 import getStatus from "@/lib/getStatus";
-import moment from "moment";
+
 import formatMoney from "@/lib/formatMoney";
 import OrderSlugItem from "@/components/OrderSlugItem";
 import { NextSeo } from "next-seo";
+import { format } from "date-fns";
 export default function OrderSlug({ order }) {
   const router = useRouter();
-
-  // const daorder = order[0];
 
   return (
     <>
       <NextSeo title="Your Order" description="Order Details" />
-      <Section>
-        <button
-          className="btn btn-outline btn-sm"
+      <section className="max-w-2xl mx-auto py-4">
+        <a
+          className="btn btn-outline btn-sm "
           onClick={() => router.push("/dashboard")}
         >
           Back to Profile
-        </button>
+        </a>
 
         {order?.map((pedido) => {
           const {
@@ -41,12 +40,8 @@ export default function OrderSlug({ order }) {
 
           return (
             <div className="receipt-paper" key={id}>
-              <p className="">
-                {moment(ordered_at).format("MMMM Do YYYY")}
-
-                <span className="font-bold ml-1">@</span>
-
-                {moment(ordered_at).format(" h:mm:ss a")}
+              <p className="text-xl border-b pb-1">
+                {format(new Date(ordered_at), "PPpp ")}
               </p>
 
               <h1>Order #{last3}</h1>
@@ -59,13 +54,15 @@ export default function OrderSlug({ order }) {
                   return <OrderSlugItem key={i} item={item} />;
                 })}
 
-                <div className="flex flex-col pt-4">
-                  <h2 className="my-4">
-                    Notes:
-                    <span className="font-light"> {order[0].notes}</span>
-                    {/* <span className="font-light"> {notes?.slice(1, -1)}</span> */}
-                  </h2>
-                </div>
+                {notes && (
+                  <div className="flex flex-col pt-4">
+                    <h2 className="my-4">
+                      Notes:
+                      <span className="font-light"> {order[0].notes}</span>
+                      {/* <span className="font-light"> {notes?.slice(1, -1)}</span> */}
+                    </h2>
+                  </div>
+                )}
 
                 <div className=" p-2 tracking-wide flex justify-between">
                   <div>
@@ -98,7 +95,7 @@ export default function OrderSlug({ order }) {
             </div>
           );
         })}
-      </Section>
+      </section>
     </>
   );
 }
