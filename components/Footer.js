@@ -41,7 +41,9 @@ export default function Footer() {
             <a className="link link-hover">Terms of Service</a>
           </Link>
 
-          <a className="link link-hover">Disclaimer</a>
+          <Link href="/tos">
+            <a className="link link-hover">Disclaimer</a>
+          </Link>
         </div>
         <div className="hidden md:flex">
           <p>
