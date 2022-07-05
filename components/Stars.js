@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Stars({ count }) {
-  const numsArr = p;
+  const numsArr = Object.values(count);
 
   return (
     <div>

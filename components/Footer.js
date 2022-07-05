@@ -24,7 +24,7 @@ export default function Footer() {
               Facebook
             </a>
             <a
-              href="https://instagram.com/bionicosandjuicesrios"
+              href="https://instagram.com/bionicosfooterandjuicesrios"
               className={link}
             >
               <FiInstagram className={icon} />
