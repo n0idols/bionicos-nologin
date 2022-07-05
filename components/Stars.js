@@ -1,36 +1,26 @@
 import React from "react";
 
-export default function Stars({ value }) {
+export default function Stars({ count }) {
+  const numsArr = p;
+
   return (
     <div>
-      {" "}
-      <div class="rating">
-        <input
-          type="radio"
-          name="rating-2"
-          class="mask mask-star-2 bg-orange-400"
-        />
-        <input
-          type="radio"
-          name="rating-2"
-          class="mask mask-star-2 bg-orange-400"
-        />
-        <input
-          type="radio"
-          name="rating-2"
-          class="mask mask-star-2 bg-orange-400"
-        />
-        <input
-          type="radio"
-          name="rating-2"
-          class="mask mask-star-2 bg-orange-400"
-        />
-        <input
-          type="radio"
-          name="rating-2"
-          class="mask mask-star-2 bg-orange-400"
-        />
+      {JSON.stringify(numsArr)}
+      <div class="rating rating-sm">
+        {numsArr.map((i) => (
+          <Star key={i} />
+        ))}
       </div>
     </div>
+  );
+}
+
+function Star() {
+  const rating = `mask mask-star-2 bg-orange-400 disabled`;
+  return (
+    <>
+      <label htmlFor="rating" />
+      <input type="radio" name="rating" class={rating} />
+    </>
   );
 }

@@ -35,7 +35,7 @@ export default function FeaturedItem({ item }) {
 
   return (
     <div key={item.id} className="flex justify-center">
-      <a
+      <button
         onClick={() => setIsModalOpen(true)}
         className="card w-96 bg-white shadow-xl transition ease-linear md:hover:-translate-y-1"
       >
@@ -59,10 +59,10 @@ export default function FeaturedItem({ item }) {
           </h2>
           <p className="">{item.description}</p>
           <div className="card-actions justify-end">
-            <p className="font-bold text-primary">{formatMoney(item.price)}</p>
+            <p className="font-bold">{formatMoney(item.price)}</p>
           </div>
         </div>
-      </a>
+      </button>
 
       <Modal
         show={isModalOpen}

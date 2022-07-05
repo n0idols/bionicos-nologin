@@ -27,7 +27,6 @@
     "micro": "^9.3.4",
     "next": "^12.1.6",
     "next-connect": "^0.12.1",
-    "next-pwa": "^5.4.6",
     "next-seo": "^5.4.0",
     "next-sitemap": "^2.5.14",
     "nookies": "^2.5.2",
@@ -38,9 +37,9 @@
     "react-horizontal-scrolling-menu": "^2.7.0",
     "react-hot-toast": "^2.1.1",
     "react-icons": "^4.3.1",
-    "react-map-gl": "^6.1.18",
     "react-markdown": "^8.0.0",
     "react-select": "^5.3.2",
+    "react-stars": "^2.2.5",
     "stripe": "^8.194.0"
   },
   "devDependencies": {

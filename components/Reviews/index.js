@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { FaYelp } from "react-icons/fa";
 import { format } from "date-fns";
-import Stars from "../Stars";
-
+import ReactStars from "react-stars";
 export default function Reviews({ reviews }) {
   function getReviewIndex(i) {
     if (i === 0) {
@@ -48,12 +47,18 @@ export default function Reviews({ reviews }) {
                   />
                 )}
 
-                <div className="ml-4">
+                <div className="ml-4 ">
                   <h2 className="md:text-2xl text-xl ">{review.user.name}</h2>
                   <p className="text-sm mb-1">
                     {format(new Date(review.time_created), "PPP")}
                   </p>
-                  <Stars value={review.rating} />
+
+                  <ReactStars
+                    color2={"#fb923c"}
+                    count={5}
+                    value={review.rating}
+                    edit={false}
+                  />
                 </div>
               </figure>
               <div className="px-8 py-2">

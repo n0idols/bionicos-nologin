@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import { FiPhoneOutgoing, FiFacebook, FiInstagram } from "react-icons/fi";
 
 const icon = `text-2xl`;
+const link = `flex flex-col items-center`;
 export default function Footer() {
   return (
     <>
@@ -11,14 +12,23 @@ export default function Footer() {
         <div>
           <Logo />
           <div className="grid grid-flow-col gap-8 mt-2">
-            <a href="tel:+16612662620">
+            <a href="tel:+16612662620" className={link}>
               <FiPhoneOutgoing className={icon} />
+              Call Us
             </a>
-            <a href="https://facebook.com/bionicosandjuicesrios">
+            <a
+              href="https://facebook.com/bionicosandjuicesrios"
+              className={link}
+            >
               <FiFacebook className={icon} />
+              Facebook
             </a>
-            <a href="https://instagram.com/bionicosandjuicesrios">
+            <a
+              href="https://instagram.com/bionicosandjuicesrios"
+              className={link}
+            >
               <FiInstagram className={icon} />
+              Instagram
             </a>
           </div>
         </div>
