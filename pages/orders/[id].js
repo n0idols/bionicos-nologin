@@ -9,7 +9,7 @@ import getStatus from "@/lib/getStatus";
 import formatMoney from "@/lib/formatMoney";
 import OrderSlugItem from "@/components/OrderSlugItem";
 import { NextSeo } from "next-seo";
-import { format } from "date-fns";
+
 export default function OrderSlug({ order }) {
   const router = useRouter();
 
@@ -41,7 +41,13 @@ export default function OrderSlug({ order }) {
           return (
             <div className="receipt-paper" key={id}>
               <p className="text-xl border-b pb-1">
-                {format(new Date(ordered_at), "PPpp ")}
+                {moment(ordered_at).format("MMMM Do YYYY")}
+
+                <span className="ml-1">@</span>
+
+                <span className="font-bold">
+                  {moment(ordered_at).format(" h:mm:ss a")}
+                </span>
               </p>
 
               <h1>Order #{last3}</h1>

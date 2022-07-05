@@ -1,7 +1,7 @@
 import Link from "next/link";
 import getStatus from "@/lib/getStatus";
 import formatMoney from "@/lib/formatMoney";
-import format from "date-fns/format";
+import moment from "moment";
 
 export default function OrderList({ orders }) {
   // const card = `bg-white shadow-md flex justify-between my-8 p-4 rounded-lg space-y-2`;
@@ -23,7 +23,7 @@ export default function OrderList({ orders }) {
             <div className="card-title">
               <h1>
                 <span className="text-xl font-bold text-gray-600">
-                  {format(new Date(order.ordered_at), "PPpp ")}
+                  {moment(order.ordered_at).format("MMMM Do, h:mm A")}
                 </span>
               </h1>
             </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { FaTimes } from "react-icons/fa";
+
+import { motion } from "framer-motion";
 
 const overlay = `h-screen w-screen bg-black overflow-x-hidden overflow-y-auto fixed inset-0 z-50 bg-opacity-60 flex`;
 const container = `m-auto w-[500px] px-2`;
@@ -21,8 +22,14 @@ export default function Modal({ show, onClose, children, title }) {
   };
 
   const modalContent = show ? (
-    <div className={overlay}>
-      <div className={container}>
+    <div onClick={() => onClose()} className={overlay}>
+      <motion.div
+        className={container}
+        onClick={(e) => e.stopPropagation()}
+        initial={{ y: "5%", opacity: 0 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ x: "50%", opacity: 0 }}
+      >
         <div className={modalstyle}>
           <div className={modalheader}>
             <div>{title && <h1>{title}</h1>}</div>
@@ -38,7 +45,7 @@ export default function Modal({ show, onClose, children, title }) {
 
           <div className={modalbody}>{children}</div>
         </div>
-      </div>
+      </motion.div>
     </div>
   ) : null;
 

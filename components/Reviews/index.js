@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FaYelp } from "react-icons/fa";
-import { format } from "date-fns";
+import moment from "moment";
+
 import ReactStars from "react-stars";
 export default function Reviews({ reviews }) {
   function getReviewIndex(i) {
@@ -50,7 +51,7 @@ export default function Reviews({ reviews }) {
                 <div className="ml-4 ">
                   <h2 className="md:text-2xl text-xl ">{review.user.name}</h2>
                   <p className="text-sm mb-1">
-                    {format(new Date(review.time_created), "PPP")}
+                    {moment(review.time_created, "YYYYMMDD").fromNow()}
                   </p>
 
                   <ReactStars

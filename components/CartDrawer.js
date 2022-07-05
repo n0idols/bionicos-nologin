@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 import { useCart } from "@/lib/cartState";
 import formatMoney from "@/lib/formatMoney";
@@ -9,7 +10,7 @@ import CartItem from "./Cart/CartItem";
 import Logo from "./Logo";
 // import useOnClickOutsideRef from "@/lib/onClickOutside";
 
-const overlay = `h-screen w-screen bg-black overflow-x-hidden overflow-y-auto fixed inset-0 z-50 bg-opacity-60 flex`;
+const overlay = `h-screen w-screen bg-black bg-opacity-80 overflow-x-hidden overflow-y-auto fixed inset-0 z-50  flex`;
 const container = `fixed top-0 right-0 h-screen w-full md:w-5/12 xl:w-4/12`;
 const drawerstyle = ` h-screen flex flex-col shadow-2xl `;
 const drawerheader = `shadow-lg bg-gray-200 flex justify-between items-center p-4`;
@@ -50,9 +51,14 @@ export default function CartDrawer({ show, onClose }) {
   };
 
   const drawerContent = show ? (
-    <div className={overlay}>
-      <div className={container}>
-        <div className={drawerstyle}>
+    <div onClick={() => onClose()} className={overlay}>
+      <div onClick={(e) => e.stopPropagation()} className={container}>
+        <motion.div
+          initial={{ y: "5%", opacity: 0 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ x: "50%", opacity: 0 }}
+          className={drawerstyle}
+        >
           <div className={drawerheader}>
             <h1>Your Order</h1>
 
@@ -109,7 +115,7 @@ export default function CartDrawer({ show, onClose }) {
               <h3>{formatMoney(totalCartPrice)}</h3>
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   ) : null;
