@@ -6,6 +6,7 @@
       "@/styles/*": ["styles/*"],
       "@/config/*": ["config/*"],
       "@/lib/*": ["lib/*"],
+      "@/hooks/*": ["hooks/*"],
       "@/middlewares/*": ["middlewares/*"]
     }
   }

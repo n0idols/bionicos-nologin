@@ -17,11 +17,14 @@ export default function CartItem({ item, index }) {
   return (
     <div>
       <div className="flex justify-between items-center m-4">
-        <div className="flex items-center">
-          <div className="rounded-full bg-base-300 h-8 w-8 flex items-center justify-center text-black">
-            <h6 className="text-xs font-bold">{item.quantity}x</h6>
+        <div className="flex items-center ">
+          <div className="shadow-xl rounded-full bg-gray-800 h-8 w-8 flex items-center justify-center">
+            <h6 className="font-bold text-white flex items-center">
+              {item.quantity}
+              <span className="text-xs ml-0.5"> x</span>
+            </h6>
           </div>
-          <div className="ml-2">
+          <div className="ml-2 px-2">
             <h4>
               {/* {JSON.stringify(item)} */}
               {/* <span>{item.item.number}</span> */}

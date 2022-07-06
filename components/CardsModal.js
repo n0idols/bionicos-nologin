@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { FaTimes } from "react-icons/fa";
+import Overlay from "./Overlay";
+import { motion, AnimatePresence } from "framer-motion";
 
 const overlay = `h-screen w-screen bg-black bg-opacity-90 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 flex`;
 const container = `m-auto w-[500px] px-2`;
@@ -18,9 +20,37 @@ export default function CardsModal({ show, onClose, children, title }) {
     onClose();
   };
 
+  const dropIn = {
+    hidden: {
+      y: "20%",
+      opacity: 0,
+    },
+    visible: {
+      y: "0",
+      opacity: 1,
+      transition: {
+        duration: 0.1,
+        type: "spring",
+        damping: 25,
+        stiffness: 500,
+      },
+    },
+    exit: {
+      y: "20%",
+      opacity: 0,
+    },
+  };
+
   const modalContent = show ? (
-    <div className={overlay}>
-      <div className={container}>
+    <Overlay onClick={onClose}>
+      <motion.div
+        className={container}
+        onClick={(e) => e.stopPropagation()}
+        variants={dropIn}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <div className={modalstyle}>
           <div className={modalheader}>
             <div className="w-full">
@@ -38,13 +68,19 @@ export default function CardsModal({ show, onClose, children, title }) {
 
           <div className={modalbody}>{children}</div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </Overlay>
   ) : null;
 
   if (isBrowser) {
     return ReactDOM.createPortal(
-      modalContent,
+      <AnimatePresence
+        exitBeforeEnter={true}
+        initial={false}
+        onExitComplete={() => null}
+      >
+        {modalContent}
+      </AnimatePresence>,
       document.getElementById("modal-root")
     );
   } else {

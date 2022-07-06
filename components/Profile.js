@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import CardsModal from "./CardsModal";
 import Image from "next/image";
 import StatusMessages, { useMessages } from "./StatusMessages";
+import Modal from "./Modal";
 export default function Profile({ orders, user }) {
   const [isLoading, setLoading] = useState(false);
   const [cardsList, setCardsList] = useState(null);
@@ -160,12 +161,8 @@ export default function Profile({ orders, user }) {
             </>
           )}
 
-          <CardsModal
-            title="Add a card"
-            show={openCards}
-            onClose={handleCardModal}
-          >
-            <div className="flex flex-col space-y-12">
+          <Modal title="Add a card" show={openCards} onClose={handleCardModal}>
+            <div className="flex flex-col space-y-12 border-4 rounded-xl border-primary">
               <Elements stripe={stripePromise}>
                 <AddCard
                   user={user}
@@ -174,7 +171,7 @@ export default function Profile({ orders, user }) {
                 />
               </Elements>
             </div>
-          </CardsModal>
+          </Modal>
           <div className="mt-12">
             <h1 className="profile-title">Order History</h1>
 

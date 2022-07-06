@@ -5,7 +5,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Image from "next/image";
-
+import { AnimatePresence } from "framer-motion";
 export default function MenuItem({ item }) {
   const { addToCart } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
