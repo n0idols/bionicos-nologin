@@ -224,7 +224,7 @@ export default function MenuItem({ item }) {
                   </div>
                 </div>
               ))}
-              <button className="btn bg-brand-red glass hover:bg-brand-redhover btn-block mt-auto text-gray-700 mb-2">
+              <button className="add-to-order">
                 {/* <button className="btn btn-brand btn-block mb-2 "> */}
                 Add To Order
               </button>

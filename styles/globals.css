@@ -58,3 +58,7 @@ h1 {
 .card-element {
   @apply bg-gray-200 p-4 rounded-xl;
 }
+
+.add-to-order {
+  @apply btn bg-brand-red glass hover:bg-brand-redhover btn-block mt-auto text-gray-700 mb-2;
+}

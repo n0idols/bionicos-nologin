@@ -102,6 +102,9 @@ export default function SpecialsMenu({ specials }) {
                       layout="fill"
                       objectFit="cover"
                       alt={special.product.title}
+                      priority={true}
+                      placeholder="blur"
+                      blurDataURL={urlBlurred}
                     />
                   </div>
                 ) : (
