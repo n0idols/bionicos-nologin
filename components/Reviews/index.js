@@ -29,24 +29,26 @@ export default function Reviews({ reviews }) {
         <div className="grid  md:grid-cols-3 grid-cols-1 gap-3 ">
           {reviews.map((review, i) => (
             <article key={i} className={getReviewIndex(i)}>
-              <figure className="flex justify-center items-center p-4">
-                {review.user.image_url ? (
-                  <Image
-                    src={review.user.image_url}
-                    alt={review.user.name}
-                    height={100}
-                    width={100}
-                    className="rounded-full"
-                  />
-                ) : (
-                  <Image
-                    src="/profile.webp"
-                    alt={review.user.name}
-                    height={100}
-                    width={100}
-                    className="rounded-full"
-                  />
-                )}
+              <figure className="flex justify-center items-center p-4 ">
+                <div className="relative h-20 w-20">
+                  {review.user.image_url ? (
+                    <Image
+                      src={review.user.image_url}
+                      alt={review.user.name}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <Image
+                      src="/profile.webp"
+                      alt={review.user.name}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-full"
+                    />
+                  )}
+                </div>
 
                 <div className="ml-4 ">
                   <h2 className="md:text-2xl text-xl ">{review.user.name}</h2>

@@ -39,13 +39,12 @@ export default function FeaturedItem({ item }) {
         onClick={() => setIsModalOpen(true)}
         className="card w-96 bg-white shadow-xl transition ease-linear md:hover:-translate-y-1"
       >
-        <figure>
+        <figure className="relative h-80">
           <Image
             src={item.image.url}
             alt={item.title}
             objectFit="cover"
-            width={400}
-            height={400}
+            layout="fill"
           />
         </figure>
 
@@ -166,6 +165,8 @@ export default function FeaturedItem({ item }) {
                           </div>
                         ))}
                       </div>
+                    ) : group.custom ? (
+                      <>custom</>
                     ) : (
                       <div>
                         <div className="badge badge-ghost rounded-full">
@@ -208,9 +209,7 @@ export default function FeaturedItem({ item }) {
                 </div>
               ))}
 
-              <button className="btn bg-brand-red glass text-white hover:bg-brand-redhover btn-block mt-auto">
-                Add To Order
-              </button>
+              <button className="add-to-order">Add To Order</button>
 
               {/* <button className="bg-primary-red py-2 text-white w-full rounded-lg">Add To Order</button>  */}
             </form>
