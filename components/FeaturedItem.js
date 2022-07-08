@@ -39,14 +39,14 @@ export default function FeaturedItem({ item }) {
         onClick={() => setIsModalOpen(true)}
         className="card w-96 bg-white shadow-xl transition ease-linear md:hover:-translate-y-1"
       >
-        <figure className="relative h-80">
+        <div className="relative h-80 w-full">
           <Image
             src={item.image.url}
             alt={item.title}
             objectFit="cover"
             layout="fill"
           />
-        </figure>
+        </div>
 
         <div className="card-body">
           <h2 className="card-title">
