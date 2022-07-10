@@ -1,10 +1,5 @@
-import Link from "next/link";
-import getStatus from "@/lib/getStatus";
-import formatMoney from "@/lib/formatMoney";
 import moment from "moment";
-import Modal from "./Modal";
 import { useState } from "react";
-import OrderCard from "./OrderCard";
 import { useCart } from "@/lib/cartState";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
