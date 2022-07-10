@@ -16,7 +16,7 @@ import Image from "next/image";
 import StatusMessages, { useMessages } from "./StatusMessages";
 import Modal from "./Modal";
 import useGetOrders from "@/hooks/useGetOrders";
-import OrderCard from "./OrderCard";
+
 export default function Profile({ user }) {
   const [isLoading, setLoading] = useState(false);
   const [cardsList, setCardsList] = useState(null);
