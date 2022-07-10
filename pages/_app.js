@@ -14,12 +14,14 @@ import * as Fathom from "fathom-client";
 
 import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/apollo-client";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
+  const queryClient = new QueryClient();
   const router = useRouter();
 
   useEffect(() => {
@@ -35,7 +37,7 @@ function MyApp({ Component, pageProps }) {
   }, [router]);
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <UserProvider supabaseClient={supabaseClient}>
         <ApolloProvider client={client}>
           <CookiesProvider>
@@ -47,7 +49,7 @@ function MyApp({ Component, pageProps }) {
           </CookiesProvider>
         </ApolloProvider>
       </UserProvider>
-    </>
+    </QueryClientProvider>
   );
 }
 // export default appWithTranslation(MyApp);
