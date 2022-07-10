@@ -6,12 +6,12 @@ import {
 import Profile from "@/components/Profile";
 import { NextSeo } from "next-seo";
 
-const Dashboard = ({ orders, user }) => {
+const Dashboard = ({ user }) => {
   return (
     <>
       <NextSeo title="Dashboard" description="Dashboard" />
       <div className="flex items-center justify-between">
-        <Profile user={user} orders={orders} />
+        <Profile user={user} />
       </div>
     </>
   );
@@ -22,15 +22,9 @@ const getServerSideProps = withAuthRequired({
   getServerSideProps: async (ctx) => {
     const { user } = await getUser(ctx);
 
-    const { data: orders, error: ordersError } = await supabaseServerClient(ctx)
-      .from("orders")
-      .select("*")
-      .order("ordered_at", { ascending: false });
-
     return {
       props: {
         user,
-        orders,
       },
     };
   },

@@ -15,21 +15,17 @@ import CardsModal from "./CardsModal";
 import Image from "next/image";
 import StatusMessages, { useMessages } from "./StatusMessages";
 import Modal from "./Modal";
-export default function Profile({ orders, user }) {
+import useGetOrders from "@/hooks/useGetOrders";
+import OrderCard from "./OrderCard";
+export default function Profile({ user }) {
   const [isLoading, setLoading] = useState(false);
   const [cardsList, setCardsList] = useState(null);
   const [messages, addMessage] = useMessages();
-
   const router = useRouter();
+  const { data: orders } = useGetOrders();
   const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`);
   const [openCards, setOpenCards] = useState(false);
-
-  // const [customerId, setCustomerId] = useState("cus_Lg2rZekSFSHPT6");
-  // const [customerId, setCustomerId] = useState(
-  //   stripeCustomer[0].stripe_customer
-  // );
   const [stripeCustomer, setStripeCustomer] = useState("");
-
   const { user_metadata } = user;
 
   useEffect(() => {
