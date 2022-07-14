@@ -74,21 +74,10 @@ export default function Header({ user }) {
             </div>
             <div className="navbar-end space-x-4">
               <div className="flex">
-                {user ? (
-                  <>
-                    <Link href="/dashboard">
-                      <a className={linkClasses}>My Account</a>
-                    </Link>
-                    <CartDiv />
-                  </>
-                ) : (
-                  <>
-                    <Link href="/dashboard">
-                      <a className={linkClasses}>Account</a>
-                    </Link>
-                    <CartDiv />
-                  </>
-                )}
+                <Link href="/dashboard">
+                  <a className={linkClasses}>My Account</a>
+                </Link>
+                <CartDiv />
               </div>
             </div>
           </div>
