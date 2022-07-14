@@ -65,7 +65,7 @@ export default function Header({ user }) {
         <header className="fixed top-0 z-50 w-full">
           <div className="navbar shadow-lg bg-white text-neutral-content standalone:pt-4">
             <div className="px-2 mx-2 navbar-start">
-              <Logo />
+              <Logo />2
             </div>
             <div className="hidden px-2 mx-2 navbar-center md:flex text-gray-600">
               <div className="flex items-center">
@@ -83,7 +83,7 @@ export default function Header({ user }) {
                   </>
                 ) : (
                   <>
-                    <Link href="/signin">
+                    <Link href="/dashboard">
                       <a className={linkClasses}>Account</a>
                     </Link>
                     <CartDiv />

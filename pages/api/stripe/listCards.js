@@ -1,5 +1,4 @@
 import initStripe from "stripe";
-import { supabaseServerClient } from "@supabase/supabase-auth-helpers/nextjs";
 
 export default async function handler(req, res) {
   //   if (req.query.API_ROUTE_SECRET !== process.env.API_ROUTE_SECRET) {

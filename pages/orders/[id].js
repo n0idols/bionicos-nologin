@@ -105,24 +105,18 @@ export default function OrderSlug({ order }) {
     </>
   );
 }
+export async function getServerSideProps(ctx) {
+  const { params } = ctx;
 
-const getServerSideProps = withAuthRequired({
-  redirectTo: "/signin",
-  getServerSideProps: async (ctx) => {
-    const { params } = ctx;
+  const { data: order, error } = await supabaseServerClient(ctx)
+    .from("orders")
+    .select("*")
+    .filter("id", "eq", params.id);
 
-    const { data: order, error } = await supabaseServerClient(ctx)
-      .from("orders")
-      .select("*")
-      .filter("id", "eq", params.id);
-
-    if (error) {
-      console.log(error.message);
-    }
-    return {
-      props: { order },
-    };
-  },
-});
-
-export { getServerSideProps };
+  if (error) {
+    console.log(error.message);
+  }
+  return {
+    props: { order },
+  };
+}

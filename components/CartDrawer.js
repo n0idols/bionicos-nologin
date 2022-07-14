@@ -72,11 +72,31 @@ export default function CartDrawer({ show, onClose }) {
     },
   };
 
+  const slideIn = {
+    hidden: {
+      x: "20%",
+      opacity: 0,
+    },
+    visible: {
+      x: "0",
+      opacity: 1,
+      transition: {
+        duration: 0.1,
+        type: "spring",
+        damping: 25,
+        stiffness: 500,
+      },
+    },
+    exit: {
+      x: "20%",
+      opacity: 0,
+    },
+  };
   const drawerContent = show ? (
     // <div onClick={() => onClose()} className={overlay}>
     <Overlay onClick={onClose}>
       <motion.div
-        variants={dropIn}
+        variants={slideIn}
         initial="hidden"
         animate="visible"
         exit="exit"

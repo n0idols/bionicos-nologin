@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import StatusMessages, { useMessages } from "./StatusMessages";
-import {
-  useStripe,
-  useElements,
-  CardElement,
-  Elements,
-  PaymentRequestButtonElement,
-} from "@stripe/react-stripe-js";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useCart } from "@/lib/cartState";
 import OrderModal from "./OrderModal";
 
@@ -17,7 +11,7 @@ import {
 } from "@/lib/calcOrder";
 import Link from "next/link";
 import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
-import { parseCookies, setCookie, destroyCookie } from "nookies";
+import { destroyCookie } from "nookies";
 import { cardElementOptions } from "./AddCard";
 import Loading from "./icons/Loading";
 import Image from "next/image";
@@ -26,8 +20,6 @@ const paymentBtn = `btn btn-block btn-primary bg-brand-red glass text-gray-700 h
 
 export default function OneTimePayment({ user, notes }) {
   const [messages, addMessage] = useMessages();
-  const [paymentRequest, setPaymentRequest] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState(null);
   const [orderData, setOrderData] = useState("");
   const [orderCompleted, setOrderCompleted] = useState(false);
   const [cardLoaded, setCardLoaded] = useState(false);

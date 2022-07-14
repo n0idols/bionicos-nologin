@@ -6,7 +6,14 @@ import {
 import Profile from "@/components/Profile";
 import { NextSeo } from "next-seo";
 
-const Dashboard = ({ user }) => {
+export default function Dashboard() {
+  const user = {
+    id: "19302bc8-b134-4506-80af-b17029bbcbca",
+    email: "good@test.com",
+    user_metadata: {
+      username: "Test User",
+    },
+  };
   return (
     <>
       <NextSeo title="Dashboard" description="Dashboard" />
@@ -15,20 +22,4 @@ const Dashboard = ({ user }) => {
       </div>
     </>
   );
-};
-
-const getServerSideProps = withAuthRequired({
-  redirectTo: "/signin",
-  getServerSideProps: async (ctx) => {
-    const { user } = await getUser(ctx);
-
-    return {
-      props: {
-        user,
-      },
-    };
-  },
-});
-
-export default Dashboard;
-export { getServerSideProps };
+}

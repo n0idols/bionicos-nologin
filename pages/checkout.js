@@ -1,16 +1,10 @@
-import {
-  getUser,
-  withAuthRequired,
-} from "@supabase/supabase-auth-helpers/nextjs";
 import CartItem from "@/components/Cart/CartItem";
 import formatMoney from "@/lib/formatMoney";
 import { useState } from "react";
 import { useCart } from "@/lib/cartState";
 import client from "@/lib/apollo-client";
 import gql from "graphql-tag";
-import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
-import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/CheckoutForm";
 import { FiPlusCircle } from "react-icons/fi";
 
@@ -23,10 +17,14 @@ import ClosedModal from "@/components/ClosedModal";
 
 import { NextSeo } from "next-seo";
 
-export default function CheckoutPage({ user }) {
-  const [stripePromise, setStripePromise] = useState(() =>
-    loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_KEY}`)
-  );
+export default function CheckoutPage() {
+  const user = {
+    id: "19302bc8-b134-4506-80af-b17029bbcbca",
+    email: "good@test.com",
+    user_metadata: {
+      username: "Test User",
+    },
+  };
 
   const { cart, totalCartPrice } = useCart();
   const [clientSecret, setClientSecret] = useState(null);
@@ -34,21 +32,6 @@ export default function CheckoutPage({ user }) {
   const [couponCode, setCouponCode] = useState(true);
   const [couponOff, setCouponOff] = useState(0);
   const [couponDetail, setCouponDetail] = useState("");
-
-  // useEffect(() => {
-  //   if (cart.length === 0) {
-  //     router.replace("/dashboard");
-  //   } else {
-  //     return;
-  //   }
-  // }, [router, cart.length]);
-  const appearance = {
-    theme: "stripe",
-  };
-  const options = {
-    clientSecret,
-    appearance,
-  };
 
   const applyCoupon = async () => {
     const { data, error } = await client.query({
@@ -175,9 +158,7 @@ export default function CheckoutPage({ user }) {
                 <></>
               )}
               <div className="rounded-lg pb-2">
-                <Elements stripe={stripePromise}>
-                  <CheckoutForm user={user} notes={notes} cart={cart} />
-                </Elements>
+                <CheckoutForm user={user} notes={notes} cart={cart} />
               </div>
             </div>
           </div>
@@ -186,21 +167,3 @@ export default function CheckoutPage({ user }) {
     </>
   );
 }
-
-const getServerSideProps = withAuthRequired({
-  redirectTo: "/signin",
-  getServerSideProps: async (ctx) => {
-    const { user } = await getUser(ctx);
-
-    // const { data, error } = await supabaseServerClient(ctx)
-    //   .from("customers")
-    //   .select("stripe_customer")
-    //   .filter("id", "eq", user.id);
-
-    return {
-      props: { user },
-    };
-  },
-});
-
-export { getServerSideProps };
