@@ -6,7 +6,7 @@ export default function Stars({ count }) {
   return (
     <div>
       {JSON.stringify(numsArr)}
-      <div class="rating rating-sm">
+      <div className="rating rating-sm">
         {numsArr.map((i) => (
           <Star key={i} />
         ))}
@@ -20,7 +20,7 @@ function Star() {
   return (
     <>
       <label htmlFor="rating" />
-      <input type="radio" name="rating" class={rating} />
+      <input type="radio" name="rating" className={rating} />
     </>
   );
 }

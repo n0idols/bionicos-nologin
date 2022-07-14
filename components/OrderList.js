@@ -19,7 +19,7 @@ export default function OrderList({ orders }) {
         const entries = Object.entries(items);
         const firstItem = Object.values(entries[0]);
         const last3 = order.id.slice(0, 3);
-        const [selectedOrder, setSelectedOrder] = useState(order);
+
         const leading = firstItem[1].item.name;
         let quantity = 0;
         items.forEach((item) => {
@@ -64,11 +64,11 @@ export default function OrderList({ orders }) {
                 )}
               </p>
               <div
-                tabindex="0"
-                class="collapse collapse-arrow border border-base-300 rounded-box"
+                tabIndex="0"
+                className="collapse collapse-arrow border border-base-300 rounded-box"
               >
-                <div class="collapse-title">Details</div>
-                <div class="collapse-content">
+                <div className="collapse-title">Details</div>
+                <div className="collapse-content">
                   {items.map((item, i) => (
                     <OrderSlugItem key={i} item={item} />
                   ))}
