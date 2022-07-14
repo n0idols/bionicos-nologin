@@ -41,8 +41,8 @@ export default function OrderList({ orders }) {
             className="flex items-center rounded-2xl mb-4 p-4 shadow-lg"
             key={order.id}
           >
-            <div className="space-y-1 bg-blue-300">
-              <div className="flex bg-blue-500 justify-between">
+            <div className="space-y-1">
+              <div className="flex  justify-between">
                 <div className="flex flex-col">
                   <p>
                     <span className="text-gray-600">
