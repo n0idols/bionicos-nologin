@@ -1,25 +1,21 @@
 import moment from "moment";
 import { useState } from "react";
 import { useCart } from "@/lib/cartState";
-import { useRouter } from "next/router";
+
 import toast from "react-hot-toast";
 import OrderSlugItem from "./OrderSlugItem";
 
 export default function OrderList({ orders }) {
-  // const card = `bg-white shadow-md flex justify-between my-8 p-4 rounded-lg space-y-2`;
   const { cart, setCart, emptyCart } = useCart();
-  const router = useRouter();
-
   const [openOrders, setOpenOrders] = useState(false);
 
   return (
-    <div>
+    <div className="flex w-full">
       {orders.map((order) => {
         const items = order.line_items;
         const entries = Object.entries(items);
         const firstItem = Object.values(entries[0]);
         const last3 = order.id.slice(0, 3);
-
         const leading = firstItem[1].item.name;
         let quantity = 0;
         items.forEach((item) => {
@@ -42,27 +38,40 @@ export default function OrderList({ orders }) {
         }
         return (
           <div
-            className="flex justify-between  items-center rounded-2xl  mb-4 p-4 bg-white shadow-lg"
+            className="flex items-center rounded-2xl mb-4 p-4 shadow-lg"
             key={order.id}
           >
-            <div className=" w-96 ">
-              <p>
-                <span className="text-gray-600">
-                  {moment(order.ordered_at).format("MM/DD/YY, h:mm A")}
-                </span>
-              </p>
-              <p>Order #{last3}</p>
-              <p>
-                {quantity === 1 ? (
-                  <>
-                    {quantity} {leading}
-                  </>
-                ) : (
-                  <>
-                    {leading} + {additionals} Items
-                  </>
-                )}
-              </p>
+            <div className="space-y-1 bg-blue-300">
+              <div className="flex bg-blue-500 justify-between">
+                <div className="flex flex-col">
+                  <p>
+                    <span className="text-gray-600">
+                      {moment(order.ordered_at).format("MM/DD/YY, h:mm A")}
+                    </span>
+                  </p>
+                  <p>Order #{last3}</p>
+                  <p className="font-bold">
+                    {quantity === 1 ? (
+                      <>
+                        {quantity} {leading}
+                      </>
+                    ) : (
+                      <>
+                        {leading} + {additionals} Items
+                      </>
+                    )}
+                  </p>{" "}
+                </div>
+
+                <div className="flex items-center">
+                  <button
+                    onClick={() => reorderItems()}
+                    className="btn btn-outline "
+                  >
+                    Reorder
+                  </button>
+                </div>
+              </div>
               <div
                 tabIndex="0"
                 className="collapse collapse-arrow border border-base-300 rounded-box"
@@ -74,15 +83,6 @@ export default function OrderList({ orders }) {
                   ))}
                 </div>
               </div>
-            </div>
-
-            <div>
-              <button
-                onClick={() => reorderItems()}
-                className="btn btn-outline btn-block"
-              >
-                Reorder
-              </button>
             </div>
           </div>
         );

@@ -32,7 +32,7 @@ export default function Home({ reviews, featuredProducts }) {
       <Hero />
       <FeaturedProduct featuredProducts={featuredProducts} />
       <Reviews reviews={reviews} />
-      {/* <LeadCapture /> */}
+
       <MapSection />
     </>
   );

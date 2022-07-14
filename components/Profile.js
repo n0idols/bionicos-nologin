@@ -16,8 +16,6 @@ import Modal from "./Modal";
 import useGetOrders from "@/hooks/useGetOrders";
 
 export default function Profile({ user }) {
-  const [isLoading, setLoading] = useState(false);
-  const [cardsList, setCardsList] = useState(null);
   const [messages, addMessage] = useMessages();
   const router = useRouter();
   const { data: orders } = useGetOrders();
