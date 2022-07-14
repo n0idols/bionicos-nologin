@@ -9,8 +9,10 @@ export default function OrderList({ orders }) {
   const { cart, setCart, emptyCart } = useCart();
   const [openOrders, setOpenOrders] = useState(false);
 
+  const orderCard = `flex items-center rounded-2xl mb-4 p-4 shadow-lg`;
+
   return (
-    <div className="flex w-full">
+    <div className="flex w-full flex-col">
       {orders.map((order) => {
         const items = order.line_items;
         const entries = Object.entries(items);
@@ -37,12 +39,9 @@ export default function OrderList({ orders }) {
           // router.push("/checkout");
         }
         return (
-          <div
-            className="flex items-center rounded-2xl mb-4 p-4 shadow-lg"
-            key={order.id}
-          >
-            <div className="space-y-1">
-              <div className="flex  justify-between">
+          <div className={orderCard} key={order.id}>
+            <div className="w-full">
+              <div className="flex justify-between">
                 <div className="flex flex-col">
                   <p>
                     <span className="text-gray-600">
@@ -62,7 +61,6 @@ export default function OrderList({ orders }) {
                     )}
                   </p>{" "}
                 </div>
-
                 <div className="flex items-center">
                   <button
                     onClick={() => reorderItems()}
@@ -72,9 +70,10 @@ export default function OrderList({ orders }) {
                   </button>
                 </div>
               </div>
+
               <div
                 tabIndex="0"
-                className="collapse collapse-arrow border border-base-300 rounded-box"
+                className="collapse collapse-arrow border border-base-300 rounded-box my-2"
               >
                 <div className="collapse-title">Details</div>
                 <div className="collapse-content">
