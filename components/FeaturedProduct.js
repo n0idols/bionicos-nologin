@@ -4,10 +4,10 @@ import FeaturedItem from "./FeaturedItem";
 
 export default function FeaturedProduct({ featuredProducts }) {
   return (
-    <div className="pt-10 max-w-3xl mx-auto px-2">
+    <div className="pt-10 max-w-6xl mx-auto px-2">
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <h1 className="grad-text">Featured Items</h1>
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-6 ">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4 lg:gap-8 ">
         {featuredProducts.products.map((item, index) => (
           <FeaturedItem key={index} item={item} />
         ))}

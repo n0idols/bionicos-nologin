@@ -22,6 +22,11 @@ class MyDocument extends Document {
             content="black-translucent"
           />
 
+          <meta
+            name="viewport"
+            content="initial-scale=1, viewport-fit=cover, user-scalable=no"
+          />
+
           <meta name="theme-color" content="#eeeae6" />
           <link
             rel="icon"

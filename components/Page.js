@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import MobileNav from "./MobileNav";
 import { Toaster } from "react-hot-toast";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
+import StandaloneHeader from "./StandaloneHeader";
 
 export default function Page({ children }) {
   const { user } = useUser();
@@ -23,9 +24,10 @@ export default function Page({ children }) {
       />
       <div
         style={{ WebkitTapHighlightColor: "transparent" }}
-        className="bg-base-100  md:mt-20"
+        className="bg-base-100 md:mt-20 standalone:mt-20"
       >
         <Header user={user} />
+        <StandaloneHeader />
 
         <main className="min-h-screen">{children}</main>
         <Footer />

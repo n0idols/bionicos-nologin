@@ -9,12 +9,12 @@ import ReactDOM from "react-dom";
 import CartItem from "./Cart/CartItem";
 import Logo from "./Logo";
 import Overlay from "./Overlay";
+
 // import useOnClickOutsideRef from "@/lib/onClickOutside";
 
-const overlay = `h-screen w-screen bg-black bg-opacity-80 overflow-x-hidden overflow-y-auto fixed inset-0 z-50  flex`;
-const container = `fixed top-0 right-0 h-screen w-full md:w-5/12 xl:w-4/12`;
+const container = `fixed standalone:pt-10 top-0 right-0 h-screen w-full md:w-5/12 xl:w-4/12 `;
 const drawerstyle = ` h-screen flex flex-col shadow-2xl `;
-const drawerheader = `shadow-lg bg-gray-200 flex justify-between items-center p-4`;
+const drawerheader = `shadow-lg bg-gray-200 flex justify-between items-center p-4 `;
 const drawerbody = `bg-white h-full px-4 overflow-y-auto`;
 const drawerfooter = `bg-white px-2 pb-20`;
 const checkoutbtnDesk = `hidden md:flex btn btn-primary  my-4 w-full py-2 justify-between`;
@@ -23,9 +23,6 @@ const checkoutbtn = `md:hidden btn btn-primary  my-4  w-full py-2 flex justify-b
 export default function CartDrawer({ show, onClose }) {
   const [isBrowser, setIsBrowser] = useState(false);
   const { cart, closeCart, totalCartPrice, emptyCart } = useCart();
-
-  // const modalRef = useOnClickOutsideRef(() => alert("hey"));
-
   const router = useRouter();
   useEffect(() => {
     setIsBrowser(true);
@@ -42,10 +39,6 @@ export default function CartDrawer({ show, onClose }) {
   };
 
   const onCheckout = () => {
-    // if (!user) {
-    //   alert("Please sign up to place an order");
-    //   router.push("/account/signup");
-    // }
     closeCart();
 
     router.push("/checkout");
@@ -106,7 +99,9 @@ export default function CartDrawer({ show, onClose }) {
         <div className={drawerstyle}>
           <div className={drawerheader}>
             <h1>Your Order</h1>
-
+            {/* <button onClick={emptyCart} className="btn btn-sm btn-outline">
+              Empty Cart
+            </button> */}
             <div>
               <button
                 onClick={handleClose}

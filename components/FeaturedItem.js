@@ -34,7 +34,7 @@ export default function FeaturedItem({ item }) {
   const icon = ``;
 
   return (
-    <div key={item.id} className="flex justify-center">
+    <article key={item.id} className="flex justify-center">
       <button
         onClick={() => setIsModalOpen(true)}
         className="card w-96 bg-white shadow-xl transition ease-linear md:hover:-translate-y-1"
@@ -48,18 +48,10 @@ export default function FeaturedItem({ item }) {
           />
         </div>
 
-        <div className="card-body">
-          <h2 className="card-title">
-            {" "}
-            {item.number && (
-              <span className="font-light"> {item.number}. </span>
-            )}
-            {item.title} <div className="badge badge-secondary">NEW</div>
-          </h2>
-          <p className="">{item.description}</p>
-          <div className="card-actions justify-end">
-            <p className="font-bold">{formatMoney(item.price)}</p>
-          </div>
+        <div className="space-y-2 flex flex-col justify-center items-center my-4 p-2 h-1/3">
+          <h1 className="text-center">{item.title}</h1>
+          <p>{item.description}</p>
+          <h2>{formatMoney(item.price)}</h2>
         </div>
       </button>
 
@@ -216,6 +208,6 @@ export default function FeaturedItem({ item }) {
           </div>
         </div>
       </Modal>
-    </div>
+    </article>
   );
 }

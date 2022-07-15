@@ -16,7 +16,7 @@ export default function OrderSlug({ order }) {
   return (
     <>
       <NextSeo title="Your Order" description="Order Details" />
-      <section className="max-w-2xl mx-auto py-4">
+      <section className="max-w-2xl mx-auto p-4">
         <a
           className="btn btn-outline btn-sm "
           onClick={() => router.push("/dashboard")}

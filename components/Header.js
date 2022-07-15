@@ -5,7 +5,7 @@ import { useCart } from "@/lib/cartState";
 import { GrCart } from "react-icons/gr";
 import CartDrawer from "./CartDrawer";
 
-export default function Header({ user }) {
+export default function Header() {
   const router = useRouter();
   const linkClasses = `btn btn-ghost btn-sm rounded-btn text-gray-600 `;
   const activeClasses = `btn btn-primary btn-sm rounded-btn  `;
@@ -61,9 +61,9 @@ export default function Header({ user }) {
   return (
     <>
       <CartDrawer show={show} onClose={closeCart} />
-      <div className="hidden md:flex">
+      <div className="hidden md:flex mt-10">
         <header className="fixed top-0 z-50 w-full">
-          <div className="navbar shadow-lg bg-white text-neutral-content standalone:pt-4">
+          <div className="navbar shadow-lg bg-white text-neutral-content standalone:bg-red-300">
             <div className="px-2 mx-2 navbar-start">
               <Logo />
             </div>
