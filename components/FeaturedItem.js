@@ -5,6 +5,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Image from "next/image";
+import { buildUrl } from "cloudinary-build-url";
 
 export default function FeaturedItem({ item }) {
   const { addToCart } = useCart();
@@ -33,6 +34,21 @@ export default function FeaturedItem({ item }) {
 
   const icon = ``;
 
+  const url = buildUrl(item.image.hash, {
+    cloud: {
+      cloudName: "swdb",
+    },
+  });
+  const urlBlurred = buildUrl(item.image.hash, {
+    cloud: {
+      cloudName: "swdb",
+    },
+    transformations: {
+      effect: "blur:1000",
+      quality: 1,
+    },
+  });
+
   return (
     <article key={item.id} className="flex justify-center">
       <button
@@ -41,10 +57,12 @@ export default function FeaturedItem({ item }) {
       >
         <div className="relative h-80 w-full">
           <Image
-            src={item.image.url}
+            src={url}
             alt={item.title}
             objectFit="cover"
             layout="fill"
+            placeholder="blur"
+            blurDataURL={urlBlurred}
           />
         </div>
 
@@ -54,21 +72,21 @@ export default function FeaturedItem({ item }) {
           <h2>{formatMoney(item.price)}</h2>
         </div>
       </button>
-
       <Modal
         show={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={item.number ? `${item.number}. ${item.title}` : `${item.title}`}
       >
-        <div className="min-h-[200px] flex flex-col justify-between">
+        <div className="min-h-[200px] flex flex-col justify-between ">
           {item.image && (
             <div className="relative h-96 w-full">
               <Image
-                src={item.image.url}
+                src={url}
                 layout="fill"
                 alt={item.title}
                 objectFit="cover"
-                className=""
+                placeholder="blur"
+                blurDataURL={urlBlurred}
               />
             </div>
           )}

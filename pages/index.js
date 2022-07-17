@@ -1,9 +1,9 @@
 import Hero from "@/components/Hero";
 import MapSection from "@/components/MapSection";
 import Reviews from "@/components/Reviews";
-import client from "@/lib/apollo-client";
-import { gql } from "@apollo/client";
+import axios from "axios";
 import { NextSeo } from "next-seo";
+
 import FeaturedProduct from "../components/FeaturedProduct";
 
 export default function Home({ reviews, featuredProducts }) {
@@ -32,7 +32,7 @@ export default function Home({ reviews, featuredProducts }) {
       <Hero />
       <FeaturedProduct featuredProducts={featuredProducts} />
       <Reviews reviews={reviews} />
-
+      {/* <LeadCapture /> */}
       <MapSection />
     </>
   );
@@ -49,36 +49,14 @@ export async function getStaticProps() {
   );
   const reviewData = await yelpRes.json();
 
-  const { data } = await client.query({
-    query: gql`
-      query {
-        products(where: { isFeatured: true }) {
-          id
-          number
-          title
-          description
-          price
-          modifiers(sort: "number:asc") {
-            name
-            required
-            max
-            mod {
-              name
-              price
-            }
-          }
-          image {
-            url
-          }
-        }
-      }
-    `,
-  });
+  const featuredProducts = await axios
+    .get(`${process.env.NEXT_PUBLIC_API_URL}/products?isFeatured=true`)
+    .then((res) => res.data);
 
   return {
     props: {
       reviews: reviewData.reviews,
-      featuredProducts: data,
+      featuredProducts,
     },
   };
 }
