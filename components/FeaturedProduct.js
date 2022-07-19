@@ -1,8 +1,6 @@
 import React from "react";
-import { buildUrl } from "cloudinary-build-url";
 
 import FeaturedItem from "./FeaturedItem";
-import Image from "next/image";
 
 export default function FeaturedProduct({ featuredProducts }) {
   return (
